@@ -18,10 +18,14 @@ class CreateAdminsTable extends Migration
             $table->string('user_name')->unique();
             $table->string('code')->unique();
             $table->string('name');
-            $table->string('role_id')->nullable();
+//            $table->string('role_id')->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('password');
             $table->string('image')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('otp')->nullable();
+            $table->string('status')->default(0);
+            $table->string('otp_expire_at')->nullable();
             $table->timestamps();
         });
     }
