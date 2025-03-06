@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('branches', function (Blueprint $table) {
-            $table->foreignId('vendor_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-        });
+            Schema::table('branches', function (Blueprint $table) {
+                $table->unsignedBigInteger('vendor_id')->nullable();
+            });
+      
     }
 
     /**
@@ -25,8 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('branches', function (Blueprint $table) {
-            //
-        });
+            Schema::table('branches', function (Blueprint $table) {
+                $table->dropColumn('vendor_id');
+            });
     }
 };

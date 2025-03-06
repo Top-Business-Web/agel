@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->string('commercial_number')->unique()->nullable();
             $table->string('email')->unique()->nullable();
+            $table->string('national_id')->nullable();
             $table->string('username')->unique();
             $table->string('password');
             $table->foreignId('city_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
@@ -27,7 +28,6 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('otp')->nullable();
             $table->string('otp_expire_at')->nullable();
-
             $table->timestamps();
         });
     }
