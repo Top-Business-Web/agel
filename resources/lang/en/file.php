@@ -111,4 +111,9 @@ return array (
   'شركة' => 'شركة',
   'حقوق النشر' => 'حقوق النشر',
   'welcome back partner' => 'Welcome Back Partner',
+  'users management' => 'Users Management',
+  'vendors' => 'Vendors',
+  'location management' => 'Location Management',
+  'country' => 'Country',
+  'city' => 'City',
 );
