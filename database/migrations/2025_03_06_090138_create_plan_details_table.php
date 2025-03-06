@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('plan_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('key');
-            $table->string('value');
+            $table->string('value')->nullable();
+            $table->boolean('is_unlimited')->default(0)->comment('1 = unlimited, 0 = not unlimited');
             $table->timestamps();
         });
     }
