@@ -18,7 +18,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('price');
             $table->string('period');
-            $table->string('description');
+            $table->text('description');
+            $table->string('image')->nullable();
+            $table->tinyInteger('discount')->default(0);
             $table->boolean('status')->default(1);
 
             $table->timestamps();
