@@ -13,17 +13,21 @@ return new class extends Migration
     {
         Schema::create('vendors', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique()->nullable();
+            $table->string('name')->comment('اسم المكتب لان المكتب بالنسالبا فندور');
             $table->string('phone')->unique();
+            $table->string('commercial_number')->unique()->nullable();
+            $table->string('email')->unique()->nullable();
+            $table->string('national_id')->nullable();
             $table->string('username')->unique();
             $table->string('password');
-            $table->string('national_id')->unique()->nullable();
+            $table->foreignId('city_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('branch_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('parent_id')->nullable()->constrained('vendors')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('plan_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->boolean('status')->default(1);
             $table->string('image')->nullable();
             $table->string('otp')->nullable();
             $table->string('otp_expire_at')->nullable();
-
             $table->timestamps();
         });
     }

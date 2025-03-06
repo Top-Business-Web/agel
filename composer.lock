@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "126acf3e62d2ec16c918cafeb1023fc3",
+    "content-hash": "477879b6337405c73f2a69e8a7c95496",
     "packages": [
         {
             "name": "a6digital/laravel-default-profile-image",
