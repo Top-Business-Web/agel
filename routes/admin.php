@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\BranchController;
@@ -49,9 +50,8 @@ Route::group(
                 return view('admin/index');
             })->name('adminHome');
             Route::resourceWithDeleteSelected('roles', RoleController::class);
-//            Route::resourceWithDeleteSelected('permissions', PermissionController::class);
-            Route::get('activity_logs', [\App\Http\Controllers\Admin\ActivityLogController::class,'index'])->name('activity_logs.index');
-            Route::delete('activity_logs/{id}', [\App\Http\Controllers\Admin\ActivityLogController::class,'destroy'])->name('activity_logs.destroy');
+            Route::get('activity_logs', [ActivityLogController::class,'index'])->name('activity_logs.index');
+            Route::delete('activity_logs/{id}', [ActivityLogController::class,'destroy'])->name('activity_logs.destroy');
             #============================ User ====================================
 
                 #============================ User ====================================
