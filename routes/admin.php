@@ -45,58 +45,60 @@ Route::group(
                     return view('admin/index');
                 })->name('adminHome');
 
-        Route::group(['middleware' => 'auth:admin'], function () {
-            Route::get('/', function () {
-                return view('admin/index');
-            })->name('adminHome');
-            Route::resourceWithDeleteSelected('roles', RoleController::class);
-            Route::get('activity_logs', [ActivityLogController::class,'index'])->name('activity_logs.index');
-            Route::delete('activity_logs/{id}', [ActivityLogController::class,'destroy'])->name('activity_logs.destroy');
-            #============================ User ====================================
+                Route::group(['middleware' => 'auth:admin'], function () {
+                    Route::get('/', function () {
+                        return view('admin/index');
+                    })->name('adminHome');
+                    Route::resourceWithDeleteSelected('roles', RoleController::class);
+                    Route::get('activity_logs', [ActivityLogController::class, 'index'])->name('activity_logs.index');
+                    Route::delete('activity_logs/{id}', [ActivityLogController::class, 'destroy'])->name('activity_logs.destroy');
+                    #============================ User ====================================
 
-                #============================ User ====================================
+                    #============================ User ====================================
 
-                #============================ vendors ====================================
-                Route::resourceWithDeleteSelected('vendors', VendorController::class);
-                #============================ Admin ====================================
-                Route::resourceWithDeleteSelected('admins', AdminController::class);
-                #============================ countries ==================================
-                Route::resourceWithDeleteSelected('countries', CountryController::class);
-                #============================ cities ==================================
-                Route::resourceWithDeleteSelected('cities', CityController::class);
-                #============================ branches ==================================
-                Route::resourceWithDeleteSelected('branches', BranchController::class);
-                #============================ Plans ==================================
-                Route::resourceWithDeleteSelected('Plans', PlanController::class);
-
-
+                    #============================ vendors ====================================
+                    Route::resourceWithDeleteSelected('vendors', VendorController::class);
+                    #============================ Admin ====================================
+                    Route::resourceWithDeleteSelected('admins', AdminController::class);
+                    #============================ countries ==================================
+                    Route::resourceWithDeleteSelected('countries', CountryController::class);
+                    #============================ cities ==================================
+                    Route::resourceWithDeleteSelected('cities', CityController::class);
+                    #============================ branches ==================================
+                    Route::resourceWithDeleteSelected('branches', BranchController::class);
+                    #============================ Plans ==================================
+                    Route::resourceWithDeleteSelected('Plans', PlanController::class);
 
 
-                Route::get('my_profile', [AdminController::class, 'myProfile'])->name('myProfile');
-                Route::get('logout', [AuthController::class, 'logout'])->name('admin.logout');
+                    Route::get('my_profile', [AdminController::class, 'myProfile'])->name('myProfile');
+                    Route::get('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
 
+                    //            Route::get('setting', [SettingController::class, 'index'])->name('settingIndex');
+                    //            Route::POST('setting/store', [SettingController::class, 'store'])->name('setting.store');
+                    //            Route::POST('setting/update/{id}/', [SettingController::class, 'update'])->name('settingUpdate');
+                    Route::get('setting', [SettingController::class, 'index'])->name('settingIndex');
+                    Route::POST('setting/store', [SettingController::class, 'store'])->name('setting.store');
+                    Route::POST('setting/update/{id}/', [SettingController::class, 'update'])->name('settingUpdate');
 
-                //            Route::get('setting', [SettingController::class, 'index'])->name('settingIndex');
-                //            Route::POST('setting/store', [SettingController::class, 'store'])->name('setting.store');
-                //            Route::POST('setting/update/{id}/', [SettingController::class, 'update'])->name('settingUpdate');
-            Route::get('setting', [SettingController::class, 'index'])->name('settingIndex');
-            Route::POST('setting/store', [SettingController::class, 'store'])->name('setting.store');
-            Route::POST('setting/update/{id}/', [SettingController::class, 'update'])->name('settingUpdate');
-
+                });
             });
-        });
 
-        #=======================================================================
-        #============================ ROOT =====================================
-        #=======================================================================
-        Route::get('/clear', function () {
+            #=======================================================================
+            #============================ ROOT =====================================
+            #=======================================================================
+            Route::get('/clear', function () {
 
-            Artisan::call('cache:clear');
-            Artisan::call('key:generate');
-            Artisan::call('config:clear');
-            Artisan::call('optimize:clear');
-            return response()->json(['status' => 'success', 'code' => 1000000000]);
-        });
+                Artisan::call('cache:clear');
+                Artisan::call('key:generate');
+                Artisan::call('config:clear');
+                Artisan::call('optimize:clear');
+                return response()->json(['status' => 'success', 'code' => 1000000000]);
+            });
+
+        }
+        );
     }
 );
+
+
