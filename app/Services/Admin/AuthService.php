@@ -16,36 +16,39 @@ class AuthService
         return view('admin.auth.login');
     }
 
-    public function login($request): \Illuminate\Http\JsonResponse
+    public function login( $request): \Illuminate\Http\JsonResponse
     {
-
+        // التحقق من البيانات المدخلة
         $data = $request->validate(
             [
                 'input' => 'required',
                 'password' => 'required',
-
             ],
             [
-
+                'input.required' => 'يرجى إدخال اسم المستخدم أو البريد الإلكتروني أو الكود',
                 'password.required' => 'يرجي ادخال كلمة المرور',
             ]
         );
 
-        $admin = Admin::where('user_name', $data['input'])->first();
-        $credentials = [];
-        if ($admin) {
-            $credentials['user_name'] = $data['input'];
-        } else {
-            $credentials['code'] = $data['input'];
+        $admin = Admin::where('user_name', $data['input'])
+            ->orWhere('email', $data['input'])
+            ->orWhere('code', $data['input'])
+            ->first();
+
+        if (!$admin) {
+            return response()->json(['message' => 'بيانات تسجيل الدخول غير صحيحة'], 401);
         }
-        $credentials['password'] = $data['password'];
 
-
+        $credentials = [
+            (filter_var($data['input'], FILTER_VALIDATE_EMAIL) ? 'email' : (is_numeric($data['input']) ? 'code' : 'user_name')) => $data['input'],
+            'password' => $data['password'],
+        ];
 
         if (Auth::guard('admin')->attempt($credentials)) {
             return response()->json(200);
         }
         return response()->json(405);
+
     }
 
     public function logout()
