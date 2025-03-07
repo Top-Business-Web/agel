@@ -41,13 +41,7 @@ class RoleService extends BaseService
                        ';
 
 
-                    if ($models->id > 8):
 
-                        $buttons .= '<button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-                        data-bs-target="#delete_modal" data-id="' . $models->id . '" data-title="' . $models->name . '">
-                        <i class="fas fa-trash"></i>
-                        </button>';
-                    endif;
 
                     return $buttons;
                 })
@@ -84,13 +78,20 @@ class RoleService extends BaseService
 
     public function store($data): JsonResponse
     {
-        // Ensure $data is an array
         if (!is_array($data)) {
             return response()->json(['status' => 405, 'message' => 'Invalid data format']);
         }
 
         try {
-            // Create the role
+            // Validate required fields
+            if (!isset($data['name']) || empty($data['name'])) {
+                return response()->json(['status' => 400, 'message' => 'Role name is required']);
+            }
+
+            if (!isset($data['guard_name']) || empty($data['guard_name'])) {
+                return response()->json(['status' => 400, 'message' => 'Guard name is required']);
+            }
+
             $roleData = [
                 'name' => $data['name'],
                 'guard_name' => $data['guard_name']
@@ -98,39 +99,27 @@ class RoleService extends BaseService
 
             $model = $this->createData($roleData);
 
-            if ($model) {
-                // Get permission objects
-                $permissions = $this->permissionObj->query()
-                    ->whereIn('name', $data['permissions'])
+            if (!$model) {
+                return response()->json(['status' => 405, 'message' => 'Failed to create role']);
+            }
+
+            if (!empty($data['permissions']) && is_array($data['permissions'])) {
+                $permissions = $this->permissionObj->whereIn('name', $data['permissions'])
                     ->where('guard_name', $data['guard_name'])
                     ->get();
 
-                // Check if permissions were found
                 if ($permissions->isEmpty()) {
                     \Log::error('No permissions found for: ' . json_encode($data['permissions']) . ' with guard: ' . $data['guard_name']);
                     return response()->json(['status' => 405, 'message' => 'No permissions found']);
                 }
-
-                // Get permission IDs for direct assignment if needed
-                $permissionIds = $permissions->pluck('id')->toArray();
-
-                // Try direct sync with IDs first
-                $model->permissions()->sync($permissionIds);
-
-                // Also try the syncPermissions method as a backup
                 $model->syncPermissions($permissions);
-
-                // Verify permissions were assigned
-                $assignedCount = $model->permissions()->count();
-                if ($assignedCount === 0) {
-                    \Log::error('Failed to assign permissions to role: ' . $model->name);
-                    return response()->json(['status' => 405, 'message' => 'Failed to assign permissions']);
-                }
-
-                return response()->json(['status' => 200, 'assigned_permissions' => $assignedCount]);
-            } else {
-                return response()->json(['status' => 405, 'message' => 'Failed to create role']);
             }
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Role created successfully',
+                'role_id' => $model->id
+            ]);
         } catch (\Exception $e) {
             \Log::error('Error assigning permissions: ' . $e->getMessage());
             return response()->json(['status' => 500, 'message' => 'Error: ' . $e->getMessage()]);
@@ -156,40 +145,33 @@ class RoleService extends BaseService
                 return response()->json(['status' => 404, 'message' => 'Role not found']);
             }
 
-            if ($this->updateData($id, $data)) {
-                // Get permission objects
-                $permissions = $this->permissionObj->query()
-                    ->whereIn('name', $data['permissions'])
+            $roleData = [
+                'name' => $data['name'],
+                'guard_name' => $data['guard_name']
+            ];
+
+            if (!$this->updateData($id, $roleData)) {
+                return response()->json(['status' => 405, 'message' => 'Failed to update role']);
+            }
+
+            if (isset($data['permissions']) && is_array($data['permissions'])) {
+                $permissions = $this->permissionObj->whereIn('name', $data['permissions'])
                     ->where('guard_name', $data['guard_name'])
                     ->get();
 
-                // Check if permissions were found
                 if ($permissions->isEmpty()) {
                     \Log::error('No permissions found for: ' . json_encode($data['permissions']) . ' with guard: ' . $data['guard_name']);
                     return response()->json(['status' => 405, 'message' => 'No permissions found']);
                 }
-                $permissionIds = $permissions->pluck('id')->toArray();
-dd($permissionIds);
-                // Sync permissions
-                $model->permissions()->sync($permissionIds);
 
-                // Also try the syncPermissions method as a backup
-//                $model->syncPermissions($permissions);
-                // Verify permissions were assigned
-                $assignedCount = $model->permissions()->count();
-                if ($assignedCount === 0) {
-                    \Log::error('Failed to assign permissions to role: ' . $model->name);
-                    return response()->json(['status' => 405, 'message' => 'Failed to assign permissions']);
-                }
-
-                return response()->json(['status' => 200, 'assigned_permissions' => $assignedCount]);
-            } else {
-                return response()->json(['status' => 405, 'message' => 'Failed to update role']);
+                $model->permissions()->sync($permissions->pluck('id')->toArray());
             }
+
+            return response()->json(['status' => 200, 'message' => 'Role updated successfully']);
         } catch (\Exception $e) {
             \Log::error('Error updating role permissions: ' . $e->getMessage());
             return response()->json(['status' => 500, 'message' => 'Error: ' . $e->getMessage()]);
         }
-
     }
+
 }
