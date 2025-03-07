@@ -29,4 +29,6 @@ class Admin extends Authenticatable
         return LogOptions::defaults()
             ->logAll();
     }
+
+
 }//end class
