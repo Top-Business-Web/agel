@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\CountryController;
 
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\VendorController;
 
 use Illuminate\Support\Facades\Route;
@@ -38,8 +40,10 @@ Route::group(
             Route::get('/', function () {
                 return view('admin/index');
             })->name('adminHome');
-
-
+            Route::resourceWithDeleteSelected('roles', RoleController::class);
+//            Route::resourceWithDeleteSelected('permissions', PermissionController::class);
+            Route::get('activity_logs', [\App\Http\Controllers\Admin\ActivityLogController::class,'index'])->name('activity_logs.index');
+            Route::delete('activity_logs/{id}', [\App\Http\Controllers\Admin\ActivityLogController::class,'destroy'])->name('activity_logs.destroy');
             #============================ User ====================================
 
             #============================ vendors ====================================
