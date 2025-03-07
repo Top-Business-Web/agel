@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services\Admin;
+
 use App\Services\BaseService;
 use Illuminate\Http\JsonResponse;
 use Spatie\Permission\Models\Permission as PermissionObj;
@@ -14,10 +15,10 @@ class RoleService extends BaseService
     protected RoleObj $roleObj;
     protected PermissionObj $permissionObj;
 
-    public function __construct(PermissionObj $permissionObj,RoleObj $roleObj)
+    public function __construct(PermissionObj $permissionObj, RoleObj $roleObj)
     {
-        $this->roleObj=$roleObj;
-        $this->permissionObj=$permissionObj;
+        $this->roleObj = $roleObj;
+        $this->permissionObj = $permissionObj;
         parent::__construct($roleObj);
     }
 
@@ -40,10 +41,9 @@ class RoleService extends BaseService
                        ';
 
 
+                    if ($models->id > 8):
 
-                    if ($models->id >8):
-
-                    $buttons .= '<button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
+                        $buttons .= '<button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                         data-bs-target="#delete_modal" data-id="' . $models->id . '" data-title="' . $models->name . '">
                         <i class="fas fa-trash"></i>
                         </button>';
@@ -51,12 +51,12 @@ class RoleService extends BaseService
 
                     return $buttons;
                 })
-                ->addColumn('name',function($model){
+                ->addColumn('name', function ($model) {
                     return trns($model->name);
                 })
                 ->addColumn('permissions', function ($models) {
                     return $models->permissions->count() > 0 ? '<span class="badge badge-success">' .
-                       $models->permissions->count() .' '. trns('permissions')
+                        $models->permissions->count() . ' ' . trns('permissions')
                         . '</span>' :
                         'No Permissions';
                 })
@@ -77,7 +77,7 @@ class RoleService extends BaseService
         return view($this->folder . '/parts/create', [
             'permissions' => $permissions,
             'storeRoute' => route($this->route . '.store'),
-            'roles'=>$roles
+            'roles' => $roles
         ]);
     }
 
@@ -88,45 +88,45 @@ class RoleService extends BaseService
         if (!is_array($data)) {
             return response()->json(['status' => 405, 'message' => 'Invalid data format']);
         }
-        
+
         try {
             // Create the role
             $roleData = [
                 'name' => $data['name'],
                 'guard_name' => $data['guard_name']
             ];
-            
+
             $model = $this->createData($roleData);
-    
+
             if ($model) {
                 // Get permission objects
                 $permissions = $this->permissionObj->query()
                     ->whereIn('name', $data['permissions'])
                     ->where('guard_name', $data['guard_name'])
                     ->get();
-                
+
                 // Check if permissions were found
                 if ($permissions->isEmpty()) {
                     \Log::error('No permissions found for: ' . json_encode($data['permissions']) . ' with guard: ' . $data['guard_name']);
                     return response()->json(['status' => 405, 'message' => 'No permissions found']);
                 }
-                
+
                 // Get permission IDs for direct assignment if needed
                 $permissionIds = $permissions->pluck('id')->toArray();
-                
+
                 // Try direct sync with IDs first
                 $model->permissions()->sync($permissionIds);
-                
+
                 // Also try the syncPermissions method as a backup
                 $model->syncPermissions($permissions);
-                
+
                 // Verify permissions were assigned
                 $assignedCount = $model->permissions()->count();
                 if ($assignedCount === 0) {
                     \Log::error('Failed to assign permissions to role: ' . $model->name);
                     return response()->json(['status' => 405, 'message' => 'Failed to assign permissions']);
                 }
-                
+
                 return response()->json(['status' => 200, 'assigned_permissions' => $assignedCount]);
             } else {
                 return response()->json(['status' => 405, 'message' => 'Failed to create role']);
@@ -151,40 +151,37 @@ class RoleService extends BaseService
     {
         try {
             $model = $this->getById($id);
-            
+
             if (!$model) {
                 return response()->json(['status' => 404, 'message' => 'Role not found']);
             }
-    
+
             if ($this->updateData($id, $data)) {
                 // Get permission objects
                 $permissions = $this->permissionObj->query()
                     ->whereIn('name', $data['permissions'])
                     ->where('guard_name', $data['guard_name'])
                     ->get();
-                
+
                 // Check if permissions were found
                 if ($permissions->isEmpty()) {
                     \Log::error('No permissions found for: ' . json_encode($data['permissions']) . ' with guard: ' . $data['guard_name']);
                     return response()->json(['status' => 405, 'message' => 'No permissions found']);
                 }
-                
-                // Get permission IDs for direct assignment
                 $permissionIds = $permissions->pluck('id')->toArray();
-                
-                // Try direct sync with IDs first
+dd($permissionIds);
+                // Sync permissions
                 $model->permissions()->sync($permissionIds);
-                
+
                 // Also try the syncPermissions method as a backup
-                $model->syncPermissions($permissions);
-                
+//                $model->syncPermissions($permissions);
                 // Verify permissions were assigned
                 $assignedCount = $model->permissions()->count();
                 if ($assignedCount === 0) {
                     \Log::error('Failed to assign permissions to role: ' . $model->name);
                     return response()->json(['status' => 405, 'message' => 'Failed to assign permissions']);
                 }
-                
+
                 return response()->json(['status' => 200, 'assigned_permissions' => $assignedCount]);
             } else {
                 return response()->json(['status' => 405, 'message' => 'Failed to update role']);
@@ -193,5 +190,6 @@ class RoleService extends BaseService
             \Log::error('Error updating role permissions: ' . $e->getMessage());
             return response()->json(['status' => 500, 'message' => 'Error: ' . $e->getMessage()]);
         }
+
     }
 }

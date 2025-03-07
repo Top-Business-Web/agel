@@ -191,4 +191,6 @@ return array (
   'nbnbnnnbbnbnbn' => 'Nbnbnnnbbnbnbn',
   'setting management' => 'Setting Management',
   'gggggg' => 'Gggggg',
+  'trtrtrtrtrtrtr' => 'Trtrtrtrtrtrtr',
+  'bggggg' => 'Bggggg',
 );
