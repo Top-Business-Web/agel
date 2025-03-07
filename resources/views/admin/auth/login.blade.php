@@ -59,10 +59,10 @@
 
 <body class="">
 <div class="container">
-    <div class="language-switcher">
-        <a href="{{ LaravelLocalization::getLocalizedURL(lang() == 'en' ? 'ar' : 'en', null, [], true) }}"
-           class="btn btn-language" style="background-color: #0285CE;">{{ lang() == 'en' ? trns('Arabic') : trns('English') }}</a>
-    </div>
+{{--    <div class="language-switcher">--}}
+{{--        <a href="{{ LaravelLocalization::getLocalizedURL(lang() == 'en' ? 'ar' : 'en', null, [], true) }}"--}}
+{{--           class="btn btn-language" style="background-color: #0285CE;">{{ lang() == 'en' ? trns('Arabic') : trns('English') }}</a>--}}
+{{--    </div>--}}
 {{--    <div class="dark-switcher">--}}
 {{--        <a id="toggleDarkMode" class="btn btn-language">{{ trns('dark_mode') }}</a>--}}
 {{--    </div>--}}
@@ -76,7 +76,7 @@
             @method('POST')
             <label class="inp">
                 <input type="text" name="input" class="input-text" placeholder="&nbsp;">
-                <span class="label">{{ trns('enter_user_name_or_your_code')  }}</span>
+                <span class="label">{{ trns('enter_user_name_or_your_code_or_email')  }}</span>
                 <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
             </label>
             <label class="inp">
@@ -95,7 +95,7 @@
         {{--            {{isset($setting) ? $setting->title_ar : config('app.name')}}--}}
         {{--        </span>--}}
         {{--        </h1>--}}
-        <img src="{{asset('logo.jpg')}}">
+        <img style="border-radius: 10%" src="{{asset('logo.webp')}}">
     </div>
 
 @include('admin.auth.js')

@@ -62,9 +62,9 @@ Route::group(
 
 
 
-//            Route::get('setting', [SettingController::class, 'index'])->name('settingIndex');
-//            Route::POST('setting/store', [SettingController::class, 'store'])->name('setting.store');
-//            Route::POST('setting/update/{id}/', [SettingController::class, 'update'])->name('settingUpdate');
+            Route::get('setting', [SettingController::class, 'index'])->name('settingIndex');
+            Route::POST('setting/store', [SettingController::class, 'store'])->name('setting.store');
+            Route::POST('setting/update/{id}/', [SettingController::class, 'update'])->name('settingUpdate');
 
         });
     });
