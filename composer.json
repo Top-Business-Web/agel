@@ -21,6 +21,7 @@
         "mcamara/laravel-localization": "^1.7",
         "php-flasher/flasher-sweetalert-laravel": "^1.15",
         "phpreel/static": "^1.0",
+        "spatie/laravel-activitylog": "^4.10",
         "spatie/laravel-permission": "^6.16",
         "spatie/laravel-translatable": "^6.8",
         "twilio/sdk": "^8.3",
