@@ -75,6 +75,7 @@
                 <!-- countries -->
             </ul>
 
+
             <ul class="slide-menu">
                 <!-- cities -->
                 <li class="{{ routeActive('cities.index') }}">
@@ -90,18 +91,57 @@
         <!-- Main locations Management Section -->
 
 
-
-
-
-
-
-        <li class="slide">
-            <a class="side-menu__item  {{ Route::currentRouteName() == 'settingIndex' ? 'active' : '' }}"
-                href="{{ route('settingIndex') }}">
-                <i class="fa fa-wrench side-menu__icon"></i>
-                <span class="side-menu__label">{{ trns('settings') }}</span>
+        <!-- setting Management Section -->
+        <li class="slide {{ arrRouteActive(['countries.index', 'cities.index']) }}">
+            <a class="side-menu__item {{ arrRouteActive(['roles.index', 'activity_logs.index'], 'active') }}"
+               data-toggle="slide" href="#">
+                <i class="fas fa-cog side-menu__icon"></i> <!-- Settings Icon -->
+                <span class="side-menu__label">{{ trns('setting management') }}</span>
+                <i class="angle fa fa-angle-right"></i>
             </a>
+
+
+            <ul class="slide-menu">
+                <!-- roles -->
+                <li class="{{ routeActive('roles.index') }}">
+                    <a class="slide-item {{ routeActive('roles.index') }}" href="{{ route('roles.index') }}">
+                        <i class="fas fa-user-shield side-menu__icon"></i> <!-- alternative Permissions Management Icon -->
+{{--                        <i class="fas fa-lock side-menu__icon"></i> <!-- alternative Permissions Management Icon -->--}}
+{{--                        <i class="fas fa-key side-menu__icon"></i> <!-- alternative Permissions Management Icon -->--}}
+{{--                        <i class="fas fa-users-cog side-menu__icon"></i> <!-- Permissions Management Icon -->--}}
+                        {{ trns('roles') }}
+                    </a>
+                </li>
+                <!-- role -->
+            </ul>
+            <ul class="slide-menu">
+                <!-- permissions -->
+                <li class="{{ routeActive('activity_logs.index') }}">
+                    <a class="slide-item {{ routeActive('activity_logs.index') }}" href="{{ route('activity_logs.index') }}">
+{{--                        <i class="fas fa-running side-menu__icon"></i> <!-- Activity Icon -->--}}
+{{--                        <i class="fas fa-bolt side-menu__icon"></i> <!-- Activity Icon -->--}}
+{{--                        <i class="fas fa-person-running side-menu__icon"></i> <!-- Activity Icon -->--}}
+                        <i class="fas fa-heartbeat side-menu__icon"></i> <!-- Activity Icon -->
+                        {{ trns('activity_logs') }}
+                    </a>
+                </li>
+                <!-- permissions -->
+            </ul>
         </li>
+        <!-- setting Management Section -->
+
+
+
+
+
+
+{{--        <li class="slide">--}}
+{{--            <a class="side-menu__item  {{ Route::currentRouteName() == 'settingIndex' ? 'active' : '' }}"--}}
+{{--                href="{{ route('settingIndex') }}">--}}
+{{--                <i class="fa fa-wrench side-menu__icon"></i>--}}
+{{--                <span class="side-menu__label">{{ trns('settings') }}</span>--}}
+{{--            </a>--}}
+{{--        </li>--}}
 
 
         <li class="slide">
