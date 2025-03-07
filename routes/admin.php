@@ -6,6 +6,9 @@ use App\Http\Controllers\Admin\BranchController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\PlanController;
+
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\VendorController;
 
 use Illuminate\Support\Facades\Route;
@@ -41,6 +44,15 @@ Route::group(
                     return view('admin/index');
                 })->name('adminHome');
 
+        Route::group(['middleware' => 'auth:admin'], function () {
+            Route::get('/', function () {
+                return view('admin/index');
+            })->name('adminHome');
+            Route::resourceWithDeleteSelected('roles', RoleController::class);
+//            Route::resourceWithDeleteSelected('permissions', PermissionController::class);
+            Route::get('activity_logs', [\App\Http\Controllers\Admin\ActivityLogController::class,'index'])->name('activity_logs.index');
+            Route::delete('activity_logs/{id}', [\App\Http\Controllers\Admin\ActivityLogController::class,'destroy'])->name('activity_logs.destroy');
+            #============================ User ====================================
 
                 #============================ User ====================================
 
@@ -68,6 +80,9 @@ Route::group(
                 //            Route::get('setting', [SettingController::class, 'index'])->name('settingIndex');
                 //            Route::POST('setting/store', [SettingController::class, 'store'])->name('setting.store');
                 //            Route::POST('setting/update/{id}/', [SettingController::class, 'update'])->name('settingUpdate');
+            Route::get('setting', [SettingController::class, 'index'])->name('settingIndex');
+            Route::POST('setting/store', [SettingController::class, 'store'])->name('setting.store');
+            Route::POST('setting/update/{id}/', [SettingController::class, 'update'])->name('settingUpdate');
 
             });
         });

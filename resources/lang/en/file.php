@@ -144,4 +144,7 @@ return array (
   'period' => 'Period',
   'description' => 'Description',
   'discount' => 'Discount',
+  'please_select_first' => 'Please Select First',
+  'enter_user_name_or_your_code_or_email' => 'Enter User Name Or Your Code Or Email',
+  'تم تسجيل الخروج' => 'تم تسجيل الخروج',
 );

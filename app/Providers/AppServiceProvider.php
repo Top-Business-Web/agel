@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use App\Models\GeneralSetting;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -29,6 +31,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        App::setLocale('ar');
+        LaravelLocalization::setLocale('ar');
 
         Model::unguard();
         Route::macro('resourceWithDeleteSelected', function ($name, $controller, array $options = []) {

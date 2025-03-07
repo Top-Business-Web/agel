@@ -59,16 +59,16 @@
 
 <body class="">
 <div class="container">
-    <div class="language-switcher">
-        <a href="{{ LaravelLocalization::getLocalizedURL(lang() == 'en' ? 'ar' : 'en', null, [], true) }}"
-           class="btn btn-language" style="background-color: #0285CE;">{{ lang() == 'en' ? trns('Arabic') : trns('English') }}</a>
-    </div>
+{{--    <div class="language-switcher">--}}
+{{--        <a href="{{ LaravelLocalization::getLocalizedURL(lang() == 'en' ? 'ar' : 'en', null, [], true) }}"--}}
+{{--           class="btn btn-language" style="background-color: #0285CE;">{{ lang() == 'en' ? trns('Arabic') : trns('English') }}</a>--}}
+{{--    </div>--}}
 {{--    <div class="dark-switcher">--}}
 {{--        <a id="toggleDarkMode" class="btn btn-language">{{ trns('dark_mode') }}</a>--}}
 {{--    </div>--}}
 
     <main class="signup-container" style="margin-top: 40px">
-        <h1 class="heading-primary">{{ trns('welcome back partner') }}<span class="span-blue">.</span></h1>
+        <h1 class="heading-primary">{{ trns('welcome back') }}<span class="span-blue">.</span></h1>
         <p class="text-mute">{{ trns('please_enter_verification_data') }}</p>
 
         <form class="signup-form" action="{{route('vendor.login')}}" method="post" id="LoginForm">
@@ -94,7 +94,7 @@
         {{--            {{isset($setting) ? $setting->title_ar : config('app.name')}}--}}
         {{--        </span>--}}
         {{--        </h1>--}}
-        <img src="{{asset('logo.jpg')}}">
+        <img style="border-radius: 10%" src="{{asset('logo.webp')}}">
     </div>
 
 @include('vendor.auth.js')
