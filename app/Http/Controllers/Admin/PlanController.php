@@ -22,10 +22,10 @@ class PlanController extends Controller
         return $this->objService->create();
     }
 
-    public function store(ObjRequest $data)
+    public function store(ObjRequest $request)
     {
-        $data = $data->validated();
-        return $this->objService->store($data);
+        // $data = $data->validated();
+        return $this->objService->store($request);
     }
 
     public function edit(ObjModel $model)
@@ -43,12 +43,13 @@ class PlanController extends Controller
     {
         return $this->objService->delete($id);
     }
-        public function updateColumnSelected(\Request $request)
+    public function updateColumnSelected(\Request $request)
     {
-        return $this->objService->updateColumnSelected($request,'status');
+        return $this->objService->updateColumnSelected($request, 'status');
     }
 
-    public function deleteSelected(\Request $request){
+    public function deleteSelected(\Request $request)
+    {
         return $this->objService->deleteSelected($request);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services\Admin;
+
 use App\Models\City as ObjModel;
 use App\Services\BaseService;
 use Yajra\DataTables\DataTables;
@@ -10,7 +11,7 @@ class CityService extends BaseService
     protected string $folder = 'admin/city';
     protected string $route = 'cities';
 
-    public function __construct(ObjModel $objModel,protected CountryService $countryService)
+    public function __construct(ObjModel $objModel, protected CountryService $countryService)
     {
         parent::__construct($objModel);
     }
@@ -31,15 +32,10 @@ class CityService extends BaseService
                         </button>
                     ';
                     return $buttons;
-                })->editColumn('name', function ($obj) {
-                    return $obj->getTranslation('name', app()->getLocale());
                 })->editColumn('country_id', function ($obj) {
                     return $obj->country->name;
                 })->editColumn('status', function ($obj) {
                     return $this->statusDatatable($obj);
-                })->editColumn('location', function ($obj) {
-                    $url = "https://www.google.com/maps/?q={$obj->location}";
-                    return "<a href='{$url}' target='_blank' class='btn btn-primary'>".trns('view on map')."</a>";
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -56,15 +52,13 @@ class CityService extends BaseService
     public function create()
     {
         return view("{$this->folder}/parts/create", [
-
             'storeRoute' => route("{$this->route}.store"),
-            'countries'=>$this->countryService->getAll(),
+            'countries' => $this->countryService->getAll(),
         ]);
     }
 
     public function store($data): \Illuminate\Http\JsonResponse
     {
-
         try {
             $this->createData($data);
             return response()->json(['status' => 200, 'message' => trns('Data created successfully.')]);
@@ -78,7 +72,7 @@ class CityService extends BaseService
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
-            'countries'=>$this->countryService->getAll(),
+            'countries' => $this->countryService->getAll(),
 
         ]);
     }

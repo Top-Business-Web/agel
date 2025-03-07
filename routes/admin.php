@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\BranchController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\CountryController;
+use App\Http\Controllers\Admin\PlanController;
 
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
@@ -28,13 +30,19 @@ Route::group(
     [
         'prefix' => LaravelLocalization::setLocale(),
         'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
-    ], function () {
+    ],
+    function () {
 
-    Route::get('/', [AuthController::class, 'index']);
-    Route::group(['prefix' => 'admin'], function () {
-        Route::get('/login', [AuthController::class, 'index'])->name('admin.login');
+        Route::get('/', [AuthController::class, 'index']);
+        Route::group(['prefix' => 'admin'], function () {
+            Route::get('/login', [AuthController::class, 'index'])->name('admin.login');
 
-        Route::POST('login', [AuthController::class, 'login'])->name('admin.login');
+            Route::POST('login', [AuthController::class, 'login'])->name('admin.login');
+
+            Route::group(['middleware' => 'auth:admin'], function () {
+                Route::get('/', function () {
+                    return view('admin/index');
+                })->name('adminHome');
 
         Route::group(['middleware' => 'auth:admin'], function () {
             Route::get('/', function () {
@@ -46,44 +54,49 @@ Route::group(
             Route::delete('activity_logs/{id}', [\App\Http\Controllers\Admin\ActivityLogController::class,'destroy'])->name('activity_logs.destroy');
             #============================ User ====================================
 
-            #============================ vendors ====================================
-            Route::resourceWithDeleteSelected('vendors', VendorController::class);
+                #============================ User ====================================
 
-
-            #============================ Admin ====================================
-            Route::resourceWithDeleteSelected('admins', AdminController::class);
-            #============================ contact us ==================================
-            #============================ countries ==================================
-            Route::resourceWithDeleteSelected('countries', CountryController::class);
-            #============================ cities ==================================
-            Route::resourceWithDeleteSelected('cities', CityController::class);
-            #============================ Modules ==================================
-
-
-
-            Route::get('my_profile', [AdminController::class, 'myProfile'])->name('myProfile');
-            Route::get('logout', [AuthController::class, 'logout'])->name('admin.logout');
+                #============================ vendors ====================================
+                Route::resourceWithDeleteSelected('vendors', VendorController::class);
+                #============================ Admin ====================================
+                Route::resourceWithDeleteSelected('admins', AdminController::class);
+                #============================ countries ==================================
+                Route::resourceWithDeleteSelected('countries', CountryController::class);
+                #============================ cities ==================================
+                Route::resourceWithDeleteSelected('cities', CityController::class);
+                #============================ branches ==================================
+                Route::resourceWithDeleteSelected('branches', BranchController::class);
+                #============================ Plans ==================================
+                Route::resourceWithDeleteSelected('Plans', PlanController::class);
 
 
 
+
+                Route::get('my_profile', [AdminController::class, 'myProfile'])->name('myProfile');
+                Route::get('logout', [AuthController::class, 'logout'])->name('admin.logout');
+
+
+
+                //            Route::get('setting', [SettingController::class, 'index'])->name('settingIndex');
+                //            Route::POST('setting/store', [SettingController::class, 'store'])->name('setting.store');
+                //            Route::POST('setting/update/{id}/', [SettingController::class, 'update'])->name('settingUpdate');
             Route::get('setting', [SettingController::class, 'index'])->name('settingIndex');
             Route::POST('setting/store', [SettingController::class, 'store'])->name('setting.store');
             Route::POST('setting/update/{id}/', [SettingController::class, 'update'])->name('settingUpdate');
 
+            });
         });
-    });
 
-#=======================================================================
-#============================ ROOT =====================================
-#=======================================================================
-    Route::get('/clear', function () {
+        #=======================================================================
+        #============================ ROOT =====================================
+        #=======================================================================
+        Route::get('/clear', function () {
 
-        Artisan::call('cache:clear');
-        Artisan::call('key:generate');
-        Artisan::call('config:clear');
-        Artisan::call('optimize:clear');
-        return response()->json(['status' => 'success', 'code' => 1000000000]);
-    });
-});
-
-
+            Artisan::call('cache:clear');
+            Artisan::call('key:generate');
+            Artisan::call('config:clear');
+            Artisan::call('optimize:clear');
+            return response()->json(['status' => 'success', 'code' => 1000000000]);
+        });
+    }
+);

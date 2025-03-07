@@ -87,6 +87,28 @@
                 <!-- cities -->
             </ul>
 
+            <ul class="slide-menu">
+                <!-- cities -->
+                <li class="{{ routeActive('branches.index') }}">
+                    <a class="slide-item {{ routeActive('branches.index') }}" href="{{ route('branches.index') }}">
+                        <i class="fa fa-building side-menu__icon"></i> <!-- City Icon -->
+                        {{ trns('branches') }}
+                    </a>
+                </li>
+                <!-- branches -->
+            </ul>
+
+            <ul class="slide-menu">
+                <!-- cities -->
+                <li class="{{ routeActive('Plans.index') }}">
+                    <a class="slide-item {{ routeActive('Plans.index') }}" href="{{ route('Plans.index') }}">
+                        <i class="fa fa-building side-menu__icon"></i> <!-- City Icon -->
+                        {{ trns('Plans') }}
+                    </a>
+                </li>
+                <!-- branches -->
+            </ul>
+
         </li>
         <!-- Main locations Management Section -->
 
@@ -132,6 +154,13 @@
 
 
 
+        <li class="slide">
+            <a class="side-menu__item  {{ Route::currentRouteName() == 'settingIndex' ? 'active' : '' }}"
+                href="#">
+                <i class="fa fa-wrench side-menu__icon"></i>
+                <span class="side-menu__label">{{ trns('settings') }}</span>
+            </a>
+        </li>
 
 
 

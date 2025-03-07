@@ -23,14 +23,16 @@ class BranchRequest extends FormRequest
     protected function store(): array
     {
         return [
-
+            'name' => 'required|unique:branches,name',
+            'city_id' => 'required',
         ];
     }
 
     protected function update(): array
     {
         return [
-
+            'name' => 'nullable|unique:branches,name,' . $this->branch,
+            'city_id' => 'nullable',
         ];
     }
 }

@@ -43,7 +43,6 @@
                                 <th class="min-w-25px">{{ trns('name') }}</th>
                                 <th class="min-w-25px">{{ trns('country') }}</th>
                                 <th class="min-w-25px">{{ trns('status') }}</th>
-                                <th class="min-w-25px">{{ trns('location') }}</th>
                                 <th class="min-w-50px rounded-end">{{ trns('actions') }}</th>
                             </tr>
                             </thead>
@@ -168,7 +167,6 @@
             {data: 'name', name: 'name'},
             {data: 'country_id', name: 'country_id'},
             {data: 'status', name: 'status'},
-            {data: 'location', name: 'location'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
         showData('{{route($route.'.index')}}', columns);

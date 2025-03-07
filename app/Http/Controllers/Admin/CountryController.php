@@ -31,6 +31,7 @@ class CountryController extends Controller
     public function edit(ObjModel $country)
     {
         return $this->objService->edit($country);
+        
     }
 
     public function update(ObjRequest $request, $id)
@@ -46,12 +47,13 @@ class CountryController extends Controller
 
     public function updateColumnSelected(Request $request)
     {
-        return $this->objService->updateColumnSelected($request,'status');
+        return $this->objService->updateColumnSelected($request, 'status');
     }
 
 
 
-    public function deleteSelected(Request $request){
+    public function deleteSelected(Request $request)
+    {
         return $this->objService->deleteSelected($request);
     }
 }
