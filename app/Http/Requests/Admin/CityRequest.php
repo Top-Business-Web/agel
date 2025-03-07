@@ -23,20 +23,16 @@ class CityRequest extends FormRequest
     protected function store(): array
     {
         return [
-            'name.ar' => 'required|unique:cities,name->ar',
-            'name.en' => 'required|unique:cities,name->en',
+            'name' => 'required|unique:cities,name',
             'country_id' => 'required',
-            'location' => 'required',
         ];
     }
 
     protected function update(): array
     {
         return [
-            'name.ar' => 'nullable|unique:cities,name->ar,' . $this->city,
-            'name.en' => 'nullable|unique:cities,name->en,' . $this->city,
+            'name' => 'nullable|unique:cities,name,' .$this->city,
             'country_id' => 'nullable',
-            'location' => 'nullable',
         ];
     }
 

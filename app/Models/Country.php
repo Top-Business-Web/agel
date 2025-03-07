@@ -8,10 +8,7 @@ use Spatie\Translatable\HasTranslations;
 class Country extends BaseModel
 {
 
-    use HasTranslations;
-
-
-    protected $fillable = ['name','status','location'];
+    protected $fillable = ['name','status'];
     protected $casts = [];
 
 

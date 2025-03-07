@@ -9,9 +9,9 @@ use Yajra\DataTables\DataTables;
 class BranchService extends BaseService
 {
     protected string $folder = 'admin/branch';
-    protected string $route = 'branchs';
+    protected string $route = 'branches';
 
-    public function __construct(ObjModel $objModel)
+    public function __construct(ObjModel $objModel, protected CityService $cityService)
     {
         parent::__construct($objModel);
     }
@@ -32,6 +32,10 @@ class BranchService extends BaseService
                         </button>
                     ';
                     return $buttons;
+                })->editColumn('city_id', function ($obj) {
+                    return $obj->city->name;
+                })->editColumn('status', function ($obj) {
+                    return $this->statusDatatable($obj);
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -49,6 +53,7 @@ class BranchService extends BaseService
     {
         return view("{$this->folder}/parts/create", [
             'storeRoute' => route("{$this->route}.store"),
+            'cities' => $this->cityService->getAll(),
         ]);
     }
 
@@ -57,7 +62,6 @@ class BranchService extends BaseService
         if (isset($data['image'])) {
             $data['image'] = $this->handleFile($data['image'], 'Branch');
         }
-
         try {
             $this->createData($data);
             return response()->json(['status' => 200, 'message' => trns('Data created successfully.')]);
@@ -71,6 +75,7 @@ class BranchService extends BaseService
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
+            'cities' => $this->cityService->getAll(),
         ]);
     }
 

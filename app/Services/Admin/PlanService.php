@@ -3,13 +3,15 @@
 namespace App\Services\Admin;
 
 use App\Models\Plan as ObjModel;
+use App\Models\Plan;
+use App\Models\PlanDetail;
 use App\Services\BaseService;
 use Yajra\DataTables\DataTables;
 
 class PlanService extends BaseService
 {
     protected string $folder = 'admin/plan';
-    protected string $route = 'plans';
+    protected string $route = 'Plans';
 
     public function __construct(ObjModel $objModel)
     {
@@ -52,19 +54,48 @@ class PlanService extends BaseService
         ]);
     }
 
-    public function store($data): \Illuminate\Http\JsonResponse
+    public function store($request)
     {
-        if (isset($data['image'])) {
-            $data['image'] = $this->handleFile($data['image'], 'Plan');
+        $data = $request->all();
+
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $this->handleFile($request->file('image'), 'Plan');
         }
 
         try {
-            $this->createData($data);
+
+            $plan = Plan::create([
+                'name' => $data['name'],
+                'price' => $data['price'],
+                'period' => $data['period'],
+                'discount' => $data['discount'] ?? null,
+                'description' => $data['description'] ?? null,
+                'image' => $data['image'] ?? null,
+            ]);
+
+
+            if (isset($data['plans']) && is_array($data['plans'])) {
+                foreach ($data['plans'] as $planDetail) {
+                    PlanDetail::create([
+                        'plan_id' => $plan->id,
+                        'key' => $planDetail['key'] ?? null,
+                        'value' => isset($planDetail['is_unlimited']) && $planDetail['is_unlimited'] == 1 ? null : ($planDetail['value'] ?? null),
+                        'is_unlimited' => isset($planDetail['is_unlimited']) ? 1 : 0,
+                    ]);
+                }
+            }
+
             return response()->json(['status' => 200, 'message' => trns('Data created successfully.')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => 500, 'message' => trns('Something went wrong.'), trns('error') => $e->getMessage()]);
+            return response()->json([
+                'status' => 500,
+                'message' => trns('Something went wrong.'),
+                'error' => $e->getMessage()
+            ]);
         }
     }
+
 
     public function edit($obj)
     {

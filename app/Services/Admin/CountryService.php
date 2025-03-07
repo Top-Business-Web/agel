@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services\Admin;
+
 use App\Models\Country as ObjModel;
 use App\Services\BaseService;
 use Yajra\DataTables\DataTables;
@@ -31,14 +32,9 @@ class CountryService extends BaseService
                         </button>
                     ';
                     return $buttons;
-                })->editColumn('name', function ($obj) {
-                    return $obj->getTranslation('name', app()->getLocale());
                 })->editColumn('status', function ($obj) {
                     return $this->statusDatatable($obj);
-                })->editColumn('location', function ($obj) {
-                $url = "https://www.google.com/maps/?q={$obj->location}";
-                return "<a href='{$url}' target='_blank' class='btn btn-primary'>".trns('view on map')."</a>";
-            })
+                })
                 ->addIndexColumn()
                 ->escapeColumns([])
                 ->make(true);

@@ -4,35 +4,14 @@
         @method('PUT')
         <input type="hidden" value="{{ $obj->id }}" name="id">
 
-      <div class="row">
-
-          <div class="col-12">
-              <div id="map" style="height: 400px; width: 100%;"></div>
-
-
-
-          </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="name" class="form-control-label">{{ trns('name') }} {{ trns('arabic') }}</label>
-                    <input type="text" class="form-control" name="name[ar]" id="name" value="{{$obj->getTranslation('name', 'ar')}}">
-                </div>
-            </div>
-
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="name" class="form-control-label">{{ trns('name') }} {{ trns('english') }}</label>
-                    <input type="text" class="form-control" name="name[en]" id="name" value="{{$obj->getTranslation('name', 'en')}}">
-                </div>
-            </div>
-
+        <div class="row">
             <div class="col-12">
                 <div class="form-group">
-                    <label for="map_url" class="form-control-label">{{ trns('location') }}</label>
-                    <input type="text" class="form-control" name="location" id="map_url" readonly value="{{$obj->location}}">
+                    <label for="name" class="form-control-label">{{ trns('name') }}</label>
+                    <input type="text" class="form-control" name="name" id="name"
+                        value="{{ $obj->name }}">
                 </div>
             </div>
-
         </div>
 
 
@@ -48,15 +27,18 @@
     $('select').select2({
         dropdownParent: $('#editOrCreate .modal-content')
 
-    });</script>
+    });
+</script>
 
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuTilAfnGfkZtIx0T3qf-eOmWZ_N2LpoY&callback=initMap">
-</script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCuTilAfnGfkZtIx0T3qf-eOmWZ_N2LpoY&callback=initMap"></script>
 
 <script>
     function initMap() {
-        var defaultLocation = {lat: 24.7136, lng: 46.6753};
+        var defaultLocation = {
+            lat: 24.7136,
+            lng: 46.6753
+        };
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 8,
             center: defaultLocation
@@ -68,20 +50,17 @@
             draggable: true
         });
 
-        google.maps.event.addListener(marker, 'dragend', function (event) {
+        google.maps.event.addListener(marker, 'dragend', function(event) {
             var lat = event.latLng.lat();
             var lng = event.latLng.lng();
             $('#map_url').val(lat + ',' + lng);
         });
 
-        map.addListener('click', function (event) {
+        map.addListener('click', function(event) {
             marker.setPosition(event.latLng);
             var lat = event.latLng.lat();
             var lng = event.latLng.lng();
             $('#map_url').val(lat + ',' + lng);
         });
     }
-
-
 </script>
-

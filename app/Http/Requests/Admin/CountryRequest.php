@@ -23,18 +23,15 @@ class CountryRequest extends FormRequest
     protected function store(): array
     {
         return [
-            'name.ar' => 'required|unique:countries,name->ar',
-            'name.en' => 'required|unique:countries,name->en',
-            'location' => 'required',
+            'name' => 'required|unique:countries,name',
         ];
     }
 
     protected function update(): array
     {
         return [
-            'name.ar' => 'nullable|unique:countries,name->ar,'.$this->country,
-            'name.en' => 'nullable|unique:countries,name->en,'.$this->country,
-            'location' => 'nullable',
+            'name' => 'nullable|unique:countries,name,' . $this->country,
+
         ];
     }
 }

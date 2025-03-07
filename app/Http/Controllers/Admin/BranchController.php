@@ -28,9 +28,9 @@ class BranchController extends Controller
         return $this->objService->store($data);
     }
 
-    public function edit(ObjModel $model)
+    public function edit(ObjModel $branch)
     {
-        return $this->objService->edit($model);
+        return $this->objService->edit($branch);
     }
 
     public function update(ObjRequest $request, $id)
@@ -43,12 +43,13 @@ class BranchController extends Controller
     {
         return $this->objService->delete($id);
     }
-        public function updateColumnSelected(\Request $request)
+    public function updateColumnSelected(\Request $request)
     {
-        return $this->objService->updateColumnSelected($request,'status');
+        return $this->objService->updateColumnSelected($request, 'status');
     }
 
-    public function deleteSelected(\Request $request){
+    public function deleteSelected(\Request $request)
+    {
         return $this->objService->deleteSelected($request);
     }
 }
