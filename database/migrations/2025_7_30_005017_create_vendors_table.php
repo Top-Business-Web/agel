@@ -26,6 +26,7 @@ return new class extends Migration
             $table->foreignId('parent_id')->nullable()->constrained('vendors')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('plan_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->boolean('status')->default(1);
+            $table->string('Profit ratio')->default(0);
             $table->string('image')->nullable();
             $table->string('otp')->nullable();
             $table->string('otp_expire_at')->nullable();
