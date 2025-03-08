@@ -8,7 +8,7 @@
                 <div class="form-group">
                     <label for="name" class="form-control-label">{{ trns('role_name_english') }}</label>
                     <input type="text" class="form-control" value="{{$obj->name}}" name="name" id="name">
-                    <input type="hidden" class="form-control" name="guard_name" id="guard_name" value="admin">
+                    <input type="hidden" class="form-control" name="guard_name" id="guard_name" value="vendor">
                 </div>
             </div>
 
@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            @foreach(\App\Enums\AdminModuleEnum::cases() as $module)
+            @foreach(\App\Enums\VendorModuleEnum::cases() as $module)
                 <div class="col-12">
                     <div class="form-group">
                         <label for="name" class="form-control-label">{{ trns($module->value) }}</label>

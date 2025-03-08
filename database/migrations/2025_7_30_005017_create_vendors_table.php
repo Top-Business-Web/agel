@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('national_id')->nullable();
             $table->string('username')->unique();
             $table->string('password');
+            $table->string('role_id')->nullable();
             $table->foreignId('city_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('branch_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('parent_id')->nullable()->constrained('vendors')->cascadeOnDelete()->cascadeOnUpdate();

@@ -2,13 +2,13 @@
 
 namespace App\Services\Admin;
 
-use App\Models\Module;
+//use App\Models\Module;
 
 namespace App\Services\Admin;
 
 use App\Http\Middleware\Custom\vendor;
 use App\Models\Vendor as ObjModel;
-use App\Models\VendorModule;
+//use App\Models\VendorModule;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
@@ -17,8 +17,8 @@ class VendorService extends BaseService
 {
     protected string $folder = 'admin/vendor';
     protected string $route = 'vendors';
-
-    public function __construct(ObjModel $objModel, protected VendorModule $vendorModule, protected ModuleService $moduleService)
+//, protected VendorModule $vendorModule, protected ModuleService $moduleService
+    public function __construct(ObjModel $objModel)
     {
         parent::__construct($objModel);
     }
@@ -97,14 +97,18 @@ class VendorService extends BaseService
             return response()->json(['status' => 500, 'message' => trns('Something went wrong.'), trns('error') => $e->getMessage()]);
         }
     }
+    public function show($id)
+    {
+
+    }
 
     public function edit($obj)
     {
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
-            'vendorModules' => $obj->vendor_modules->pluck('module_id')->toArray(),
-            'moduleService' => $this->moduleService->getAll(),
+//            'vendorModules' => $obj->vendor_modules->pluck('module_id')->toArray(),
+//            'moduleService' => $this->moduleService->getAll(),
         ]);
     }
 

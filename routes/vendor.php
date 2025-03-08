@@ -3,6 +3,7 @@
 use App\Http\Controllers\Vendor\AuthController;
 
 use App\Http\Controllers\Vendor\HomeController;
+use App\Http\Controllers\Vendor\RoleController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -32,7 +33,7 @@ Route::group(
 
         Route::group(['prefix' => 'vendor'], function () {
             Route::POST('login', [AuthController::class, 'login'])->name('vendor.login');
-            Route::POST('register', [AuthController::class, 'register'])->name('vendor.register');
+            Route::POST('/register', [AuthController::class, 'register'])->name('vendor.register');
             Route::get('/verify-otp/{email}', [AuthController::class, 'showOtpForm'])->name('otp.verify');
             Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('otp.check');
 
@@ -46,6 +47,10 @@ Route::group(
 
                 #============================ logout ====================================
                 Route::get('logout', [AuthController::class, 'logout'])->name('vendor.logout');
+                #============================ roles and permissions ====================================
+                Route::resourceWithDeleteSelected('roles', RoleController::class, [
+                    'as' => 'vendor'  // Prefix "vendor." to all route names
+                ]);
             });
         });
 
