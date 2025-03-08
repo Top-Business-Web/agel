@@ -37,6 +37,13 @@
                                         <input type="checkbox" id="select-all">
                                     </th>
                                     <th class="min-w-25px">#</th>
+                                    <th class="min-w-25px">name</th>
+                                    <th class="min-w-25px">price</th>
+                                    <th class="min-w-25px">period</th>
+                                    <th class="min-w-25px">description</th>
+                                    <th class="min-w-25px">image</th>
+                                    <th class="min-w-25px">discount</th>
+                                    <th class="min-w-25px">status</th>
                                     <th class="min-w-50px rounded-end">{{ trns('actions') }}</th>
                                 </tr>
                             </thead>
@@ -108,7 +115,8 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                             data-bs-dismiss="modal">{{ trns('cancel') }}</button>
-                        <button type="button" class="btn btn-danger" id="confirm-delete-btn">{{ trns('delete') }}</button>
+                        <button type="button" class="btn btn-danger"
+                            id="confirm-delete-btn">{{ trns('delete') }}</button>
                     </div>
                 </div>
             </div>
@@ -159,6 +167,33 @@
             {
                 data: 'id',
                 name: 'id'
+            }, {
+                data: 'name',
+                name: 'name'
+            },
+            {
+                data: 'price',
+                name: 'price'
+            },
+            {
+                data: 'period',
+                name: 'period'
+            },
+            {
+                data: 'description',
+                name: 'description'
+            },
+            {
+                data: 'image',
+                name: 'image'
+            },
+            {
+                data: 'discount',
+                name: 'discount'
+            },
+            {
+                data: 'status',
+                name: 'status'
             },
             {
                 data: 'action',

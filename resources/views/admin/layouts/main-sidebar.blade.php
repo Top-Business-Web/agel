@@ -65,48 +65,32 @@
             </a>
 
             <ul class="slide-menu">
-                <!-- countries -->
                 <li class="{{ routeActive('countries.index') }}">
                     <a class="slide-item {{ routeActive('countries.index') }}" href="{{ route('countries.index') }}">
                         <i class="fa fa-globe side-menu__icon"></i> <!-- Country Icon -->
-                        {{ trns('country') }}
+                        الدولة
                     </a>
                 </li>
-                <!-- countries -->
             </ul>
 
 
             <ul class="slide-menu">
-                <!-- cities -->
                 <li class="{{ routeActive('cities.index') }}">
                     <a class="slide-item {{ routeActive('cities.index') }}" href="{{ route('cities.index') }}">
                         <i class="fa fa-building side-menu__icon"></i> <!-- City Icon -->
-                        {{ trns('city') }}
+                        المدينة
                     </a>
                 </li>
-                <!-- cities -->
             </ul>
 
-            <ul class="slide-menu">
-                <!-- cities -->
-                <li class="{{ routeActive('branches.index') }}">
-                    <a class="slide-item {{ routeActive('branches.index') }}" href="{{ route('branches.index') }}">
-                        <i class="fa fa-building side-menu__icon"></i> <!-- City Icon -->
-                        {{ trns('branches') }}
-                    </a>
-                </li>
-                <!-- branches -->
-            </ul>
 
             <ul class="slide-menu">
-                <!-- cities -->
                 <li class="{{ routeActive('Plans.index') }}">
                     <a class="slide-item {{ routeActive('Plans.index') }}" href="{{ route('Plans.index') }}">
-                        <i class="fa fa-building side-menu__icon"></i> <!-- City Icon -->
-                        {{ trns('Plans') }}
+                        <i class="fas fa-clipboard-list side-menu__icon"></i> <!-- Plan Icon -->
+                        الخطة
                     </a>
                 </li>
-                <!-- branches -->
             </ul>
 
         </li>
@@ -115,8 +99,13 @@
 
         <!-- setting Management Section -->
         <li class="slide {{ arrRouteActive(['countries.index', 'cities.index']) }}">
+<<<<<<< HEAD
+            <a class="side-menu__item {{ arrRouteActive(['roles.index', 'activity_logs.index'], 'active') }}"
+                data-toggle="slide" href="#">
+=======
             <a class="side-menu__item {{ arrRouteActive(['admin.roles.index', 'activity_logs.index'], 'active') }}"
                data-toggle="slide" href="#">
+>>>>>>> ac2b042b685ba0dd548963753317bfbf4c666069
                 <i class="fas fa-cog side-menu__icon"></i> <!-- Settings Icon -->
                 <span class="side-menu__label">{{ trns('setting management') }}</span>
                 <i class="angle fa fa-angle-right"></i>
@@ -125,12 +114,22 @@
 
             <ul class="slide-menu">
                 <!-- roles -->
+<<<<<<< HEAD
+                <li class="{{ routeActive('roles.index') }}">
+                    <a class="slide-item {{ routeActive('roles.index') }}" href="{{ route('roles.index') }}">
+                        <i class="fas fa-user-shield side-menu__icon"></i>
+                        <!-- alternative Permissions Management Icon -->
+                        {{--                        <i class="fas fa-lock side-menu__icon"></i> <!-- alternative Permissions Management Icon --> --}}
+                        {{--                        <i class="fas fa-key side-menu__icon"></i> <!-- alternative Permissions Management Icon --> --}}
+                        {{--                        <i class="fas fa-users-cog side-menu__icon"></i> <!-- Permissions Management Icon --> --}}
+=======
                 <li class="{{ routeActive('admin.roles.index') }}">
                     <a class="slide-item {{ routeActive('admin.roles.index') }}" href="{{ route('admin.roles.index') }}">
                         <i class="fas fa-user-shield side-menu__icon"></i> <!-- alternative Permissions Management Icon -->
 {{--                        <i class="fas fa-lock side-menu__icon"></i> <!-- alternative Permissions Management Icon -->--}}
 {{--                        <i class="fas fa-key side-menu__icon"></i> <!-- alternative Permissions Management Icon -->--}}
 {{--                        <i class="fas fa-users-cog side-menu__icon"></i> <!-- Permissions Management Icon -->--}}
+>>>>>>> ac2b042b685ba0dd548963753317bfbf4c666069
                         {{ trns('roles') }}
                     </a>
                 </li>
@@ -138,11 +137,20 @@
             </ul>
             <ul class="slide-menu">
                 <!-- permissions -->
+<<<<<<< HEAD
+                <li class="{{ routeActive('activity_logs.index') }}">
+                    <a class="slide-item {{ routeActive('activity_logs.index') }}"
+                        href="{{ route('activity_logs.index') }}">
+                        {{--                        <i class="fas fa-running side-menu__icon"></i> <!-- Activity Icon --> --}}
+                        {{--                        <i class="fas fa-bolt side-menu__icon"></i> <!-- Activity Icon --> --}}
+                        {{--                        <i class="fas fa-person-running side-menu__icon"></i> <!-- Activity Icon --> --}}
+=======
                 <li class="{{ routeActive('admin.activity_logs.index') }}">
                     <a class="slide-item {{ routeActive('admin.activity_logs.index') }}" href="{{ route('admin.activity_logs.index') }}">
 {{--                        <i class="fas fa-running side-menu__icon"></i> <!-- Activity Icon -->--}}
 {{--                        <i class="fas fa-bolt side-menu__icon"></i> <!-- Activity Icon -->--}}
 {{--                        <i class="fas fa-person-running side-menu__icon"></i> <!-- Activity Icon -->--}}
+>>>>>>> ac2b042b685ba0dd548963753317bfbf4c666069
                         <i class="fas fa-heartbeat side-menu__icon"></i> <!-- Activity Icon -->
                         {{ trns('activity_logs') }}
                     </a>
@@ -164,13 +172,13 @@
 
 
 
-{{--        <li class="slide">--}}
-{{--            <a class="side-menu__item  {{ Route::currentRouteName() == 'settingIndex' ? 'active' : '' }}"--}}
-{{--                href="{{ route('settingIndex') }}">--}}
-{{--                <i class="fa fa-wrench side-menu__icon"></i>--}}
-{{--                <span class="side-menu__label">{{ trns('settings') }}</span>--}}
-{{--            </a>--}}
-{{--        </li>--}}
+        {{--        <li class="slide"> --}}
+        {{--            <a class="side-menu__item  {{ Route::currentRouteName() == 'settingIndex' ? 'active' : '' }}" --}}
+        {{--                href="{{ route('settingIndex') }}"> --}}
+        {{--                <i class="fa fa-wrench side-menu__icon"></i> --}}
+        {{--                <span class="side-menu__label">{{ trns('settings') }}</span> --}}
+        {{--            </a> --}}
+        {{--        </li> --}}
 
 
         <li class="slide">

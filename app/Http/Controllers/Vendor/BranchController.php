@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BranchRequest as ObjRequest;
 use App\Models\Branch as ObjModel;
-use App\Services\Admin\BranchService as ObjService;
+use App\Services\vendor\BranchService as ObjService;
 use Illuminate\Http\Request;
 
 class BranchController extends Controller
@@ -43,12 +43,12 @@ class BranchController extends Controller
     {
         return $this->objService->delete($id);
     }
-    public function updateColumnSelected(\Request $request)
+    public function updateColumnSelected(Request $request)
     {
         return $this->objService->updateColumnSelected($request, 'status');
     }
 
-    public function deleteSelected(\Request $request)
+    public function deleteSelected(Request $request)
     {
         return $this->objService->deleteSelected($request);
     }

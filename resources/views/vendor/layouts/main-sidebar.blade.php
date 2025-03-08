@@ -14,7 +14,11 @@
 
         </li>
 
+<<<<<<< HEAD
+        {{-- --}}{{-- comments --}}
+=======
         {{----}}{{--comments--}}
+>>>>>>> ac2b042b685ba0dd548963753317bfbf4c666069
         <li class="slide">
             <a class="side-menu__item  {{ Route::currentRouteName() == 'vendorHome' ? 'active' : '' }}"
                 href="{{ route('vendorHome') }}">
@@ -23,6 +27,15 @@
             </a>
         </li>
 
+<<<<<<< HEAD
+        <li class="{{ routeActive('branches.index') }}">
+            <a class="slide-item {{ routeActive('branches.index') }}" href="{{ route('branches.index') }}">
+                <i class="fas fa-code-branch side-menu__icon"></i> <!-- Branches Icon -->
+                الفروع
+            </a>
+        </li>
+
+=======
         <!-- Main users Management Section -->
         <li class="slide {{ arrRouteActive(['users.index', 'vendor.vendors.index']) }}">
             <a class="side-menu__item {{ arrRouteActive(['users.index', 'vendor.vendors.index'], 'active') }}"
@@ -41,6 +54,7 @@
                     </a>
                 </li>
                 <!-- vendors -->
+>>>>>>> ac2b042b685ba0dd548963753317bfbf4c666069
 
 
             </ul>

@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Services\Admin;
+namespace App\Services\Vendor;
 
 use App\Models\Branch as ObjModel;
+use App\Services\Admin\CityService;
 use App\Services\BaseService;
 use Yajra\DataTables\DataTables;
 
 class BranchService extends BaseService
 {
-    protected string $folder = 'admin/branch';
+    protected string $folder = 'vendor/branch';
     protected string $route = 'branches';
 
     public function __construct(ObjModel $objModel, protected CityService $cityService)

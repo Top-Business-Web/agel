@@ -4,6 +4,7 @@ use App\Http\Controllers\Vendor\ActivityLogController;
 use App\Http\Controllers\Vendor\AuthController;
 
 use App\Http\Controllers\Vendor\HomeController;
+use App\Http\Controllers\Vendor\BranchController;
 use App\Http\Controllers\Vendor\RoleController;
 use App\Http\Controllers\Vendor\VendorController;
 use Illuminate\Support\Facades\Artisan;
@@ -46,6 +47,8 @@ Route::group(
 
                 #============================ Home ====================================
                 Route::get('homeVendor', [HomeController::class, 'index'])->name('vendorHome');
+                #============================ branches ==================================
+                Route::resourceWithDeleteSelected('branches', BranchController::class);
                 #============================ vendors ====================================
 //                    Route::resourceWithDeleteSelected('vendors', VendorController::class);
                 Route::get('vendors/index', [VendorController::class, 'index'])->name('vendor.vendors.index');
