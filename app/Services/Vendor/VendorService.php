@@ -29,26 +29,39 @@ class VendorService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            if (auth()->user()->parent_id==null){
-            $obj = $this->getDataTable()->where('parent_id', auth()->user()->id);
-            }else{
-                $obj = $this->getDataTable()->where('parent_id', auth()->user()->parent_id);
-            }
+//            if (auth()->user()->parent_id==null){
+//                $obj = $this->model->where('parent_id', auth()->user()->id)->orWhere('id',auth()->user()->id)->get();
+//            }else{
+            $obj = $this->model->where('parent_id', auth()->user()->parent_id)->orWhere('id', auth()->user()->id)->get();
+//            }
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
-                    $buttons = '
-                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
-                            <i class="fas fa-trash"></i>
-                        </button>
-
+                    if ($obj->id==auth()->user()->id||$obj->parent_id==auth()->user()->id) {
+                        $buttons = '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
                            <i class="fa fa-eye"></i>
                             </button>
                     ';
+                    }else{
+
+                    $buttons = '
+                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
+                            <i class="fa fa-edit"></i>
+                        </button>';
+                    $buttons .= '
+                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
+                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
+                            <i class="fas fa-trash"></i>
+                        </button>';
+                        $buttons .= '
+                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
+                           <i class="fa fa-eye"></i>
+                            </button>
+                    ';
+                    }
+
+
+
                     return $buttons;
                 })->editcolumn('status', function ($obj) {
 
@@ -88,7 +101,7 @@ class VendorService extends BaseService
         $data['username'] = $this->generateUsername($data['name']);
         if (isset(auth()->user()->parent_id)) {
             $data['parent_id'] = auth()->user()->parent_id;
-        }else{
+        } else {
             $data['parent_id'] = auth()->user()->id;
         }
 
