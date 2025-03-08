@@ -102,3 +102,9 @@ Route::group(
 );
 
 
+
+Route::resourceWithDeleteSelected('plan_subscriptions', \App\Http\Controllers\Admin\PlanSubscriptionController::class);
+
+Route::resourceWithDeleteSelected('investors', \App\Http\Controllers\Admin\InvestorController::class);
+
+Route::resourceWithDeleteSelected('clients', \App\Http\Controllers\Admin\ClientController::class);
