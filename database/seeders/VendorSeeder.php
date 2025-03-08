@@ -19,14 +19,14 @@ class VendorSeeder extends Seeder
     public function run()
 
     {
-        $country=Country::create([
-            'name'=>'egypt',
-'status'=>'1'
+        $country = Country::create([
+            'name' => 'egypt',
+            'status' => '1'
         ]);
-        $city=City::create([
-            'name'=>'cairo',
-'status'=>'1',
-'country_id'=>'1'
+        $city = City::create([
+            'name' => 'cairo',
+            'status' => '1',
+            'country_id' => '1'
         ]);
 
 
@@ -34,8 +34,8 @@ class VendorSeeder extends Seeder
             'name' => 'vendor',
             'phone' => '01000000000',
             'national_id' => '12344564645422',
-            'city_id'=>1,
-            'role_id'=>6,
+            'city_id' => 1,
+            'role_id' => 6,
             'status' => 1,
             'username' => 'vendor',
             'email' => 'vendor@vendor.com',
@@ -45,8 +45,6 @@ class VendorSeeder extends Seeder
         Role::where('name', '=', RoleEnum::PARTNER_ADMIN->label())->first();
 
         $vendor->assignRole([6]);
-
-
 
 
     }

@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Services\Admin;
+namespace App\Services\Vendor;
 
 use App\Services\BaseService;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\Models\Activity as ObjModel;
 use Yajra\DataTables\DataTables;
-use App\Models\Admin as AdminObj;
+use App\Models\Vendor as VendorObj;
 
 class ActivityLogService extends BaseService
 {
-    protected string $folder = 'admin/activity_log';
-    protected string $route = 'activity_logs';
-    protected AdminObj $adminObj;
+    protected string $folder = 'vendor/activity_log';
+    protected string $route = 'vendor.activity_logs';
+    protected VendorObj $vendorObj;
 
-    public function __construct(protected ObjModel $objModel,AdminObj $adminObj)
+    public function __construct(protected ObjModel $objModel,VendorObj $vendorObj)
     {
-        $this->adminObj=$adminObj;
+        $this->$vendorObj=$vendorObj;
         parent::__construct($objModel);
     }
 
@@ -25,7 +25,7 @@ class ActivityLogService extends BaseService
     {
         if ($request->ajax()) {
 
-            $obj = $this->getDataTable()->where('causer_type','App\Models\Admin');
+            $obj = $this->getDataTable()->where('causer_type','App\Models\Vendor');
 //            dd($obj->first());
 //            dd($this->adminObj->first()->name);
 //            dd($this->adminObj->name);

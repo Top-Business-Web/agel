@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\vendor;
+namespace App\Services\Vendor;
 
 use App\Mail\Otp;
 use App\Models\City;
