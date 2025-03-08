@@ -196,6 +196,7 @@
 
         // Delete Using Ajax
         deleteScript('{{ route($route . '.destroy', ':id') }}');
+        deleteSelected('{{route($route.'.deleteSelected')}}');
 
     </script>
 @endsection

@@ -61,9 +61,12 @@ Route::group(
                 Route::resourceWithDeleteSelected('roles', RoleController::class, [
                     'as' => 'vendor'  // Prefix "vendor." to all route names
                 ]);
+                Route::post('roles/delete-selected', [RoleController::class, 'deleteSelected'])->name('vendor.roles.deleteSelected');
 
                 Route::get('activity_logs', [ActivityLogController::class, 'index'])->name('vendor.activity_logs.index');
                 Route::delete('activity_logs/{id}', [ActivityLogController::class, 'destroy'])->name('vendor.activity_logs.destroy');
+                Route::post('activity_logs/delete-selected', [ActivityLogController::class, 'deleteSelected'])->name('vendor.activity_logs.deleteSelected');
+
             });
         });
 

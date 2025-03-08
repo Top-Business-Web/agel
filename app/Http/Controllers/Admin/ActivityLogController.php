@@ -21,4 +21,8 @@ class ActivityLogController extends Controller
         return $this->objService->delete($id);
     }
 
+    public function deleteSelected(Request $request){
+        return $this->objService->deleteSelected($request);
+    }
+
 }

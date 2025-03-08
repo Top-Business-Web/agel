@@ -43,4 +43,14 @@ class RoleController extends Controller
         $data = $request->validated();
         return $this->objService->update($id, $data);
     }
+    public function updateColumnSelected(Request $request)
+    {
+        return $this->objService->updateColumnSelected($request,'status');
+    }
+
+
+
+    public function deleteSelected(Request $request){
+        return $this->objService->deleteSelected($request);
+    }
 }
