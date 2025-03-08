@@ -60,4 +60,4 @@ jobs:
         script: |
           # cd domains/topbusiness.ebharbook.com/public_html/agel
           # php artisan optimize:clear
-          # php artisan migrate --seed
+          php artisan migrate --seed
