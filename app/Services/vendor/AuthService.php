@@ -82,7 +82,8 @@ class AuthService
             'commercial_number' => $request->commercial_number,
             'national_id' => $request->national_id,
             'username' => $this->generateUsername($request->name),
-            'status' => 0
+            'status' => 0,
+            'plan_id' => 1
 
         ]);
 
@@ -134,7 +135,7 @@ class AuthService
                 'otp_expire_at' => null,
                 'status' => 1
             ]);
-            $auth = Auth::guard('vendor')->login($vendor);
+             Auth::guard('vendor')->login($vendor);
             return  response()->json(200);
         }else{
 
