@@ -218,4 +218,8 @@ return array (
   'admin.vendors' => 'Admin.vendors',
   'vendor.vendors' => 'Vendor.vendors',
   '-- select_city --' => '-- Select City --',
+  'has_parent' => 'Has Parent',
+  'no' => 'No',
+  'yes' => 'Yes',
+  '-- select_parent --' => '-- Select Parent --',
 );

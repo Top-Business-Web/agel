@@ -1,0 +1,75 @@
+<?php
+
+namespace App\Services\vendor;
+
+use App\Models\RoomReservation as ObjModel;
+use App\Services\BaseService;
+use Carbon\Carbon;
+use Yajra\DataTables\DataTables;
+
+class RoomReservationService extends BaseService
+{
+    protected string $folder = 'vendor/room_reservation';
+    protected string $route = 'VendorRoomReservation';
+
+    public function __construct(ObjModel $objModel)
+    {
+        parent::__construct($objModel);
+    }
+
+    public function index($request)
+    {
+        if ($request->ajax()) {
+            $obj = $this->getDataTable();
+            return DataTables::of($obj)
+                ->editColumn("user_id" , function ($obj){
+                    return $obj->user->name  ;
+                })
+                ->editColumn("process" , function ($obj){
+                    if($obj->cancelled_at == null){
+                        return match ($obj->process) {
+                            0 => "pending",
+                            1 => "process",
+                            2 => "completed",
+                        };
+                    }else{
+                        return trns("cancel_date ") .  Carbon::parse($obj->cancelled_at)->format("Y-m-d")  ;
+                    }
+                })
+                ->editColumn("details", function ($obj) {
+                    $detail = $obj->roomReservationDetails->first();
+
+                    $type =  match ($detail->room->type){
+                        0 => "single",
+                        1 => "double",
+                        default => "unknown"
+                    };
+                    return $detail && $detail->room ? '
+                        <button type="button" class="btn btn-primary DetailsBtn" id="modalBtn"
+                                data-id="' . $obj->id . '"
+                                data-details-name="' . $detail->room->name. '"
+                                data-details-price="' . $detail->room->price . '"
+//                                data-details-type="' .$type. '"
+                                data-details-beds="' . $detail->room->beds . '"
+                                data-details-lodge_id="' . $detail->room->lodge->name . '"
+                                data-bs-toggle="modal"
+                                data-bs-target="#DetailsModel">
+                            ' . trns("show details") . '
+                        </button>
+                    ' : '-';
+                })
+
+                ->addIndexColumn()
+                ->escapeColumns([])
+                ->make(true);
+        } else {
+            return view($this->folder . '/index', [
+                'createRoute' => route($this->route . '.create'),
+                'bladeName' => trns($this->route),
+                'route' => $this->route,
+            ]);
+        }
+    }
+
+
+}

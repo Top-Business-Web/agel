@@ -4,20 +4,21 @@ namespace App\Services\Admin;
 
 //use App\Models\Module;
 
-namespace App\Services\Admin;
+namespace App\Services\Vendor;
 
 use App\Http\Middleware\Custom\vendor;
 use App\Models\Vendor as ObjModel;
 
 //use App\Models\VendorModule;
+use App\Services\Admin\CityService;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
 
 class VendorService extends BaseService
 {
-    protected string $folder = 'admin/vendor';
-    protected string $route = 'admin.vendors';
+    protected string $folder = 'vendor/vendor';
+    protected string $route = 'vendor.vendors';
 
 //, protected VendorModule $vendorModule, protected ModuleService $moduleService
     public function __construct(ObjModel $objModel, protected CityService $cityService)
@@ -28,7 +29,11 @@ class VendorService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $obj = $this->getDataTable();
+            if (auth()->user()->parent_id==null){
+            $obj = $this->getDataTable()->where('parent_id', auth()->user()->id);
+            }else{
+                $obj = $this->getDataTable()->where('parent_id', auth()->user()->parent_id);
+            }
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
                     $buttons = '
@@ -70,8 +75,6 @@ class VendorService extends BaseService
 //            'moduleService' => $this->moduleService->getAll(),
             'storeRoute' => route("{$this->route}.store"),
             'cities' => $this->cityService->getAll(),
-            'vendors' => $this->model->all(),
-
 
         ]);
     }
@@ -83,12 +86,16 @@ class VendorService extends BaseService
         }
 
         $data['username'] = $this->generateUsername($data['name']);
-        if ($data['has_parent'] == 0) {
-            $data['parent_id'] = null;
+        if (isset(auth()->user()->parent_id)) {
+            $data['parent_id'] = auth()->user()->parent_id;
+        }else{
+            $data['parent_id'] = auth()->user()->id;
         }
+
         $data['password'] = Hash::make($data['password']);
+
         try {
-            $vendor = $this->model->create($data->except('has_parent'));
+            $vendor = $this->model->create($data);
 
             return response()->json(['status' => 200, 'message' => trns('Data created successfully.')]);
         } catch (\Exception $e) {
@@ -111,8 +118,6 @@ class VendorService extends BaseService
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
             'cities' => $this->cityService->getAll(),
-            'vendors' => $this->model->all(),
-
 //            'vendorModules' => $obj->vendor_modules->pluck('module_id')->toArray(),
 //            'moduleService' => $this->moduleService->getAll(),
         ]);
@@ -137,17 +142,17 @@ class VendorService extends BaseService
         }
 
         // Remove module_id from data to avoid updating non-existent column
-        $moduleIds = $data['module_id'];
-        unset($data['module_id']);
+//        $moduleIds = $data['module_id'];
+//        unset($data['module_id']);
 
         // Update vendor_modules
-        $oldObj->vendor_modules()->delete();
-        foreach ($moduleIds as $module_id) {
-            $oldObj->vendor_modules()->create([
-                'vendor_id' => $oldObj->id,
-                'module_id' => $module_id,
-            ]);
-        }
+//        $oldObj->vendor_modules()->delete();
+//        foreach ($moduleIds as $module_id) {
+//            $oldObj->vendor_modules()->create([
+//                'vendor_id' => $oldObj->id,
+////                'module_id' => $module_id,
+//            ]);
+//        }
 
         try {
             $oldObj->update($data);
