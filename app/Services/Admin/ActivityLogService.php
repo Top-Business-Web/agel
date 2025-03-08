@@ -11,7 +11,7 @@ use App\Models\Admin as AdminObj;
 class ActivityLogService extends BaseService
 {
     protected string $folder = 'admin/activity_log';
-    protected string $route = 'activity_logs';
+    protected string $route = 'admin.activity_logs';
     protected AdminObj $adminObj;
 
     public function __construct(protected ObjModel $objModel,AdminObj $adminObj)

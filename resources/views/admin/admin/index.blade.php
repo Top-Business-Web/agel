@@ -144,7 +144,6 @@
     </div>
 
     <!-- delete selected  Modal -->
-    </div>
     @include('admin/layouts/myAjaxHelper')
 @endsection
 @section('ajaxCalls')

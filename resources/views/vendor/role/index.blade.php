@@ -19,6 +19,9 @@
                                 <i class="fe fe-plus"></i>
                             </span> {{ trns('add_new_role') }}
                         </button>
+                        <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
+                            <span><i class="fe fe-trash"></i></span> {{ trns('delete selected') }}
+                        </button>
                     </div>
                 </div>
                 <div class="card-body">

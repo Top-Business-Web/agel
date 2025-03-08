@@ -55,8 +55,10 @@ Route::group(
                     Route::resourceWithDeleteSelected('roles', RoleController::class, [
                         'as' => 'admin'  // Prefix "admin." to all route names
                     ]);
+                    Route::post('roles/delete-selected', [RoleController::class, 'deleteSelected'])->name('admin.roles.deleteSelected');
                     Route::get('activity_logs', [ActivityLogController::class, 'index'])->name('admin.activity_logs.index');
                     Route::delete('activity_logs/{id}', [ActivityLogController::class, 'destroy'])->name('admin.activity_logs.destroy');
+                    Route::post('activity_logs/delete-selected', [ActivityLogController::class, 'deleteSelected'])->name('admin.activity_logs.deleteSelected');
                     #============================ User ====================================
 
                     #============================ User ====================================
@@ -69,7 +71,7 @@ Route::group(
                     Route::put('vendors/update', [VendorController::class, 'update'])->name('admin.vendors.update');
                     Route::delete('vendors/{id}', [VendorController::class, 'destroy'])->name('admin.vendors.destroy');
                     Route::get('vendors/{id}/edit', [VendorController::class, 'edit'])->name('admin.vendors.edit');
-                    Route::get('vendors/delete-selected', [VendorController::class, 'deleteSelected'])->name('admin.vendors.deleteSelected');
+                    Route::post('vendors/delete-selected', [VendorController::class, 'deleteSelected'])->name('admin.vendors.deleteSelected');
                     Route::post('vendors/update-column-selected', [VendorController::class, 'updateColumnSelected'])->name('admin.vendors.updateColumnSelected');
                     #============================ Admin ====================================
                     Route::resourceWithDeleteSelected('admins', AdminController::class);
