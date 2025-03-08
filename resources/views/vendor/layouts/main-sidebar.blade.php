@@ -14,12 +14,19 @@
 
         </li>
 
-        {{----}}{{--comments --}}
+        {{-- --}}{{-- comments --}}
         <li class="slide">
             <a class="side-menu__item  {{ Route::currentRouteName() == 'vendorHome' ? 'active' : '' }}"
                 href="{{ route('vendorHome') }}">
                 <i class="fa fa-home side-menu__icon"></i>
                 <span class="side-menu__label">{{ trns('home') }}</span>
+            </a>
+        </li>
+
+        <li class="{{ routeActive('branches.index') }}">
+            <a class="slide-item {{ routeActive('branches.index') }}" href="{{ route('branches.index') }}">
+                <i class="fas fa-code-branch side-menu__icon"></i> <!-- Branches Icon -->
+                الفروع
             </a>
         </li>
 

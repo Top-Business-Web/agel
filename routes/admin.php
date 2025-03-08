@@ -3,7 +3,6 @@
 use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\BranchController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\PlanController;
@@ -64,8 +63,6 @@ Route::group(
                     Route::resourceWithDeleteSelected('countries', CountryController::class);
                     #============================ cities ==================================
                     Route::resourceWithDeleteSelected('cities', CityController::class);
-                    #============================ branches ==================================
-                    Route::resourceWithDeleteSelected('branches', BranchController::class);
                     #============================ Plans ==================================
                     Route::resourceWithDeleteSelected('Plans', PlanController::class);
 

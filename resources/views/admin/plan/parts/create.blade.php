@@ -26,7 +26,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="name" class="form-control-label">{{ trns('discount') }}</label>
-                    <input type="text" class="form-control" name="discount" id="discount">
+                    <input type="number" class="form-control" name="discount" id="discount">
                 </div>
             </div>
 

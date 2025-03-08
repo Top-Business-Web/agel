@@ -230,5 +230,21 @@
                 }
             });
         });
+
+
+        // show eye Modal
+        function showEyeModal(routeOfEdit) {
+            $(document).on('click', '.eyeBtn', function() {
+                var id = $(this).data('id')
+                var url = routeOfEdit;
+                url = url.replace(':id', id)
+                $('#modal-body').html(loader)
+                $('#editOrCreate').modal('show')
+
+                setTimeout(function() {
+                    $('#modal-body').load(url)
+                }, 500)
+            })
+        }
     </script>
 @endsection

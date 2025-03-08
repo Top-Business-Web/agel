@@ -3,6 +3,7 @@
 use App\Http\Controllers\Vendor\AuthController;
 
 use App\Http\Controllers\Vendor\HomeController;
+use App\Http\Controllers\Vendor\BranchController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -28,7 +29,6 @@ Route::group(
     function () {
 
         Route::get('/partner', [AuthController::class, 'index'])->name('vendor.login');
-
         Route::group(['prefix' => 'vendor'], function () {
             Route::POST('login', [AuthController::class, 'login'])->name('vendor.login');
 
@@ -38,7 +38,8 @@ Route::group(
 
                 #============================ Home ====================================
                 Route::get('homeVendor', [HomeController::class, 'index'])->name('vendorHome');
-
+                #============================ branches ==================================
+                Route::resourceWithDeleteSelected('branches', BranchController::class);
                 #============================ logout ====================================
                 Route::get('logout', [AuthController::class, 'logout'])->name('vendor.logout');
             });
