@@ -59,45 +59,29 @@
 
 <body class="">
 <div class="container">
-{{--    <div class="language-switcher">--}}
-{{--        <a href="{{ LaravelLocalization::getLocalizedURL(lang() == 'en' ? 'ar' : 'en', null, [], true) }}"--}}
-{{--           class="btn btn-language" style="background-color: #0285CE;">{{ lang() == 'en' ? trns('Arabic') : trns('English') }}</a>--}}
-{{--    </div>--}}
-{{--    <div class="dark-switcher">--}}
-{{--        <a id="toggleDarkMode" class="btn btn-language">{{ trns('dark_mode') }}</a>--}}
-{{--    </div>--}}
+
 
     <main class="signup-container" style="margin-top: 40px">
-        <h1 class="heading-primary">{{ trns('welcome back') }}<span class="span-blue">.</span></h1>
-        <p class="text-mute">{{ trns('please_enter_verification_data') }}</p>
+        <h1 class="heading-primary">{{ trns('welcome ') }}<span class="span-blue">.</span></h1>
+        <p class="text-mute">من فضلك ادخل كود التفعيل</p>
 
-        <form class="signup-form" action="{{route('vendor.login')}}" method="post" id="LoginForm">
+        <form class="signup-form" action="{{route('otp.check')}}" method="post" id="LoginForm">
             @csrf
+            <input type="hidden" name="email" value="{{$email}}">
             <label class="inp">
-                <input type="text" name="input" class="input-text" placeholder="&nbsp;">
-                <span class="label">{{ trns('enter_user_name_or_your_code')  }}</span>
+                <input type="text" name="otp" class="input-text" placeholder="&nbsp;">
+                <span class="label">الكود</span>
                 <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
             </label>
-            <label class="inp">
-                <input type="password" name="password" class="input-text" placeholder="&nbsp;" id="password">
-                <span class="label"> {{ trns('password') }}</span>
-                <span class="input-icon input-icon-password" data-password><i class="fa-solid fa-eye"></i></span>
-            </label>
-            <button class="btn btn-login" id="loginButton"> {{ trns('login') }}</button>
-            <p class="text-mute">  ليس لديك حساب؟
-                <a href="{{url('/register')}}"> سجل الان</a>
-            </p>
+
+            <button class="btn btn-login" id="loginButton"> تفعيل</button>
+
 
         </form>
     </main>
     <div class="welcome-container" style="background-color: white !important;"
          >
-        {{--        <h1 class="heading-secondary">--}}
-        {{--            {{ trns('welcome back') }}--}}
-        {{--            <span class="lg">--}}
-        {{--            {{isset($setting) ? $setting->title_ar : config('app.name')}}--}}
-        {{--        </span>--}}
-        {{--        </h1>--}}
+
         <img style="border-radius: 10%" src="{{asset('logo.webp')}}">
     </div>
 

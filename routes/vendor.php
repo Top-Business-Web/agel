@@ -28,9 +28,14 @@ Route::group(
     function () {
 
         Route::get('/partner', [AuthController::class, 'index'])->name('vendor.login');
+        Route::get('/register', [AuthController::class, 'registerForm'])->name('vendor.register');
 
         Route::group(['prefix' => 'vendor'], function () {
             Route::POST('login', [AuthController::class, 'login'])->name('vendor.login');
+            Route::POST('register', [AuthController::class, 'register'])->name('vendor.register');
+            Route::get('/verify-otp/{email}', [AuthController::class, 'showOtpForm'])->name('otp.verify');
+            Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('otp.check');
+
 
             Route::group(['middleware' => 'auth:vendor'], function () {
 
