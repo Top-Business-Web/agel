@@ -25,7 +25,7 @@ class ActivityLogService extends BaseService
     {
         if ($request->ajax()) {
 
-            $obj = $this->getDataTable();
+            $obj = $this->getDataTable()->where('causer_type','App\Models\Admin');
 //            dd($obj->first());
 //            dd($this->adminObj->first()->name);
 //            dd($this->adminObj->name);

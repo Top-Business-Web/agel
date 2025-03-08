@@ -13,10 +13,10 @@
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="module_id" class="form-control-label">{{ trns('Module') }}</label>
-                    <select placeholder="{{ trns('-- select_module --') }}" class="form-control" name="module_id[]" id="module_id" multiple>
-                        @foreach ($moduleService as $moduleService)
-                            <option value="{{$moduleService->id }}">{{$moduleService->name}}</option>
+                    <label for="city_id" class="form-control-label">المدينه</label>
+                    <select placeholder="{{ trns('-- select_city --') }}" class="form-control" name="city_id" id="city_id">
+                        @foreach ($cities as $city)
+                            <option value="{{$city->id }}">{{$city->name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -29,7 +29,7 @@
                 </div>
             </div>
 
-            <div class="col-12">
+            <div class="col-6">
                 <div class="form-group">
                     <label for="email" class="form-control-label">{{ trns('email') }}</label>
                     <input type="email" class="form-control" name="email" id="email">

@@ -214,4 +214,8 @@ return array (
   'delete_branches_management' => 'Delete Branches Management',
   'fffff' => 'Fffff',
   'fffffff' => 'Fffffff',
+  'vendor.activity_logs' => 'Vendor.activity Logs',
+  'admin.vendors' => 'Admin.vendors',
+  'vendor.vendors' => 'Vendor.vendors',
+  '-- select_city --' => '-- Select City --',
 );

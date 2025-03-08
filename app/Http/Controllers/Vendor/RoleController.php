@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Vendor\RoleRequest as ObjRequest;
-use App\Services\vendor\RoleService as ObjService;
+use App\Services\Vendor\RoleService as ObjService;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role as ObjModel;
 

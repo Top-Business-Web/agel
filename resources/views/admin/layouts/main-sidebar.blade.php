@@ -38,8 +38,8 @@
                 <!-- admins -->
 
                 <!-- vendors -->
-                <li class="{{ routeActive('vendors.index') }}">
-                    <a class="slide-item {{ routeActive('vendors.index') }}" href="{{ route('vendors.index') }}">
+                <li class="{{ routeActive('admin.vendors.index') }}">
+                    <a class="slide-item {{ routeActive('admin.vendors.index') }}" href="{{ route('admin.vendors.index') }}">
                         <i class="fas fa-store side-menu__icon"></i> <!-- Vendor Icon -->
                         {{ trns('vendors') }}
                     </a>
@@ -138,8 +138,8 @@
             </ul>
             <ul class="slide-menu">
                 <!-- permissions -->
-                <li class="{{ routeActive('activity_logs.index') }}">
-                    <a class="slide-item {{ routeActive('activity_logs.index') }}" href="{{ route('activity_logs.index') }}">
+                <li class="{{ routeActive('admin.activity_logs.index') }}">
+                    <a class="slide-item {{ routeActive('admin.activity_logs.index') }}" href="{{ route('admin.activity_logs.index') }}">
 {{--                        <i class="fas fa-running side-menu__icon"></i> <!-- Activity Icon -->--}}
 {{--                        <i class="fas fa-bolt side-menu__icon"></i> <!-- Activity Icon -->--}}
 {{--                        <i class="fas fa-person-running side-menu__icon"></i> <!-- Activity Icon -->--}}

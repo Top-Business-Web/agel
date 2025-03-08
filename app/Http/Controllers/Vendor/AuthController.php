@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Vendor;
 
-use App\Services\vendor\AuthService as ObjService;
+use App\Services\Vendor\AuthService as ObjService;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 

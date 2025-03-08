@@ -16,9 +16,9 @@ use Yajra\DataTables\DataTables;
 class VendorService extends BaseService
 {
     protected string $folder = 'admin/vendor';
-    protected string $route = 'vendors';
+    protected string $route = 'admin.vendors';
 //, protected VendorModule $vendorModule, protected ModuleService $moduleService
-    public function __construct(ObjModel $objModel)
+    public function __construct(ObjModel $objModel,protected CityService $cityService)
     {
         parent::__construct($objModel);
     }
@@ -65,8 +65,10 @@ class VendorService extends BaseService
     public function create()
     {
         return view("{$this->folder}/parts/create", [
-            'moduleService' => $this->moduleService->getAll(),
+//            'moduleService' => $this->moduleService->getAll(),
             'storeRoute' => route("{$this->route}.store"),
+            'cities' => $this->cityService->getAll(),
+
         ]);
     }
 
@@ -75,26 +77,21 @@ class VendorService extends BaseService
         if (isset($data['image'])) {
             $data['image'] = $this->handleFile($data['image'], 'Vendor');
         }
+
         $data['username'] = $this->generateUsername($data['name']);
+
         $data['password'] = Hash::make($data['password']);
 
         try {
-            $dataWithoutSelectLodgeId = $data;
-            unset($dataWithoutSelectLodgeId['module_id']);
-            $obj = $this->createData($dataWithoutSelectLodgeId);
-
-
-            foreach ($data['module_id'] as $module_id) {
-                $obj->vendor_modules()->create([
-                    'vendor_id' => $obj->id,
-                    'module_id' => $module_id,
-                ]);
-            }
-
+            $vendor = $this->model->create($data);
 
             return response()->json(['status' => 200, 'message' => trns('Data created successfully.')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => 500, 'message' => trns('Something went wrong.'), trns('error') => $e->getMessage()]);
+            return response()->json([
+                'status' => 500,
+                'message' => trns('Something went wrong.'),
+                'error' => $e->getMessage()
+            ]);
         }
     }
     public function show($id)
@@ -107,6 +104,8 @@ class VendorService extends BaseService
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
+            'cities' => $this->cityService->getAll(),
+
 //            'vendorModules' => $obj->vendor_modules->pluck('module_id')->toArray(),
 //            'moduleService' => $this->moduleService->getAll(),
         ]);

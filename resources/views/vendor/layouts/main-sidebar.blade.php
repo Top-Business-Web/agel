@@ -23,11 +23,34 @@
             </a>
         </li>
 
+        <!-- Main users Management Section -->
+        <li class="slide {{ arrRouteActive(['users.index', 'vendor.vendors.index']) }}">
+            <a class="side-menu__item {{ arrRouteActive(['users.index', 'vendor.vendors.index'], 'active') }}"
+               data-toggle="slide" href="#">
+                <i class="fa fa-user-cog side-menu__icon"></i> <!-- User Management Icon -->
+                <span class="side-menu__label">{{ trns('users management') }}</span>
+                <i class="angle fa fa-angle-right"></i>
+            </a>
+            <ul class="slide-menu">
+
+                <!-- vendors -->
+                <li class="{{ routeActive('vendor.index') }}">
+                    <a class="slide-item {{ routeActive('vendor.vendors.index') }}" href="{{ route('vendor.vendors.index') }}">
+                        <i class="fas fa-store side-menu__icon"></i> <!-- Vendor Icon -->
+                        {{ trns('vendors') }}
+                    </a>
+                </li>
+                <!-- vendors -->
+
+
+            </ul>
+        </li>
+        <!-- Main users Management Section -->
 
 
         <!-- setting Management Section -->
         <li class="slide {{ arrRouteActive(['countries.index', 'cities.index']) }}">
-            <a class="side-menu__item {{ arrRouteActive(['vendor.roles.index', 'activity_logs.index'], 'active') }}"
+            <a class="side-menu__item {{ arrRouteActive(['vendor.roles.index', 'vendor.activity_logs.index'], 'active') }}"
                data-toggle="slide" href="#">
                 <i class="fas fa-cog side-menu__icon"></i> <!-- Settings Icon -->
                 <span class="side-menu__label">{{ trns('setting management') }}</span>
@@ -51,7 +74,7 @@
             <ul class="slide-menu">
                 <!-- permissions -->
                 <li class="{{ routeActive('activity_logs.index') }}">
-                    <a class="slide-item {{ routeActive('activity_logs.index') }}" href="{{ route('activity_logs.index') }}">
+                    <a class="slide-item {{ routeActive('vendor.activity_logs.index') }}" href="{{ route('vendor.activity_logs.index') }}">
                         {{--                        <i class="fas fa-running side-menu__icon"></i> <!-- Activity Icon -->--}}
                         {{--                        <i class="fas fa-bolt side-menu__icon"></i> <!-- Activity Icon -->--}}
                         {{--                        <i class="fas fa-person-running side-menu__icon"></i> <!-- Activity Icon -->--}}
