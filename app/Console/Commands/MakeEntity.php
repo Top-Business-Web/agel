@@ -325,7 +325,7 @@ EOT;
         }
 
         // If not, add the resource route at the end of the file
-        File::append($routeFile, "\nRoute::customResource('{$folderName}s', \App\Http\Controllers\Admin\\{$modelName}Controller::class);\n");
+        File::append($routeFile, "\nRoute::resourceWithDeleteSelected('{$folderName}s', \App\Http\Controllers\Admin\\{$modelName}Controller::class);\n");
 
         $this->info("Resource route for {$folderName}s created successfully.");
     }
