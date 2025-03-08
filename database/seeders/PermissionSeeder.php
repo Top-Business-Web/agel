@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Enums\ModuleEnum;
+use App\Enums\AdminModuleEnum;
+use App\Enums\VendorModuleEnum;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -16,27 +18,39 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-//        $guardName = getCurrentGuardName() ?? Auth::getDefaultDriver();
+        // Define modules and their respective guards
+        $modules = [
+            'admin' => AdminModuleEnum::cases(),
+            'vendor' => VendorModuleEnum::cases(),
+        ];
 
-        foreach (ModuleEnum::cases() as $case) {
-            foreach ($case->permissions() as $permission) {
-                Permission::query()
-                    ->updateOrCreate([
-                        'name' => $permission,
-                    ], [
-                        'name' => $permission,
-                        'guard_name' => 'admin',
-                    ]);
-            }
+        foreach ($modules as $guardName => $moduleEnums) {
+            $this->seedPermissions($moduleEnums, $guardName);
+            $this->assignPermissionsToFirstRole($guardName);
         }
-
-        $role = Role::query()->find(1);
-
-        $permissions = Permission::all();
-
-        $role->syncPermissions($permissions);
-
     }
 
+    private function seedPermissions($moduleEnums, $guardName)
+    {
+        foreach ($moduleEnums as $case) {
+            foreach ($case->permissions() as $permission) {
+                Permission::updateOrCreate(
+                    ['name' => $permission, 'guard_name' => $guardName],
+                    ['guard_name' => $guardName] // Ensures guard_name is always set correctly
+                );
+            }
+        }
+    }
+
+    private function assignPermissionsToFirstRole($guardName)
+    {
+        // Get the first role for this guard
+        $role = Role::where('guard_name', $guardName)->first();
+
+        if ($role) {
+            $permissions = Permission::where('guard_name', $guardName)->get();
+            $role->syncPermissions($permissions);
+        }
+    }
 
 }

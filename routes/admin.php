@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\PlanController;
 
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\VendorController;
 
 use Illuminate\Support\Facades\Route;
@@ -49,7 +50,11 @@ Route::group(
                     Route::get('/', function () {
                         return view('admin/index');
                     })->name('adminHome');
-                    Route::resourceWithDeleteSelected('roles', RoleController::class);
+
+
+                    Route::resourceWithDeleteSelected('roles', RoleController::class, [
+                        'as' => 'admin'  // Prefix "admin." to all route names
+                    ]);
                     Route::get('activity_logs', [ActivityLogController::class, 'index'])->name('activity_logs.index');
                     Route::delete('activity_logs/{id}', [ActivityLogController::class, 'destroy'])->name('activity_logs.destroy');
                     #============================ User ====================================
@@ -57,7 +62,15 @@ Route::group(
                     #============================ User ====================================
 
                     #============================ vendors ====================================
-                    Route::resourceWithDeleteSelected('vendors', VendorController::class);
+//                    Route::resourceWithDeleteSelected('vendors', VendorController::class);
+                    Route::get('vendors/index', [VendorController::class, 'index'])->name('vendors.index');
+                    Route::post('vendors/create', [VendorController::class, 'create'])->name('vendors.create');
+                    Route::put('vendors/update', [VendorController::class, 'update'])->name('vendors.update');
+                    Route::delete('vendors/{id}', [VendorController::class, 'destroy'])->name('vendors.destroy');
+                    Route::get('vendors/{id}/edit', [VendorController::class, 'edit'])->name('vendors.edit');
+//                    Route::get('vendors',[ VendorController::class,'index'])->name('vendors.index');
+                    Route::get('vendors/delete-selected', [VendorController::class, 'deleteSelected'])->name('vendors.deleteSelected');
+                    Route::post('vendors/update-column-selected', [VendorController::class, 'updateColumnSelected'])->name('vendors.updateColumnSelected');
                     #============================ Admin ====================================
                     Route::resourceWithDeleteSelected('admins', AdminController::class);
                     #============================ countries ==================================
@@ -73,10 +86,6 @@ Route::group(
                     Route::get('my_profile', [AdminController::class, 'myProfile'])->name('myProfile');
                     Route::get('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
-
-                    //            Route::get('setting', [SettingController::class, 'index'])->name('settingIndex');
-                    //            Route::POST('setting/store', [SettingController::class, 'store'])->name('setting.store');
-                    //            Route::POST('setting/update/{id}/', [SettingController::class, 'update'])->name('settingUpdate');
                     Route::get('setting', [SettingController::class, 'index'])->name('settingIndex');
                     Route::POST('setting/store', [SettingController::class, 'store'])->name('setting.store');
                     Route::POST('setting/update/{id}/', [SettingController::class, 'update'])->name('settingUpdate');

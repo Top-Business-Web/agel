@@ -19,11 +19,11 @@
                     <label for="module_id" class="form-control-label">{{ trns('Module') }}</label>
                     <select placeholder="{{ trns('-- select_module --') }}" class="form-control" name="module_id[]"
                         id="module_id" multiple>
-                        @foreach ($moduleService as $module)
-                            <option value="{{ $module->id }}" @if (in_array($module->id, $vendorModules)) selected @endif>
-                                {{ $module->name }}
-                            </option>
-                        @endforeach
+{{--                        @foreach ($moduleService as $module)--}}
+{{--                            <option value="{{ $module->id }}" @if (in_array($module->id, $vendorModules)) selected @endif>--}}
+{{--                                {{ $module->name }}--}}
+{{--                            </option>--}}
+{{--                        @endforeach--}}
                     </select>
                 </div>
             </div>

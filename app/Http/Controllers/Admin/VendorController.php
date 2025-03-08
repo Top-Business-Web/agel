@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 
 class VendorController extends Controller
 {
-    public function __construct(protected ObjService $objService) {}
+    public function __construct(protected ObjService $objService)
+    {
+    }
 
     public function index(Request $request)
     {
@@ -26,6 +28,11 @@ class VendorController extends Controller
     {
         $data = $data->validated();
         return $this->objService->store($data);
+    }
+
+    public function show($id)
+    {
+        return 'hello world';
     }
 
     public function edit(ObjModel $vendor)
@@ -46,12 +53,12 @@ class VendorController extends Controller
 
     public function updateColumnSelected(Request $request)
     {
-        return $this->objService->updateColumnSelected($request,'status');
+        return $this->objService->updateColumnSelected($request, 'status');
     }
 
 
-
-    public function deleteSelected(Request $request){
+    public function deleteSelected(Request $request)
+    {
         return $this->objService->deleteSelected($request);
     }
 }

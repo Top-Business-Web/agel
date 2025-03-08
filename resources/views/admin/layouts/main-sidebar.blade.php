@@ -115,7 +115,7 @@
 
         <!-- setting Management Section -->
         <li class="slide {{ arrRouteActive(['countries.index', 'cities.index']) }}">
-            <a class="side-menu__item {{ arrRouteActive(['roles.index', 'activity_logs.index'], 'active') }}"
+            <a class="side-menu__item {{ arrRouteActive(['admin.roles.index', 'activity_logs.index'], 'active') }}"
                data-toggle="slide" href="#">
                 <i class="fas fa-cog side-menu__icon"></i> <!-- Settings Icon -->
                 <span class="side-menu__label">{{ trns('setting management') }}</span>
@@ -125,8 +125,8 @@
 
             <ul class="slide-menu">
                 <!-- roles -->
-                <li class="{{ routeActive('roles.index') }}">
-                    <a class="slide-item {{ routeActive('roles.index') }}" href="{{ route('roles.index') }}">
+                <li class="{{ routeActive('admin.roles.index') }}">
+                    <a class="slide-item {{ routeActive('admin.roles.index') }}" href="{{ route('admin.roles.index') }}">
                         <i class="fas fa-user-shield side-menu__icon"></i> <!-- alternative Permissions Management Icon -->
 {{--                        <i class="fas fa-lock side-menu__icon"></i> <!-- alternative Permissions Management Icon -->--}}
 {{--                        <i class="fas fa-key side-menu__icon"></i> <!-- alternative Permissions Management Icon -->--}}
@@ -154,13 +154,13 @@
 
 
 
-        <li class="slide">
-            <a class="side-menu__item  {{ Route::currentRouteName() == 'settingIndex' ? 'active' : '' }}"
-                href="#">
-                <i class="fa fa-wrench side-menu__icon"></i>
-                <span class="side-menu__label">{{ trns('settings') }}</span>
-            </a>
-        </li>
+{{--        <li class="slide">--}}
+{{--            <a class="side-menu__item  {{ Route::currentRouteName() == 'settingIndex' ? 'active' : '' }}"--}}
+{{--                href="#">--}}
+{{--                <i class="fa fa-wrench side-menu__icon"></i>--}}
+{{--                <span class="side-menu__label">{{ trns('settings') }}</span>--}}
+{{--            </a>--}}
+{{--        </li>--}}
 
 
 

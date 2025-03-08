@@ -14,7 +14,7 @@
 
         </li>
 
-        {{----}}{{--comments --}}
+        {{----}}{{--comments--}}
         <li class="slide">
             <a class="side-menu__item  {{ Route::currentRouteName() == 'vendorHome' ? 'active' : '' }}"
                 href="{{ route('vendorHome') }}">
@@ -25,6 +25,44 @@
 
 
 
+        <!-- setting Management Section -->
+        <li class="slide {{ arrRouteActive(['countries.index', 'cities.index']) }}">
+            <a class="side-menu__item {{ arrRouteActive(['vendor.roles.index', 'activity_logs.index'], 'active') }}"
+               data-toggle="slide" href="#">
+                <i class="fas fa-cog side-menu__icon"></i> <!-- Settings Icon -->
+                <span class="side-menu__label">{{ trns('setting management') }}</span>
+                <i class="angle fa fa-angle-right"></i>
+            </a>
+
+
+            <ul class="slide-menu">
+                <!-- roles -->
+                <li class="{{ routeActive('vendor.roles.index') }}">
+                    <a class="slide-item {{ routeActive('vendor.roles.index') }}" href="{{ route('vendor.roles.index') }}">
+                        <i class="fas fa-user-shield side-menu__icon"></i> <!-- alternative Permissions Management Icon -->
+                        {{--                        <i class="fas fa-lock side-menu__icon"></i> <!-- alternative Permissions Management Icon -->--}}
+                        {{--                        <i class="fas fa-key side-menu__icon"></i> <!-- alternative Permissions Management Icon -->--}}
+                        {{--                        <i class="fas fa-users-cog side-menu__icon"></i> <!-- Permissions Management Icon -->--}}
+                        {{ trns('roles') }}
+                    </a>
+                </li>
+                <!-- role -->
+            </ul>
+            <ul class="slide-menu">
+                <!-- permissions -->
+                <li class="{{ routeActive('activity_logs.index') }}">
+                    <a class="slide-item {{ routeActive('activity_logs.index') }}" href="{{ route('activity_logs.index') }}">
+                        {{--                        <i class="fas fa-running side-menu__icon"></i> <!-- Activity Icon -->--}}
+                        {{--                        <i class="fas fa-bolt side-menu__icon"></i> <!-- Activity Icon -->--}}
+                        {{--                        <i class="fas fa-person-running side-menu__icon"></i> <!-- Activity Icon -->--}}
+                        <i class="fas fa-heartbeat side-menu__icon"></i> <!-- Activity Icon -->
+                        {{ trns('activity_logs') }}
+                    </a>
+                </li>
+                <!-- permissions -->
+            </ul>
+        </li>
+        <!-- setting Management Section -->
 
 
 
