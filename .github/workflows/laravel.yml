@@ -58,6 +58,6 @@ jobs:
         port: 65002
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
-          cd domains/topbusiness.ebharbook.com/public_html/agel
-          php artisan optimize:clear
-          php artisan migrate --seed
+          # cd domains/topbusiness.ebharbook.com/public_html/agel
+          # php artisan optimize:clear
+          # php artisan migrate --seed
