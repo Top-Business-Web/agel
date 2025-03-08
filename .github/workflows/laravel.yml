@@ -27,8 +27,11 @@ jobs:
         chmod -R 775 bootstrap/cache
 
     - name: Install PHP dependencies
-      run: composer update
+      run: composer install --prefer-dist --no-progress --no-interaction
     
+    - name: Prevent SSH Timeout
+      run: echo "ServerAliveInterval 60" >> ~/.ssh/config
+
     - name: Deploy to Server
       uses: easingthemes/ssh-deploy@main
       with:
@@ -37,6 +40,7 @@ jobs:
         REMOTE_HOST: 194.163.35.142
         REMOTE_USER: u369694554
         REMOTE_PORT: 65002
+        ARGS: "-avz --partial --append"
         EXCLUDE: |
           .git
           .github
@@ -53,4 +57,4 @@ jobs:
         script: |
           cd domains/topbusiness.ebharbook.com/public_html/agel
           php artisan optimize:clear
-          # php artisan mi:f --seed
+          php artisan migrate --seed
