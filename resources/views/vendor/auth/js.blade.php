@@ -74,4 +74,67 @@
         });
     });
 
+    $("form#RegisterForm").submit(function (e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        var url = $('#RegisterForm').attr('action');
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: formData,
+            beforeSend: function () {
+                $('#registerButton').html('<span class="spinner-border spinner-border-sm mr-2" ' +
+                    ' ></span> <span style="margin-left: 4px;">{{  trns('waiting...')}}</span>').attr('disabled', true);
+
+            },
+            complete: function () {
+
+
+            },
+            success: function (data) {
+
+                if (data.status === 200) {
+
+                    swal.fire({
+                        title: "من فضلك قم بتفعيل حسابك",
+                        icon: "success"
+                    }).then(function () {
+                        window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__']) }}'.replace('__EMAIL__', encodeURIComponent(data.email));                    });
+
+                } else {
+                    toastr.error('{{ trns('login_failed') }}');
+                    $('#registerButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> {{trns('login')}}`).attr('disabled', false);
+                }
+
+            },
+            error: function (data) {
+                if (data.status === 500) {
+                    $('#registerButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> {{trns('login')}}`).attr('disabled', false);
+                    toastr.error('هناك خطأ ما');
+                } else if (data.status === 422) {
+                    $('#registerButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> {{trns('login')}}`).attr('disabled', false);
+                    var errors = $.parseJSON(data.responseText);
+                    $.each(errors, function (key, value) {
+                        if ($.isPlainObject(value)) {
+                            $.each(value, function (key, value) {
+                                toastr.error(value);
+                            });
+
+                        } else {
+                        }
+                    });
+                } else {
+                    $('#registerButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> {{ trns('login') }}`).attr('disabled', false);
+
+                    toastr.error('{{ trns('login_failed') }}');
+                }
+            },//end error method
+
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    });
+
+
 </script>
