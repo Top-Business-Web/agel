@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\GeneralSetting;
+use App\Models\Setting;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
@@ -53,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
 
         Schema::defaultStringLength(191);
         View::composer('*', function ($view) {
-            $setting = GeneralSetting::first();
+            $setting = Setting::first();
 
         });
     }
