@@ -99,13 +99,12 @@
 
         <!-- setting Management Section -->
         <li class="slide {{ arrRouteActive(['countries.index', 'cities.index']) }}">
-<<<<<<< HEAD
-            <a class="side-menu__item {{ arrRouteActive(['roles.index', 'activity_logs.index'], 'active') }}"
-                data-toggle="slide" href="#">
-=======
+{{--<<<<<<< HEAD--}}
+{{--            <a class="side-menu__item {{ arrRouteActive(['roles.index', 'activity_logs.index'], 'active') }}"--}}
+{{--                data-toggle="slide" href="#">--}}
+{{--=======--}}
             <a class="side-menu__item {{ arrRouteActive(['admin.roles.index', 'activity_logs.index'], 'active') }}"
                data-toggle="slide" href="#">
->>>>>>> ac2b042b685ba0dd548963753317bfbf4c666069
                 <i class="fas fa-cog side-menu__icon"></i> <!-- Settings Icon -->
                 <span class="side-menu__label">{{ trns('setting management') }}</span>
                 <i class="angle fa fa-angle-right"></i>
@@ -114,7 +113,6 @@
 
             <ul class="slide-menu">
                 <!-- roles -->
-<<<<<<< HEAD
                 <li class="{{ routeActive('roles.index') }}">
                     <a class="slide-item {{ routeActive('roles.index') }}" href="{{ route('roles.index') }}">
                         <i class="fas fa-user-shield side-menu__icon"></i>
@@ -122,14 +120,12 @@
                         {{--                        <i class="fas fa-lock side-menu__icon"></i> <!-- alternative Permissions Management Icon --> --}}
                         {{--                        <i class="fas fa-key side-menu__icon"></i> <!-- alternative Permissions Management Icon --> --}}
                         {{--                        <i class="fas fa-users-cog side-menu__icon"></i> <!-- Permissions Management Icon --> --}}
-=======
                 <li class="{{ routeActive('admin.roles.index') }}">
                     <a class="slide-item {{ routeActive('admin.roles.index') }}" href="{{ route('admin.roles.index') }}">
                         <i class="fas fa-user-shield side-menu__icon"></i> <!-- alternative Permissions Management Icon -->
 {{--                        <i class="fas fa-lock side-menu__icon"></i> <!-- alternative Permissions Management Icon -->--}}
 {{--                        <i class="fas fa-key side-menu__icon"></i> <!-- alternative Permissions Management Icon -->--}}
 {{--                        <i class="fas fa-users-cog side-menu__icon"></i> <!-- Permissions Management Icon -->--}}
->>>>>>> ac2b042b685ba0dd548963753317bfbf4c666069
                         {{ trns('roles') }}
                     </a>
                 </li>
@@ -137,20 +133,17 @@
             </ul>
             <ul class="slide-menu">
                 <!-- permissions -->
-<<<<<<< HEAD
                 <li class="{{ routeActive('activity_logs.index') }}">
                     <a class="slide-item {{ routeActive('activity_logs.index') }}"
                         href="{{ route('activity_logs.index') }}">
                         {{--                        <i class="fas fa-running side-menu__icon"></i> <!-- Activity Icon --> --}}
                         {{--                        <i class="fas fa-bolt side-menu__icon"></i> <!-- Activity Icon --> --}}
                         {{--                        <i class="fas fa-person-running side-menu__icon"></i> <!-- Activity Icon --> --}}
-=======
                 <li class="{{ routeActive('admin.activity_logs.index') }}">
                     <a class="slide-item {{ routeActive('admin.activity_logs.index') }}" href="{{ route('admin.activity_logs.index') }}">
 {{--                        <i class="fas fa-running side-menu__icon"></i> <!-- Activity Icon -->--}}
 {{--                        <i class="fas fa-bolt side-menu__icon"></i> <!-- Activity Icon -->--}}
 {{--                        <i class="fas fa-person-running side-menu__icon"></i> <!-- Activity Icon -->--}}
->>>>>>> ac2b042b685ba0dd548963753317bfbf4c666069
                         <i class="fas fa-heartbeat side-menu__icon"></i> <!-- Activity Icon -->
                         {{ trns('activity_logs') }}
                     </a>
