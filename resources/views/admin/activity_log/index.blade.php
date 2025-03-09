@@ -19,7 +19,7 @@
 									</span> {{ trns('add_new') . ' ' . $bladeName }}
                         </button> --}}
                         <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
-                            <span><i class="fe fe-trash"></i></span> {{ trns('delete selected') }}
+                            <span><i class="fe fe-trash"></i></span> حذف المحدد
                         </button>
 
                         {{-- <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
@@ -37,12 +37,12 @@
                                         <input type="checkbox" id="select-all">
                                     </th>
                                     <th class="min-w-25px">#</th>
-                                    <th class="min-w-25px">{{ trns('description') }}</th>
-                                    <th class="min-w-25px">{{ trns('module_type') }}</th>
-                                    <th class="min-w-25px">{{ trns('module_id') }}</th>
+                                    <th class="min-w-25px">العمليه</th>
+                                    <th class="min-w-25px">تمت على</th>
+                                    <th class="min-w-25px">العنصر</th>
 {{--                                    <th class="min-w-25px">{{ trns('causer_type') }}</th>--}}
-                                    <th class="min-w-25px">{{ trns('caused_by') }}</th>
-                                    <th class="min-w-50px rounded-end">{{ trns('actions') }}</th>
+                                    <th class="min-w-25px">تمت بواسطة</th>
+                                    <th class="min-w-50px rounded-end">العمليات</th>
                                 </tr>
                             </thead>
                         </table>
@@ -57,21 +57,21 @@
             <div class="modal-dialog " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{ trns('delete') }}</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">حذف</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
-                        <p>{{ trns('are_you_sure_you_want_to_delete_this_obj') }} <span id="title"
+                        <p>هل أنت متأكد من أنك تريد حذف هذا العنصر <span id="title"
                                 class="text-danger"></span>?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
-                            {{ trns('close') }}
+                            إغلاق
                         </button>
-                        <button type="button" class="btn btn-danger" id="delete_btn">{{ trns('delete') }} !</button>
+                        <button type="button" class="btn btn-danger" id="delete_btn">حذف !</button>
                     </div>
                 </div>
             </div>
@@ -102,18 +102,18 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteConfirmModalLabel">{{ trns('confirm_deletion') }}</h5>
+                        <h5 class="modal-title" id="deleteConfirmModalLabel">تأكيد الحذف</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>{{ trns('are_you_sure_you_want_to_delete_selected_items') }}</p>
+                        <p>هل أنت متأكد من أنك تريد حذف هذا العنصر</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ trns('cancel') }}</button>
-                        <button type="button" class="btn btn-danger" id="confirm-delete-btn">{{ trns('delete') }}</button>
+                            data-bs-dismiss="modal">إلغاء</button>
+                        <button type="button" class="btn btn-danger" id="confirm-delete-btn">حذف</button>
                     </div>
                 </div>
             </div>
@@ -128,19 +128,19 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteConfirmModalLabel">{{ trns('confirm_change') }}</h5>
+                        <h5 class="modal-title" id="deleteConfirmModalLabel">تأكيد التعديل</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>{{ trns('are_you_sure_you_want_to_update_selected_items') }}</p>
+                        <p>هل أنت متأكد من أنك تريد تعديل هذا العنصر</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ trns('cancel') }}</button>
+                            data-bs-dismiss="modal">إلغاء</button>
                         <button type="button" class="btn btn-send"
-                            id="confirm-update-btn">{{ trns('update') }}</button>
+                            id="confirm-update-btn">تعديل</button>
                     </div>
                 </div>
             </div>
