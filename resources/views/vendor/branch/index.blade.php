@@ -1,4 +1,4 @@
-@extends('admin/layouts/master')
+@extends('vendor/layouts/master')
 
 @section('title')
     {{ config()->get('app.name') }} | {{ $bladeName }}
@@ -14,18 +14,19 @@
                     <h3 class="card-title"> {{ $bladeName }} {{ config()->get('app.name') }}</h3>
                     <div class="">
                         <button class="btn btn-secondary btn-icon text-white addBtn">
-                            <span>
-                                <i class="fe fe-plus"></i>
-                            </span> add new Branch
+        <span>
+            <i class="fe fe-plus"></i>
+        </span> إضافة فرع جديد
                         </button>
                         <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
-                            <span><i class="fe fe-trash"></i></span> delete selected
+                            <span><i class="fe fe-trash"></i></span> حذف المحدد
                         </button>
 
                         <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
-                            <span><i class="fe fe-trending-up"></i></span> update selected
+                            <span><i class="fe fe-trending-up"></i></span> تحديث المحدد
                         </button>
                     </div>
+
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

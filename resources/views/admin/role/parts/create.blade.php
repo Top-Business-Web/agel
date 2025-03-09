@@ -25,7 +25,7 @@
                 <div class="form-group">
                     <!-- Add Select All -->
                     <label for="select_all" class="form-control-label">
-                        <input type="checkbox" id="select_all"> {{ trns('select_all_permissions') }}
+                        <input type="checkbox" id="select_all"> اختر جميع الصلاحيات
                     </label>
                 </div>
             </div>

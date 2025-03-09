@@ -26,14 +26,11 @@ class VendorRequest extends FormRequest
 
             'name' => 'required',
             'email' => 'required|email|unique:vendors,email',
-            'phone' => 'required|numeric|digits:11',
-            'national_id' => 'required|numeric|digits:14|unique:vendors,national_id',
+            'phone' => 'required|numeric',
+            'national_id' => 'required|numeric|unique:vendors,national_id',
             'city_id'=>'required|exists:cities,id',
-            'has_parent'=> 'boolean|required',
-            'parent_id' => 'nullable|exists:vendors,id|required_if:has_parent,1',
             'password' => 'required|min:6|confirmed',
             'image' => 'nullable|image',
-//            'module_id' => 'required|exists:modules,id',
         ];
     }
 
@@ -42,14 +39,11 @@ class VendorRequest extends FormRequest
         return [
             'name' => 'nullable',
             'email' => 'nullable|email',
-            'phone' => 'nullable|numeric|digits:11',
-            'national_id' => 'nullable|numeric|digits:14|unique:vendors,national_id,' . $this->id,
+            'phone' => 'nullable|numeric',
+            'national_id' => 'nullable|numeric|unique:vendors,national_id,' . $this->id,
             'city_id'=>'required|exists:cities,id',
-            'has_parent'=> 'boolean|required',
-            'parent_id' => 'nullable|exists:vendors,id|required_if:has_parent,1',
             'password' => 'nullable|min:6|confirmed',
             'image' => 'nullable|image',
-//            'module_id' => 'nullable',
         ];
     }
 }

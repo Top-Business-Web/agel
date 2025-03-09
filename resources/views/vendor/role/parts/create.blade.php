@@ -4,28 +4,19 @@
         <div class="row">
             <div class="col-12">
                 <div class="form-group">
-                    <label for="name" class="form-control-label">{{ trns('role_name') }}</label>
+                    <label for="name" class="form-control-label">{{ 'اسم الصلاحية' }}</label>
                     <input type="text" class="form-control" name="name" id="name">
                     <input type="hidden" class="form-control" name="guard_name" id="guard_name" value="vendor">
                 </div>
             </div>
 
-            {{--            <div class="col-6">--}}
-            {{--                <div class="form-group">--}}
-            {{--                    <label for="name" class="form-control-label">{{ trns('guard_name') }}</label>--}}
-            {{--                   <select name="guard_name" id="guard_name" class="form-control">--}}
-            {{--                       <option value="" disabled selected>{{ trns('choose') }}</option>--}}
-            {{--                       <option value="admin">{{ trns('admin') }}</option>--}}
-            {{--                       <option value="partner">{{ trns('partner') }}</option>--}}
-            {{--                   </select>--}}
-            {{--                </div>--}}
-            {{--            </div>--}}
+
 
             <div class="col-12">
                 <div class="form-group">
                     <!-- Add Select All -->
                     <label for="select_all" class="form-control-label">
-                        <input type="checkbox" id="select_all"> {{ trns('select_all_permissions') }}
+                        <input type="checkbox" id="select_all"> {{ 'اختر كل الصلاحيات' }}
                     </label>
                 </div>
             </div>
@@ -35,7 +26,7 @@
                     <div class="form-group">
                         <label for="name" class="form-control-label">
                             <input type="checkbox" class="module-checkbox"
-                                   data-module="{{ $module->value }}"> {{ trns($module->value) }}
+                                   data-module="{{ $module->value }}"> {{ $module->value }}
                         </label>
                         <div class="row">
                             @foreach($module->permissions() as $permission)
@@ -44,7 +35,7 @@
                                         <input type="checkbox" id="{{$permission}}" name="permissions[]"
                                                value="{{$permission}}"
                                                class="permission-checkbox"
-                                               data-module="{{ $module->value }}"> {{trns($permission)}}
+                                               data-module="{{ $module->value }}"> {{$permission}}
                                     </label>
                                 </div>
                             @endforeach

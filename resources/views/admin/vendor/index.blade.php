@@ -14,11 +14,11 @@
                 <div class="card-header">
                     <h3 class="card-title"> {{ $bladeName }} {{ config()->get('app.name') }}</h3>
                     <div class="">
-                        <button class="btn btn-secondary btn-icon text-white addBtn">
-									<span>
-										<i class="fe fe-plus"></i>
-									</span> {{ trns('add_new') . ' ' . $bladeName }}
-                        </button>
+{{--                        <button class="btn btn-secondary btn-icon text-white addBtn">--}}
+{{--									<span>--}}
+{{--										<i class="fe fe-plus"></i>--}}
+{{--									</span> {{ trns('add_new') . ' ' . $bladeName }}--}}
+{{--                        </button>--}}
                         <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
                             <span><i class="fe fe-trash"></i></span> حذف المحدد
                         </button>

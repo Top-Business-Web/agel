@@ -44,7 +44,7 @@ class BranchService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
-                'bladeName' => trns($this->route),
+                'bladeName' => 'الفروع',
                 'route' => $this->route,
             ]);
         }

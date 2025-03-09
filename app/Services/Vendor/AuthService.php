@@ -19,7 +19,7 @@ class AuthService
         if ($key == 'login') {
 
             return view('vendor.auth.login');
-        }else{
+        } else {
             $cites = City::select('id', 'name')->where('status', 1)->get();
             return view('vendor.auth.register', compact('cites'));
         }
@@ -40,18 +40,18 @@ class AuthService
             ]
         );
 
-        $vendor = Vendor::where('username', $data['input'])->first();
-        if($vendor->status == 0){
+        $vendor = Vendor::where('username', $data['input'])
+            ->orWhere('email', $data['input'])
+            ->first();
+
+
+        if ($vendor->status == 0) {
             return response()->json(405);
         }
-        $credentials = [];
-        if ($vendor) {
-            $credentials['username'] = $data['input'];
-        } else {
-            $credentials['email'] = $data['input'];
-        }
-        $credentials['password'] = $data['password'];
-
+        $credentials = [
+            (filter_var($data['input'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username') => $data['input'],
+            'password' => $data['password'],
+        ];
 
 
         if (Auth::guard('vendor')->attempt($credentials)) {
@@ -92,10 +92,10 @@ class AuthService
             $otp = rand(1000, 9999);
             $vendor->update([
                 'otp' => $otp,
-            'otp_expire_at' => now()->addMinutes(5)
+                'otp_expire_at' => now()->addMinutes(5)
             ]);
 
-        Mail::to($vendor->email)->send(new Otp($vendor->name, $otp));
+            Mail::to($vendor->email)->send(new Otp($vendor->name, $otp));
             return response()->json([
                 'status' => 200,
                 'email' => $vendor->email
@@ -110,36 +110,34 @@ class AuthService
     }
 
 
-
-
     public function generateUsername($name)
     {
-        return str_replace(' ', '', strtolower($name)).rand(1000,9999);
+        return str_replace(' ', '', strtolower($name)) . rand(1000, 9999);
 
 
     }
+
     public function showOtpForm($email)
     {
         return view('vendor.auth.verify-otp', ['email' => $email]);
     }
 
 
-
     public function verifyOtp($request)
     {
         $vendor = Vendor::where('email', $request->email)->first();
 
-        if ($vendor && $vendor->otp == $request->otp&& $vendor->otp_expire_at > now()) {
+        if ($vendor && $vendor->otp == $request->otp && $vendor->otp_expire_at > now()) {
             $vendor->update([
                 'otp' => null,
                 'otp_expire_at' => null,
                 'status' => 1
             ]);
-             Auth::guard('vendor')->login($vendor);
-            return  response()->json(200);
-        }else{
+            Auth::guard('vendor')->login($vendor);
+            return response()->json(200);
+        } else {
 
-            return  response()->json(200);
+            return response()->json(200);
         }
 
     }

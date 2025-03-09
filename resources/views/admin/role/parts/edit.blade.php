@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="form-group">
-                    <label for="name" class="form-control-label">الدور</label>
+                    <label for="name" class="form-control-label">اسم الصلاحية</label>
                     <input type="text" class="form-control" value="{{$obj->name}}" name="name" id="name">
                     <input type="hidden" class="form-control" name="guard_name" id="guard_name" value="admin">
                 </div>
@@ -16,7 +16,7 @@
                 <div class="form-group">
                     <!-- Add Select All -->
                     <label for="select_all" class="form-control-label">
-                        <input type="checkbox" id="select_all"> تحديد جميع الصلاحيات
+                        <input type="checkbox" id="select_all"> اختر جميع الصلاحيات
                     </label>
                 </div>
             </div>
@@ -24,7 +24,7 @@
             @foreach(\App\Enums\AdminModuleEnum::cases() as $module)
                 <div class="col-12">
                     <div class="form-group">
-                        <label for="name" class="form-control-label">{{ $module->value }}</label>
+                        <label for="name" class="form-control-label">{{ trns($module->value) }}</label>
                         <div class="row">
                             @foreach($module->permissions() as $permission)
                                 <div class="col-6">
@@ -32,7 +32,7 @@
                                         <input type="checkbox" id="{{$permission}}" name="permissions[]"
                                                value="{{$permission}}"
                                                {{ in_array($permission,$old_permissions) ? 'checked="checked"' : '' }}
-                                               class="permission-checkbox"> {{$permission}}
+                                               class="permission-checkbox"> {{trns($permission)}}
                                     </label>
                                 </div>
                             @endforeach
@@ -44,8 +44,8 @@
 
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-            <button type="submit" class="btn btn-success" id="updateButton">تعديل</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ trns('close') }}</button>
+            <button type="submit" class="btn btn-success" id="updateButton">{{ trns('update') }}</button>
         </div>
     </form>
 </div>
