@@ -103,7 +103,7 @@
 {{--            <a class="side-menu__item {{ arrRouteActive(['roles.index', 'activity_logs.index'], 'active') }}"--}}
 {{--                data-toggle="slide" href="#">--}}
 {{--=======--}}
-            <a class="side-menu__item {{ arrRouteActive(['admin.roles.index', 'activity_logs.index'], 'active') }}"
+            <a class="side-menu__item {{ arrRouteActive(['admin.roles.index', 'admin.activity_logs.index'], 'active') }}"
                data-toggle="slide" href="#">
                 <i class="fas fa-cog side-menu__icon"></i> <!-- Settings Icon -->
                 <span class="side-menu__label">{{ trns('setting management') }}</span>
@@ -113,8 +113,8 @@
 
             <ul class="slide-menu">
                 <!-- roles -->
-                <li class="{{ routeActive('roles.index') }}">
-                    <a class="slide-item {{ routeActive('roles.index') }}" href="{{ route('roles.index') }}">
+                <li class="{{ routeActive('admin.roles.index') }}">
+                    <a class="slide-item {{ routeActive('admin.roles.index') }}" href="{{ route('admin.roles.index') }}">
                         <i class="fas fa-user-shield side-menu__icon"></i>
                         <!-- alternative Permissions Management Icon -->
                         {{--                        <i class="fas fa-lock side-menu__icon"></i> <!-- alternative Permissions Management Icon --> --}}
@@ -133,9 +133,9 @@
             </ul>
             <ul class="slide-menu">
                 <!-- permissions -->
-                <li class="{{ routeActive('activity_logs.index') }}">
-                    <a class="slide-item {{ routeActive('activity_logs.index') }}"
-                        href="{{ route('activity_logs.index') }}">
+                <li class="{{ routeActive('admin.activity_logs.index') }}">
+                    <a class="slide-item {{ routeActive('admin.activity_logs.index') }}"
+                        href="{{ route('admin.activity_logs.index') }}">
                         {{--                        <i class="fas fa-running side-menu__icon"></i> <!-- Activity Icon --> --}}
                         {{--                        <i class="fas fa-bolt side-menu__icon"></i> <!-- Activity Icon --> --}}
                         {{--                        <i class="fas fa-person-running side-menu__icon"></i> <!-- Activity Icon --> --}}
