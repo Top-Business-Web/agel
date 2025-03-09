@@ -75,7 +75,7 @@
             @csrf
             <label class="inp">
                 <input type="text" name="input" class="input-text" placeholder="&nbsp;">
-                <span class="label">أدخل اسم المستخدم أو كودك</span>
+                <span class="label">أدخل اسم المستخدم او البريد الالكتروني </span>
                 <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
             </label>
             <label class="inp">
