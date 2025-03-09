@@ -28,4 +28,15 @@ enum AdminModuleEnum: string
             'delete_' . $this->value
         ];
     }
+
+    public function langPermissions()
+    {
+        return [
+            'create_' . $this->value => "أنشاء " . $this->value,
+            'read_' . $this->value => "اظهار " . $this->value,
+            'update_' . $this->value => " تحديث" . $this->value,
+            'delete_' . $this->value => " حذف" . $this->value
+        ];
+
+    }
 }

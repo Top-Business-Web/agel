@@ -25,7 +25,7 @@
                 <div class="form-group">
                     <!-- Add Select All -->
                     <label for="select_all" class="form-control-label">
-                        <input type="checkbox" id="select_all"> {{ trns('select_all_permissions') }}
+                        <input type="checkbox" id="select_all"> اختر جميع الصلاحيات
                     </label>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                                         <input type="checkbox" id="{{$permission}}" name="permissions[]"
                                                value="{{$permission}}"
                                                class="permission-checkbox"
-                                               data-module="{{ $module->value }}"> {{trns($permission)}}
+                                               data-module="{{ $module->value }}"> {{$permission}}
                                     </label>
                                 </div>
                             @endforeach
