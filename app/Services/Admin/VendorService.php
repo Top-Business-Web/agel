@@ -2,13 +2,14 @@
 
 namespace App\Services\Admin;
 
-use App\Models\Module;
+//use App\Models\Module;
 
 namespace App\Services\Admin;
 
 use App\Http\Middleware\Custom\vendor;
 use App\Models\Vendor as ObjModel;
-use App\Models\VendorModule;
+
+//use App\Models\VendorModule;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
@@ -16,9 +17,10 @@ use Yajra\DataTables\DataTables;
 class VendorService extends BaseService
 {
     protected string $folder = 'admin/vendor';
-    protected string $route = 'vendors';
+    protected string $route = 'admin.vendors';
 
-    public function __construct(ObjModel $objModel, protected VendorModule $vendorModule, protected ModuleService $moduleService)
+//, protected VendorModule $vendorModule, protected ModuleService $moduleService
+    public function __construct(ObjModel $objModel, protected CityService $cityService)
     {
         parent::__construct($objModel);
     }
@@ -65,8 +67,12 @@ class VendorService extends BaseService
     public function create()
     {
         return view("{$this->folder}/parts/create", [
-            'moduleService' => $this->moduleService->getAll(),
+//            'moduleService' => $this->moduleService->getAll(),
             'storeRoute' => route("{$this->route}.store"),
+            'cities' => $this->cityService->getAll(),
+            'vendors' => $this->model->all(),
+
+
         ]);
     }
 
@@ -75,27 +81,28 @@ class VendorService extends BaseService
         if (isset($data['image'])) {
             $data['image'] = $this->handleFile($data['image'], 'Vendor');
         }
+
         $data['username'] = $this->generateUsername($data['name']);
+        if ($data['has_parent'] == 0) {
+            $data['parent_id'] = null;
+        }
         $data['password'] = Hash::make($data['password']);
-
         try {
-            $dataWithoutSelectLodgeId = $data;
-            unset($dataWithoutSelectLodgeId['module_id']);
-            $obj = $this->createData($dataWithoutSelectLodgeId);
-
-
-            foreach ($data['module_id'] as $module_id) {
-                $obj->vendor_modules()->create([
-                    'vendor_id' => $obj->id,
-                    'module_id' => $module_id,
-                ]);
-            }
-
+            $vendor = $this->model->create($data->except('has_parent'));
 
             return response()->json(['status' => 200, 'message' => trns('Data created successfully.')]);
         } catch (\Exception $e) {
-            return response()->json(['status' => 500, 'message' => trns('Something went wrong.'), trns('error') => $e->getMessage()]);
+            return response()->json([
+                'status' => 500,
+                'message' => trns('Something went wrong.'),
+                'error' => $e->getMessage()
+            ]);
         }
+    }
+
+    public function show($id)
+    {
+
     }
 
     public function edit($obj)
@@ -103,8 +110,11 @@ class VendorService extends BaseService
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
-            'vendorModules' => $obj->vendor_modules->pluck('module_id')->toArray(),
-            'moduleService' => $this->moduleService->getAll(),
+            'cities' => $this->cityService->getAll(),
+            'vendors' => $this->model->all(),
+
+//            'vendorModules' => $obj->vendor_modules->pluck('module_id')->toArray(),
+//            'moduleService' => $this->moduleService->getAll(),
         ]);
     }
 

@@ -28,9 +28,12 @@ class VendorRequest extends FormRequest
             'email' => 'required|email|unique:vendors,email',
             'phone' => 'required|numeric|digits:11',
             'national_id' => 'required|numeric|digits:14|unique:vendors,national_id',
+            'city_id'=>'required|exists:cities,id',
+            'has_parent'=> 'boolean|required',
+            'parent_id' => 'nullable|exists:vendors,id|required_if:has_parent,1',
             'password' => 'required|min:6|confirmed',
             'image' => 'nullable|image',
-            'module_id' => 'required|exists:modules,id',
+//            'module_id' => 'required|exists:modules,id',
         ];
     }
 
@@ -41,9 +44,12 @@ class VendorRequest extends FormRequest
             'email' => 'nullable|email',
             'phone' => 'nullable|numeric|digits:11',
             'national_id' => 'nullable|numeric|digits:14|unique:vendors,national_id,' . $this->id,
+            'city_id'=>'required|exists:cities,id',
+            'has_parent'=> 'boolean|required',
+            'parent_id' => 'nullable|exists:vendors,id|required_if:has_parent,1',
             'password' => 'nullable|min:6|confirmed',
             'image' => 'nullable|image',
-            'module_id' => 'nullable',
+//            'module_id' => 'nullable',
         ];
     }
 }

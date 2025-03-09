@@ -1,0 +1,51 @@
+<?php
+
+namespace App\Http\Requests\Vendor;
+
+use Illuminate\Foundation\Http\FormRequest;
+
+class VendorRequest extends FormRequest
+{
+    public function authorize()
+    {
+        return true;
+    }
+
+    public function rules()
+    {
+        if ($this->isMethod('put')) {
+            return $this->update();
+        } else {
+            return $this->store();
+        }
+    }
+
+    protected function store(): array
+    {
+        return [
+
+            'name' => 'required',
+            'email' => 'required|email|unique:vendors,email',
+            'phone' => 'required|numeric|digits:11',
+            'city_id'=>'required|exists:cities,id',
+            'national_id' => 'required|numeric|digits:14|unique:vendors,national_id',
+            'password' => 'required|min:6|confirmed',
+            'image' => 'nullable|image',
+//            'module_id' => 'required|exists:modules,id',
+        ];
+    }
+
+    protected function update(): array
+    {
+        return [
+            'name' => 'nullable',
+            'email' => 'nullable|email',
+            'phone' => 'nullable|numeric|digits:11',
+            'national_id' => 'nullable|numeric|digits:14|unique:vendors,national_id,' . $this->id,
+            'city_id'=>'required|exists:cities,id',
+            'password' => 'nullable|min:6|confirmed',
+            'image' => 'nullable|image',
+//            'module_id' => 'nullable',
+        ];
+    }
+}

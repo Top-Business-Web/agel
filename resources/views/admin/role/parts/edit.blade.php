@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            @foreach(\App\Enums\ModuleEnum::cases() as $module)
+            @foreach(\App\Enums\AdminModuleEnum::cases() as $module)
                 <div class="col-12">
                     <div class="form-group">
                         <label for="name" class="form-control-label">{{ trns($module->value) }}</label>

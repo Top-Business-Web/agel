@@ -84,6 +84,10 @@
                 <span class="input-icon input-icon-password" data-password><i class="fa-solid fa-eye"></i></span>
             </label>
             <button class="btn btn-login" id="loginButton"> {{ trns('login') }}</button>
+            <p class="text-mute">  ليس لديك حساب؟
+                <a href="{{url('/register')}}"> سجل الان</a>
+            </p>
+
         </form>
     </main>
     <div class="welcome-container" style="background-color: white !important;"

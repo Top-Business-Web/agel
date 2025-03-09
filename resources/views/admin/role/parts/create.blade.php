@@ -10,16 +10,16 @@
                 </div>
             </div>
 
-{{--            <div class="col-6">--}}
-{{--                <div class="form-group">--}}
-{{--                    <label for="name" class="form-control-label">{{ trns('guard_name') }}</label>--}}
-{{--                   <select name="guard_name" id="guard_name" class="form-control">--}}
-{{--                       <option value="" disabled selected>{{ trns('choose') }}</option>--}}
-{{--                       <option value="admin">{{ trns('admin') }}</option>--}}
-{{--                       <option value="partner">{{ trns('partner') }}</option>--}}
-{{--                   </select>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+            {{--            <div class="col-6">--}}
+            {{--                <div class="form-group">--}}
+            {{--                    <label for="name" class="form-control-label">{{ trns('guard_name') }}</label>--}}
+            {{--                   <select name="guard_name" id="guard_name" class="form-control">--}}
+            {{--                       <option value="" disabled selected>{{ trns('choose') }}</option>--}}
+            {{--                       <option value="admin">{{ trns('admin') }}</option>--}}
+            {{--                       <option value="partner">{{ trns('partner') }}</option>--}}
+            {{--                   </select>--}}
+            {{--                </div>--}}
+            {{--            </div>--}}
 
             <div class="col-12">
                 <div class="form-group">
@@ -30,11 +30,12 @@
                 </div>
             </div>
 
-            @foreach(\App\Enums\ModuleEnum::cases() as $module)
+            @foreach(\App\Enums\AdminModuleEnum::cases() as $module)
                 <div class="col-12">
                     <div class="form-group">
                         <label for="name" class="form-control-label">
-                            <input type="checkbox" class="module-checkbox" data-module="{{ $module->value }}"> {{ trns($module->value) }}
+                            <input type="checkbox" class="module-checkbox"
+                                   data-module="{{ $module->value }}"> {{ trns($module->value) }}
                         </label>
                         <div class="row">
                             @foreach($module->permissions() as $permission)
@@ -42,7 +43,8 @@
                                     <label for="{{$permission}}" class="form-control permission-label badge">
                                         <input type="checkbox" id="{{$permission}}" name="permissions[]"
                                                value="{{$permission}}"
-                                               class="permission-checkbox" data-module="{{ $module->value }}"> {{trns($permission)}}
+                                               class="permission-checkbox"
+                                               data-module="{{ $module->value }}"> {{trns($permission)}}
                                     </label>
                                 </div>
                             @endforeach

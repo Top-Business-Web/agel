@@ -11,7 +11,7 @@ use Yajra\DataTables\DataTables;
 class RoleService extends BaseService
 {
     protected string $folder = 'admin/role';
-    protected string $route = 'roles';
+    protected string $route = 'admin.roles';
     protected RoleObj $roleObj;
     protected PermissionObj $permissionObj;
 
@@ -25,7 +25,7 @@ class RoleService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $models = $this->model->all();
+            $models = $this->model->where('guard_name', 'admin')->get();
             return DataTables::of($models)
                 ->addColumn('action', function ($models) {
                     $buttons = '';
@@ -39,9 +39,6 @@ class RoleService extends BaseService
                             <i class="fas fa-trash"></i>
                         </button>
                        ';
-
-
-
 
                     return $buttons;
                 })
@@ -125,7 +122,6 @@ class RoleService extends BaseService
             return response()->json(['status' => 500, 'message' => 'Error: ' . $e->getMessage()]);
         }
     }
-
 
     public function edit($role)
     {

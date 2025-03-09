@@ -1,18 +1,17 @@
 <?php
 
-namespace App\Services\vendor;
+namespace App\Services\Admin;
 
-use App\Models\Branch as ObjModel;
-use App\Services\Admin\CityService;
+use App\Models\Investor as ObjModel;
 use App\Services\BaseService;
 use Yajra\DataTables\DataTables;
 
-class BranchService extends BaseService
+class InvestorService extends BaseService
 {
-    protected string $folder = 'vendor/branch';
-    protected string $route = 'branches';
+    protected string $folder = 'admin/investor';
+    protected string $route = 'investors';
 
-    public function __construct(ObjModel $objModel, protected CityService $cityService)
+    public function __construct(ObjModel $objModel)
     {
         parent::__construct($objModel);
     }
@@ -33,10 +32,6 @@ class BranchService extends BaseService
                         </button>
                     ';
                     return $buttons;
-                })->editColumn('city_id', function ($obj) {
-                    return $obj->city->name;
-                })->editColumn('status', function ($obj) {
-                    return $this->statusDatatable($obj);
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -54,15 +49,15 @@ class BranchService extends BaseService
     {
         return view("{$this->folder}/parts/create", [
             'storeRoute' => route("{$this->route}.store"),
-            'cities' => $this->cityService->getAll(),
         ]);
     }
 
     public function store($data): \Illuminate\Http\JsonResponse
     {
         if (isset($data['image'])) {
-            $data['image'] = $this->handleFile($data['image'], 'Branch');
+            $data['image'] = $this->handleFile($data['image'], 'Investor');
         }
+
         try {
             $this->createData($data);
             return response()->json(['status' => 200, 'message' => trns('Data created successfully.')]);
@@ -76,7 +71,6 @@ class BranchService extends BaseService
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
-            'cities' => $this->cityService->getAll(),
         ]);
     }
 
@@ -85,7 +79,7 @@ class BranchService extends BaseService
         $oldObj = $this->getById($id);
 
         if (isset($data['image'])) {
-            $data['image'] = $this->handleFile($data['image'], 'Branch');
+            $data['image'] = $this->handleFile($data['image'], 'Investor');
 
             if ($oldObj->image) {
                 $this->deleteFile($oldObj->image);

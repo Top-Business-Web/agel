@@ -2,18 +2,16 @@
 
 namespace App\Enums;
 
-enum ModuleEnum: string
+enum VendorModuleEnum: string
 {
     //----------------------
     // System Admin Modules
     //----------------------
 
-    case ADMIN_MANAGEMENT = 'subscription_management';
-    case COUNTRY_MANAGEMENT = 'country_management';
-    case CITY_MANAGEMENT = 'city_management';
-    case INVESTOR_MANAGEMENT = 'investor_management';
     case VENDOR_MANAGEMENT = 'vendor_management';
     case SETTING_MANAGEMENT= 'setting_management';
+    case PLANS_MANAGEMENT= 'plans_management';
+    case BRANCHES_MANAGEMENT= 'branches_management';
     public function lang(): string
 {
     return trns($this->value);

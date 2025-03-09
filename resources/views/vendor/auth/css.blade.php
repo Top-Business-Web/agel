@@ -230,6 +230,18 @@
         }
     }
 
+    /* لإزالة الأسهم في متصفح Chrome, Safari, Edge, Opera */
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* لإزالة الأسهم في متصفح Firefox */
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+
     @if(lang() == 'ar')
     .language-switcher {
         position: absolute;

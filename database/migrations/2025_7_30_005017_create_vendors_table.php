@@ -20,11 +20,13 @@ return new class extends Migration
             $table->string('national_id')->nullable();
             $table->string('username')->unique();
             $table->string('password');
+            $table->string('role_id')->nullable();
             $table->foreignId('city_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('branch_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('parent_id')->nullable()->constrained('vendors')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('plan_id')->nullable()->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->boolean('status')->default(1);
+            $table->string('Profit ratio')->default(0);
             $table->string('image')->nullable();
             $table->string('otp')->nullable();
             $table->string('otp_expire_at')->nullable();
