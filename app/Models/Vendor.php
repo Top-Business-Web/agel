@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Traits\AutoFillable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Tymon\JWTAuth\Contracts\JWTSubject;

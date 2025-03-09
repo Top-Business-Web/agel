@@ -223,4 +223,6 @@ return array (
   'yes' => 'Yes',
   '-- select_parent --' => '-- Select Parent --',
   'admin.activity_logs' => 'Admin.activity Logs',
+  'Gannon Mendoza' => 'Gannon Mendoza',
+  'Shaine Lucas' => 'Shaine Lucas',
 );

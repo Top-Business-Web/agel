@@ -53,10 +53,11 @@ Route::group(
 //                    Route::resourceWithDeleteSelected('vendors', VendorController::class);
                 Route::get('vendors/index', [VendorController::class, 'index'])->name('vendor.vendors.index');
                 Route::get('vendors/create', [VendorController::class, 'create'])->name('vendor.vendors.create');
-                Route::post('vendors', [VendorController::class, 'store'])->name('vendor.vendors.store');                Route::put('vendors/update', [VendorController::class, 'update'])->name('vendor.vendors.update');
+                Route::post('vendors', [VendorController::class, 'store'])->name('vendor.vendors.store');
+                Route::put('vendors/update', [VendorController::class, 'update'])->name('vendor.vendors.update');
                 Route::delete('vendors/{id}', [VendorController::class, 'destroy'])->name('vendor.vendors.destroy');
                 Route::get('vendors/{id}/edit', [VendorController::class, 'edit'])->name('vendor.vendors.edit');
-                Route::get('vendors/delete-selected', [VendorController::class, 'deleteSelected'])->name('vendor.vendors.deleteSelected');
+                Route::post('vendors/delete-selected', [VendorController::class, 'deleteSelected'])->name('vendor.vendors.deleteSelected');
                 Route::post('vendors/update-column-selected', [VendorController::class, 'updateColumnSelected'])->name('vendor.vendors.updateColumnSelected');
                 #============================ logout ====================================
                 Route::get('logout', [AuthController::class, 'logout'])->name('vendor.logout');

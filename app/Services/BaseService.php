@@ -134,6 +134,13 @@ abstract class BaseService
         return  $this->model->where($column,auth($guard)->user()->id)->get();
 
     }
+  public function getVendorDateTable(): mixed
+    {
+        $user = auth('vendor')->user();
+        $parentId = $user->parent_id ?? $user->id;
+
+        return $this->model->where('parent_id', $parentId)->get();
+    }
 
     /**
      * Create a new instance of the model.
@@ -191,9 +198,9 @@ abstract class BaseService
             // Proceed with model deletion
             $model->delete();
 
-            return response()->json(['status' => 200, 'message' => trns('deleted successfully')]);
+            return response()->json(['status' => 200, 'message' => 'تمت العملية بنجاح']);
         }
-        return response()->json(['status' => 405, 'message' => trns('something went wrong')]);
+        return response()->json(['status' => 405, 'message' => 'حدث خطأء']);
     }
 
     public function changeStatus($request)
@@ -312,7 +319,15 @@ abstract class BaseService
      * @param int $status
      * @return JsonResponse
      */
-    public function responseMsg($msg, $data = null, int $status = 200): JsonResponse
+    public function responseMsg($msg='تمت العملية بنجاح', $data = null, int $status = 200): JsonResponse
+    {
+        return response()->json([
+            'msg' => $msg,
+            'data' => $data,
+            'status' => $status
+        ]);
+    }
+    public function responseMsgError($msg='حدث خطأ', $data = null, int $status = 500): JsonResponse
     {
         return response()->json([
             'msg' => $msg,
@@ -376,11 +391,11 @@ abstract class BaseService
             $ids = $request->input('ids');
             if (is_array($ids) && count($ids)) {
                 $this->model->whereIn('id', $ids)->delete();
-                return response()->json(['status' => 200, 'message' => trns('deleted_successfully')]);
+                return $this->responseMsg();
             }
 
         } catch (\Exception $e) {
-            return response()->json(['status' => 500, 'message' => trns('something_went_wrong')]);
+            return $this->responseMsgError();
         }
     }
 
@@ -398,11 +413,11 @@ abstract class BaseService
                         $obj->{$column} = !$obj->{$column};
                         $obj->save();
                 }
-                return response()->json(['status' => 200, 'message' => trns('updated_successfully')]);
+                return $this->responseMsg();
             }
 
         } catch (\Exception $e) {
-            return response()->json(['status' => 500, 'message' => trns('something_went_wrong')]);
+            return $this->responseMsgError();
         }
     }
 
