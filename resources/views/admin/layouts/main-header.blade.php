@@ -80,11 +80,11 @@
                     <div
                         class="dropdown-menu dropdown-menu-{{ lang() == 'ar' ? 'left' : 'right' }} dropdown-menu-arrow">
                         <a class="dropdown-item" href="{{ route('myProfile') }}">
-                            <i class="dropdown-icon mdi mdi-account-outline"></i> {{ trns('profile') }}
+                            <i class="dropdown-icon mdi mdi-account-outline"></i> الملف الشخصي
                         </a>
                         <a class="dropdown-item" href="{{ route('admin.logout') }}">
                             <i class="dropdown-icon mdi  mdi-logout-variant"></i>
-                            {{ trns('logout') }}
+                            تسجيل الخروج
                         </a>
                     </div>
                 </div>
@@ -110,7 +110,7 @@
                 </a>
                 <div class="dropdown-menu header-search dropdown-menu-left">
                     <div class="input-group w-100 p-2">
-                        <input type="text" class="form-control " placeholder="{{ trns('Search....') }}">
+                        <input type="text" class="form-control " placeholder="{{ trns('....بحث') }}">
                         <div class="input-group-append ">
                             <button type="button" class="btn btn-primary ">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24"

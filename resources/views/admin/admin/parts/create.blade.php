@@ -4,42 +4,42 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <label for="name" class="form-control-label">{{ trns('name') }}</label>
+                    <label for="name" class="form-control-label">الإسم</label>
                     <input type="text" class="form-control" name="name" id="name">
                 </div>
             </div>
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="code" class="form-control-label">{{ trns('code') }}</label>
+                    <label for="code" class="form-control-label">الكود</label>
                     <span class="form-control text-center">{{ $code }}</span>
                     <input hidden type="hidden" class="form-control" name="code" value="{{ $code }}" id="code">
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label for="email" class="form-control-label">{{ trns('email') }}</label>
+                    <label for="email" class="form-control-label">البريد الإلكتروني</label>
                     <input type="text" class="form-control" name="email" id="email">
                 </div>
             </div>
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="password" class="form-control-label">{{ trns('password') }}</label>
+                    <label for="password" class="form-control-label">كلمة السر</label>
                     <input type="password" class="form-control" name="password" id="password">
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label for="password" class="form-control-label">{{ trns('password_confirmation') }}</label>
+                    <label for="password" class="form-control-label">تأكيد كلمة السر</label>
                     <input type="password" class="form-control" name="password_confirmation" id="password">
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label for="role_id" class="form-control-label">{{ trns('system_roles') }}</label>
+                    <label for="role_id" class="form-control-label">صلاحيات النظام</label>
                     <select class="form-control" name="role_id" id="role_id">
-                        <option value="">{{ trns('select_role') }}</option>
+                        <option value="">إختيار الصلاحيه</option>
                         @foreach($roles as $role)
                             <option value="{{ \App\Enums\RoleEnum::tryFrom($role->id)->label() }}">
                                 {{ \App\Enums\RoleEnum::tryFrom($role->id)->lang() }}
@@ -51,8 +51,8 @@
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ trns('close') }}</button>
-            <button type="submit" class="btn btn-primary" id="addButton">{{ trns('save') }}</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+            <button type="submit" class="btn btn-primary" id="addButton">حفظ</button>
         </div>
 
     </form>
