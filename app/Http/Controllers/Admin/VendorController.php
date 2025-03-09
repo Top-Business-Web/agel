@@ -30,10 +30,7 @@ class VendorController extends Controller
         return $this->objService->store($data);
     }
 
-    public function show($id)
-    {
-        return 'hello world';
-    }
+
 
     public function edit(ObjModel $vendor)
     {

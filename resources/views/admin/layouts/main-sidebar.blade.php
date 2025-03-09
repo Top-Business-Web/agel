@@ -82,25 +82,21 @@
             </ul>
 
 
-            <ul class="slide-menu">
-                <li class="{{ routeActive('Plans.index') }}">
-                    <a class="slide-item {{ routeActive('Plans.index') }}" href="{{ route('Plans.index') }}">
-                        <i class="fas fa-clipboard-list side-menu__icon"></i> <!-- Plan Icon -->
-                        الخطة
-                    </a>
-                </li>
-            </ul>
+{{--            <ul class="slide-menu">--}}{{--  agel--}}
+{{--                <li class="{{ routeActive('Plans.index') }}">--}}
+{{--                    <a class="slide-item {{ routeActive('Plans.index') }}" href="{{ route('Plans.index') }}">--}}
+{{--                        <i class="fas fa-clipboard-list side-menu__icon"></i> <!-- Plan Icon -->--}}
+{{--                        الخطة--}}
+{{--                    </a>--}}
+{{--                </li>--}}
+{{--            </ul>--}}
 
         </li>
         <!-- Main locations Management Section -->
 
 
         <!-- setting Management Section -->
-        <li class="slide {{ arrRouteActive(['countries.index', 'cities.index']) }}">
-            {{--<<<<<<< HEAD--}}
-            {{--            <a class="side-menu__item {{ arrRouteActive(['roles.index', 'activity_logs.index'], 'active') }}"--}}
-            {{--                data-toggle="slide" href="#">--}}
-            {{--=======--}}
+        <li class="slide {{ arrRouteActive(['admin.roles.index', 'admin.activity_logs.index']) }}">
             <a class="side-menu__item {{ arrRouteActive(['admin.roles.index', 'admin.activity_logs.index'], 'active') }}"
                data-toggle="slide" href="#">
                 <i class="fas fa-cog side-menu__icon"></i> <!-- Settings Icon -->
@@ -108,54 +104,27 @@
                 <i class="angle fa fa-angle-right"></i>
             </a>
 
-
             <ul class="slide-menu">
-                <!-- roles -->
+                <!-- الأدوار والصلاحيات -->
                 <li class="{{ routeActive('admin.roles.index') }}">
                     <a class="slide-item {{ routeActive('admin.roles.index') }}"
                        href="{{ route('admin.roles.index') }}">
                         <i class="fas fa-user-shield side-menu__icon"></i>
-                        <!-- alternative Permissions Management Icon -->
-                        {{--                        <i class="fas fa-lock side-menu__icon"></i> <!-- alternative Permissions Management Icon --> --}}
-                        {{--                        <i class="fas fa-key side-menu__icon"></i> <!-- alternative Permissions Management Icon --> --}}
-                        {{--                        <i class="fas fa-users-cog side-menu__icon"></i> <!-- Permissions Management Icon --> --}}
-                        <li class="{{ routeActive('admin.roles.index') }}">
-                            <a class="slide-item {{ routeActive('admin.roles.index') }}"
-                               href="{{ route('admin.roles.index') }}">
-                                <i class="fas fa-user-shield side-menu__icon"></i>
-                                <!-- alternative Permissions Management Icon -->
-                                {{--                        <i class="fas fa-lock side-menu__icon"></i> <!-- alternative Permissions Management Icon -->--}}
-                                {{--                        <i class="fas fa-key side-menu__icon"></i> <!-- alternative Permissions Management Icon -->--}}
-                                {{--                        <i class="fas fa-users-cog side-menu__icon"></i> <!-- Permissions Management Icon -->--}}
-                                الأدوار و الصلاحيات
-                            </a>
+                        الأدوار و الصلاحيات
                     </a>
                 </li>
-                <!-- role -->
-            </ul>
-            <ul class="slide-menu">
-                <!-- permissions -->
+
+                <!-- سجل النظام -->
                 <li class="{{ routeActive('admin.activity_logs.index') }}">
                     <a class="slide-item {{ routeActive('admin.activity_logs.index') }}"
                        href="{{ route('admin.activity_logs.index') }}">
-                        {{--                        <i class="fas fa-running side-menu__icon"></i> <!-- Activity Icon --> --}}
-                        {{--                        <i class="fas fa-bolt side-menu__icon"></i> <!-- Activity Icon --> --}}
-                        {{--                        <i class="fas fa-person-running side-menu__icon"></i> <!-- Activity Icon --> --}}
-                        <li class="{{ routeActive('admin.activity_logs.index') }}">
-                            <a class="slide-item {{ routeActive('admin.activity_logs.index') }}"
-                               href="{{ route('admin.activity_logs.index') }}">
-                                {{--                        <i class="fas fa-running side-menu__icon"></i> <!-- Activity Icon -->--}}
-                                {{--                        <i class="fas fa-bolt side-menu__icon"></i> <!-- Activity Icon -->--}}
-                                {{--                        <i class="fas fa-person-running side-menu__icon"></i> <!-- Activity Icon -->--}}
-                                <i class="fas fa-heartbeat side-menu__icon"></i> <!-- Activity Icon -->
-                                سجل النظام
-                            </a>
-                        </li>
+                        <i class="fas fa-heartbeat side-menu__icon"></i> <!-- Activity Icon -->
+                        سجل النظام
                     </a>
-                    <!-- permissions -->
+                </li>
             </ul>
-
         </li>
+
         <!-- setting Management Section -->
 
 
