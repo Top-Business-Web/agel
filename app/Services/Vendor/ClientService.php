@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Admin;
+namespace App\Services\Vendor;
 
 use App\Models\Client as ObjModel;
 use App\Services\BaseService;

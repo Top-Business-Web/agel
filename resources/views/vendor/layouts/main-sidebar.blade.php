@@ -44,6 +44,22 @@
                     </a>
                 </li>
             </ul>
+            <ul class="slide-menu">
+                <li class="{{ routeActive('investors.index') }}">
+                    <a class="slide-item {{ routeActive('investors.index') }}" href="{{ route('investors.index') }}">
+                        <i class="fas fa-store side-menu__icon"></i> <!-- Vendor Icon -->
+                        إدارة المستثمرين
+                    </a>
+                </li>
+            </ul>
+            <ul class="slide-menu">
+                <li class="{{ routeActive('clients.index') }}">
+                    <a class="slide-item {{ routeActive('clients.index') }}" href="{{ route('clients.index') }}">
+                        <i class="fas fa-store side-menu__icon"></i> <!-- Vendor Icon -->
+                        إدارة العملاء
+                    </a>
+                </li>
+            </ul>
         </li>
         <!-- إدارة المستخدمين -->
 

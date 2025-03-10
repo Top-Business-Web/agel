@@ -224,4 +224,5 @@ return array (
   '-- select_parent --' => '-- Select Parent --',
   'admin.activity_logs' => 'Admin.activity Logs',
   '....بحث' => '....بحث',
+  'investors' => 'Investors',
 );
