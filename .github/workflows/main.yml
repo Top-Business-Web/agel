@@ -32,7 +32,7 @@ jobs:
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
         with:
-          TARGET: domains/back.ebharbook.com/public_html
+          TARGET: domains/scriptech.ebharbook.com/public_html/agel
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: 194.163.35.142
           REMOTE_USER: u369694554
@@ -51,6 +51,6 @@ jobs:
           port: 65002
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd domains/back.ebharbook.com/public_html
+            cd domains/scriptech.ebharbook.com/public_html/agel
             php artisan optimize:clear
             # php artisan migrate:fresh --seed
