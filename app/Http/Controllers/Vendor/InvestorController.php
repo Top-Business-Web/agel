@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ClientRequest as ObjRequest;
-use App\Models\Client as ObjModel;
-use App\Services\Admin\ClientService as ObjService;
+use App\Http\Requests\InvestorRequest as ObjRequest;
+use App\Models\Investor as ObjModel;
+use App\Services\Vendor\InvestorService as ObjService;
 use Illuminate\Http\Request;
 
-class ClientController extends Controller
+class InvestorController extends Controller
 {
     public function __construct(protected ObjService $objService) {}
 
@@ -33,10 +33,10 @@ class ClientController extends Controller
         return $this->objService->edit($model);
     }
 
-    public function update(ObjRequest $request, $id)
+    public function update(ObjRequest $request, $investor)
     {
         $data = $request->validated();
-        return $this->objService->update($data, $id);
+        return $this->objService->update($data, $investor);
     }
 
     public function destroy($id)

@@ -223,12 +223,5 @@ return array (
   'yes' => 'Yes',
   '-- select_parent --' => '-- Select Parent --',
   'admin.activity_logs' => 'Admin.activity Logs',
-  '....بحث' => '....بحث',
-  'app maintanance' => 'App Maintanance',
-  'app version' => 'App Version',
-  'watsapp' => 'Watsapp',
-  'fav icon' => 'Fav Icon',
-  'loader' => 'Loader',
-  'en' => 'En',
-  'title' => 'Title',
+
 );

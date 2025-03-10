@@ -1,4 +1,4 @@
-@extends('admin/layouts/master')
+@extends('vendor.layouts.master')
 
 @section('title')
     {{ config()->get('app.name') }} | {{ $bladeName }}
@@ -38,6 +38,10 @@
                                     <input type="checkbox" id="select-all">
                                 </th>
                                 <th class="min-w-25px">#</th>
+                                <th class="min-w-25px">الإسم</th>
+                                <th class="min-w-25px">البريد الإلكتروني</th>
+                                <th class="min-w-25px">رقم الهاتف</th>
+                                <th class="min-w-25px">الفرع</th>
                                 <th class="min-w-50px rounded-end">العمليات</th>
                             </tr>
                             </thead>
@@ -61,7 +65,7 @@
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
                         <p>هل أنت متأكد من أنك تريد حذف هذا العنصر <span id="title"
-                                                                                        class="text-danger"></span>?</p>
+                                                                         class="text-danger"></span>?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
@@ -108,9 +112,11 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">إلغاء</button>
+                                data-bs-dismiss="modal">إلغاء
+                        </button>
                         <button type="button" class="btn btn-danger"
-                                id="confirm-delete-btn">حذف</button>
+                                id="confirm-delete-btn">حذف
+                        </button>
                     </div>
                 </div>
             </div>
@@ -135,7 +141,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">إلغاء</button>
+                                data-bs-dismiss="modal">إلغاء
+                        </button>
                         <button type="button" class="btn btn-send" id="confirm-update-btn">تعديل</button>
                     </div>
                 </div>
@@ -144,7 +151,7 @@
 
         <!-- delete selected  Modal -->
     </div>
-    @include('admin/layouts/myAjaxHelper')
+    @include('admin.layouts.myAjaxHelper')
 @endsection
 @section('ajaxCalls')
     <script>
@@ -159,6 +166,10 @@
                 }
             },
             {data: 'id', name: 'id'},
+            {data: 'name', name: 'name'},
+            {data: 'email', name: 'email'},
+            {data: 'phone', name: 'phone'},
+            {data: 'branch_id', name: 'branch_id'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
         showData('{{route($route.'.index')}}', columns);
@@ -178,16 +189,14 @@
         editScript();
     </script>
 
-       <script>
+    <script>
         // for status
-        $(document).on('click', '.statusBtn', function() {
+        $(document).on('click', '.statusBtn', function () {
             let id = $(this).data('id');
 
             var val = $(this).is(':checked') ? 1 : 0;
 
             let ids = [id];
-
-
 
 
             $.ajax({
@@ -197,7 +206,7 @@
                     "_token": "{{ csrf_token() }}",
                     'ids': ids,
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.status === 200) {
                         if (val !== 0) {
                             toastr.success('Success', "{{ trns('active') }}");
@@ -208,16 +217,14 @@
                         toastr.error('Error', "{{ trns('something_went_wrong') }}");
                     }
                 },
-                error: function() {
+                error: function () {
                     toastr.error('Error', "{{ trns('something_went_wrong') }}");
                 }
             });
         });
 
 
-
     </script>
-
 
 @endsection
 
