@@ -19,15 +19,15 @@ class VendorSeeder extends Seeder
     public function run()
 
     {
-        $country = Country::create([
-            'name' => 'egypt',
-            'status' => '1'
-        ]);
-        $city = City::create([
-            'name' => 'cairo',
-            'status' => '1',
-            'country_id' => '1'
-        ]);
+//        $country = Country::create([
+//            'name' => 'egypt',
+//            'status' => '1'
+//        ]);
+//        $city = City::create([
+//            'name' => 'cairo',
+//            'status' => '1',
+//            'country_id' => '1'
+//        ]);
 
 
         $vendor = Vendor::create([

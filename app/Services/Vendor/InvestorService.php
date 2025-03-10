@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Admin;
+namespace App\Services\Vendor;
 
 use App\Models\Investor as ObjModel;
 use App\Services\BaseService;
@@ -8,10 +8,10 @@ use Yajra\DataTables\DataTables;
 
 class InvestorService extends BaseService
 {
-    protected string $folder = 'admin/investor';
+    protected string $folder = 'vendor/investor';
     protected string $route = 'investors';
 
-    public function __construct(ObjModel $objModel)
+    public function __construct(ObjModel $objModel,protected BranchService $branchService)
     {
         parent::__construct($objModel);
     }
@@ -21,6 +21,9 @@ class InvestorService extends BaseService
         if ($request->ajax()) {
             $obj = $this->getDataTable();
             return DataTables::of($obj)
+                ->editColumn('branch_id', function ($obj) {
+                    return $obj->branch->name;
+                })
                 ->addColumn('action', function ($obj) {
                     $buttons = '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
@@ -47,8 +50,11 @@ class InvestorService extends BaseService
 
     public function create()
     {
+        $branches = $this->branchService->getAll();
         return view("{$this->folder}/parts/create", [
             'storeRoute' => route("{$this->route}.store"),
+            'branches' => $branches,
+
         ]);
     }
 
@@ -68,29 +74,30 @@ class InvestorService extends BaseService
 
     public function edit($obj)
     {
+        $branches = $this->branchService->getAll();
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
+            'branches' => $branches,
         ]);
     }
 
-    public function update($data, $id)
+    public function update($data, $investor): \Illuminate\Http\JsonResponse
     {
-        $oldObj = $this->getById($id);
-
         if (isset($data['image'])) {
             $data['image'] = $this->handleFile($data['image'], 'Investor');
 
-            if ($oldObj->image) {
-                $this->deleteFile($oldObj->image);
+            if ($investor->image) {
+                $this->deleteFile($investor->image);
             }
         }
 
         try {
-            $oldObj->update($data);
+            $this->updateData($data, $investor->id);
             return response()->json(['status' => 200, 'message' => trns('Data updated successfully.')]);
         } catch (\Exception $e) {
             return response()->json(['status' => 500, 'message' => trns('Something went wrong.'), trns('error') => $e->getMessage()]);
         }
     }
+
 }

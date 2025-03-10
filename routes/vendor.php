@@ -3,8 +3,10 @@
 use App\Http\Controllers\Vendor\ActivityLogController;
 use App\Http\Controllers\Vendor\AuthController;
 
+use App\Http\Controllers\Vendor\ClientController;
 use App\Http\Controllers\Vendor\HomeController;
 use App\Http\Controllers\Vendor\BranchController;
+use App\Http\Controllers\Vendor\InvestorController;
 use App\Http\Controllers\Vendor\RoleController;
 use App\Http\Controllers\Vendor\VendorController;
 use Illuminate\Support\Facades\Artisan;
@@ -70,7 +72,11 @@ Route::group(
                 Route::get('activity_logs', [ActivityLogController::class, 'index'])->name('vendor.activity_logs.index');
                 Route::delete('activity_logs/{id}', [ActivityLogController::class, 'destroy'])->name('vendor.activity_logs.destroy');
                 Route::post('activity_logs/delete-selected', [ActivityLogController::class, 'deleteSelected'])->name('vendor.activity_logs.deleteSelected');
-
+                #============================ investors ====================================
+Route::resourceWithDeleteSelected('investors', InvestorController::class);
+Route::post('investors/{investor}', [InvestorController::class, 'update'])->name('vendor.investors.update');
+                #============================ client ====================================
+                Route::resourceWithDeleteSelected('clients', ClientController::class);
             });
         });
 
