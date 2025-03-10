@@ -4,7 +4,7 @@
 
 <!-- FAVICON -->
 <link rel="shortcut icon" type="image/x-icon"
-      href="{{ getFile(isset($setting) ? $setting->logo : null)}}"/>
+      href="{{ getFile(isset($setting) ? getFile(getAuthSetting('logo')) : null)}}"/>
 
 <!-- TITLE -->
 <title>@yield('title')</title>

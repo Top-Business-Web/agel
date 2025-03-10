@@ -34,6 +34,7 @@ class VendorSeeder extends Seeder
             'name' => 'vendor',
             'phone' => '01000000000',
             'national_id' => '12344564645422',
+            'commercial_number' => '123445646454222',
             'city_id' => 1,
             'role_id' => 6,
             'status' => 1,

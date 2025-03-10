@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Setting;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 
@@ -27,6 +29,18 @@ if (!function_exists('vendor_has_module')) {
         } else {
             return false;
         }
+    }
+
+
+}if (!function_exists('getAuthSetting')) {
+    function getAuthSetting($key)
+    {
+        $setting = Setting::where('vendor_id', Auth::guard('vendor')->user()->id)->get();
+
+        if ($setting->isEmpty()) {
+            $setting = Setting::where('vendor_id', Auth::guard('vendor')->user()->parent_id)->get();
+        }
+       return $setting->where('key',$key)->first()->value;
     }
 }
 

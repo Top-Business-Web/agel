@@ -8,9 +8,9 @@
     <div class="container-fluid">
         <div class="d-flex">
             <a class="header-brand d-md-none" href="#">
-                <img src="{{ getFile(isset($setting) ? $setting->logo : null)}}"
+                <img src="{{ getFile(isset($setting) ?getFile(getAuthSetting('logo'))  : null)}}"
                      class="header-brand-img mobile-icon" alt="logo">
-                <img src="{{ getFile(isset($setting) ? $setting->logo : null)}}"
+                <img src="{{ getFile(isset($setting) ? getFile(getAuthSetting('logo'))  : null)}}"
                      class="header-brand-img desktop-logo mobile-logo" alt="logo">
             </a>
             <a aria-label="Hide Sidebar" class="app-sidebar__toggle" data-toggle="sidebar" href="#">

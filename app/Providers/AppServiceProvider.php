@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Setting;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -52,9 +53,16 @@ class AppServiceProvider extends ServiceProvider
 
 
         Schema::defaultStringLength(191);
-        View::composer('*', function ($view) {
-            $setting = Setting::first();
 
-        });
+        View::composer('*', function ($view) {
+            $setting = Setting::where('vendor_id', Auth::guard('vendor')->user()->id)->get();
+
+            if ($setting->isEmpty()) {
+                $setting = Setting::where('vendor_id', Auth::guard('vendor')->user()->parent_id)->get();
+            }
+
+
+            $view->with('setting', $setting);
+    });
     }
 }
