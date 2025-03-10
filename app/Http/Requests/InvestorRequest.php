@@ -23,14 +23,20 @@ class InvestorRequest extends FormRequest
     protected function store(): array
     {
         return [
-
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'branch_id' => 'required:exists:branches,id',
         ];
     }
 
     protected function update(): array
     {
         return [
-
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'branch_id' => 'required:exists:branches,id',
         ];
     }
 }
