@@ -40,8 +40,13 @@ if (!function_exists('vendor_has_module')) {
         if ($setting->isEmpty()) {
             $setting = Setting::where('vendor_id', Auth::guard('vendor')->user()->parent_id)->get();
         }
-       return $setting->where('key',$key)->first()->value;
-    }
+       $key= $setting->where('key',$key)->first();
+        if($key){
+            return $key->value;
+            
+        }else{
+            return 'assets/uploads/empty.png';
+        }
 }
 
 
