@@ -1,4 +1,4 @@
-@extends('admin/layouts/master')
+@extends('vendor/layouts/master')
 
 @section('title')
     {{ config()->get('app.name') }} | {{ $bladeName }}
@@ -38,6 +38,11 @@
                                     <input type="checkbox" id="select-all">
                                 </th>
                                 <th class="min-w-25px">#</th>
+                                <th class="min-w-25px">الإسم</th>
+                                <th class="min-w-25px">رقم الهاتف</th>
+                                <th class="min-w-25px">رقم الهويه</th>
+                                <th class="min-w-25px">الحاله</th>
+                                <th class="min-w-25px">الفرع</th>
                                 <th class="min-w-50px rounded-end">العمليات</th>
                             </tr>
                             </thead>
@@ -159,6 +164,11 @@
                 }
             },
             {data: 'id', name: 'id'},
+            {data: 'name', name: 'name'},
+            {data: 'phone', name: 'phone'},
+            {data: 'national_id', name: 'national_id'},
+            {data: 'status', name: 'status'},
+            {data: 'branch_id', name: 'branch_id'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
         showData('{{route($route.'.index')}}', columns);
