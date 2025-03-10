@@ -6,6 +6,7 @@ use App\Http\Controllers\Vendor\AuthController;
 use App\Http\Controllers\Vendor\HomeController;
 use App\Http\Controllers\Vendor\BranchController;
 use App\Http\Controllers\Vendor\RoleController;
+use App\Http\Controllers\Vendor\SettingController;
 use App\Http\Controllers\Vendor\VendorController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -71,6 +72,10 @@ Route::group(
                 Route::delete('activity_logs/{id}', [ActivityLogController::class, 'destroy'])->name('vendor.activity_logs.destroy');
                 Route::post('activity_logs/delete-selected', [ActivityLogController::class, 'deleteSelected'])->name('vendor.activity_logs.deleteSelected');
 
+                //============================ VendorSetting ====================================
+
+                Route::get('vendor/setting', [SettingController::class, 'index'])->name('vendorSetting');
+                Route::post('vendor/setting/update', [SettingController::class, 'update'])->name('vendorSetting.store');
             });
         });
 

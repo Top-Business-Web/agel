@@ -2,7 +2,7 @@
 <aside class="app-sidebar">
     <div class="side-header">
         <a class="header-brand1" href="{{ route('vendorHome') }}">
-            <img src="{{ getFile(isset($setting) ? $setting->logo : null) }}" class="header-brand-img" alt="logo">
+            <img src="{{ getFile(isset($setting) ?getFile(getAuthSetting('logo'))  : null) }}" class="header-brand-img" alt="logo">
         </a>
         <!-- الشعار -->
     </div>
@@ -77,6 +77,20 @@
             </ul>
         </li>
         <!-- إدارة الإعدادات -->
+
+
+        <!-- إدارة أعدادات النظام -->
+
+        <li class="slide">
+            <a class="side-menu__item  {{ Route::currentRouteName() == 'vendorSetting' ? 'active' : '' }}"
+               href="{{ route('vendorSetting') }}">
+                <i class="fa fa-home side-menu__icon"></i>
+                <span class="side-menu__label">أعدادات النظام</span>
+            </a>
+        </li>
+
+        <!-- إدارة أعدادات النظام -->
+
 
         <li class="slide">
             <a class="side-menu__item {{ Route::currentRouteName() == 'vendor.logout' ? 'active' : '' }}"
