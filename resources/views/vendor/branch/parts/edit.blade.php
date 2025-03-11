@@ -18,7 +18,8 @@
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="country_id" class="form-control-label">{{ trns('city') }}</label>
+                    <label for="country_id" class="form-control-label">المدينة
+</label>
                     <select class="form-control" name="city_id" id="city_id">
                         <option value="">اختر المدينة</option>
                         @foreach ($cities as $citie)
