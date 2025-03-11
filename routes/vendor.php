@@ -50,10 +50,11 @@ Route::group(
                 #============================ branches ==================================
                 Route::resourceWithDeleteSelected('branches', BranchController::class);
                 #============================ vendors ====================================
-//                    Route::resourceWithDeleteSelected('vendors', VendorController::class);
+                //                    Route::resourceWithDeleteSelected('vendors', VendorController::class);
                 Route::get('vendors/index', [VendorController::class, 'index'])->name('vendor.vendors.index');
                 Route::get('vendors/create', [VendorController::class, 'create'])->name('vendor.vendors.create');
-                Route::post('vendors', [VendorController::class, 'store'])->name('vendor.vendors.store');                Route::put('vendors/update', [VendorController::class, 'update'])->name('vendor.vendors.update');
+                Route::post('vendors', [VendorController::class, 'store'])->name('vendor.vendors.store');
+                Route::put('vendors/update', [VendorController::class, 'update'])->name('vendor.vendors.update');
                 Route::delete('vendors/{id}', [VendorController::class, 'destroy'])->name('vendor.vendors.destroy');
                 Route::get('vendors/{id}/edit', [VendorController::class, 'edit'])->name('vendor.vendors.edit');
                 Route::get('vendors/delete-selected', [VendorController::class, 'deleteSelected'])->name('vendor.vendors.deleteSelected');
@@ -69,7 +70,6 @@ Route::group(
                 Route::get('activity_logs', [ActivityLogController::class, 'index'])->name('vendor.activity_logs.index');
                 Route::delete('activity_logs/{id}', [ActivityLogController::class, 'destroy'])->name('vendor.activity_logs.destroy');
                 Route::post('activity_logs/delete-selected', [ActivityLogController::class, 'deleteSelected'])->name('vendor.activity_logs.deleteSelected');
-
             });
         });
 
