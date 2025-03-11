@@ -121,7 +121,7 @@
             <a class="side-menu__item {{ Route::currentRouteName() == 'admin.logout' ? 'active' : '' }}"
                 href="{{ route('admin.logout') }}">
                 <i class="fa fa-lock side-menu__icon"></i>
-                <span class="side-menu__label">{{ trns('logout') }}</span>
+                <span class="side-menu__label">تسجيل خروج</span>
             </a>
         </li>
     </ul>

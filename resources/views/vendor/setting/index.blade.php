@@ -118,7 +118,8 @@
                         </div>
                         <div class="modal-footer">
 
-                            <button type="submit" class="btn btn-primary" id="addButton">{{ trns('save') }}</button>
+                            <button type="submit" class="btn btn-primary" id="addButton">حفظ
+</button>
                         </div>
                     </div>
                 </form>

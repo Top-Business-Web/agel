@@ -211,7 +211,7 @@ class {$modelName}Service extends BaseService
         } else {
             return view(\$this->folder . '/index', [
                 'createRoute' => route(\$this->route . '.create'),
-                'bladeName' => trns(\$this->route),
+                'bladeName' => "",
                 'route' => \$this->route,
             ]);
         }
@@ -232,9 +232,10 @@ class {$modelName}Service extends BaseService
 
         try {
             \$this->createData(\$data);
-            return response()->json(['status' => 200, 'message' => trns('Data created successfully.')]);
+            return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception \$e) {
-            return response()->json(['status' => 500, 'message' => trns('Something went wrong.'), trns('error') => \$e->getMessage()]);
+return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
+
         }
     }
 
@@ -260,9 +261,11 @@ class {$modelName}Service extends BaseService
 
         try {
             \$oldObj->update(\$data);
-            return response()->json(['status' => 200, 'message' => trns('Data updated successfully.')]);
+            return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
+
         } catch (\Exception \$e) {
-            return response()->json(['status' => 500, 'message' => trns('Something went wrong.'), trns('error') => \$e->getMessage()]);
+return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
+
         }
     }
 }

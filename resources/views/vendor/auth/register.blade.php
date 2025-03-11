@@ -123,7 +123,7 @@
                 </label>
             </div>
 
-            <button class="btn btn-login" id="registerButton">{{ trns('login') }}</button>
+            <button class="btn btn-login" id="registerButton">دخول</button>
             <p class="text-mute"> لديك حساب؟
                 <a href="{{url('/partner')}}">سجل الآن</a>
             </p>

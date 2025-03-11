@@ -69,7 +69,6 @@
 
     <main class="signup-container" style="margin-top: 40px">
         <h1 class="heading-primary">مرحبا بعودتك<span class="span-blue">.</span></h1>
-        <p class="text-mute">{{ trns('please_enter_verification_data') }}</p>
 
         <form class="signup-form" action="{{route('admin.login')}}" method="POST" id="LoginForm">
             @csrf
@@ -89,12 +88,7 @@
     </main>
     <div class="welcome-container" style="background-color: white !important;"
          >
-        {{--        <h1 class="heading-secondary">--}}
-        {{--            {{ trns('welcome back') }}--}}
-        {{--            <span class="lg">--}}
-        {{--            {{isset($setting) ? $setting->title_ar : config('app.name')}}--}}
-        {{--        </span>--}}
-        {{--        </h1>--}}
+
         <img style="border-radius: 10%" src="{{asset('logo.webp')}}">
     </div>
 

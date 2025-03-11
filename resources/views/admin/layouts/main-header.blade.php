@@ -110,7 +110,7 @@
                 </a>
                 <div class="dropdown-menu header-search dropdown-menu-left">
                     <div class="input-group w-100 p-2">
-                        <input type="text" class="form-control " placeholder="{{ trns('....بحث') }}">
+                        <input type="text" class="form-control " placeholder="....بحث">
                         <div class="input-group-append ">
                             <button type="button" class="btn btn-primary ">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24"

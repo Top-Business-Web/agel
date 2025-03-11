@@ -1,9 +1,9 @@
 @extends('vendor/layouts/master')
 @section('title')
-    {{ config()->get('app.name') }} | {{ trns('Admin') }}
+    {{ config()->get('app.name') }} | المشرفين
 @endsection
 @section('page_name')
-    {{ trns('Admin') }}
+    المشرفين
 @endsection
 @section('content')
     <div class="row">
