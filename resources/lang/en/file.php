@@ -225,4 +225,6 @@ return array (
   'admin.activity_logs' => 'Admin.activity Logs',
   '....بحث' => '....بحث',
   'planSubscription' => 'PlanSubscription',
+  'clients' => 'Clients',
+  'investors' => 'Investors',
 );

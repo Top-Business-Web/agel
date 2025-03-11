@@ -28,9 +28,9 @@ class InvestorController extends Controller
         return $this->objService->store($data);
     }
 
-    public function edit(ObjModel $model)
+    public function edit(ObjModel $investor)
     {
-        return $this->objService->edit($model);
+        return $this->objService->edit($investor);
     }
 
     public function update(ObjRequest $request, $investor)
