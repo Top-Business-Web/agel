@@ -6,20 +6,21 @@
 
             <div class="col-12">
                 <div class="form-group">
-                    <label for="image" class="form-control-label">{{ trns('image') }}</label>
+                    <label for="image" class="form-control-label">الصورة</label>
                     <input type="file" class="dropify" name="image" id="image">
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
-                    <label for="name" class="form-control-label">{{ trns('name') }}</label>
+                    <label for="name" class="form-control-label">الاسم </label>
                     <input type="text" class="form-control" name="name" id="name">
                 </div>
             </div>
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="email" class="form-control-label">{{ trns('email') }}</label>
+                    <label for="email" class="form-control-label">البريد الإلكتروني
+</label>
                     <input type="email" class="form-control" name="email" id="email">
                 </div>
             </div>
@@ -28,17 +29,18 @@
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="has_parent" class="form-control-label">{{ trns('has_parent') }}</label>
+{{--                    <label for="has_parent" class="form-control-label">{{ trns('has_parent') }}</label>--}}
                     <select class="form-control" name="has_parent" id="has_parent">
-                        <option value="0">{{ trns('no') }}</option>
-                        <option value="1">{{ trns('yes') }}</option>
+                        <option value="0">لا</option>
+                        <option value="1">نعم</option>
+
                     </select>
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="parent_id" class="form-control-label">المكتب</label>
-                    <select placeholder="{{ trns('-- select_parent --') }}" class="form-control" name="parent_id" id="parent_id" disabled>
+                    <select  class="form-control" name="parent_id" id="parent_id" disabled>
                         @foreach ($vendors as $vendor)
                             <option value="{{$vendor->id }}">{{$vendor->name}}</option>
                         @endforeach
@@ -48,7 +50,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="city_id" class="form-control-label">المدينه</label>
-                    <select placeholder="{{ trns('-- select_city --') }}" class="form-control" name="city_id" id="city_id">
+                    <select  class="form-control" name="city_id" id="city_id">
                         @foreach ($cities as $city)
                             <option value="{{$city->id }}">{{$city->name}}</option>
                         @endforeach
@@ -59,28 +61,28 @@
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="name" class="form-control-label">{{ trns('phone') }}</label>
+                    <label for="name" class="form-control-label">رقم الجوال</label>
                     <input type="number" class="form-control" name="phone" maxlength="11" id="name">
                 </div>
             </div>
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="name" class="form-control-label">{{ trns('national_id') }}</label>
+                    <label for="name" class="form-control-label">رقم الهوية</label>
                     <input type="number" class="form-control" name="national_id" minlength="14" id="name">
                 </div>
             </div>
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="password" class="form-control-label">{{ trns('password') }}</label>
+                    <label for="password" class="form-control-label">كلمه السر</label>
                     <input type="password" class="form-control" name="password" id="password">
                 </div>
             </div>
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="password" class="form-control-label">{{ trns('password_confirmation') }}</label>
+                    <label for="password" class="form-control-label">تاكيد كلمه السر</label>
                     <input type="password" class="form-control" name="password_confirmation" id="password">
                 </div>
             </div>
@@ -90,8 +92,9 @@
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ trns('close') }}</button>
-            <button type="submit" class="btn btn-primary" id="addButton">{{ trns('save') }}</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{أغلاق</button>
+            <button type="submit" class="btn btn-primary" id="addButton">حفظ
+</button>
         </div>
 
     </form>

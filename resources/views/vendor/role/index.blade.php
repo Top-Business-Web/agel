@@ -4,7 +4,8 @@
     {{ config()->get('app.name') }} | {{ trns('roles') }}
 @endsection
 @section('page_name')
-    {{ trns('roles') }}
+الادوار
+
 @endsection
 @section('content')
 
@@ -62,7 +63,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
-                            {{ trns('close') }}
+                            {أغلاق
                         </button>
                         <button type="button" class="btn btn-danger" id="delete_btn">{{ trns('delete') }} !</button>
                     </div>
