@@ -77,7 +77,7 @@ Route::group(
                 Route::get('vendor/setting', [SettingController::class, 'index'])->name('vendorSetting');
                 Route::post('vendor/setting/update', [SettingController::class, 'update'])->name('vendorSetting.store');
                 #============================ investors ====================================
-Route::resourceWithDeleteSelected('investors', InvestorController::class);
+            Route::resourceWithDeleteSelected('investors', InvestorController::class);
 Route::post('investors/{investor}', [InvestorController::class, 'update'])->name('vendor.investors.update');
                 #============================ client ====================================
                 Route::resourceWithDeleteSelected('clients', ClientController::class);
