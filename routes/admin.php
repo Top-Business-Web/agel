@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -81,7 +82,8 @@ Route::group(
                     Route::resourceWithDeleteSelected('Plans', PlanController::class);
                     #============================ planSubscription ==================================
                     Route::resourceWithDeleteSelected('planSubscription', PlanSubscriptionController::class);
-
+                    #============================ categories ==================================
+                    Route::resourceWithDeleteSelected('categories', CategoryController::class);
 
                     Route::get('my_profile', [AdminController::class, 'myProfile'])->name('myProfile');
                     Route::get('logout', [AuthController::class, 'logout'])->name('admin.logout');
@@ -114,3 +116,5 @@ Route::group(
 
 Route::resourceWithDeleteSelected('plan_subscriptions', \App\Http\Controllers\Admin\PlanSubscriptionController::class);
 
+
+Route::resourceWithDeleteSelected('categorys', \App\Http\Controllers\Admin\CategoryController::class);

@@ -48,7 +48,7 @@
 
         <!-- Main locations Management Section -->
         <li
-            class="slide {{ arrRouteActive(['countries.index', 'cities.index', 'Plans.index', 'planSubscription.index']) }}">
+            class="slide {{ arrRouteActive(['countries.index', 'cities.index', 'Plans.index', 'planSubscription.index', 'categories.index']) }}">
             <a class="side-menu__item {{ arrRouteActive(['countries.index', 'cities.index'], 'active') }}"
                 data-toggle="slide" href="#">
                 <i class="fas fa-map-marker-alt side-menu__icon"></i> <!-- Location Icon -->
@@ -81,6 +81,14 @@
                         href="{{ route('planSubscription.index') }}">
                         <i class="fas fa-clipboard-list side-menu__icon"></i> <!-- Plan Icon -->
                         الاشتراكات
+                    </a>
+                </li>
+
+                <li class="{{ routeActive('categories.index') }}">
+                    <a class="slide-item {{ routeActive('categories.index') }}"
+                        href="{{ route('categories.index') }}">
+                        <i class="fas fa-clipboard-list side-menu__icon"></i> <!-- Plan Icon -->
+                        الفئات
                     </a>
                 </li>
 

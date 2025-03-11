@@ -7,7 +7,6 @@
     {{ trns('roles') }}
 @endsection
 @section('content')
-
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">
@@ -15,9 +14,9 @@
                     <h3 class="card-title"> {{ trns('roles') }} {{ config()->get('app.name') }}</h3>
                     <div class="">
                         <button class="btn btn-secondary btn-icon text-white addBtn">
-        <span>
-            <i class="fe fe-plus"></i>
-        </span> إضافة دور جديد
+                            <span>
+                                <i class="fe fe-plus"></i>
+                            </span> إضافة دور جديد
                         </button>
                         <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
                             <span><i class="fe fe-trash"></i></span> حذف المحدد
@@ -30,13 +29,13 @@
                         <!--begin::Table-->
                         <table class="table table-bordered text-nowrap w-100" id="dataTable">
                             <thead>
-                            <tr class="fw-bolder text-muted bg-light">
-                                <th class="max-w-25px">#</th>
-                                <th class="min-w-50px">الاسم</th>
-                                <th class="min-w-50px">الصلاحيات</th>
-                                <th class="min-w-50px rounded-end">الإجراءات</th>
+                                <tr class="fw-bolder text-muted bg-light">
+                                    <th class="max-w-25px">#</th>
+                                    <th class="min-w-50px">الاسم</th>
+                                    <th class="min-w-50px">الصلاحيات</th>
+                                    <th class="min-w-50px rounded-end">الإجراءات</th>
 
-                            </tr>
+                                </tr>
                             </thead>
                         </table>
                     </div>
@@ -46,7 +45,7 @@
 
         <!--Delete MODAL -->
         <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
+            aria-hidden="true">
             <div class="modal-dialog " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -57,8 +56,8 @@
                     </div>
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
-                        <p>{{  trns('are_you_sure_you_want_to_delete_this_obj')}} <span id="title"
-                                                                                        class="text-danger"></span>?</p>
+                        <p>{{ trns('are_you_sure_you_want_to_delete_this_obj') }} <span id="title"
+                                class="text-danger"></span>?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
@@ -76,7 +75,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="example-Modal3">{{  trns('object_details')}}</h5>
+                        <h5 class="modal-title" id="example-Modal3">{{ trns('object_details') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -93,23 +92,33 @@
 @endsection
 @section('ajaxCalls')
     <script>
-        var columns = [
-            {data: 'id', name: 'id'},
-            {data: 'name', name: 'name'},
-            {data: 'permissions', name: 'permissions'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
+        var columns = [{
+                data: 'id',
+                name: 'id'
+            },
+            {
+                data: 'name',
+                name: 'name'
+            },
+            {
+                data: 'permissions',
+                name: 'permissions'
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            },
         ]
-        showData('{{route($route.'.index')}}', columns);
+        showData('{{ route($route . '.index') }}', columns);
         // Delete Using Ajax
-        deleteScript('{{route($route.'.destroy',':id')}}');
+        deleteScript('{{ route($route . '.destroy', ':id') }}');
         // Add Using Ajax
-        showAddModal('{{route($route.'.create')}}');
+        showAddModal('{{ route($route . '.create') }}');
         addScript();
         // Add Using Ajax
-        showEditModal('{{route($route.'.edit',':id')}}');
+        showEditModal('{{ route($route . '.edit', ':id') }}');
         editScript();
     </script>
-
 @endsection
-
-

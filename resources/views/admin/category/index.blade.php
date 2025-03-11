@@ -1,4 +1,4 @@
-@extends('vendor/layouts/master')
+@extends('admin/layouts/master')
 
 @section('title')
     {{ config()->get('app.name') }} | {{ $bladeName }}
@@ -11,19 +11,19 @@
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"> {{ $bladeName }} {{ config()->get('app.name') }}</h3>
+                    <h3 class="card-title"> الفئات</h3>
                     <div class="">
                         <button class="btn btn-secondary btn-icon text-white addBtn">
                             <span>
                                 <i class="fe fe-plus"></i>
-                            </span> {{ $bladeName . ' ' . 'إضافة' }}
+                            </span> اضافة جديد
                         </button>
                         <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
                             <span><i class="fe fe-trash"></i></span> حذف المحدد
                         </button>
 
                         <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
-                            <span><i class="fe fe-trending-up"></i></span> تعديل حالة المحدد
+                            <span><i class="fe fe-trending-up"></i></span> تحديث المحدد
                         </button>
                     </div>
                 </div>
@@ -37,12 +37,9 @@
                                         <input type="checkbox" id="select-all">
                                     </th>
                                     <th class="min-w-25px">#</th>
-                                    <th class="min-w-25px">الإسم</th>
-                                    <th class="min-w-25px">رقم الهاتف</th>
-                                    <th class="min-w-25px">رقم الهويه</th>
+                                    <th class="min-w-25px">اسم الفئة</th>
                                     <th class="min-w-25px">الحاله</th>
-                                    <th class="min-w-25px">الفرع</th>
-                                    <th class="min-w-50px rounded-end">العمليات</th>
+                                    <th class="min-w-50px rounded-end">{{ trns('actions') }}</th>
                                 </tr>
                             </thead>
                         </table>
@@ -57,21 +54,21 @@
             <div class="modal-dialog " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">حذف</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">{{ trns('delete') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
-                        <p>هل انت متاكد من حذف هذا العنصر <span id="title"
+                        <p>{{ trns('are_you_sure_you_want_to_delete_this_obj') }} <span id="title"
                                 class="text-danger"></span>?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
-                            إلغاء
+                            {{ trns('close') }}
                         </button>
-                        <button type="button" class="btn btn-danger" id="delete_btn">حذف !</button>
+                        <button type="button" class="btn btn-danger" id="delete_btn">{{ trns('delete') }} !</button>
                     </div>
                 </div>
             </div>
@@ -83,7 +80,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="example-Modal3">تفاصيل العنصر</h5>
+                        <h5 class="modal-title" id="example-Modal3">{{ trns('object_details') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -102,17 +99,19 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteConfirmModalLabel">تأكيد الحذف</h5>
+                        <h5 class="modal-title" id="deleteConfirmModalLabel">{{ trns('confirm_deletion') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>هل أنت متأكد من أنك تريد حذف العناصر المحدده</p>
+                        <p>{{ trns('are_you_sure_you_want_to_delete_selected_items') }}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                        <button type="button" class="btn btn-danger" id="confirm-delete-btn">حذف</button>
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ trns('cancel') }}</button>
+                        <button type="button" class="btn btn-danger"
+                            id="confirm-delete-btn">{{ trns('delete') }}</button>
                     </div>
                 </div>
             </div>
@@ -127,17 +126,19 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteConfirmModalLabel">تأكيد التعديل</h5>
+                        <h5 class="modal-title" id="deleteConfirmModalLabel">{{ trns('confirm_change') }}</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>هل انت متاكد من تعديل هذه السجلات</p>
+                        <p>{{ trns('are_you_sure_you_want_to_update_selected_items') }}</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                        <button type="button" class="btn btn-send" id="confirm-update-btn">تعديل</button>
+                        <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal">{{ trns('cancel') }}</button>
+                        <button type="button" class="btn btn-send"
+                            id="confirm-update-btn">{{ trns('update') }}</button>
                     </div>
                 </div>
             </div>
@@ -167,20 +168,8 @@
                 name: 'name'
             },
             {
-                data: 'phone',
-                name: 'phone'
-            },
-            {
-                data: 'national_id',
-                name: 'national_id'
-            },
-            {
                 data: 'status',
                 name: 'status'
-            },
-            {
-                data: 'branch_id',
-                name: 'branch_id'
             },
             {
                 data: 'action',
@@ -228,16 +217,16 @@
                 success: function(data) {
                     if (data.status === 200) {
                         if (val !== 0) {
-                            toastr.success('Success', "نشط");
+                            toastr.success('Success', "{{ trns('active') }}");
                         } else {
-                            toastr.warning('Success', "غير نشط");
+                            toastr.warning('Success', "{{ trns('inactive') }}");
                         }
                     } else {
-                        toastr.error('Error', "هناك خطأ ما");
+                        toastr.error('Error', "{{ trns('something_went_wrong') }}");
                     }
                 },
                 error: function() {
-                    toastr.error('Error', "هناك خطأ ما");
+                    toastr.error('Error', "{{ trns('something_went_wrong') }}");
                 }
             });
         });

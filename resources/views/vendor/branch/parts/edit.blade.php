@@ -9,7 +9,7 @@
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="name" class="form-control-label">{{ trns('name') }}</label>
+                    <label for="name" class="form-control-label">الاسم</label>
                     <input type="text" class="form-control" name="name" id="name"
                         value="{{ $obj->name }}">
                 </div>
@@ -17,7 +17,7 @@
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="country_id" class="form-control-label">{{ trns('city') }}</label>
+                    <label for="country_id" class="form-control-label">المدينه</label>
                     <select class="form-control" name="city_id" id="city_id">
                         <option value="">اختر المدينة</option>
                         @foreach ($cities as $citie)
@@ -33,8 +33,8 @@
 
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ trns('close') }}</button>
-            <button type="submit" class="btn btn-success" id="updateButton">{{ trns('update') }}</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">اغلاق</button>
+            <button type="submit" class="btn btn-success" id="updateButton">تحديث</button>
         </div>
     </form>
 </div>
