@@ -46,14 +46,12 @@ Route::group(
 
             Route::group(['middleware' => 'auth:vendor'], function () {
 
-
-
                 #============================ Home ====================================
                 Route::get('homeVendor', [HomeController::class, 'index'])->name('vendorHome');
                 #============================ branches ==================================
                 Route::resourceWithDeleteSelected('branches', BranchController::class);
                 #============================ vendors ====================================
-//                    Route::resourceWithDeleteSelected('vendors', VendorController::class);
+                //                    Route::resourceWithDeleteSelected('vendors', VendorController::class);
                 Route::get('vendors/index', [VendorController::class, 'index'])->name('vendor.vendors.index');
                 Route::get('vendors/create', [VendorController::class, 'create'])->name('vendor.vendors.create');
                 Route::post('vendors', [VendorController::class, 'store'])->name('vendor.vendors.store');

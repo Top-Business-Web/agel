@@ -55,14 +55,14 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         View::composer('*', function ($view) {
-            $setting = Setting::where('vendor_id', Auth::guard('vendor')->user()->id)->get();
+            // $setting = Setting::where('vendor_id', Auth::guard('vendor')->user()->id)->get();
 
-            if ($setting->isEmpty()) {
-                $setting = Setting::where('vendor_id', Auth::guard('vendor')->user()->parent_id)->get();
-            }
+            // if ($setting->isEmpty()) {
+            //     $setting = Setting::where('vendor_id', Auth::guard('vendor')->user()->parent_id)->get();
+            // }
 
 
-            $view->with('setting', $setting);
-    });
+            // $view->with('setting', $setting);
+        });
     }
 }

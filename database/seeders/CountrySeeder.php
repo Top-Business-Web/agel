@@ -3,9 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Country;
-use App\Models\Plan;
-use App\Models\PlanDetail;
-use Database\Factories\CountryFactory;
 use Illuminate\Database\Seeder;
 
 class CountrySeeder extends Seeder

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\PlanSubscriptionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\VendorController;
@@ -78,6 +79,8 @@ Route::group(
                     Route::resourceWithDeleteSelected('cities', CityController::class);
                     #============================ Plans ==================================
                     Route::resourceWithDeleteSelected('Plans', PlanController::class);
+                    #============================ planSubscription ==================================
+                    Route::resourceWithDeleteSelected('planSubscription', PlanSubscriptionController::class);
 
 
                     Route::get('my_profile', [AdminController::class, 'myProfile'])->name('myProfile');

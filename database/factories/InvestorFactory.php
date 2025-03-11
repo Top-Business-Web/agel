@@ -19,9 +19,8 @@ class InvestorFactory extends Factory
         return [
             'name' => $faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
-            'phone'=>$this->faker->phoneNumber(),
-            'branch_id'=>$this->faker->numberBetween(1,10)
+            'phone' => $this->faker->phoneNumber(),
+            'branch_id' => $this->faker->numberBetween(1, 10)
         ];
     }
-
 }
