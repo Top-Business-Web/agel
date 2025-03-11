@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="form-group">
-                    <label for="name" class="form-control-label">{{ trns('role_name_english') }}</label>
+                    <label for="name" class="form-control-label">اسم الصلاحية</label>
                     <input type="text" class="form-control" value="{{$obj->name}}" name="name" id="name">
                     <input type="hidden" class="form-control" name="guard_name" id="guard_name" value="admin">
                 </div>
@@ -16,7 +16,7 @@
                 <div class="form-group">
                     <!-- Add Select All -->
                     <label for="select_all" class="form-control-label">
-                        <input type="checkbox" id="select_all"> {{ trns('select_all_permissions') }}
+                        <input type="checkbox" id="select_all"> اختر جميع الصلاحيات
                     </label>
                 </div>
             </div>

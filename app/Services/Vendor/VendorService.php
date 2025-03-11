@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Services\Admin;
+namespace App\Services\Vendor;
 
-//use App\Models\Module;
 
 namespace App\Services\Vendor;
 
-use App\Http\Middleware\Custom\vendor;
 use App\Models\Vendor as ObjModel;
 
-//use App\Models\VendorModule;
 use App\Services\Admin\CityService;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +17,6 @@ class VendorService extends BaseService
     protected string $folder = 'vendor/vendor';
     protected string $route = 'vendor.vendors';
 
-//, protected VendorModule $vendorModule, protected ModuleService $moduleService
     public function __construct(ObjModel $objModel, protected CityService $cityService)
     {
         parent::__construct($objModel);
@@ -28,12 +24,9 @@ class VendorService extends BaseService
 
     public function index($request)
     {
+//        dd(auth('vendor')->user()->parent_id);
         if ($request->ajax()) {
-//            if (auth()->user()->parent_id==null){
-//                $obj = $this->model->where('parent_id', auth()->user()->id)->orWhere('id',auth()->user()->id)->get();
-//            }else{
-            $obj = $this->model->where('parent_id', auth()->user()->parent_id)->orWhere('id', auth()->user()->id)->get();
-//            }
+            $obj =  $this->getVendorDateTable();
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
                     if ($obj->id==auth()->user()->id||$obj->parent_id==auth()->user()->id) {
@@ -76,7 +69,7 @@ class VendorService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
-                'bladeName' => trns($this->route),
+                'bladeName' =>'المكاتب',
                 'route' => $this->route,
             ]);
         }
@@ -108,9 +101,9 @@ class VendorService extends BaseService
         $data['password'] = Hash::make($data['password']);
 
         try {
-            $vendor = $this->model->create($data);
+           $this->model->create($data);
 
-            return response()->json(['status' => 200, 'message' => trns('Data created successfully.')]);
+            return $this->responseMsg();
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 500,

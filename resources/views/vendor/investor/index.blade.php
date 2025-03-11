@@ -1,4 +1,4 @@
-@extends('admin/layouts/master')
+@extends('vendor.layouts.master')
 
 @section('title')
     {{ config()->get('app.name') }} | {{ $bladeName }}
@@ -17,14 +17,14 @@
                         <button class="btn btn-secondary btn-icon text-white addBtn">
 									<span>
 										<i class="fe fe-plus"></i>
-									</span> {{ trns('add_new') . ' ' . $bladeName }}
+									</span> {{ $bladeName  .' ' .'إضافة' }}
                         </button>
                         <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
-                            <span><i class="fe fe-trash"></i></span> {{ trns('delete selected') }}
+                            <span><i class="fe fe-trash"></i></span> حذف المحدد
                         </button>
 
                         <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
-                            <span><i class="fe fe-trending-up"></i></span> {{ trns('update selected') }}
+                            <span><i class="fe fe-trending-up"></i></span> تحديث حالة المحدد
                         </button>
                     </div>
                 </div>
@@ -38,7 +38,11 @@
                                     <input type="checkbox" id="select-all">
                                 </th>
                                 <th class="min-w-25px">#</th>
-                                <th class="min-w-50px rounded-end">{{ trns('actions') }}</th>
+                                <th class="min-w-25px">الإسم</th>
+                                <th class="min-w-25px">البريد الإلكتروني</th>
+                                <th class="min-w-25px">رقم الهاتف</th>
+                                <th class="min-w-25px">الفرع</th>
+                                <th class="min-w-50px rounded-end">العمليات</th>
                             </tr>
                             </thead>
                         </table>
@@ -53,21 +57,21 @@
             <div class="modal-dialog " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{ trns('delete') }}</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">حذف</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
-                        <p>{{  trns('are_you_sure_you_want_to_delete_this_obj')}} <span id="title"
-                                                                                        class="text-danger"></span>?</p>
+                        <p>هل أنت متأكد من أنك تريد حذف هذا العنصر <span id="title"
+                                                                         class="text-danger"></span>?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
                             {{ trns('close') }}
                         </button>
-                        <button type="button" class="btn btn-danger" id="delete_btn">{{ trns('delete') }} !</button>
+                        <button type="button" class="btn btn-danger" id="delete_btn">حذف !</button>
                     </div>
                 </div>
             </div>
@@ -79,7 +83,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="example-Modal3">{{  trns('object_details')}}</h5>
+                        <h5 class="modal-title" id="example-Modal3">تفاصيل العنصر</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -98,19 +102,21 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteConfirmModalLabel">{{ trns('confirm_deletion') }}</h5>
+                        <h5 class="modal-title" id="deleteConfirmModalLabel">تأكيد الحذف</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>{{ trns("are_you_sure_you_want_to_delete_selected_items") }}</p>
+                        <p>هل أنت متأكد من أنك تريد حذق العناصر المحدده</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ trns('cancel') }}</button>
+                                data-bs-dismiss="modal">إلغاء
+                        </button>
                         <button type="button" class="btn btn-danger"
-                                id="confirm-delete-btn">{{ trns('delete') }}</button>
+                                id="confirm-delete-btn">حذف
+                        </button>
                     </div>
                 </div>
             </div>
@@ -125,18 +131,19 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteConfirmModalLabel">{{ trns('confirm_change') }}</h5>
+                        <h5 class="modal-title" id="deleteConfirmModalLabel">تأكيد التعديل</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>{{ trns("are_you_sure_you_want_to_update_selected_items") }}</p>
+                        <p>هل أنت متأكد من أنك تريد تعديل حالة العناصر المحدده</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">{{ trns('cancel') }}</button>
-                        <button type="button" class="btn btn-send" id="confirm-update-btn">{{ trns('update') }}</button>
+                                data-bs-dismiss="modal">إلغاء
+                        </button>
+                        <button type="button" class="btn btn-send" id="confirm-update-btn">تعديل</button>
                     </div>
                 </div>
             </div>
@@ -144,7 +151,7 @@
 
         <!-- delete selected  Modal -->
     </div>
-    @include('admin/layouts/myAjaxHelper')
+    @include('admin.layouts.myAjaxHelper')
 @endsection
 @section('ajaxCalls')
     <script>
@@ -159,6 +166,10 @@
                 }
             },
             {data: 'id', name: 'id'},
+            {data: 'name', name: 'name'},
+            {data: 'email', name: 'email'},
+            {data: 'phone', name: 'phone'},
+            {data: 'branch_id', name: 'branch_id'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
         showData('{{route($route.'.index')}}', columns);
@@ -178,16 +189,14 @@
         editScript();
     </script>
 
-       <script>
+    <script>
         // for status
-        $(document).on('click', '.statusBtn', function() {
+        $(document).on('click', '.statusBtn', function () {
             let id = $(this).data('id');
 
             var val = $(this).is(':checked') ? 1 : 0;
 
             let ids = [id];
-
-
 
 
             $.ajax({
@@ -197,7 +206,7 @@
                     "_token": "{{ csrf_token() }}",
                     'ids': ids,
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.status === 200) {
                         if (val !== 0) {
                             toastr.success('Success', "{{ trns('active') }}");
@@ -208,16 +217,14 @@
                         toastr.error('Error', "{{ trns('something_went_wrong') }}");
                     }
                 },
-                error: function() {
+                error: function () {
                     toastr.error('Error', "{{ trns('something_went_wrong') }}");
                 }
             });
         });
 
 
-
     </script>
-
 
 @endsection
 

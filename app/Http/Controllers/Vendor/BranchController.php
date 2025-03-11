@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Vendor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BranchRequest as ObjRequest;
 use App\Models\Branch as ObjModel;
-use App\Services\vendor\BranchService as ObjService;
+use App\Services\Vendor\BranchService as ObjService;
 use Illuminate\Http\Request;
 
 class BranchController extends Controller

@@ -23,14 +23,22 @@ class ClientRequest extends FormRequest
     protected function store(): array
     {
         return [
-
+            'name' => 'required',
+            'phone' => 'required',
+            'national_id' => 'required',
+//            'status' => 'required|boolean',
+            'branch_id' => 'required|exists:branches,id',
         ];
     }
 
     protected function update(): array
     {
         return [
-
+            'name' => 'required',
+            'phone' => 'required',
+            'national_id' => 'required',
+//            'status' => 'required|boolean',
+            'branch_id' => 'required|exists:branches,id',
         ];
     }
 }

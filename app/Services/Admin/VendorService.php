@@ -19,7 +19,6 @@ class VendorService extends BaseService
     protected string $folder = 'admin/vendor';
     protected string $route = 'admin.vendors';
 
-//, protected VendorModule $vendorModule, protected ModuleService $moduleService
     public function __construct(ObjModel $objModel, protected CityService $cityService)
     {
         parent::__construct($objModel);
@@ -32,17 +31,13 @@ class VendorService extends BaseService
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
                     $buttons = '
-                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
-                            <i class="fa fa-edit"></i>
-                        </button>
+
                         <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                             data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
                             <i class="fas fa-trash"></i>
                         </button>
 
-                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
-                           <i class="fa fa-eye"></i>
-                            </button>
+
                     ';
                     return $buttons;
                 })->editcolumn('status', function ($obj) {
@@ -67,7 +62,6 @@ class VendorService extends BaseService
     public function create()
     {
         return view("{$this->folder}/parts/create", [
-//            'moduleService' => $this->moduleService->getAll(),
             'storeRoute' => route("{$this->route}.store"),
             'cities' => $this->cityService->getAll(),
             'vendors' => $this->model->all(),

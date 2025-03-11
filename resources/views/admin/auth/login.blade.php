@@ -68,7 +68,7 @@
 {{--    </div>--}}
 
     <main class="signup-container" style="margin-top: 40px">
-        <h1 class="heading-primary">{{ trns('welcome back ') }}<span class="span-blue">.</span></h1>
+        <h1 class="heading-primary">مرحبا بعودتك<span class="span-blue">.</span></h1>
         <p class="text-mute">{{ trns('please_enter_verification_data') }}</p>
 
         <form class="signup-form" action="{{route('admin.login')}}" method="POST" id="LoginForm">
@@ -76,15 +76,15 @@
             @method('POST')
             <label class="inp">
                 <input type="text" name="input" class="input-text" placeholder="&nbsp;">
-                <span class="label">{{ trns('enter_user_name_or_your_code_or_email')  }}</span>
+                <span class="label">إدخل البريد الإلكتروني أو الكود</span>
                 <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
             </label>
             <label class="inp">
                 <input type="password" name="password" class="input-text" placeholder="&nbsp;" id="password">
-                <span class="label"> {{ trns('password') }}</span>
+                <span class="label"> كلمة المرور</span>
                 <span class="input-icon input-icon-password" data-password><i class="fa-solid fa-eye"></i></span>
             </label>
-            <button class="btn btn-login" id="loginButton"> {{ trns('login') }}</button>
+            <button class="btn btn-login" id="loginButton"> تسجيل الدخول</button>
         </form>
     </main>
     <div class="welcome-container" style="background-color: white !important;"

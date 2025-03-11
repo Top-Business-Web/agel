@@ -5,13 +5,12 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\CountryController;
-use App\Http\Controllers\Admin\PlanController;
-
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\PlanSubscriptionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\VendorController;
-
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
@@ -80,6 +79,8 @@ Route::group(
                     Route::resourceWithDeleteSelected('cities', CityController::class);
                     #============================ Plans ==================================
                     Route::resourceWithDeleteSelected('Plans', PlanController::class);
+                    #============================ planSubscription ==================================
+                    Route::resourceWithDeleteSelected('planSubscription', PlanSubscriptionController::class);
 
 
                     Route::get('my_profile', [AdminController::class, 'myProfile'])->name('myProfile');
@@ -113,6 +114,3 @@ Route::group(
 
 Route::resourceWithDeleteSelected('plan_subscriptions', \App\Http\Controllers\Admin\PlanSubscriptionController::class);
 
-Route::resourceWithDeleteSelected('investors', \App\Http\Controllers\Admin\InvestorController::class);
-
-Route::resourceWithDeleteSelected('clients', \App\Http\Controllers\Admin\ClientController::class);

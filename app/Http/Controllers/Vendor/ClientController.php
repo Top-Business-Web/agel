@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\InvestorRequest as ObjRequest;
-use App\Models\Investor as ObjModel;
-use App\Services\Admin\InvestorService as ObjService;
+use App\Http\Requests\ClientRequest as ObjRequest;
+use App\Models\Client as ObjModel;
+use App\Services\Vendor\ClientService as ObjService;
 use Illuminate\Http\Request;
 
-class InvestorController extends Controller
+class ClientController extends Controller
 {
     public function __construct(protected ObjService $objService) {}
 

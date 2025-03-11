@@ -68,28 +68,28 @@
 {{--    </div>--}}
 
     <main class="signup-container" style="margin-top: 40px">
-        <h1 class="heading-primary">{{ trns('welcome back') }}<span class="span-blue">.</span></h1>
-        <p class="text-mute">{{ trns('please_enter_verification_data') }}</p>
+        <h1 class="heading-primary">مرحبًا بعودتك<span class="span-blue">.</span></h1>
+        <p class="text-mute">يرجى إدخال بيانات التحقق</p>
 
         <form class="signup-form" action="{{route('vendor.login')}}" method="post" id="LoginForm">
             @csrf
             <label class="inp">
                 <input type="text" name="input" class="input-text" placeholder="&nbsp;">
-                <span class="label">{{ trns('enter_user_name_or_your_code')  }}</span>
+                <span class="label">أدخل اسم المستخدم او البريد الالكتروني </span>
                 <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
             </label>
             <label class="inp">
                 <input type="password" name="password" class="input-text" placeholder="&nbsp;" id="password">
-                <span class="label"> {{ trns('password') }}</span>
+                <span class="label">كلمة المرور</span>
                 <span class="input-icon input-icon-password" data-password><i class="fa-solid fa-eye"></i></span>
             </label>
-            <button class="btn btn-login" id="loginButton"> {{ trns('login') }}</button>
-            <p class="text-mute">  ليس لديك حساب؟
-                <a href="{{url('/register')}}"> سجل الان</a>
+            <button class="btn btn-login" id="loginButton">تسجيل الدخول</button>
+            <p class="text-mute">ليس لديك حساب؟
+                <a href="{{url('/register')}}">سجل الآن</a>
             </p>
-
         </form>
     </main>
+
     <div class="welcome-container" style="background-color: white !important;"
          >
         {{--        <h1 class="heading-secondary">--}}

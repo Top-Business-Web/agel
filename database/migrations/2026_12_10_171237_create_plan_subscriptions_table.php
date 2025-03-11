@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignId('vendor_id')->constrained('vendors')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('plan_id')->constrained('plans')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('status')->default(0);
-            $table->string('from')->nullable();
-            $table->string('to')->nullable();
+            $table->date('from')->nullable();
+            $table->date('to')->nullable();
             $table->string('payment_receipt')->nullable();
             $table->timestamps();
         });

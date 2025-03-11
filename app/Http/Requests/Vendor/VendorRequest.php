@@ -26,12 +26,11 @@ class VendorRequest extends FormRequest
 
             'name' => 'required',
             'email' => 'required|email|unique:vendors,email',
-            'phone' => 'required|numeric|digits:11',
+            'phone' => 'required|numeric',
             'city_id'=>'required|exists:cities,id',
-            'national_id' => 'required|numeric|digits:14|unique:vendors,national_id',
+            'national_id' => 'required|numeric|unique:vendors,national_id',
             'password' => 'required|min:6|confirmed',
             'image' => 'nullable|image',
-//            'module_id' => 'required|exists:modules,id',
         ];
     }
 
@@ -40,8 +39,8 @@ class VendorRequest extends FormRequest
         return [
             'name' => 'nullable',
             'email' => 'nullable|email',
-            'phone' => 'nullable|numeric|digits:11',
-            'national_id' => 'nullable|numeric|digits:14|unique:vendors,national_id,' . $this->id,
+            'phone' => 'nullable|numeric',
+            'national_id' => 'nullable|numeric|unique:vendors,national_id,' . $this->id,
             'city_id'=>'required|exists:cities,id',
             'password' => 'nullable|min:6|confirmed',
             'image' => 'nullable|image',

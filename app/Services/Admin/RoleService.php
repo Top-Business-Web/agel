@@ -47,9 +47,9 @@ class RoleService extends BaseService
                 })
                 ->addColumn('permissions', function ($models) {
                     return $models->permissions->count() > 0 ? '<span class="badge badge-success">' .
-                        $models->permissions->count() . ' ' . trns('permissions')
+                        $models->permissions->count() . ' ' . "صلاجيات"
                         . '</span>' :
-                        'No Permissions';
+                        'لاتوجد صلاحيات';
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])

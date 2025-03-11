@@ -8,14 +8,13 @@ use Yajra\DataTables\DataTables;
 
 class PlanSubscriptionService extends BaseService
 {
-    protected string $folder = 'admin/plan_subscription';
-    protected string $route = 'plan_subscriptions';
+    protected string $folder = 'admin/planSubscription';
+    protected string $route = 'planSubscription';
 
     public function __construct(ObjModel $objModel)
     {
         parent::__construct($objModel);
     }
-
     public function index($request)
     {
         if ($request->ajax()) {
@@ -32,6 +31,12 @@ class PlanSubscriptionService extends BaseService
                         </button>
                     ';
                     return $buttons;
+                })->editColumn('status', function ($obj) {
+                    return $this->statusDatatable($obj);
+                })->editColumn('vendor_id', function ($obj) {
+                    return $obj->vendor->name;
+                })->editColumn('plan_id', function ($obj) {
+                    return $obj->plan->name;
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])

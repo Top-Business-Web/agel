@@ -30,7 +30,7 @@
                     <div class="tab-menu-heading">
                         <div class="tabs-menu1">
                             <ul class="nav">
-                                <li class=""><a href="#tab-51" class="active show" data-toggle="tab">Information</a></li>
+                                <li class=""><a href="#tab-51" class="active show" data-toggle="tab">معلومات</a></li>
                             </ul>
                         </div>
                     </div>
@@ -48,17 +48,17 @@
                                     <table class="table row table-borderless">
                                         <tbody class="col-lg-12 col-xl-4 p-0">
                                         <tr>
-                                            <td class="text-capitalize"><strong>Name :</strong> {{$admin->name}}</td>
+                                            <td class="text-capitalize"><strong>: الإسم</strong> {{$admin->name}}</td>
                                         </tr>
                                         </tbody>
                                         <tbody class="col-lg-12 col-xl-4 p-0">
                                         <tr>
-                                            <td><strong>Email :</strong> {{$admin->email}}</td>
+                                            <td><strong>: البريد الإلكتروني</strong> {{$admin->email}}</td>
                                         </tr>
                                         </tbody>
                                         <tbody class="col-lg-12 col-xl-4 p-0">
                                         <tr>
-                                            <td><strong>Register Date :</strong> {{$admin->created_at->diffForHumans()}}</td>
+                                            <td><strong>: تاريخ التسجيل</strong> {{$admin->created_at->diffForHumans()}}</td>
                                         </tr>
                                         </tbody>
                                     </table>

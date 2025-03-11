@@ -15,14 +15,15 @@
                     <h3 class="card-title"> {{ trns('roles') }} {{ config()->get('app.name') }}</h3>
                     <div class="">
                         <button class="btn btn-secondary btn-icon text-white addBtn">
-                            <span>
-                                <i class="fe fe-plus"></i>
-                            </span> {{ trns('add_new_role') }}
+        <span>
+            <i class="fe fe-plus"></i>
+        </span> إضافة دور جديد
                         </button>
                         <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
-                            <span><i class="fe fe-trash"></i></span> {{ trns('delete selected') }}
+                            <span><i class="fe fe-trash"></i></span> حذف المحدد
                         </button>
                     </div>
+
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -31,9 +32,10 @@
                             <thead>
                             <tr class="fw-bolder text-muted bg-light">
                                 <th class="max-w-25px">#</th>
-                                <th class="min-w-50px">{{ trns('name') }}</th>
-                                <th class="min-w-50px">{{ trns('permissions') }}</th>
-                                <th class="min-w-50px rounded-end">{{ trns('actions') }}</th>
+                                <th class="min-w-50px">الاسم</th>
+                                <th class="min-w-50px">الصلاحيات</th>
+                                <th class="min-w-50px rounded-end">الإجراءات</th>
+
                             </tr>
                             </thead>
                         </table>
