@@ -39,13 +39,13 @@ class CityRequest extends FormRequest
 
     public function messages()
     {
-        return [
-            'name[ar].required' => trans('name city required ar'),
-            'name[en].required' => trans('name city required en'),
-            'name[ar].unique' => trans('name city must be unique'),
-            'name[en].unique' => trans('name city must be unique'),
-            'country_id.required' => trans('name country required'),
-            'location.required' => trans('name location required'),
-        ];
+//        return [
+//            'name[ar].required' => trans('name city required ar'),
+//            'name[en].required' => trans('name city required en'),
+//            'name[ar].unique' => trans('name city must be unique'),
+//            'name[en].unique' => trans('name city must be unique'),
+//            'country_id.required' => trans('name country required'),
+//            'location.required' => trans('name location required'),
+//        ];
     }
 }

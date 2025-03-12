@@ -54,7 +54,7 @@ class VendorService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
-                'bladeName' => " ",
+                'bladeName' => "المكاتب",
 
                 'route' => $this->route,
             ]);

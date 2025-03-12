@@ -95,6 +95,10 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item active" aria-current="page">@yield('page_name')</li>
                         </ol>
+                        <h1 class="page-title">@yield('page_name')</h1>
+{{--                        <ol class="breadcrumb">--}}
+{{--                            <li class="breadcrumb-item active" aria-current="page">@yield('page_name')</li>--}}
+{{--                        </ol>--}}
                     </div>
                 </div>
                 <!-- PAGE-HEADER END -->
