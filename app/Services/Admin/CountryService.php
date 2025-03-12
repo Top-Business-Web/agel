@@ -41,7 +41,7 @@ class CountryService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
-                'bladeName' => " ",
+                'bladeName' => "الدول",
 
                 'route' => $this->route,
             ]);

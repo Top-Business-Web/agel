@@ -145,7 +145,7 @@ class AuthService
     public function logout()
     {
         Auth::guard('vendor')->logout();
-        toastr()->info(trns('تم تسجيل الخروج'));
+        toastr()->info('تم تسجيل الخروج');
         return redirect('/partner');
     }
 }

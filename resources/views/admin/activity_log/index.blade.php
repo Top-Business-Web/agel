@@ -11,7 +11,7 @@
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"> {{ $bladeName }} {{ config()->get('app.name') }}</h3>
+                    <h3 class="card-title"></h3>
                     <div class="">
                         {{-- <button class="btn btn-secondary btn-icon text-white addBtn">
 									<span>

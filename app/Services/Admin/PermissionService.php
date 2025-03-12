@@ -38,7 +38,7 @@ class PermissionService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
-                'bladeName' => " ",
+                'bladeName' => "الصلاحيات",
 
                 'route' => $this->route,
             ]);

@@ -11,9 +11,20 @@
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"> {{ $bladeName }} {{ config()->get('app.name') }}</h3>
+                    <h3 class="card-title"></h3>
                     <div class="">
+                        <button class="btn btn-secondary btn-icon text-white addBtn">
+                            <span>
+                                <i class="fe fe-plus"></i>
+                            </span> أضافه
+                        </button>
+                        <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
+                            <span><i class="fe fe-trash"></i></span> حذف المحدد
+                        </button>
 
+                        <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
+                            <span><i class="fe fe-trending-up"></i></span> تحديث حالة المحدد
+                        </button>
                     </div>
                 </div>
                 <div class="card-body">
