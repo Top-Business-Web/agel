@@ -226,4 +226,5 @@ return array (
   '....بحث' => '....بحث',
   'investors' => 'Investors',
   'clients' => 'Clients',
+  'vendor.clients' => 'Vendor.clients',
 );

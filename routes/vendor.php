@@ -73,10 +73,11 @@ Route::group(
                 Route::delete('activity_logs/{id}', [ActivityLogController::class, 'destroy'])->name('vendor.activity_logs.destroy');
                 Route::post('activity_logs/delete-selected', [ActivityLogController::class, 'deleteSelected'])->name('vendor.activity_logs.deleteSelected');
                 #============================ investors ====================================
-Route::resourceWithDeleteSelected('investors', InvestorController::class);
-Route::post('investors/{investor}', [InvestorController::class, 'update'])->name('vendor.investors.update');
+                Route::resourceWithDeleteSelected('investors', InvestorController::class);
+//                Route::post('investors/{investor}', [InvestorController::class, 'update'])->name('vendor.investors.update');
                 #============================ client ====================================
                 Route::resourceWithDeleteSelected('clients', ClientController::class);
+
             });
         });
 
