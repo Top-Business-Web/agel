@@ -12,19 +12,19 @@
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"> {{ $bladeName }} {{ config()->get('app.name') }}</h3>
+                    <h3></h3>
                     <div class="">
 {{--                        <button class="btn btn-secondary btn-icon text-white addBtn">--}}
 {{--									<span>--}}
 {{--										<i class="fe fe-plus"></i>--}}
 {{--									</span> أضافه--}}
 {{--                        </button>--}}
-                        <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
-                            <span><i class="fe fe-trash"></i></span> حذف المحدد
-                        </button>
+{{--                        <button class="btn btn-danger btn-icon text-white" id="bulk-delete">--}}
+{{--                            <span><i class="fe fe-trash"></i></span> حذف المحدد--}}
+{{--                        </button>--}}
 
                         <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
-                            <span><i class="fe fe-trending-up"></i></span> تحديث حالة المحدد
+                            <span><i class="fe fe-trending-up"></i></span>   تغير الحالة
                         </button>
                     </div>
                 </div>
@@ -40,12 +40,12 @@
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-50px rounded-end">الإسم</th>
                                 <th class="min-w-50px rounded-end">البريد الإلكتروني</th>
-                                <th class="min-w-50px rounded-end">رقم الهاتف</th>
+                                <th class="min-w-50px rounded-end">رقم الجوال</th>
                                 <th class="min-w-50px rounded-end">إسم المستخدم</th>
-                                <th class="min-w-50px rounded-end">رقم الهويه</th>
-                                <th class="min-w-50px rounded-end">الحاله</th>
-                                <th class="min-w-50px rounded-end">الصوره</th>
-                                <th class="min-w-50px rounded-end">العمليات</th>
+                                <th class="min-w-50px rounded-end">رقم الهوية</th>
+                                <th class="min-w-50px rounded-end">الحالة</th>
+                                <th class="min-w-50px rounded-end">الصورة</th>
+{{--                                <th class="min-w-50px rounded-end">العمليات</th>--}}
                             </tr>
                             </thead>
                         </table>
@@ -173,7 +173,7 @@
             {data: 'national_id', name: 'national_id'},
             {data: 'status', name: 'status'},
             {data: 'image', name: 'image'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
+            // {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
         showData('{{route($route.'.index')}}', columns);
 
