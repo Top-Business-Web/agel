@@ -92,6 +92,9 @@
                 <div class="page-header">
                     <div>
 {{--                        <h1 class="page-title">أهلا  {{ auth()->user()->name }} <i class="fas fa-heart" style="color: #009FE3;"></i></h1>--}}
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active" aria-current="page">@yield('page_name')</li>
+                        </ol>
                         <h1 class="page-title">@yield('page_name')</h1>
 {{--                        <ol class="breadcrumb">--}}
 {{--                            <li class="breadcrumb-item active" aria-current="page">@yield('page_name')</li>--}}
