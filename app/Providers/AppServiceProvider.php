@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
@@ -45,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
                 'uses' => "$controller@deleteSelected",
                 'as' => "$name.deleteSelected",
             ]);
+
             Route::post("$name/update-column-selected", [
                 'uses' => "$controller@updateColumnSelected",
                 'as' => "$name.updateColumnSelected",

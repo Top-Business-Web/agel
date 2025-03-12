@@ -4,6 +4,7 @@ namespace App\Services\Vendor;
 
 use App\Models\Client as ObjModel;
 use App\Services\BaseService;
+use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
 class ClientService extends BaseService
@@ -77,10 +78,13 @@ class ClientService extends BaseService
 
     public function edit($obj)
     {
+
         $branches = $this->branchService->getAll();
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
-            'updateRoute' => route("{$this->route}.update", $obj->id),
+//            'updateRoute' =>route("{$this->route}.update", [Str::singular($this->route) => $obj->id]),
+
+        'updateRoute' => route("{$this->route}.update", $obj->id),
             'branches' => $branches,
         ]);
     }
