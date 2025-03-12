@@ -43,7 +43,7 @@ class CityService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 // 'createRoute' => route($this->route . '.create'),
-                'bladeName' => " ",
+                'bladeName' => "المدن",
 
                 'route' => $this->route,
             ]);

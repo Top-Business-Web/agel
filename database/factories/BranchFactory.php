@@ -18,7 +18,7 @@ class BranchFactory extends Factory
 
         return [
             'name' => $faker->streetName(),
-            'city_id' => $this->faker->numberBetween(1,10),
+            'region_id' => $this->faker->numberBetween(1,10),
             'status' => $this->faker->boolean,
         ];
     }

@@ -50,7 +50,7 @@ class PlanService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
-                'bladeName' => " ",
+                'bladeName' => "الإشتراكات",
 
                 'route' => $this->route,
             ]);

@@ -76,12 +76,12 @@
 <div class="page">
     <div class="page-main">
         <!--APP-SIDEBAR-->
-    @include('vendor/layouts/main-sidebar')
-    <!--/APP-SIDEBAR-->
+        @include('vendor/layouts/main-sidebar')
+        <!--/APP-SIDEBAR-->
 
         <!-- Header -->
-    @include('vendor/layouts/main-header')
-    <!-- Header -->
+        @include('vendor/layouts/main-header')
+        <!-- Header -->
         <!--Content-area open-->
         <div class="app-content">
             <div class="side-app">
@@ -89,10 +89,11 @@
                 <!-- PAGE-HEADER -->
                 <div class="page-header">
                     <div>
-                        <h1 class="page-title">أهلا  {{ auth()->user()->name }} <i class="fas fa-heart" style="color: #009FE3;"></i></h1>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item active" aria-current="page">@yield('page_name')</li>
-                        </ol>
+                        {{--                        <h1 class="page-title">أهلا  {{ auth()->user()->name }} <i class="fas fa-heart" style="color: #009FE3;"></i></h1>--}}
+                        <h1 class="page-title">@yield('page_name')</h1>
+                        {{--                        <ol class="breadcrumb">--}}
+                        {{--                            <li class="breadcrumb-item active" aria-current="page">@yield('page_name')</li>--}}
+                        {{--                        </ol>--}}
                     </div>
                 </div>
                 <!-- PAGE-HEADER END -->
@@ -105,8 +106,8 @@
     <!-- SIDE-BAR -->
 
     <!-- FOOTER -->
-@include('vendor/layouts/footer')
-<!-- FOOTER END -->
+    @include('vendor/layouts/footer')
+    <!-- FOOTER END -->
 </div>
 <!-- BACK-TO-TOP -->
 <a href="#top" id="back-to-top"><i class="fa fa-angle-up mt-4"></i></a>
@@ -114,7 +115,7 @@
 @include('vendor/layouts/scripts')
 @yield('ajaxCalls')
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         const darkModeToggle = document.getElementById('darkModeBtn');
 
         // Function to toggle dark mode

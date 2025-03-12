@@ -42,7 +42,7 @@ class InvestorService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
-                'bladeName' => " ",
+                'bladeName' => "المستثمرين",
 
                 'route' => $this->route,
             ]);

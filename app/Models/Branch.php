@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Branch extends BaseModel
 {
     use HasFactory;
-    protected $fillable = ['name', 'city_id', 'status'];
+    protected $fillable = ['name', 'region_id', 'status'];
     protected $casts = [];
 
 
-    public function city()
+    public function region()
     {
-        return $this->belongsTo(City::class);
+        return $this->belongsTo(Region::class);
     }
 }
