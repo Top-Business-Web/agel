@@ -22,15 +22,16 @@ enum RoleEnum : int
     public function lang(): string
     {
         return match ($this) {
-            self::SUPER_ADMIN => trns('super_admin'),
-            self::ADMIN_FINANCE => trns('admin_finance'),
-            self::ADMIN_MARKETING => trns('admin_marketing'),
-            self::ADMIN_SUPPORT => trns('admin_support'),
-            self::PARTNER_ADMIN => trns('partner_admin'),
-            self::PARTNER_FINANCE => trns('partner_finance'),
-            self::PARTNER_RESERVATION => trns('partner_reservation'),
-            self::CLIENT => trns('client'),
+            self::SUPER_ADMIN => 'مشرف عام',
+            self::ADMIN_FINANCE => 'مسؤول مالي',
+            self::ADMIN_MARKETING => 'مسؤول تسويق',
+            self::ADMIN_SUPPORT => 'مسؤول دعم',
+            self::PARTNER_ADMIN => 'مدير شريك',
+            self::PARTNER_FINANCE => 'المالية للشريك',
+            self::PARTNER_RESERVATION => 'الحجوزات للشريك',
+            self::CLIENT => 'عميل',
         };
+
     }
 
     public function label(): string

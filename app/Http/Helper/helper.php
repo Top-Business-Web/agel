@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Setting;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 
@@ -28,7 +30,26 @@ if (!function_exists('vendor_has_module')) {
             return false;
         }
     }
+
+
 }
+    if (!function_exists('getAuthSetting')) {
+        function getAuthSetting($key)
+        {
+            $setting = Setting::where('vendor_id', Auth::guard('vendor')->user()->id)->get();
+
+            if ($setting->isEmpty()) {
+                $setting = Setting::where('vendor_id', Auth::guard('vendor')->user()->parent_id)->get();
+            }
+           $key= $setting->where('key',$key)->first();
+            if($key){
+                return $key->value;
+
+            }else{
+                return 'assets/uploads/empty.png';
+            }
+        }
+    }
 
 
 if (!function_exists('getFileWithName')) {
@@ -119,31 +140,31 @@ if (!function_exists('trans_model')) {
     }
 }
 
-if (!function_exists('trns')) {
-    function trns($key)
-    {
-        $path = resource_path("lang/en/file.php");
-
-        // Ensure the language file exists
-        if (!File::exists($path)) {
-            File::put($path, "<?php\n\nreturn [];\n");
-        }
-        $translations = include $path;
-        // Convert key to human-readable format
-        $value = ucwords(str_replace('_', ' ', $key));
-
-        if (!array_key_exists($key, $translations)) {
-            $translations[$key] = $value;
-
-            // Save the translations back to the file
-            $exported = var_export($translations, true);
-            File::put($path, "<?php\n\nreturn {$exported};\n");
-            return trans('file.' . $key);
-        } else {
-            return trans('file.' . $key);
-        }
-    }
-}
+//if (!function_exists('trns')) {
+//    function trns($key)
+//    {
+//        $path = resource_path("lang/en/file.php");
+//
+//        // Ensure the language file exists
+//        if (!File::exists($path)) {
+//            File::put($path, "<?php\n\nreturn [];\n");
+//        }
+//        $translations = include $path;
+//        // Convert key to human-readable format
+//        $value = ucwords(str_replace('_', ' ', $key));
+//
+//        if (!array_key_exists($key, $translations)) {
+//            $translations[$key] = $value;
+//
+//            // Save the translations back to the file
+//            $exported = var_export($translations, true);
+//            File::put($path, "<?php\n\nreturn {$exported};\n");
+//            return trans('file.' . $key);
+//        } else {
+//            return trans('file.' . $key);
+//        }
+//    }
+//}
 if (!function_exists('latAndLong')) {
     function latAndLong($location)
     {

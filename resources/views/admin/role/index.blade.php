@@ -4,7 +4,8 @@
     {{ config()->get('app.name') }} | الأدوار
 @endsection
 @section('page_name')
-    {{ trns('roles') }}
+الادوار
+
 @endsection
 @section('content')
 

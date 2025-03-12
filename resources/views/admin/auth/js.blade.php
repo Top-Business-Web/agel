@@ -21,7 +21,7 @@
             data: formData,
             beforeSend: function () {
                 $('#loginButton').html('<span class="spinner-border spinner-border-sm mr-2" ' +
-                    ' ></span> <span style="margin-left: 4px;">{{  trns('waiting...')}}</span>').attr('disabled', true);
+                    ' ></span> <span style="margin-left: 4px;">أنتظر قليلا</span>').attr('disabled', true);
 
             },
             complete: function () {
@@ -31,7 +31,7 @@
             success: function (data) {
                 if (data == 200) {
                     swal.fire({
-                        title: "{{ trns('welcome_back') }}",
+                        title: "أهلا بك",
                         icon: "success"
                     }).then(function () {
                         window.location.href = '{{route('adminHome')}}';
@@ -40,17 +40,17 @@
                     {{--    window.location.href = '{{route('adminHome')}}';--}}
                     {{--}, 1000);--}}
                 } else {
-                    toastr.error('{{ trns('login_failed') }}');
-                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> {{trns('login')}}`).attr('disabled', false);
+                    toastr.error('خطأ في  بيانات الدخول');
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
                 }
 
             },
             error: function (data) {
                 if (data.status === 500) {
-                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> {{trns('login')}}`).attr('disabled', false);
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
                     toastr.error('هناك خطأ ما');
                 } else if (data.status === 422) {
-                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> {{trns('login')}}`).attr('disabled', false);
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
                     var errors = $.parseJSON(data.responseText);
                     $.each(errors, function (key, value) {
                         if ($.isPlainObject(value)) {
@@ -62,9 +62,9 @@
                         }
                     });
                 } else {
-                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> {{ trns('login') }}`).attr('disabled', false);
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
 
-                    toastr.error('{{ trns('login_failed') }}');
+                    toastr.error('خطأ في  بيانات الدخول');
                 }
             },//end error method
 

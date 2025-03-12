@@ -65,12 +65,12 @@
                     </div>
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
-                        <p>{{  trns('are_you_sure_you_want_to_delete_this_obj')}} <span id="title"
+                        <p>هل تريد حذف هذا العنصر؟ <span id="title"
                                                                                         class="text-danger"></span>?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
-                            {{ trns('close') }}
+                            اغلاق
                         </button>
                         <button type="button" class="btn btn-danger" id="delete_btn">حذف !</button>
                     </div>
@@ -109,7 +109,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>هل أنت متأكد من أنك تريد حذف العناصر المحدده</p>
+                        <p>هل أنت متأكد من أنك تريد حذف العناصر المحددة</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
@@ -136,7 +136,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>{{ trns("are_you_sure_you_want_to_update_selected_items") }}</p>
+                        <p>هل أنت متأكد من أنك تريد تعديل حالة العناصر المحددة</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
@@ -149,7 +149,7 @@
 
         <!-- delete selected  Modal -->
     </div>
-    @include('admin/layouts/myAjaxHelper')
+    @include('vendor/layouts/myAjaxHelper')
 @endsection
 @section('ajaxCalls')
     <script>
@@ -210,16 +210,16 @@
                 success: function(data) {
                     if (data.status === 200) {
                         if (val !== 0) {
-                            toastr.success('Success', "{{ trns('active') }}");
+                            toastr.success('Success', "نشط");
                         } else {
-                            toastr.warning('Success', "{{ trns('inactive') }}");
+                            toastr.warning('Success', "غير نشط ");
                         }
                     } else {
-                        toastr.error('Error', "{{ trns('something_went_wrong') }}");
+                        toastr.error('Error', "حدث خطأ ما");
                     }
                 },
                 error: function() {
-                    toastr.error('Error', "{{ trns('something_went_wrong') }}");
+                    toastr.error('Error', "حدث خطأ ما");
                 }
             });
         });

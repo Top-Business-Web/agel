@@ -8,6 +8,7 @@ use App\Http\Controllers\Vendor\HomeController;
 use App\Http\Controllers\Vendor\BranchController;
 use App\Http\Controllers\Vendor\InvestorController;
 use App\Http\Controllers\Vendor\RoleController;
+use App\Http\Controllers\Vendor\SettingController;
 use App\Http\Controllers\Vendor\VendorController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -45,14 +46,12 @@ Route::group(
 
             Route::group(['middleware' => 'auth:vendor'], function () {
 
-
-
                 #============================ Home ====================================
                 Route::get('homeVendor', [HomeController::class, 'index'])->name('vendorHome');
                 #============================ branches ==================================
                 Route::resourceWithDeleteSelected('branches', BranchController::class);
                 #============================ vendors ====================================
-//                    Route::resourceWithDeleteSelected('vendors', VendorController::class);
+                //                    Route::resourceWithDeleteSelected('vendors', VendorController::class);
                 Route::get('vendors/index', [VendorController::class, 'index'])->name('vendor.vendors.index');
                 Route::get('vendors/create', [VendorController::class, 'create'])->name('vendor.vendors.create');
                 Route::post('vendors', [VendorController::class, 'store'])->name('vendor.vendors.store');
@@ -72,9 +71,15 @@ Route::group(
                 Route::get('activity_logs', [ActivityLogController::class, 'index'])->name('vendor.activity_logs.index');
                 Route::delete('activity_logs/{id}', [ActivityLogController::class, 'destroy'])->name('vendor.activity_logs.destroy');
                 Route::post('activity_logs/delete-selected', [ActivityLogController::class, 'deleteSelected'])->name('vendor.activity_logs.deleteSelected');
+
+                //============================ VendorSetting ====================================
+
+                Route::get('vendor/setting', [SettingController::class, 'index'])->name('vendorSetting');
+                Route::post('vendor/setting/update', [SettingController::class, 'update'])->name('vendorSetting.store');
                 #============================ investors ====================================
+
                 Route::resourceWithDeleteSelected('investors', InvestorController::class);
-//                Route::post('investors/{investor}', [InvestorController::class, 'update'])->name('vendor.investors.update');
+                Route::post('investors/{investor}', [InvestorController::class, 'update'])->name('vendor.investors.update');
                 #============================ client ====================================
                 Route::resourceWithDeleteSelected('clients', ClientController::class);
 

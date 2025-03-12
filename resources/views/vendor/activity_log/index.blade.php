@@ -16,7 +16,7 @@
                         {{-- <button class="btn btn-secondary btn-icon text-white addBtn">
 									<span>
 										<i class="fe fe-plus"></i>
-									</span> {{ trns('add_new') . ' ' . $bladeName }}
+									</span> أضافه
                         </button> --}}
                         <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
                             <span><i class="fe fe-trash"></i></span> {{ trns('delete selected') }}
@@ -42,7 +42,7 @@
                                     <th class="min-w-25px">{{ trns('module_id') }}</th>
 {{--                                    <th class="min-w-25px">{{ trns('causer_type') }}</th>--}}
                                     <th class="min-w-25px">{{ trns('caused_by') }}</th>
-                                    <th class="min-w-50px rounded-end">{{ trns('actions') }}</th>
+                                    <th class="min-w-50px rounded-end">الاجراءات</th>
                                 </tr>
                             </thead>
                         </table>
@@ -57,7 +57,7 @@
             <div class="modal-dialog " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{ trns('delete') }}</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">حذف</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
@@ -69,9 +69,9 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
-                            {{ trns('close') }}
+                            {أغلاق
                         </button>
-                        <button type="button" class="btn btn-danger" id="delete_btn">{{ trns('delete') }} !</button>
+                        <button type="button" class="btn btn-danger" id="delete_btn">حذف !</button>
                     </div>
                 </div>
             </div>
@@ -102,18 +102,19 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteConfirmModalLabel">{{ trns('confirm_deletion') }}</h5>
+                        <h5 class="modal-title" id="deleteConfirmModalLabel">تاكيد الحذف</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>{{ trns('are_you_sure_you_want_to_delete_selected_items') }}</p>
+                        <p>هل أنت متأكد أنك تريد حذف العناصر المحددة؟</p>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ trns('cancel') }}</button>
-                        <button type="button" class="btn btn-danger" id="confirm-delete-btn">{{ trns('delete') }}</button>
+                            data-bs-dismiss="modal">أغلاق</button>
+                        <button type="button" class="btn btn-danger" id="confirm-delete-btn">حذف</button>
                     </div>
                 </div>
             </div>
@@ -138,9 +139,9 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ trns('cancel') }}</button>
+                            data-bs-dismiss="modal">أغلاق</button>
                         <button type="button" class="btn btn-send"
-                            id="confirm-update-btn">{{ trns('update') }}</button>
+                            id="confirm-update-btn">تحديث</button>
                     </div>
                 </div>
             </div>

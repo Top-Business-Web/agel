@@ -21,53 +21,55 @@
                     [0, "DESC"]
                 ],
                 "language": {
-                    "sProcessing": "{{ trns('processing...') }}",
-                    "sLengthMenu": "{{ trns('show') }} _MENU_ {{ trns('records') }}",
-                    "sZeroRecords": "{{ trns('no_records_found') }}",
-                    "sInfo": "{{ trns('showing') }} _START_ {{ trns('to') }} _END_ {{ trns('of') }} _TOTAL_ {{ trns('records') }}",
-                    "sInfoEmpty": "{{ trns('showing') }} 0 {{ trns('to') }} 0 {{ trns('of') }} 0 {{ trns('records') }}",
-                    "sInfoFiltered": "({{ trns('filtered_from') }} _MAX_ {{ trns('total_records') }})",
-                    "sSearch": "{{ trns('search') }} :    ",
+                    "sProcessing": "جاري المعالجة...",
+                    "sLengthMenu": "عرض _MENU_ سجلات",
+                    "sZeroRecords": "لم يتم العثور على سجلات",
+                    "sInfo": "عرض _START_ إلى _END_ من _TOTAL_ سجلات",
+                    "sInfoEmpty": "عرض 0 إلى 0 من 0 سجلات",
+                    "sInfoFiltered": "(تمت التصفية من _MAX_ إجمالي السجلات)",
+                    "sSearch": "بحث :",
                     "oPaginate": {
-                        "sPrevious": "{{  trns('previous') }}",
-                        "sNext": "{{ trns('next') }}",
+                        "sPrevious": "السابق",
+                        "sNext": "التالي"
                     },
-                    buttons: {
-                        copyTitle: '{{  trns('copied') }} <i class="fa fa-check-circle text-success"></i>',
-                        copySuccess: {
-                            1: "{{  trns('copied') }} 1 {{  trns('row') }}",
-                            _: "{{  trns('copied') }} %d {{  trns('rows') }}"
-                        },
+                    "buttons": {
+                        "copyTitle": "تم النسخ <i class=\"fa fa-check-circle text-success\"></i>",
+                        "copySuccess": {
+                            "1": "تم نسخ 1 صف",
+                            "_": "تم نسخ %d صفوف"
+                        }
                     }
                 },
+
 
                 dom: 'Bfrtip',
                 buttons: [
                     {
                         extend: 'copy',
-                        text: "{{  trns('copy') }}",
+                        text: "نسخ",
                         className: 'btn-primary'
                     },
                     {
                         extend: 'print',
-                        text: '{{  trns('print') }}',
+                        text: "طباعة",
                         className: 'btn-primary'
                     },
                     {
                         extend: 'excel',
-                        text: '{{  trns('excel') }}',
+                        text: "إكسل",
                         className: 'btn-primary'
                     },
                     {
                         extend: 'pdf',
-                        text: '{{  trns('pdf') }}',
+                        text: "PDF",
                         className: 'btn-primary'
                     },
                     {
                         extend: 'colvis',
-                        text: '{{  trns('column_visibility') }}',
+                        text: "إظهار/إخفاء الأعمدة",
                         className: 'btn-primary'
                     },
+
                 ]
             });
         }
@@ -131,18 +133,18 @@
                 data: formData,
                 beforeSend: function () {
                     $('#addButton').html('<span class="spinner-border spinner-border-sm mr-2" ' +
-                        ' ></span> <span style="margin-left: 4px;">{{  trns('loading...') }}</span>').attr('disabled', true);
+                        ' ></span> <span style="margin-left: 4px;">أنتظر قليلًا...</span>').attr('disabled', true);
                 },
                 success: function (data) {
                     if (data.status == 200) {
                         $('#dataTable').DataTable().ajax.reload();
-                        toastr.success('{{  trns('added_successfully') }}');
+                        toastr.success('تمت العملية بنجاح');
                     } else if(data.status == 405){
                         toastr.error(data.mymessage);
                     }
                     else
-                        toastr.error('{{  trns('something_went_wrong') }}');
-                    $('#addButton').html(`{{  trns('add') }}`).attr('disabled', false);
+                        toastr.error('حدث خطأ ما');
+                    $('#addButton').html(`اضافه`).attr('disabled', false);
                     $('#editOrCreate').modal('hide')
                 },
                 error: function (data) {
@@ -153,12 +155,12 @@
                         $.each(errors, function (key, value) {
                             if ($.isPlainObject(value)) {
                                 $.each(value, function (key, value) {
-                                    toastr.error(value, '{{  trns('error') }}');
+                                    toastr.error(value, 'خطأ');
                                 });
                             }
                         });
                     } else
-                        toastr.error('{{  trns('something_went_wrong') }}');
+                        toastr.error('حدث خطأ ما');
                     $('#addButton').html(`اضافة`).attr('disabled', false);
                 },//end error method
 
@@ -194,33 +196,33 @@
                 data: formData,
                 beforeSend: function () {
                     $('#updateButton').html('<span class="spinner-border spinner-border-sm mr-2" ' +
-                        ' ></span> <span style="margin-left: 4px;">{{  trns('loading...') }}</span>').attr('disabled', true);
+                        ' ></span> <span style="margin-left: 4px;">أنتظر قليلًا...</span>').attr('disabled', true);
                 },
                 success: function (data) {
-                    $('#updateButton').html(`{{  trns('update') }}`).attr('disabled', false);
+                    $('#updateButton').html(`تحديث`).attr('disabled', false);
                     if (data.status == 200) {
                         $('#dataTable').DataTable().ajax.reload();
-                        toastr.success('{{  trns('updated_successfully') }}');
+                        toastr.success('تمت العملية بنجاح');
                     } else
-                        toastr.error('{{  trns('something_went_wrong') }}');
+                        toastr.error('حدث خطأ ما');
 
                     $('#editOrCreate').modal('hide')
                 },
                 error: function (data) {
                     if (data.status === 500) {
-                        toastr.error('{{  trns('something_went_wrong') }}');
+                        toastr.error('حدث خطأ ما');
                     } else if (data.status === 422) {
                         var errors = $.parseJSON(data.responseText);
                         $.each(errors, function (key, value) {
                             if ($.isPlainObject(value)) {
                                 $.each(value, function (key, value) {
-                                    toastr.error(value, '{{  trns('error') }}');
+                                    toastr.error(value, 'خطأ');
                                 });
                             }
                         });
                     } else
-                        toastr.error('{{  trns('something_went_wrong') }}');
-                    $('#updateButton').html(`{{  trns('update') }}`).attr('disabled', false);
+                        toastr.error('حدث خطأ ما');
+                    $('#updateButton').html(`تحديث`).attr('disabled', false);
                 },//end error method
 
                 cache: false,
@@ -229,4 +231,125 @@
             });
         });
     }
+
+    function deleteSelected(route) {
+        $(document).ready(function() {
+            $('#bulk-delete').prop('disabled', true);
+
+            $('#select-all').on('click', function() {
+                const isChecked = $(this).is(':checked');
+                $('.delete-checkbox').prop('checked', isChecked);
+                toggleBulkDeleteButton();
+            });
+
+            $(document).on('change', '.delete-checkbox', function() {
+                toggleBulkDeleteButton();
+            });
+
+            $('#bulk-delete').on('click', function() {
+                const selected = $('.delete-checkbox:checked').map(function() {
+                    return $(this).val();
+                }).get();
+
+                if (selected.length > 0) {
+                    $('#deleteConfirmModal').modal('show');
+
+                    $('#confirm-delete-btn').off('click').on('click', function() {
+                        $.ajax({
+                            url: route,
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                ids: selected
+                            },
+                            success: function(response) {
+                                if (response.status === 200) {
+                                    toastr.success('تم الحذف بنجاح');
+                                    $('#select-all').prop('checked', false);
+                                    $('.delete-checkbox').prop('checked', false);
+                                    $('#dataTable').DataTable().ajax.reload();
+                                } else {
+                                    toastr.error('حدث خطأ ما');
+                                }
+                                $('#deleteConfirmModal').modal('hide');
+                                toggleBulkDeleteButton();
+                            },
+                            error: function() {
+                                toastr.error('حدث خطأ ما');
+                                $('#deleteConfirmModal').modal('hide');
+                                toggleBulkDeleteButton();
+                            }
+                        });
+                    });
+                }
+            });
+
+            function toggleBulkDeleteButton() {
+                const anyChecked = $('.delete-checkbox:checked').length > 0;
+                $('#bulk-delete').prop('disabled', !anyChecked);
+            }
+        });
+    }
+
+    function updateColumnSelected(route) {
+        $(document).ready(function() {
+            $('#bulk-update').prop('disabled', true);
+
+            $('#select-all').on('click', function() {
+                const isChecked = $(this).is(':checked');
+                $('.delete-checkbox').prop('checked', isChecked);
+                toggleBulkUpdateButton();
+            });
+
+            $(document).on('change', '.delete-checkbox', function() {
+                toggleBulkUpdateButton();
+            });
+
+            $('#bulk-update').on('click', function() {
+                const selected = $('.delete-checkbox:checked').map(function() {
+                    return $(this).val();
+                }).get();
+
+                if (selected.length > 0) {
+                    $('#updateConfirmModal').modal('show');
+
+                    $('#confirm-update-btn').off('click').on('click', function() {
+                        $.ajax({
+                            url: route,
+                            type: 'POST',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                ids: selected
+                            },
+                            success: function(data) {
+                                if (data.status === 200) {
+                                    toastr.success('تم التحديث بنجاح');
+                                    $('#select-all').prop('checked', false);
+                                    $('.delete-checkbox').prop('checked', false);
+                                    $('#dataTable').DataTable().ajax.reload();
+                                } else {
+                                    toastr.error('حدث خطأ ما');
+                                }
+                                $('#updateConfirmModal').modal('hide');
+                                toggleBulkUpdateButton();
+                            },
+                            error: function(xhr) {
+                                toastr.error('حدث خطأ ما');
+                                $('#updateConfirmModal').modal('hide');
+                                toggleBulkUpdateButton();
+                            }
+                        });
+                    });
+                } else {
+                    toastr.error('يرجى التحديد أولاً');
+                }
+            });
+
+            function toggleBulkUpdateButton() {
+                const anyChecked = $('.delete-checkbox:checked').length > 0;
+                $('#bulk-update').prop('disabled', !anyChecked);
+            }
+        });
+    }
+
 </script>

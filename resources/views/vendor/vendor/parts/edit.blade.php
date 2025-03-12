@@ -8,7 +8,8 @@
 
             <div class="col-12">
                 <div class="form-group">
-                    <label for="image" class="form-control-label">{{ trns('image') }}</label>
+                    <label for="image" class="form-control-label">الصورة
+</label>
                     <input type="file" class="dropify" name="image" id="image"
                         data-default-file="{{ $obj->image }}">
                 </div>
@@ -27,7 +28,8 @@
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="name" class="form-control-label">{{ trns('name') }}</label>
+                    <label for="name" class="form-control-label">الاسم
+</label>
                     <input type="text" class="form-control" name="name" id="name"
                         value="{{ $obj->name }}">
                 </div>
@@ -37,7 +39,8 @@
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="email" class="form-control-label">{{ trns('email') }}</label>
+                    <label for="email" class="form-control-label">البريد الإلكتروني
+</label>
                     <input type="email" class="form-control" name="email" id="email"
                         value="{{ $obj->email }}">
                 </div>
@@ -80,8 +83,8 @@
 
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ trns('close') }}</button>
-            <button type="submit" class="btn btn-success" id="updateButton">{{ trns('update') }}</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{أغلاق</button>
+            <button type="submit" class="btn btn-success" id="updateButton">تحديث</button>
         </div>
     </form>
 </div>

@@ -38,10 +38,12 @@
                                         <input type="checkbox" id="select-all">
                                     </th>
                                     <th class="min-w-25px">#</th>
-                                    <th class="min-w-25px">{{ trns('name') }}</th>
-                                    <th class="min-w-25px">{{ trns('city') }}</th>
-                                    <th class="min-w-25px">{{ trns('status') }}</th>
-                                    <th class="min-w-50px rounded-end">{{ trns('actions') }}</th>
+                                    <th class="min-w-25px">الاسم
+</th>
+                                    <th class="min-w-25px">المدينة
+</th>
+                                    <th class="min-w-25px">الحالة</th>
+                                    <th class="min-w-50px rounded-end">الاجراءات</th>
                                 </tr>
                             </thead>
                         </table>
@@ -56,21 +58,21 @@
             <div class="modal-dialog " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{ trns('delete') }}</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">حذف</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
-                        <p>{{ trns('are_you_sure_you_want_to_delete_this_obj') }} <span id="title"
+                        <p>هل أنت متأكد أنك تريد حذف هذا العنصر؟ <span id="title"
                                 class="text-danger"></span>?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
-                            {{ trns('close') }}
+                            {أغلاق
                         </button>
-                        <button type="button" class="btn btn-danger" id="delete_btn">{{ trns('delete') }} !</button>
+                        <button type="button" class="btn btn-danger" id="delete_btn">حذف !</button>
                     </div>
                 </div>
             </div>
@@ -82,7 +84,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="example-Modal3">{{ trns('object_details') }}</h5>
+                        <h5 class="modal-title" id="example-Modal3">التفاصيل</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -101,19 +103,20 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteConfirmModalLabel">{{ trns('confirm_deletion') }}</h5>
+                        <h5 class="modal-title" id="deleteConfirmModalLabel">تاكيد الحذف</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>{{ trns('are_you_sure_you_want_to_delete_selected_items') }}</p>
+                        <p>هل أنت متأكد أنك تريد حذف العناصر المحددة؟</p>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ trns('cancel') }}</button>
+                            data-bs-dismiss="modal">أغلاق</button>
                         <button type="button" class="btn btn-danger"
-                            id="confirm-delete-btn">{{ trns('delete') }}</button>
+                            id="confirm-delete-btn">حذف</button>
                     </div>
                 </div>
             </div>
@@ -128,19 +131,19 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="deleteConfirmModalLabel">{{ trns('confirm_change') }}</h5>
+                        <h5 class="modal-title" id="deleteConfirmModalLabel">تأكيد</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>{{ trns('are_you_sure_you_want_to_update_selected_items') }}</p>
+                        <p>هل أنت متأكد أنك تريد حذف هذا العنصر؟ <span id="title"></span></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ trns('cancel') }}</button>
+                            data-bs-dismiss="modal">أغلاق</button>
                         <button type="button" class="btn btn-send"
-                            id="confirm-update-btn">{{ trns('update') }}</button>
+                            id="confirm-update-btn">تحديث</button>
                     </div>
                 </div>
             </div>
@@ -223,16 +226,16 @@
                 success: function(data) {
                     if (data.status === 200) {
                         if (val !== 0) {
-                            toastr.success('Success', "{{ trns('active') }}");
+                            toastr.success('Success', "نشط");
                         } else {
-                            toastr.warning('Success', "{{ trns('inactive') }}");
+                            toastr.warning('Success', "غير نشط ");
                         }
                     } else {
-                        toastr.error('Error', "{{ trns('something_went_wrong') }}");
+                        toastr.error('Error', "حدث خطأ ما");
                     }
                 },
                 error: function() {
-                    toastr.error('Error', "{{ trns('something_went_wrong') }}");
+                    toastr.error('Error', "حدث خطأ ما");
                 }
             });
         });
