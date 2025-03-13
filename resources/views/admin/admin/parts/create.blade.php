@@ -49,7 +49,7 @@
                 </div>
             </div>
             <!-- aya -->
-            <div class="col-lg-3 col-12 mb-2">
+                         <div class="col-lg-3 col-12 mb-2">
                             <div class="name-rule">
                                 <h5>صلاحيات المدير</h5>
                             </div>
