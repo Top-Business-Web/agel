@@ -145,10 +145,9 @@
         document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', function () {
             let group = this.dataset.group;
-            let firstPermission = document.querySelector(`.permission-checkbox[data-group='${group}']:first-child`);
-
-            if (this.checked && firstPermission) {
-                firstPermission.checked = true;
+            let secondPermission = document.querySelectorAll(`.permission-checkbox[data-group='${group}']`)[1];
+            if (this.checked && secondPermission) {
+                secondPermission.checked = true;
             }
         });
     });
