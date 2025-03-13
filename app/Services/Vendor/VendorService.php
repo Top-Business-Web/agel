@@ -5,11 +5,13 @@ namespace App\Services\Vendor;
 
 namespace App\Services\Vendor;
 
+use App\Models\Region;
 use App\Models\Vendor as ObjModel;
 
-use App\Services\Admin\CityService;
 use App\Services\BaseService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\DataTables;
 
 class VendorService extends BaseService
@@ -17,31 +19,30 @@ class VendorService extends BaseService
     protected string $folder = 'vendor/vendor';
     protected string $route = 'vendor.vendors';
 
-    public function __construct(ObjModel $objModel, protected CityService $cityService)
+    public function __construct(ObjModel $objModel, protected Region $region)
     {
         parent::__construct($objModel);
     }
 
     public function index($request)
     {
-//        dd(auth('vendor')->user()->parent_id);
         if ($request->ajax()) {
-            $obj =  $this->getVendorDateTable();
+            $obj = $this->getVendorDateTable();
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
-                    if ($obj->id==auth()->user()->id||$obj->parent_id==auth()->user()->id) {
+                    if ($obj->id == auth()->user()->id || $obj->parent_id == auth()->user()->id) {
                         $buttons = '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
                            <i class="fa fa-eye"></i>
                             </button>
                     ';
-                    }else{
+                    } else {
 
-                    $buttons = '
+                        $buttons = '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
                             <i class="fa fa-edit"></i>
                         </button>';
-                    $buttons .= '
+                        $buttons .= '
                         <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                             data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
                             <i class="fas fa-trash"></i>
@@ -52,7 +53,6 @@ class VendorService extends BaseService
                             </button>
                     ';
                     }
-
 
 
                     return $buttons;
@@ -69,7 +69,7 @@ class VendorService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
-                'bladeName' =>'المكاتب',
+                'bladeName' => 'الموظفين',
                 'route' => $this->route,
             ]);
         }
@@ -78,20 +78,23 @@ class VendorService extends BaseService
     public function create()
     {
         return view("{$this->folder}/parts/create", [
-//            'moduleService' => $this->moduleService->getAll(),
             'storeRoute' => route("{$this->route}.store"),
-            'cities' => $this->cityService->getAll(),
-
+            'regions' => $this->region->get(),
+            'permissions' => Permission::where('guard_name', 'vendor')
+                ->get(),
         ]);
     }
 
-    public function store($data): \Illuminate\Http\JsonResponse
+    public function store($data): JsonResponse
     {
+        $allData = $data;
+        unset($data['permissions']);
         if (isset($data['image'])) {
             $data['image'] = $this->handleFile($data['image'], 'Vendor');
         }
 
         $data['username'] = $this->generateUsername($data['name']);
+        $data['phone']='+966'.$data['phone'];
         if (isset(auth()->user()->parent_id)) {
             $data['parent_id'] = auth()->user()->parent_id;
         } else {
@@ -100,24 +103,25 @@ class VendorService extends BaseService
 
         $data['password'] = Hash::make($data['password']);
 
+
         try {
-           $this->model->create($data);
+            $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();
+            $obj=$this->model->create($data);
+            $obj->syncPermissions($permissions);
+
 
             return $this->responseMsg();
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 500,
-                'message' =>"حدث خطأ",
+                'message' => "حدث خطأ",
                 'error' => $e->getMessage()
             ]);
 
         }
     }
 
-    public function show($id)
-    {
 
-    }
 
     public function edit($obj)
     {

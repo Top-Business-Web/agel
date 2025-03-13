@@ -22,9 +22,9 @@ class VendorSeeder extends Seeder
         $vendor = Vendor::create([
             'name' => 'vendor',
             'phone' => '01000000000',
-            'national_id' => '12344564645422',
-            'commercial_number' => '123445646454222',
-            'city_id' => 1,
+            'national_id' => '1234456464',
+            'commercial_number' => '12344564645',
+            'region_id' => 1,
             'role_id' => 6,
             'status' => 1,
             'username' => 'vendor',
