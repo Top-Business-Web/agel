@@ -44,6 +44,20 @@
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
                 }
 
+
+                if (data.status === 200) {
+
+                    swal.fire({
+                        title: "من فضلك قم بإدخال الكود الذي تم إرساله على البريد الإلكتروني",
+                        icon: "success"
+                    }).then(function () {
+                        window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__']) }}'.replace('__EMAIL__', encodeURIComponent(data.email));                    });
+
+                } else {
+                    toastr.error('خطأ في  بيانات الدخول');
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
+                }
+
             },
             error: function (data) {
                 if (data.status === 500) {

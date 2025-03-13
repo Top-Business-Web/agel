@@ -18,7 +18,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="city_id" class="form-control-label">المدينه</label>
-                    <select placeholder="{{ trns('-- select_city --') }}" class="form-control" name="city_id" id="city_id">
+                    <select placeholder="اختر المدينه" class="form-control" name="city_id" id="city_id">
                         @foreach ($cities as $city)
                             <option value="{{$city->id }}">{{$city->name}}</option>
                         @endforeach
@@ -48,7 +48,7 @@
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="name" class="form-control-label">{{ trns('phone') }}</label>
+                    <label for="name" class="form-control-label">رقم الهاتف</label>
                     <input type="number" class="form-control" name="phone" maxlength="11" id="name"
                         value="{{ $obj->phone }}">
                 </div>
@@ -56,7 +56,7 @@
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="name" class="form-control-label">{{ trns('national_id') }}</label>
+                    <label for="name" class="form-control-label">رقم الهويه</label>
                     <input type="number" class="form-control" name="national_id" minlength="14" id="name"
                         value="{{ $obj->national_id }}">
                 </div>
@@ -64,14 +64,14 @@
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="password" class="form-control-label">{{ trns('password') }}</label>
+                    <label for="password" class="form-control-label">كلمة المرور</label>
                     <input type="password" class="form-control" name="password" id="password">
                 </div>
             </div>
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="password" class="form-control-label">{{ trns('password_confirmation') }}</label>
+                    <label for="password" class="form-control-label">تأكيد كلمة المرور</label>
                     <input type="password" class="form-control" name="password_confirmation" id="password">
                 </div>
             </div>
