@@ -75,7 +75,7 @@
             @method('POST')
             <label class="inp">
                 <input type="text" name="input" class="input-text" placeholder="&nbsp;">
-                <span class="label">إدخل البريد الإلكتروني أو الكود</span>
+                <span class="label">إدخل البريد الإلكتروني أو رقم الهاتف</span>
                 <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
             </label>
             <label class="inp">
@@ -86,11 +86,12 @@
             <button class="btn btn-login" id="loginButton"> تسجيل الدخول</button>
         </form>
     </main>
-    <div class="welcome-container" style="background-color: white !important;"
-         >
+    <div class="welcome-container" style="background-color: white !important;">
 
         <img style="border-radius: 10%" src="{{asset('logo.webp')}}">
     </div>
+</div>
+</body>
 
 @include('admin.auth.js')
     <script>

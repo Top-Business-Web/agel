@@ -62,7 +62,7 @@
 
 
     <main class="signup-container" style="margin-top: 40px">
-        <h1 class="heading-primary">{{ trns('welcome ') }}<span class="span-blue">.</span></h1>
+        <h1 class="heading-primary">مرحبا <span class="span-blue">.</span></h1>
         <p class="text-mute">من فضلك ادخل كود التفعيل</p>
 
         <form class="signup-form" action="{{route('otp.check')}}" method="post" id="LoginForm">

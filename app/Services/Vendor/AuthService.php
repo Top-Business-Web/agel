@@ -40,7 +40,7 @@ class AuthService
             ]
         );
 
-        $vendor = Vendor::where('username', $data['input'])
+        $vendor = Vendor::where('phone', $data['input'])
             ->orWhere('email', $data['input'])
             ->first();
 
@@ -49,16 +49,29 @@ class AuthService
             return response()->json(405);
         }
         $credentials = [
-            (filter_var($data['input'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username') => $data['input'],
+            (filter_var($data['input'], FILTER_VALIDATE_EMAIL) ? 'email' : 'phone') => $data['input'],
             'password' => $data['password'],
         ];
 
-
         if (Auth::guard('vendor')->attempt($credentials)) {
-            return response()->json(200);
+
+//            return response()->json(200);
+            $otp = rand(1000, 9999);
+            $vendor->update([
+                'otp' => $otp,
+                'otp_expire_at' => now()->addMinutes(5)
+            ]);
+
+            Mail::to($vendor->email)->send(new Otp($vendor->name, $otp));
+            return response()->json([
+                'status' => 200,
+                'email' => $vendor->email
+            ], 200);
         }
-        return response()->json(405);
-    }
+        return response()->json([
+            'status' => 405,
+            'message' => 'لم يتم العثور على المكتب'
+        ], 405);    }
 
 
     public function register($request)
