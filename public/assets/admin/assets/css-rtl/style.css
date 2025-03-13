@@ -25054,3 +25054,11 @@ a.text-dark:hover, a.text-dark:focus {
 .custom-border {
     border: 1px dashed rgb(0 0 0 / 36%);
 }
+
+
+/* aya */
+
+.form-check .form-check-input{
+    float: right;
+    margin-right: -1.5em;
+}
