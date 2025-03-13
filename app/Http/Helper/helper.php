@@ -17,6 +17,18 @@ if (!function_exists('get_file')) {
 }
 
 
+if (!function_exists('getKey')) {
+    function getKey(): array
+    {
+        $arr = [
+            'إنشاء',
+            'عرض',
+            'تحديث',
+            'حذف',
+        ];
+        return $arr;
+    }
+}
 
 
 if (!function_exists('vendor_has_module')) {
@@ -33,23 +45,23 @@ if (!function_exists('vendor_has_module')) {
 
 
 }
-    if (!function_exists('getAuthSetting')) {
-        function getAuthSetting($key)
-        {
-            $setting = Setting::where('vendor_id', Auth::guard('vendor')->user()->id)->get();
+if (!function_exists('getAuthSetting')) {
+    function getAuthSetting($key)
+    {
+        $setting = Setting::where('vendor_id', Auth::guard('vendor')->user()->id)->get();
 
-            if ($setting->isEmpty()) {
-                $setting = Setting::where('vendor_id', Auth::guard('vendor')->user()->parent_id)->get();
-            }
-           $key= $setting->where('key',$key)->first();
-            if($key){
-                return $key->value;
+        if ($setting->isEmpty()) {
+            $setting = Setting::where('vendor_id', Auth::guard('vendor')->user()->parent_id)->get();
+        }
+        $key = $setting->where('key', $key)->first();
+        if ($key) {
+            return $key->value;
 
-            }else{
-                return 'assets/uploads/empty.png';
-            }
+        } else {
+            return 'assets/uploads/empty.png';
         }
     }
+}
 
 
 if (!function_exists('getFileWithName')) {

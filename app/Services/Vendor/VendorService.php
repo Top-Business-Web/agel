@@ -9,6 +9,7 @@ use App\Models\Region;
 use App\Models\Vendor as ObjModel;
 
 use App\Services\BaseService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\DataTables;
@@ -68,7 +69,7 @@ class VendorService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
-                'bladeName' => 'المكاتب',
+                'bladeName' => 'الموظفين',
                 'route' => $this->route,
             ]);
         }
@@ -84,7 +85,7 @@ class VendorService extends BaseService
         ]);
     }
 
-    public function store($data): \Illuminate\Http\JsonResponse
+    public function store($data): JsonResponse
     {
         $allData = $data;
         unset($data['permissions']);
@@ -93,6 +94,7 @@ class VendorService extends BaseService
         }
 
         $data['username'] = $this->generateUsername($data['name']);
+        $data['phone']='+966'.$data['phone'];
         if (isset(auth()->user()->parent_id)) {
             $data['parent_id'] = auth()->user()->parent_id;
         } else {
@@ -119,10 +121,7 @@ class VendorService extends BaseService
         }
     }
 
-    public function show($id)
-    {
 
-    }
 
     public function edit($obj)
     {

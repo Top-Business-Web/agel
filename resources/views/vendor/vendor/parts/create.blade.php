@@ -41,10 +41,14 @@
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="name" class="form-control-label">رقم الهاتف</label>
-                    <input type="number" class="form-control" name="phone" maxlength="11" id="name">
+                    <label for="phone" class="form-control-label">رقم الهاتف</label>
+                    <div class="input-group">
+                        <span class="input-group-text">+966</span>
+                        <input type="number" class="form-control" name="phone" maxlength="11">
+                    </div>
                 </div>
             </div>
+
 
             <div class="col-6">
                 <div class="form-group">
@@ -88,8 +92,9 @@
 
                 @foreach($group as $permission)
                     <div class="form-check">
-                        <input class="form-check-input permission-checkbox" type="checkbox" name="permissions[]" value="{{ $permission->id }}" data-group="{{ $parent }}">                        <label class="form-check-label" for="flexCheckDefault{{$loop->iteration}}">
-                            {{trans('permissions.'.$permission->name)}}
+                        <input class="form-check-input permission-checkbox" type="checkbox" name="permissions[]" value="{{ $permission->id }}" data-group="{{ $parent }}">
+                        <label class="form-check-label" for="flexCheckDefault{{$loop->iteration}}">
+                            {{getKey()[$loop->iteration-1]}}
                         </label>
                     </div>
                 @endforeach
@@ -126,6 +131,28 @@
             groupCheckbox.checked = this.checked;
         });
     });
+
+        document.getElementById('selectAllPermissions').addEventListener('change', function () {
+        document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+
+        document.querySelectorAll('.parent-select-all').forEach(groupCheckbox => {
+        groupCheckbox.checked = this.checked;
+    });
+    });
+
+        document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            let group = this.dataset.group;
+            let firstPermission = document.querySelector(`.permission-checkbox[data-group='${group}']:first-child`);
+
+            if (this.checked && firstPermission) {
+                firstPermission.checked = true;
+            }
+        });
+    });
+
 
 
 
