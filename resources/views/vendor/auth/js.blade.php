@@ -29,19 +29,38 @@
 
             },
             success: function (data) {
-                if (data == 200) {
+                if (data.status === 204) {
                     swal.fire({
                         title: "اهلا بك",
                         icon: "success"
                     }).then(function () {
                         window.location.href = '{{route('vendorHome')}}';
                     });
-                    {{--window.setTimeout(function () {--}}
-                    {{--    window.location.href = '{{route('adminHome')}}';--}}
-                    {{--}, 1000);--}}
-                } else {
-                    // toastr.error('خطأ في  بيانات الدخول');
-                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
+                }
+                if (data.status === 205) {
+                    toastr.error('من فضلك تأكد من رقم الجوال و أعد المحاوله');
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل الدخول `).attr('disabled', false);
+
+                }
+                if (data.status === 206) {
+                    toastr.error('هذا البريد الإلكتروني غير مسجل بالنظام');
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل الدخول `).attr('disabled', false);
+
+                }
+                if (data === 200 && data.otp_verified) {
+                    swal.fire({
+                        title: "اهلا بك",
+                        icon: "success"
+                    }).then(function () {
+                        window.location.href = '{{route('vendorHome')}}';
+                    });
+                } else if (data === 500) {
+                    swal.fire({
+                        title: "لقد قمت بإدخال الكود الذي تم إرساله بشكل خاطئ",
+                        icon: "warning"
+                    }).then(function () {
+                        window.location.href = '/partner';
+                    });
                 }
 
 
@@ -54,10 +73,11 @@
                         window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__','type'=>'login']) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
                     });
 
-                } else {
-                    // toastr.error('خطأ في  بيانات الدخول');
-                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
                 }
+                // else {
+                //     // toastr.error('خطأ في  بيانات الدخول');
+                //     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
+                // }
 
             },
             error: function (data) {
