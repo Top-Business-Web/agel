@@ -34,7 +34,7 @@ class AuthService extends BaseService
 
     public function login($request): \Illuminate\Http\JsonResponse
     {
-
+//dd($request);
         $data = $request->validate(
             [
                 'input' => 'required',
@@ -47,32 +47,66 @@ class AuthService extends BaseService
             ]
         );
 
-        $vendor = Vendor::where('phone', $data['input'])
-            ->orWhere('email', $data['input'])
-            ->first();
+        if ($request->verificationType == 'phone') {
+            $vendor = Vendor::where('phone', $data['input'])->first();
+            if (!$vendor) {
+                return response()->json([
+                    'status' => 205,
+//                    'email' => $vendor->email
+                ], 200);
+            }
+            if ($vendor->status == 0) {
+                return response()->json([
+                    'status' => 205,
+//                    'email' => $vendor->email
+                ], 200);
+            }
+            $credentials = [
+                'phone' => $data['input'],
+                'password' => $data['password'],
+            ];
+            if (Auth::guard('vendor')->attempt($credentials)) {
+                return response()->json([
+                    'status' => 204,
+                    'email' => $vendor->email
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => 205,
+                    'email' => $vendor->email
+                ], 200);
+            }
+        } elseif ($request->verificationType == 'email') {
+            $vendor = Vendor::where('email', $data['input'])->first();
+            $credentials = [
+                'email' => $data['input'],
+                'password' => $data['password'],
+                ];
+            if (!$vendor) {
+                return response()->json([
+                    'status' => 206,
+//                    'email' => $vendor->email
+                ], 200);
+            }
+            if ($vendor->status == 0) {
+                return response()->json(206);
+            }
 
+            if (Auth::guard('vendor')->validate($credentials)) {
+                $otp = rand(1000, 9999);
+                $vendor->update([
+                    'otp' => $otp,
+                    'otp_expire_at' => now()->addMinutes(5)
+                ]);
 
-        if ($vendor->status == 0) {
-            return response()->json(405);
+                Mail::to($vendor->email)->send(new Otp($vendor->name, $otp));
+                return response()->json([
+                    'status' => 200,
+                    'email' => $vendor->email
+                ], 200);
+            }
         }
-        $credentials = [
-            (filter_var($data['input'], FILTER_VALIDATE_EMAIL) ? 'email' : 'phone') => $data['input'],
-            'password' => $data['password'],
-        ];
 
-        if (Auth::guard('vendor')->validate($credentials)) {
-            $otp = rand(1000, 9999);
-            $vendor->update([
-                'otp' => $otp,
-                'otp_expire_at' => now()->addMinutes(5)
-            ]);
-
-            Mail::to($vendor->email)->send(new Otp($vendor->name, $otp));
-            return response()->json([
-                'status' => 200,
-                'email' => $vendor->email
-            ], 200);
-        }
         return response()->json([
             'status' => 405,
             'message' => 'لم يتم العثور على المكتب'
@@ -80,7 +114,8 @@ class AuthService extends BaseService
     }
 
 
-    public function register($request)
+    public
+    function register($request)
     {
         $validate = $request->validate([
             'name' => 'required',
@@ -129,20 +164,23 @@ class AuthService extends BaseService
     }
 
 
-    public function generateUsername($name)
+    public
+    function generateUsername($name)
     {
         return str_replace(' ', '', strtolower($name)) . rand(1000, 9999);
 
 
     }
 
-    public function showOtpForm($email,$type)
+    public
+    function showOtpForm($email, $type)
     {
-        return view('vendor.auth.verify-otp', ['email' => $email,'type' => $type]);
+        return view('vendor.auth.verify-otp', ['email' => $email, 'type' => $type]);
     }
 
 
-    public function verifyOtp($request)
+    public
+    function verifyOtp($request)
     {
         $vendor = Vendor::where('email', $request->email)->first();
 
@@ -161,7 +199,8 @@ class AuthService extends BaseService
 
     }
 
-    public function logout()
+    public
+    function logout()
     {
         Auth::guard('vendor')->logout();
         toastr()->info('تم تسجيل الخروج');

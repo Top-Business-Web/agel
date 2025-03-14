@@ -29,6 +29,24 @@
 
             },
             success: function (data) {
+                if (data.status === 204) {
+                    swal.fire({
+                        title: "اهلا بك",
+                        icon: "success"
+                    }).then(function () {
+                        window.location.href = '{{route('vendorHome')}}';
+                    });
+                }
+                if (data.status === 205) {
+                    toastr.error('من فضلك تأكد من رقم الجوال و أعد المحاوله');
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل الدخول `).attr('disabled', false);
+
+                }
+                if (data.status === 206) {
+                    toastr.error('هذا البريد الإلكتروني غير مسجل بالنظام');
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل الدخول `).attr('disabled', false);
+
+                }
                 if (data === 200 && data.otp_verified) {
                     swal.fire({
                         title: "اهلا بك",
