@@ -3,14 +3,20 @@
 namespace App\Services\Vendor;
 
 use App\Mail\Otp;
-use App\Models\City;
+use App\Models\Region;
 use App\Models\Vendor;
+use App\Services\BaseService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
-class AuthService
+class AuthService extends BaseService
 {
+    public function __construct(Vendor $model, protected Region $region)
+    {
+        parent::__construct($model);
+    }
+
     public function index($key = null)
     {
         if (Auth::guard('vendor')->check() && Auth::guard('vendor')->user()->status == 1) {
@@ -20,8 +26,9 @@ class AuthService
 
             return view('vendor.auth.login');
         } else {
-            $cites = City::select('id', 'name')->where('status', 1)->get();
-            return view('vendor.auth.register', compact('cites'));
+//            $cites = City::select('id', 'name')->where('status', 1)->get();
+            $regions = $this->region->get();
+            return view('vendor.auth.register', compact('regions'));
         }
     }
 
@@ -53,9 +60,7 @@ class AuthService
             'password' => $data['password'],
         ];
 
-        if (Auth::guard('vendor')->attempt($credentials)) {
-
-//            return response()->json(200);
+        if (Auth::guard('vendor')->validate($credentials)) {
             $otp = rand(1000, 9999);
             $vendor->update([
                 'otp' => $otp,
@@ -71,7 +76,8 @@ class AuthService
         return response()->json([
             'status' => 405,
             'message' => 'لم يتم العثور على المكتب'
-        ], 405);    }
+        ], 405);
+    }
 
 
     public function register($request)
@@ -81,7 +87,7 @@ class AuthService
             'email' => 'required|email|unique:vendors,email',
             'phone' => 'required|numeric|unique:vendors,phone',
             'password' => 'required|min:6|confirmed',
-            'city_id' => 'required|exists:cities,id',
+            'region_id' => 'required|exists:regions,id',
             'commercial_number' => 'required|unique:vendors,commercial_number',
             'national_id' => 'required|numeric|unique:vendors,national_id',
         ]);
@@ -91,7 +97,7 @@ class AuthService
             'email' => $request->email,
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
-            'city_id' => $request->city_id,
+            'region_id' => $request->region_id,
             'commercial_number' => $request->commercial_number,
             'national_id' => $request->national_id,
             'username' => $this->generateUsername($request->name),
@@ -101,7 +107,7 @@ class AuthService
         ]);
 
         if ($vendor) {
-            // genrate otp
+            // generate otp
             $otp = rand(1000, 9999);
             $vendor->update([
                 'otp' => $otp,
@@ -130,9 +136,9 @@ class AuthService
 
     }
 
-    public function showOtpForm($email)
+    public function showOtpForm($email,$type)
     {
-        return view('vendor.auth.verify-otp', ['email' => $email]);
+        return view('vendor.auth.verify-otp', ['email' => $email,'type' => $type]);
     }
 
 

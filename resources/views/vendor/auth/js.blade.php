@@ -40,7 +40,7 @@
                     {{--    window.location.href = '{{route('adminHome')}}';--}}
                     {{--}, 1000);--}}
                 } else {
-                    toastr.error('خطأ في  بيانات الدخول');
+                    // toastr.error('خطأ في  بيانات الدخول');
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
                 }
 
@@ -51,10 +51,11 @@
                         title: "من فضلك قم بإدخال الكود الذي تم إرساله على البريد الإلكتروني",
                         icon: "success"
                     }).then(function () {
-                        window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__']) }}'.replace('__EMAIL__', encodeURIComponent(data.email));                    });
+                        window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__','type'=>'login']) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
+                    });
 
                 } else {
-                    toastr.error('خطأ في  بيانات الدخول');
+                    // toastr.error('خطأ في  بيانات الدخول');
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
                 }
 
@@ -78,7 +79,7 @@
                 } else {
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
 
-                    toastr.error('خطأ في  بيانات الدخول');
+                    // toastr.error('خطأ في  بيانات الدخول');
                 }
             },//end error method
 
@@ -113,7 +114,8 @@
                         title: "من فضلك قم بتفعيل حسابك",
                         icon: "success"
                     }).then(function () {
-                        window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__']) }}'.replace('__EMAIL__', encodeURIComponent(data.email));                    });
+                        window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__','type'=>'register']) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
+                    });
 
                 } else {
                     toastr.error('خطأ في  بيانات الدخول');

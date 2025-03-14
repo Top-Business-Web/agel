@@ -63,7 +63,7 @@
 
     <main class="signup-container">
         <h1 class="heading-primary"> مرحبا<span class="span-blue">.</span></h1>
-        <p class="text-mute">{{ trns('please_enter_verification_data') }}</p>
+        <p class="text-mute">قم بإدخال بيانات التأكيد</p>
 
         <form class="signup-form" action="{{route('vendor.register')}}" method="post" id="RegisterForm">
             @csrf
@@ -95,12 +95,12 @@
 
             <div class="input-row">
                 <label class="inp">
-                    <select name="city_id" class="input-text" required>
-                        @foreach($cites as $city)
-                            <option value="{{$city->id}}">{{$city->name}}</option>
+                    <select name="region_id" class="input-text" required>
+                        @foreach($regions as $region)
+                            <option value="{{$region->id}}">{{$region->name}}</option>
                         @endforeach
                     </select>
-                    <span class="label">المدينة</span>
+                    <span class="label">الحي</span>
                     <span class="input-icon"><i class="fa-solid fa-city"></i></span>
                 </label>
                 <label class="inp">

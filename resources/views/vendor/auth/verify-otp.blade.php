@@ -14,7 +14,8 @@
 
         body.dark-mode {
             color: #c5c9e6;
-            background-color: #212741; }
+            background-color: #212741;
+        }
     </style>
 
     <style>
@@ -63,7 +64,11 @@
 
     <main class="signup-container" style="margin-top: 40px">
         <h1 class="heading-primary">مرحبا <span class="span-blue">.</span></h1>
-        <p class="text-mute">من فضلك ادخل كود التفعيل</p>
+        @if($type == 'login')
+            <p class="text-mute">من فضلك ادخل كود التأكيد</p>
+        @elseif($status == 'register')
+            <p class="text-mute">من فضلك ادخل كود التفعيل</p>
+        @endif
 
         <form class="signup-form" action="{{route('otp.check')}}" method="post" id="LoginForm">
             @csrf
@@ -73,22 +78,26 @@
                 <span class="label">الكود</span>
                 <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
             </label>
-
+            @if($type == 'login')
+                <button class="btn btn-login" id="loginButton">تأكيد</button>
+            @elseif($status == 'register')
             <button class="btn btn-login" id="loginButton"> تفعيل</button>
+            @endif
 
 
         </form>
     </main>
     <div class="welcome-container" style="background-color: white !important;"
-         >
+    >
 
         <img style="border-radius: 10%" src="{{asset('logo.webp')}}">
     </div>
-
+</div>
+</body>
 @include('vendor.auth.js')
-    <script>
-        document.getElementById('toggleDarkMode').addEventListener('click', function () {
-            document.body.classList.toggle('dark-mode');
-        });
-    </script>
+<script>
+    document.getElementById('toggleDarkMode').addEventListener('click', function () {
+        document.body.classList.toggle('dark-mode');
+    });
+</script>
 </html>
