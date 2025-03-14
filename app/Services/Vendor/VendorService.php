@@ -30,12 +30,8 @@ class VendorService extends BaseService
             $obj = $this->getVendorDateTable();
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
-                    if ($obj->id == auth()->user()->id || $obj->parent_id == auth()->user()->id) {
-                        $buttons = '
-                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
-                           <i class="fa fa-eye"></i>
-                            </button>
-                    ';
+                    if ($obj->parent_id == null) {
+                        $buttons = '';
                     } else {
 
                         $buttons = '
@@ -47,11 +43,8 @@ class VendorService extends BaseService
                             data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
                             <i class="fas fa-trash"></i>
                         </button>';
-                        $buttons .= '
-                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
-                           <i class="fa fa-eye"></i>
-                            </button>
-                    ';
+
+
                     }
 
 
@@ -94,7 +87,7 @@ class VendorService extends BaseService
         }
 
         $data['username'] = $this->generateUsername($data['name']);
-        $data['phone']='+966'.$data['phone'];
+        $data['phone'] = '+966' . $data['phone'];
         if (isset(auth()->user()->parent_id)) {
             $data['parent_id'] = auth()->user()->parent_id;
         } else {
@@ -106,7 +99,7 @@ class VendorService extends BaseService
 
         try {
             $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();
-            $obj=$this->model->create($data);
+            $obj = $this->model->create($data);
             $obj->syncPermissions($permissions);
 
 
@@ -122,15 +115,14 @@ class VendorService extends BaseService
     }
 
 
-
     public function edit($obj)
     {
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
-            'cities' => $this->cityService->getAll(),
-//            'vendorModules' => $obj->vendor_modules->pluck('module_id')->toArray(),
-//            'moduleService' => $this->moduleService->getAll(),
+            'regions' => $this->region->get(),
+            'permissions' => Permission::where('guard_name', 'vendor')
+                ->get(),
         ]);
     }
 
