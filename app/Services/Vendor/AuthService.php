@@ -156,7 +156,7 @@ class AuthService extends BaseService
             return response()->json(200);
         } else {
 
-            return response()->json(200);
+            return response()->json(500);
         }
 
     }
