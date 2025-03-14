@@ -62,7 +62,7 @@
 
 
     <main class="signup-container">
-        <h1 class="heading-primary">{{ trns('welcome ') }}<span class="span-blue">.</span></h1>
+        <h1 class="heading-primary"> مرحبا<span class="span-blue">.</span></h1>
         <p class="text-mute">{{ trns('please_enter_verification_data') }}</p>
 
         <form class="signup-form" action="{{route('vendor.register')}}" method="post" id="RegisterForm">
@@ -159,6 +159,8 @@
 
         <img style="border-radius: 10%" src="{{asset('logo.webp')}}">
     </div>
+</div>
+</body>
 
 @include('vendor.auth.js')
     <script>

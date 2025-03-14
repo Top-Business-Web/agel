@@ -20,7 +20,7 @@ class BranchService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $obj = $this->getDataTable();
+            $obj = $this->getDataTable()->where('vendor_id', auth()->user()->parent_id?auth()->user()->parent_id:auth()->user()->id)->orWhere('vendor_id', auth()->user()->parent_id);
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
                     $buttons = '
