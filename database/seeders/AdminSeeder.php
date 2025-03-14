@@ -25,9 +25,26 @@ class AdminSeeder extends Seeder
             'role_id' => 1,
             'password' => bcrypt('admin'),
         ]);
+        $ahmed = Admin::create([
+            'name' => 'ahmed',
+            'user_name' => 'ahmed',
+            'code' => Str::random(11),
+            'email' => 'ahmedesmaelgamal@gmail.com',
+            'role_id' => 1,
+            'password' => bcrypt('admin'),
+        ]);
+        $mohamed = Admin::create([
+            'name' => 'mohamed',
+            'user_name' => 'mohamed',
+            'code' => Str::random(11),
+            'email' => 'amomatter48@gmail.com',
+            'role_id' => 1,
+            'password' => bcrypt('admin'),
+        ]);
 
-        Role::where('name', '=', RoleEnum::SUPER_ADMIN->label())->first();
         $admin->assignRole([1]);
+        $ahmed->assignRole([1]);
+        $mohamed->assignRole([1]);
     }
 
 }
