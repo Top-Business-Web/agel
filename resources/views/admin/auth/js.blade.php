@@ -31,14 +31,28 @@
             success: function (data) {
                 if (data == 200) {
                     swal.fire({
-                        title: "أهلا بك",
+                        title: "اهلا بك",
                         icon: "success"
                     }).then(function () {
-                        window.location.href = '{{route('adminHome')}}';
+                        window.location.href = '{{route('vendorHome')}}';
                     });
                     {{--window.setTimeout(function () {--}}
                     {{--    window.location.href = '{{route('adminHome')}}';--}}
                     {{--}, 1000);--}}
+                } else {
+                    toastr.error('خطأ في  بيانات الدخول');
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
+                }
+
+
+                if (data.status === 200) {
+
+                    swal.fire({
+                        title: " من فضلك قم بإدخال الكود الذي تم إرساله على البريد الإلكتروني لتأكيد تسجيل الدخول",
+                        icon: "success"
+                    }).then(function () {
+                        window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__','type'=>'login']) }}'.replace('__EMAIL__', encodeURIComponent(data.email));                    });
+
                 } else {
                     toastr.error('خطأ في  بيانات الدخول');
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
@@ -74,7 +88,67 @@
         });
     });
 
+    $("form#RegisterForm").submit(function (e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        var url = $('#RegisterForm').attr('action');
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: formData,
+            beforeSend: function () {
+                $('#registerButton').html('<span class="spinner-border spinner-border-sm mr-2" ' +
+                    ' ></span> <span style="margin-left: 4px;">أنتظر قليلا</span>').attr('disabled', true);
 
+            },
+            complete: function () {
+
+
+            },
+            success: function (data) {
+
+                if (data.status === 200) {
+
+                    swal.fire({
+                        title: "من فضلك قم بتفعيل حسابك",
+                        icon: "success"
+                    }).then(function () {
+                        window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__','type'=>'register']) }}'.replace('__EMAIL__', encodeURIComponent(data.email));                    });
+
+                } else {
+                    toastr.error('خطأ في  بيانات الدخول');
+                    $('#registerButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
+                }
+
+            },
+            error: function (data) {
+                if (data.status === 500) {
+                    $('#registerButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
+                    toastr.error('هناك خطأ ما');
+                } else if (data.status === 422) {
+                    $('#registerButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
+                    var errors = $.parseJSON(data.responseText);
+                    $.each(errors, function (key, value) {
+                        if ($.isPlainObject(value)) {
+                            $.each(value, function (key, value) {
+                                toastr.error(value);
+                            });
+
+                        } else {
+                        }
+                    });
+                } else {
+                    $('#registerButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
+
+                    toastr.error('خطأ في  بيانات الدخول');
+                }
+            },//end error method
+
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    });
 
 
 </script>

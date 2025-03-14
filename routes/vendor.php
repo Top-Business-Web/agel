@@ -40,7 +40,7 @@ Route::group(
         Route::group(['prefix' => 'vendor'], function () {
             Route::POST('login', [AuthController::class, 'login'])->name('vendor.login');
             Route::POST('/register', [AuthController::class, 'register'])->name('vendor.register');
-            Route::get('/verify-otp/{email}', [AuthController::class, 'showOtpForm'])->name('otp.verify');
+            Route::get('/verify-otp/{email}/{type}', [AuthController::class, 'showOtpForm'])->name('otp.verify');
             Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('otp.check');
 
 
