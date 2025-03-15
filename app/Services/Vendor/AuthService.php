@@ -154,7 +154,8 @@ class AuthService extends BaseService
 // Associate vendor with the created branch
         $vendorBranch = VendorBranch::create([
             'vendor_id' => $vendor->id,
-            'branch_id' => $branch->id
+            'branch_id' => $branch->id,
+            'is_main' => 1
         ]);
 
         if ($vendor) {
