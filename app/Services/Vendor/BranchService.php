@@ -38,6 +38,10 @@ class BranchService extends BaseService
             $obj = $this->model->whereIn('vendor_id', $child)->get();
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
+                    if ($obj->is_main===1) {
+                        return $buttons = 'لأيمكن اتخاذ لي أجراء';
+                    }else{
+
                     $buttons = '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
                             <i class="fa fa-edit"></i>
@@ -47,11 +51,13 @@ class BranchService extends BaseService
                             <i class="fas fa-trash"></i>
                         </button>
                     ';
+                    }
+
                     return $buttons;
                 })->editColumn('region_id', function ($obj) {
                     return $obj->region->name;
                 })->editColumn('status', function ($obj) {
-                    return $this->statusDatatable($obj);
+                    return $obj->is_main === 1 ? 'غير متاح' : $this->statusDatatable($obj);
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
