@@ -66,7 +66,7 @@
         <h1 class="heading-primary">مرحبا <span class="span-blue">.</span></h1>
         @if($type == 'login')
             <p class="text-mute">من فضلك ادخل كود التأكيد</p>
-        @elseif($status == 'register')
+        @elseif($type == 'register')
             <p class="text-mute">من فضلك ادخل كود التفعيل</p>
         @endif
 
@@ -80,7 +80,7 @@
             </label>
             @if($type == 'login')
                 <button class="btn btn-login" id="loginButton">تأكيد</button>
-            @elseif($status == 'register')
+            @elseif($type == 'register')
             <button class="btn btn-login" id="loginButton"> تفعيل</button>
             @endif
 

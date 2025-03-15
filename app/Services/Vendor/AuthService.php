@@ -6,6 +6,7 @@ use App\Mail\Otp;
 use App\Models\Region;
 use App\Models\Vendor;
 use App\Services\BaseService;
+use App\Services\Vendor\AuthService as ObjService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -175,7 +176,8 @@ class AuthService extends BaseService
     public
     function showOtpForm($email, $type)
     {
-        return view('vendor.auth.verify-otp', ['email' => $email, 'type' => $type]);
+        $status = 200;
+        return view('vendor.auth.verify-otp', ['email' => $email, 'type' => $type, 'status' => $status]);
     }
 
 
