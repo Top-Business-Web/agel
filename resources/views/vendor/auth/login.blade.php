@@ -104,6 +104,9 @@
                         <label class="form-check-label" for="verificationTypePhone">Phone</label>
                     </div>
                 </div>
+                <p class="text-mute">نسيت كلمة المرور؟
+                    <a href="{{route('vendor.resetPassword')}}">إعادة تعيين</a>
+                </p>
             </div>
             <button class="btn btn-login" id="loginButton">تسجيل </button>
             <p class="text-mute">ليس لديك حساب؟

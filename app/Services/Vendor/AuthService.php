@@ -49,6 +49,7 @@ class AuthService extends BaseService
         );
 
         if ($request->verificationType == 'phone') {
+//            dd($request->all());
             $vendor = Vendor::where('phone', $data['input'])->first();
             if (!$vendor) {
                 return response()->json([
@@ -82,7 +83,7 @@ class AuthService extends BaseService
             $credentials = [
                 'email' => $data['input'],
                 'password' => $data['password'],
-                ];
+            ];
             if (!$vendor) {
                 return response()->json([
                     'status' => 206,
@@ -174,9 +175,14 @@ class AuthService extends BaseService
     }
 
     public
-    function showOtpForm($email, $type)
+    function showOtpForm($email, $type, $resetPassword)
     {
-        return view('vendor.auth.verify-otp', ['email' => $email, 'type' => $type]);
+        dd($resetPassword);
+        if ($resetPassword==true){
+            dd('jkhsdf');
+            return view('vendor.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
+        }
+        return view('vendor.auth.verify-otp', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
     }
 
 
@@ -191,20 +197,48 @@ class AuthService extends BaseService
                 'otp_expire_at' => null,
                 'status' => 1
             ]);
-            Auth::guard('vendor')->login($vendor);
-            return response()->json(200);
+
+//            } else {
+//
+//                Auth::guard('vendor')->login($vendor);
+//                return response()->json(200);
+//            }
         } else {
 
             return response()->json(500);
         }
 
     }
+
     public function resetPasswordForm()
     {
-
+        return view('vendor.auth.reset-password');
     }
-    public function resetPassword()
+
+    public function resetPassword($request): \Illuminate\Http\JsonResponse
     {
+//        dd($request->all());
+        $vendor = Vendor::where('email', $request->input)->first();
+
+        if ($vendor) {
+            // generate otp
+            $otp = rand(1000, 9999);
+            $vendor->update([
+                'otp' => $otp,
+                'otp_expire_at' => now()->addMinutes(5)
+            ]);
+
+            Mail::to($vendor->email)->send(new Otp($vendor->name, $otp));
+            return response()->json([
+                'status' => 200,
+                'email' => $vendor->email
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 405,
+            'message' => 'لم يتم العثور على المكتب'
+        ], 405);
 
     }
 

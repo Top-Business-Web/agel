@@ -46,59 +46,59 @@ Route::group(
             Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('otp.check');
 
 
+//            Route::group(['middleware' => 'auth:admin'], function () {
+//                Route::get('/', function () {
+//                    return view('admin/index');
+//                })->name('adminHome');
+
             Route::group(['middleware' => 'auth:admin'], function () {
                 Route::get('/', function () {
                     return view('admin/index');
                 })->name('adminHome');
 
-                Route::group(['middleware' => 'auth:admin'], function () {
-                    Route::get('/', function () {
-                        return view('admin/index');
-                    })->name('adminHome');
 
+                Route::resourceWithDeleteSelected('roles', RoleController::class, [
+                    'as' => 'admin'  // Prefix "admin." to all route names
+                ]);
+                Route::post('roles/delete-selected', [RoleController::class, 'deleteSelected'])->name('admin.roles.deleteSelected');
+                Route::get('activity_logs', [ActivityLogController::class, 'index'])->name('admin.activity_logs.index');
+                Route::delete('activity_logs/{id}', [ActivityLogController::class, 'destroy'])->name('admin.activity_logs.destroy');
+                Route::post('activity_logs/delete-selected', [ActivityLogController::class, 'deleteSelected'])->name('admin.activity_logs.deleteSelected');
+                #============================ User ====================================
 
-                    Route::resourceWithDeleteSelected('roles', RoleController::class, [
-                        'as' => 'admin'  // Prefix "admin." to all route names
-                    ]);
-                    Route::post('roles/delete-selected', [RoleController::class, 'deleteSelected'])->name('admin.roles.deleteSelected');
-                    Route::get('activity_logs', [ActivityLogController::class, 'index'])->name('admin.activity_logs.index');
-                    Route::delete('activity_logs/{id}', [ActivityLogController::class, 'destroy'])->name('admin.activity_logs.destroy');
-                    Route::post('activity_logs/delete-selected', [ActivityLogController::class, 'deleteSelected'])->name('admin.activity_logs.deleteSelected');
-                    #============================ User ====================================
+                #============================ User ====================================
 
-                    #============================ User ====================================
-
-                    #============================ vendors ====================================
+                #============================ vendors ====================================
 //                    Route::resourceWithDeleteSelected('vendors', VendorController::class);
-                    Route::get('vendors/index', [VendorController::class, 'index'])->name('admin.vendors.index');
-                    Route::get('vendors/create', [VendorController::class, 'create'])->name('admin.vendors.create');
-                    Route::post('vendors', [VendorController::class, 'store'])->name('admin.vendors.store');
-                    Route::put('vendors/update', [VendorController::class, 'update'])->name('admin.vendors.update');
-                    Route::delete('vendors/{id}', [VendorController::class, 'destroy'])->name('admin.vendors.destroy');
-                    Route::get('vendors/{id}/edit', [VendorController::class, 'edit'])->name('admin.vendors.edit');
-                    Route::post('vendors/delete-selected', [VendorController::class, 'deleteSelected'])->name('admin.vendors.deleteSelected');
-                    Route::post('vendors/update-column-selected', [VendorController::class, 'updateColumnSelected'])->name('admin.vendors.updateColumnSelected');
-                    #============================ Admin ====================================
-                    Route::resourceWithDeleteSelected('admins', AdminController::class);
-                    #============================ countries ==================================
-                    Route::resourceWithDeleteSelected('countries', CountryController::class);
-                    #============================ cities ==================================
-                    Route::resourceWithDeleteSelected('cities', CityController::class);
-                    #============================ Plans ==================================
-                    Route::resourceWithDeleteSelected('Plans', PlanController::class);
-                    #============================ planSubscription ==================================
-                    Route::resourceWithDeleteSelected('planSubscription', PlanSubscriptionController::class);
+                Route::get('vendors/index', [VendorController::class, 'index'])->name('admin.vendors.index');
+                Route::get('vendors/create', [VendorController::class, 'create'])->name('admin.vendors.create');
+                Route::post('vendors', [VendorController::class, 'store'])->name('admin.vendors.store');
+                Route::put('vendors/update', [VendorController::class, 'update'])->name('admin.vendors.update');
+                Route::delete('vendors/{id}', [VendorController::class, 'destroy'])->name('admin.vendors.destroy');
+                Route::get('vendors/{id}/edit', [VendorController::class, 'edit'])->name('admin.vendors.edit');
+                Route::post('vendors/delete-selected', [VendorController::class, 'deleteSelected'])->name('admin.vendors.deleteSelected');
+                Route::post('vendors/update-column-selected', [VendorController::class, 'updateColumnSelected'])->name('admin.vendors.updateColumnSelected');
+                #============================ Admin ====================================
+                Route::resourceWithDeleteSelected('admins', AdminController::class);
+                #============================ countries ==================================
+                Route::resourceWithDeleteSelected('countries', CountryController::class);
+                #============================ cities ==================================
+                Route::resourceWithDeleteSelected('cities', CityController::class);
+                #============================ Plans ==================================
+                Route::resourceWithDeleteSelected('Plans', PlanController::class);
+                #============================ planSubscription ==================================
+                Route::resourceWithDeleteSelected('planSubscription', PlanSubscriptionController::class);
 
 
-                    Route::get('my_profile', [AdminController::class, 'myProfile'])->name('myProfile');
-                    Route::get('logout', [AuthController::class, 'logout'])->name('admin.logout');
+                Route::get('my_profile', [AdminController::class, 'myProfile'])->name('myProfile');
+                Route::get('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
-                    Route::get('setting', [SettingController::class, 'index'])->name('settingIndex');
-                    Route::POST('setting/store', [SettingController::class, 'store'])->name('setting.store');
-                    Route::POST('setting/update/{id}/', [SettingController::class, 'update'])->name('settingUpdate');
+                Route::get('setting', [SettingController::class, 'index'])->name('settingIndex');
+                Route::POST('setting/store', [SettingController::class, 'store'])->name('setting.store');
+                Route::POST('setting/update/{id}/', [SettingController::class, 'update'])->name('settingUpdate');
 
-                });
             });
+//        });
 
             #=======================================================================
             #============================ ROOT =====================================
@@ -116,7 +116,6 @@ Route::group(
         );
     }
 );
-
 
 
 Route::resourceWithDeleteSelected('plan_subscriptions', \App\Http\Controllers\Admin\PlanSubscriptionController::class);
