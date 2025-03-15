@@ -34,10 +34,17 @@ Route::group(
     function () {
 
         Route::get('/', [AuthController::class, 'index']);
+        Route::get('/admin/register', [AuthController::class, 'registerForm'])->name('admin.register');
+
         Route::group(['prefix' => 'admin'], function () {
             Route::get('/login', [AuthController::class, 'index'])->name('admin.login');
 
             Route::POST('login', [AuthController::class, 'login'])->name('admin.login');
+
+            Route::POST('/register', [AuthController::class, 'register'])->name('admin.register');
+            Route::get('/verify-otp/{email}/{type}', [AuthController::class, 'showOtpForm'])->name('otp.verify');
+            Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('otp.check');
+
 
             Route::group(['middleware' => 'auth:admin'], function () {
                 Route::get('/', function () {
