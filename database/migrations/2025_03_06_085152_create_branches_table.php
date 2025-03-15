@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::create('branches', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->foreignId('region_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->boolean('status')->default(1);
             $table->boolean('is_main')->default(0);
