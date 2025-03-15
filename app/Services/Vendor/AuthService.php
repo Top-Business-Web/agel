@@ -176,7 +176,7 @@ class AuthService extends BaseService
     public
     function showOtpForm($email, $type)
     {
-        return view('vendor.auth.verify-otp', ['email' => $email, 'type' => $type, 'status' => $status]);
+        return view('vendor.auth.verify-otp', ['email' => $email, 'type' => $type]);
     }
 
 
