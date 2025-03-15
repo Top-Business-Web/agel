@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Vendor\VendorRequest as ObjRequest;
-use App\Models\Vendor as ObjModel;
 use App\Services\Vendor\VendorService as ObjService;
 use Illuminate\Http\Request;
 
