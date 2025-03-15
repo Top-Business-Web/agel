@@ -89,7 +89,7 @@
 
 
 
-        <form class="signup-form" action="{{route('admin.login')}}" method="post" id="LoginForm">
+        <form class="signup-form" action="{{route('vendor.login')}}" method="post" id="LoginForm">
             @csrf
             <label class="inp">
                 <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField">
@@ -108,20 +108,17 @@
             {{--            <input class="inp">--}}
             {{--            <input type="text" name="input" class="input-text" placeholder="&nbsp;">--}}
             <div class="d-flex align-items-center gap-2">
-                <span class="text-muted">تسجيل الدخول عبر </span>
+                <span class="text-muted">إرسال الكود التأكيدي عبر البريد الإلكتروني </span>
                 <div class="d-flex align-items-center gap-3">
                     <div class="form-check">
                         <input class="form-check-input" type="radio" value="email" name="verificationType" id="verificationTypeEmail" checked>
                         <label class="form-check-label" for="verificationTypeEmail">Email</label>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" value="phone" name="verificationType" id="verificationTypePhone">
-                        <label class="form-check-label" for="verificationTypePhone">Phone</label>
-                    </div>
+{{--                    <div class="form-check">--}}
+{{--                        <input class="form-check-input" type="radio" value="phone" name="verificationType" id="verificationTypePhone">--}}
+{{--                        <label class="form-check-label" for="verificationTypePhone">Phone</label>--}}
+{{--                    </div>--}}
                 </div>
-                <p class="text-mute">نسيت كلمة المرور؟
-                    <a href="{{url('/reset-password')}}">إعادة تعيين</a>
-                </p>
             </div>
             <button class="btn btn-login" id="loginButton">تسجيل </button>
 
