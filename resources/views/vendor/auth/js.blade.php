@@ -30,49 +30,32 @@
             },
             success: function (data) {
                 if (data.status === 204) {
-                    swal.fire({
-                        title: "اهلا بك",
-                        icon: "success"
-                    }).then(function () {
-                        window.location.href = '{{route('vendorHome')}}';
-                    });
+                    window.location.href = '{{route('vendorHome')}}';
                 }
                 if (data.status === 205) {
                     toastr.error('من فضلك تأكد من رقم الجوال و أعد المحاوله');
-                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل الدخول `).attr('disabled', false);
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
 
                 }
                 if (data.status === 206) {
                     toastr.error('هذا البريد الإلكتروني غير مسجل بالنظام');
-                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل الدخول `).attr('disabled', false);
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
 
                 }
-                if (data === 200 && data.otp_verified) {
-                    swal.fire({
-                        title: "اهلا بك",
-                        icon: "success"
-                    }).then(function () {
-                        window.location.href = '{{route('vendorHome')}}';
-                    });
+                if (data === 200 ) {
+
+                    window.location.href = '{{route('vendorHome')}}';
                 } else if (data === 500) {
-                    swal.fire({
-                        title: "لقد قمت بإدخال الكود الذي تم إرساله بشكل خاطئ",
-                        icon: "warning"
-                    }).then(function () {
-                        window.location.href = '/partner';
-                    });
+                    toastr.error('لقد قمت بإدخال الكود الذي تم إرساله بشكل خاطئ');
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
+                    window.location.href = '/partner';
                 }
 
 
                 if (data.status === 200) {
-
-                    swal.fire({
-                        title: "من فضلك قم بإدخال الكود الذي تم إرساله على البريد الإلكتروني",
-                        icon: "success"
-                    }).then(function () {
-                        window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__','type'=>'login']) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
-                    });
-
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
+                    window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__','type'=>'login']) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
+                    // toastr.warning('من فضلك قم بإدخال الكود الذي تم إرساله على البريد الإلكتروني');
                 }
                 // else {
                 //     // toastr.error('خطأ في  بيانات الدخول');
@@ -129,13 +112,8 @@
             success: function (data) {
 
                 if (data.status === 200) {
-
-                    swal.fire({
-                        title: "من فضلك قم بتفعيل حسابك",
-                        icon: "success"
-                    }).then(function () {
-                        window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__','type'=>'register']) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
-                    });
+                    toastr.success('من فضلك قم بتفعيل حسابك');
+                    window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__','type'=>'register']) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
 
                 } else {
                     toastr.error('خطأ في  بيانات الدخول');
