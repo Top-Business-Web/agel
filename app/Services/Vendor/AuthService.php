@@ -123,17 +123,17 @@ class AuthService extends BaseService
         $validate = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:vendors,email',
-            'phone' => 'required|numeric|unique:vendors,phone',
+            'phone' => 'required|numeric|digits:9|unique:vendors,phone',
             'password' => 'required|min:6|confirmed',
             'region_id' => 'required|exists:regions,id',
             'commercial_number' => 'required|unique:vendors,commercial_number',
-            'national_id' => 'required|numeric|unique:vendors,national_id',
+            'national_id' => 'required|numeric|digits:10|unique:vendors,national_id',
         ]);
 
         $vendor = Vendor::create([
             'name' => $request->name,
             'email' => $request->email,
-            'phone' => $request->phone,
+            'phone' =>'+966'. $request->phone,
             'password' => Hash::make($request->password),
             'region_id' => $request->region_id,
             'commercial_number' => $request->commercial_number,
