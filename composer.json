@@ -16,7 +16,6 @@
         "guzzlehttp/guzzle": "^7.9",
         "laravel/framework": "^9.0",
         "laravel/sanctum": "^2.11",
-        "laravel/socialite": "^5.16",
         "laravel/tinker": "^2.5",
         "mcamara/laravel-localization": "^1.7",
         "php-flasher/flasher-sweetalert-laravel": "^1.15",
@@ -24,7 +23,6 @@
         "spatie/laravel-activitylog": "^4.10",
         "spatie/laravel-permission": "^6.16",
         "spatie/laravel-translatable": "^6.8",
-        "twilio/sdk": "^8.3",
         "tymon/jwt-auth": "^2.1",
         "yajra/laravel-datatables": "^1.5",
         "yoeunes/toastr": "^1.2"

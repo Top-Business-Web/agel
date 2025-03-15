@@ -31,13 +31,15 @@ class VendorRequest extends FormRequest
             'national_id' => 'required|numeric|unique:vendors,national_id|digits:10',
             'password' => 'required|min:6|confirmed',
             'image' => 'nullable|image',
-            "permissions"=>'required|array'
+            "permissions"=>'required|array',
+            'branch_ids' => 'required|array',
         ];
     }
 
     protected function update(): array
     {
         return [
+            'id' => 'required|exists:vendors,id',
             'name' => 'nullable',
             'email' => 'nullable|email|unique:vendors,email,' . $this->id,
             'phone' => 'nullable|numeric|digits:9|unique:vendors,phone,' . $this->id,
@@ -45,7 +47,8 @@ class VendorRequest extends FormRequest
             'region_id'=>'required|exists:regions,id',
             'password' => 'nullable|min:6|confirmed',
             'image' => 'nullable|image',
-            "permissions"=>'required|array'
+            "permissions"=>'required|array',
+            'branch_ids'=>'required|array',
 
         ];
     }

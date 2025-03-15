@@ -11,13 +11,26 @@
                 </div>
             </div>
 
-            <div class="col-12">
+            <div class="col-6">
                 <div class="form-group">
                     <label for="region_id" class="form-control-label">اسم الحي</label>
                     <select class="form-control" name="region_id" id="region_id">
                         <option value="" selected disabled>اختر الحي</option>
                         @foreach ($regions as $region)
                             <option value="{{$region->id }}">{{$region->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="branch_id" class="form-control-label">اسم الفرع التابع له</label>
+                    <select class="form-control" name="branch_ids[]" id="branch_id" multiple>
+                        <option value=""  disabled>اختر الفرع</option>
+                        @foreach ($branches as $branch)
+                            <option value="{{$branch->id }}">{{$branch->name}}</option>
                         @endforeach
                     </select>
                 </div>

@@ -66,7 +66,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
-                            {أغلاق
+                            أغلاق
                         </button>
                         <button type="button" class="btn btn-danger" id="delete_btn">! حذف</button>
                     </div>
