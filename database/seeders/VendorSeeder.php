@@ -3,8 +3,6 @@
 namespace Database\Seeders;
 
 use App\Enums\RoleEnum;
-use App\Models\City;
-use App\Models\Country;
 use App\Models\Vendor;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -21,8 +19,8 @@ class VendorSeeder extends Seeder
     {
         $vendor = Vendor::create([
             'name' => 'vendor',
-            'phone' => '0000001000',
-            'national_id' => '1234456412164',
+            'phone' => '9660011111111',
+            'national_id' => '0000000000',
             'commercial_number' => '12312144564645',
             'region_id' => 1,
             'role_id' => 6,
@@ -32,26 +30,26 @@ class VendorSeeder extends Seeder
             'password' => bcrypt('vendor'),
         ]);
         $ahmed = Vendor::create([
-            'name' => 'vendor',
-            'phone' => '00210000000',
-            'national_id' => '1234451216464',
+            'name' => 'ahmed',
+            'phone' => '+9660111111111',
+            'national_id' => '0000000001',
             'commercial_number' => '12341214564645',
             'region_id' => 1,
             'role_id' => 6,
             'status' => 1,
-            'username' => 'vendgdfor',
+            'username' => 'ahmed',
             'email' => 'ahmedesmaelgamal@gmail.com',
             'password' => bcrypt('vendor'),
         ]);
         $mohamed = Vendor::create([
-            'name' => 'vendor2',
-            'phone' => '00000012000',
-            'national_id' => '1234456422164',
+            'name' => 'amo',
+            'phone' => '9660001111111',
+            'national_id' => '0000000011',
             'commercial_number' => '12344121564645',
             'region_id' => 1,
             'role_id' => 6,
             'status' => 1,
-            'username' => 'vendgor',
+            'username' => 'amo',
             'email' => 'amomatter48@gmail.com',
             'password' => bcrypt('vendor'),
         ]);

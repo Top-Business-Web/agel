@@ -3,8 +3,10 @@
 namespace App\Services\Vendor;
 
 use App\Mail\Otp;
+use App\Models\Branch;
 use App\Models\Region;
 use App\Models\Vendor;
+use App\Models\VendorBranch;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -81,7 +83,7 @@ class AuthService extends BaseService
             $credentials = [
                 'email' => $data['input'],
                 'password' => $data['password'],
-                ];
+            ];
             if (!$vendor) {
                 return response()->json([
                     'status' => 206,
@@ -139,6 +141,20 @@ class AuthService extends BaseService
             'status' => 0,
             'plan_id' => 1
 
+        ]);
+
+// Create primary branch for the vendor with default settings
+        $branch = Branch::create([
+            'vendor_id' => $vendor->id,
+            'region_id' => $vendor->region_id,
+            'status' => 1,
+            'name' => 'الفرع الرئيسي'
+        ]);
+
+// Associate vendor with the created branch
+        $vendorBranch = VendorBranch::create([
+            'vendor_id' => $vendor->id,
+            'branch_id' => $branch->id
         ]);
 
         if ($vendor) {

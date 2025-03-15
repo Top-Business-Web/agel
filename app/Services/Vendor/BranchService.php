@@ -29,7 +29,11 @@ class BranchService extends BaseService
             $child = $this->vendor->where('parent_id', $parentId)->pluck('id')->toArray();
             if ($auth->parent_id === null) {
                 $child[] = $auth->id;
+            }else{
+                $child[] = $auth->parent_id;
             }
+
+
 
             $obj = $this->model->whereIn('vendor_id', $child)->get();
             return DataTables::of($obj)

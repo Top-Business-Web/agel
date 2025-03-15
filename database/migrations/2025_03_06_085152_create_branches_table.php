@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->foreignId('region_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
 
             $table->boolean('status')->default(1);
+            $table->boolean('is_main')->default(0);
             $table->timestamps();
         });
     }

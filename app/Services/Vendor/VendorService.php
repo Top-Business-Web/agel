@@ -31,8 +31,8 @@ class VendorService extends BaseService
             $obj = $this->getVendorDateTable();
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
-                    if ($obj->parent_id == null) {
-                        $buttons = '';
+                    if ($obj->id == auth('vendor')->user()->id) {
+                        $buttons = 'لأيمكن اتخاذ لي أجراء';
                     } else {
 
                         $buttons = '
@@ -52,7 +52,7 @@ class VendorService extends BaseService
                     return $buttons;
                 })->editcolumn('status', function ($obj) {
 
-                    return $this->statusDatatable($obj);
+                    return         $obj->id !== auth('vendor')->user()->id ?$this->statusDatatable($obj):'غير متاح';
                 })->editcolumn('image', function ($obj) {
 
                     return $this->imageDataTable($obj->image);
