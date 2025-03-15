@@ -8,6 +8,7 @@ namespace App\Services\Vendor;
 use App\Models\Region;
 use App\Models\Vendor as ObjModel;
 
+use App\Models\VendorBranch;
 use App\Services\BaseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
@@ -19,7 +20,7 @@ class VendorService extends BaseService
     protected string $folder = 'vendor/vendor';
     protected string $route = 'vendor.vendors';
 
-    public function __construct(ObjModel $objModel, protected Region $region)
+    public function __construct(ObjModel $objModel, protected Region $region, protected BranchService $branchService, protected VendorBranch $vendorBranch)
     {
         parent::__construct($objModel);
     }
@@ -30,8 +31,8 @@ class VendorService extends BaseService
             $obj = $this->getVendorDateTable();
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
-                    if ($obj->parent_id == null) {
-                        $buttons = '';
+                    if ($obj->id == auth('vendor')->user()->id) {
+                        $buttons = 'لأيمكن اتخاذ لي أجراء';
                     } else {
 
                         $buttons = '
@@ -51,7 +52,7 @@ class VendorService extends BaseService
                     return $buttons;
                 })->editcolumn('status', function ($obj) {
 
-                    return $this->statusDatatable($obj);
+                    return         $obj->id !== auth('vendor')->user()->id ?$this->statusDatatable($obj):'غير متاح';
                 })->editcolumn('image', function ($obj) {
 
                     return $this->imageDataTable($obj->image);
@@ -70,9 +71,19 @@ class VendorService extends BaseService
 
     public function create()
     {
+        $auth = auth('vendor')->user();
+        $branches = [];
+        if ($auth->parent_id == null) {
+            $branches = $this->branchService->model->whereIn('vendor_id', [$auth->parent_id, $auth->id])->get();
+        } else {
+            $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
+            $branches = $this->branchService->model->whereIn('id', $branchIds)->get();
+        }
+
         return view("{$this->folder}/parts/create", [
             'storeRoute' => route("{$this->route}.store"),
             'regions' => $this->region->get(),
+            'branches' => $branches,
             'permissions' => Permission::where('guard_name', 'vendor')
                 ->get(),
         ]);
@@ -81,7 +92,7 @@ class VendorService extends BaseService
     public function store($data): JsonResponse
     {
         $allData = $data;
-        unset($data['permissions']);
+        unset($data['permissions'], $data['branch_ids']);
         if (isset($data['image'])) {
             $data['image'] = $this->handleFile($data['image'], 'Vendor');
         }
@@ -98,9 +109,18 @@ class VendorService extends BaseService
 
 
         try {
-            $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();
-            $obj = $this->model->create($data);
-            $obj->syncPermissions($permissions);
+        $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();
+        $obj = $this->model->create($data);
+        $obj->syncPermissions($permissions);
+
+        //create vendor branch
+        foreach ($allData['branch_ids'] as $branch_id) {
+            $this->vendorBranch->create([
+                'vendor_id' => $obj->id,
+                'branch_id' => $branch_id,
+            ]);
+
+        }
 
 
             return $this->responseMsg();
@@ -115,20 +135,34 @@ class VendorService extends BaseService
     }
 
 
-    public function edit($obj)
+    public function edit($id)
     {
+        $obj = $this->getById($id);
+        $auth = auth('vendor')->user();
+        $branches = [];
+        if ($auth->parent_id == null) {
+            $branches = $this->branchService->model->whereIn('vendor_id', [$auth->parent_id, $auth->id])->get();
+        } else {
+            $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
+            $branches = $this->branchService->model->whereIn('id', $branchIds)->get();
+        }
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
-            'updateRoute' => route("{$this->route}.update", $obj->id),
+            'updateRoute' => route("{$this->route}.update", $id),
             'regions' => $this->region->get(),
+            'branches' => $branches,
+
             'permissions' => Permission::where('guard_name', 'vendor')
                 ->get(),
         ]);
     }
 
-    public function update($data, $id)
-    {
-        $oldObj = $this->getById($id);
+public function update($data): JsonResponse
+{
+    try {
+        $allData = $data;
+        unset($data['permissions'], $data['branch_ids']);
+        $oldObj = $this->getById($data['id']);
 
         if (isset($data['image'])) {
             $data['image'] = $this->handleFile($data['image'], 'Vendor');
@@ -138,33 +172,47 @@ class VendorService extends BaseService
             }
         }
 
-        if (isset($data['password']) && $data['password'] != null) {
-            $data['password'] = Hash::make($data['password']);
+        $data['phone'] = '+966' . $data['phone'];
+        if (isset(auth()->user()->parent_id)) {
+            $data['parent_id'] = auth()->user()->parent_id;
         } else {
+            $data['parent_id'] = auth()->user()->id;
+        }
+
+        if (isset($data['password'])) {
+            $data['password'] = Hash::make($data['password']);
+        }else{
             unset($data['password']);
         }
 
-        // Remove module_id from data to avoid updating non-existent column
-//        $moduleIds = $data['module_id'];
-//        unset($data['module_id']);
+        // Update model and get the instance
+        $obj = $oldObj;
+        $obj->update($data);
 
-        // Update vendor_modules
-//        $oldObj->vendor_modules()->delete();
-//        foreach ($moduleIds as $module_id) {
-//            $oldObj->vendor_modules()->create([
-//                'vendor_id' => $oldObj->id,
-////                'module_id' => $module_id,
-//            ]);
-//        }
-
-        try {
-            $oldObj->update($data);
-            return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
-
-        } catch (\Exception $e) {
-            return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
+        // Sync permissions if provided
+        if (isset($allData['permissions'])) {
+            $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();
+            $obj->syncPermissions($permissions);
         }
+
+        // Delete existing branch relations and create new ones
+        $this->vendorBranch->where('vendor_id', $obj->id)->delete();
+        foreach ($allData['branch_ids'] as $branch_id) {
+            $this->vendorBranch->create([
+                'vendor_id' => $obj->id,
+                'branch_id' => $branch_id,
+            ]);
+        }
+
+        return $this->responseMsg();
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 500,
+            'message' => "حدث خطأ",
+            'error' => $e->getMessage()
+        ]);
     }
+}
 
     public function getVendorsByModule($moduleId)
     {

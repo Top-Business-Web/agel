@@ -24,7 +24,7 @@ class BranchRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:branches,name',
-            'city_id' => 'required',
+            'region_id' => 'required|exists:regions,id',
         ];
     }
 
@@ -32,7 +32,7 @@ class BranchRequest extends FormRequest
     {
         return [
             'name' => 'nullable|unique:branches,name,' . $this->branch,
-            'city_id' => 'nullable',
+            'region_id' => 'nullable|exists:regions,id',
         ];
     }
 }

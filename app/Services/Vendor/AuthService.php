@@ -3,8 +3,10 @@
 namespace App\Services\Vendor;
 
 use App\Mail\Otp;
+use App\Models\Branch;
 use App\Models\Region;
 use App\Models\Vendor;
+use App\Models\VendorBranch;
 use App\Services\BaseService;
 use App\Services\Vendor\AuthService as ObjService;
 use Illuminate\Support\Facades\Auth;
@@ -122,17 +124,17 @@ class AuthService extends BaseService
         $validate = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:vendors,email',
-            'phone' => 'required|numeric|unique:vendors,phone',
+            'phone' => 'required|numeric|digits:9|unique:vendors,phone',
             'password' => 'required|min:6|confirmed',
             'region_id' => 'required|exists:regions,id',
             'commercial_number' => 'required|unique:vendors,commercial_number',
-            'national_id' => 'required|numeric|unique:vendors,national_id',
+            'national_id' => 'required|numeric|digits:10|unique:vendors,national_id',
         ]);
 
         $vendor = Vendor::create([
             'name' => $request->name,
             'email' => $request->email,
-            'phone' => $request->phone,
+            'phone' =>'+966'. $request->phone,
             'password' => Hash::make($request->password),
             'region_id' => $request->region_id,
             'commercial_number' => $request->commercial_number,
@@ -141,6 +143,21 @@ class AuthService extends BaseService
             'status' => 0,
             'plan_id' => 1
 
+        ]);
+
+// Create primary branch for the vendor with default settings
+        $branch = Branch::create([
+            'vendor_id' => $vendor->id,
+            'region_id' => $vendor->region_id,
+            'status' => 1,
+            'is_main' => 1,
+            'name' => 'الفرع الرئيسي'
+        ]);
+
+// Associate vendor with the created branch
+        $vendorBranch = VendorBranch::create([
+            'vendor_id' => $vendor->id,
+            'branch_id' => $branch->id,
         ]);
 
         if ($vendor) {
@@ -183,6 +200,7 @@ class AuthService extends BaseService
             return view('vendor.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
         }
         return view('vendor.auth.verify-otp', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
+
     }
 
 

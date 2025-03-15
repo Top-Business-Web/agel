@@ -3,8 +3,12 @@
 namespace App\Services\Vendor;
 
 use App\Models\Branch as ObjModel;
+use App\Models\Region;
+use App\Models\Vendor;
+use App\Models\VendorBranch;
 use App\Services\Admin\CityService;
 use App\Services\BaseService;
+use Illuminate\Http\JsonResponse;
 use Yajra\DataTables\DataTables;
 
 class BranchService extends BaseService
@@ -12,7 +16,7 @@ class BranchService extends BaseService
     protected string $folder = 'vendor/branch';
     protected string $route = 'branches';
 
-    public function __construct(ObjModel $objModel, protected CityService $cityService)
+    public function __construct(ObjModel $objModel, protected Vendor $vendor, protected Region $region, protected VendorBranch $vendorBranch)
     {
         parent::__construct($objModel);
     }
@@ -20,9 +24,24 @@ class BranchService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $obj = $this->getDataTable()->where('vendor_id', auth()->user()->parent_id?auth()->user()->parent_id:auth()->user()->id)->orWhere('vendor_id', auth()->user()->parent_id);
+            $auth = auth('vendor')->user();
+            $parentId = $auth->parent_id ?? $auth->id;
+            $child = $this->vendor->where('parent_id', $parentId)->pluck('id')->toArray();
+            if ($auth->parent_id === null) {
+                $child[] = $auth->id;
+            }else{
+                $child[] = $auth->parent_id;
+            }
+
+
+
+            $obj = $this->model->whereIn('vendor_id', $child)->get();
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
+                    if ($obj->is_main===1) {
+                        return $buttons = 'لأيمكن اتخاذ لي أجراء';
+                    }else{
+
                     $buttons = '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
                             <i class="fa fa-edit"></i>
@@ -32,11 +51,13 @@ class BranchService extends BaseService
                             <i class="fas fa-trash"></i>
                         </button>
                     ';
+                    }
+
                     return $buttons;
-                })->editColumn('city_id', function ($obj) {
-                    return $obj->city->name;
+                })->editColumn('region_id', function ($obj) {
+                    return $obj->region->name;
                 })->editColumn('status', function ($obj) {
-                    return $this->statusDatatable($obj);
+                    return $obj->is_main === 1 ? 'غير متاح' : $this->statusDatatable($obj);
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -54,16 +75,15 @@ class BranchService extends BaseService
     {
         return view("{$this->folder}/parts/create", [
             'storeRoute' => route("{$this->route}.store"),
-            'cities' => $this->cityService->getAll(),
+            'regions' => $this->region->get(),
         ]);
     }
 
-    public function store($data): \Illuminate\Http\JsonResponse
+    public function store($data): JsonResponse
     {
-        if (isset($data['image'])) {
-            $data['image'] = $this->handleFile($data['image'], 'Branch');
-        }
+
         try {
+            $data['vendor_id'] = auth('vendor')->user()->id;
             $this->createData($data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception $e) {
@@ -76,7 +96,7 @@ class BranchService extends BaseService
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
-            'cities' => $this->cityService->getAll(),
+            'regions' => $this->region->get(),
         ]);
     }
 
@@ -84,15 +104,9 @@ class BranchService extends BaseService
     {
         $oldObj = $this->getById($id);
 
-        if (isset($data['image'])) {
-            $data['image'] = $this->handleFile($data['image'], 'Branch');
-
-            if ($oldObj->image) {
-                $this->deleteFile($oldObj->image);
-            }
-        }
 
         try {
+
             $oldObj->update($data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
 

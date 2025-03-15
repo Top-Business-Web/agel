@@ -75,6 +75,7 @@
         <form class="signup-form" action="{{route('vendor.login')}}" method="post" id="LoginForm">
             @csrf
             <label class="inp">
+
                 <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField">
                 <span class="label" id="placeHolder">البريد الالكتروني</span> <!-- Default placeholder -->
                 <span class="input-icon">
@@ -99,8 +100,10 @@
                         <label class="form-check-label" for="verificationTypeEmail">Email</label>
                     </div>
                     <div class="form-check">
+
                         <input class="form-check-input" type="radio" value="phone" name="verificationType"
                                id="verificationTypePhone">
+
                         <label class="form-check-label" for="verificationTypePhone">Phone</label>
                     </div>
                 </div>
