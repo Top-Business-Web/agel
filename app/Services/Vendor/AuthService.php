@@ -176,7 +176,6 @@ class AuthService extends BaseService
     public
     function showOtpForm($email, $type)
     {
-        $status = 200;
         return view('vendor.auth.verify-otp', ['email' => $email, 'type' => $type, 'status' => $status]);
     }
 
@@ -198,6 +197,14 @@ class AuthService extends BaseService
 
             return response()->json(500);
         }
+
+    }
+    public function resetPasswordForm()
+    {
+
+    }
+    public function resetPassword()
+    {
 
     }
 

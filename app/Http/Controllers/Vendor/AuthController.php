@@ -49,5 +49,12 @@ class AuthController extends Controller
     {
         return $this->objService->logout();
     }
-
+    public function resetPassword()
+    {
+        return $this->objService->resetPassword();
+    }
+    public function resetPasswordForm()
+    {
+        return $this->objService->resetPasswordForm();
+    }
 }//end class

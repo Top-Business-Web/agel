@@ -27,15 +27,19 @@ class AuthService extends BaseService
     {
         if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->status == 1) {
             return redirect()->route('adminHome');
-        }
-        if ($key == 'login') {
-
+        }else{
             return view('admin.auth.login');
-        } else {
-//            $cites = City::select('id', 'name')->where('status', 1)->get();
-            $regions = $this->region->get();
-            return view('admin.auth.register', compact('regions'));
+
         }
+//        if ($key == 'login') {
+//
+//            return view('admin.auth.login');
+//        }
+//        } else {
+////            $cites = City::select('id', 'name')->where('status', 1)->get();
+//            $regions = $this->region->get();
+//            return view('admin.auth.register', compact('regions'));
+//        }
     }
 
     public function login($request): \Illuminate\Http\JsonResponse

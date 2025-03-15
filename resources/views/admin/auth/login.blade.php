@@ -93,13 +93,17 @@
             @csrf
             <label class="inp">
                 <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField">
-                {{--                <span class="label">أدخل اسم المستخدم او البريد الالكتروني </span>--}}
-                <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
+                <span class="label" id="placeHolder">البريد الالكتروني</span> <!-- Default placeholder -->
+                <span class="input-icon">
+        <i class="fa-solid fa-envelope"></i> <!-- Default icon -->
+    </span>
             </label>
             <label class="inp">
                 <input type="password" name="password" class="input-text" placeholder="&nbsp;" id="password">
                 <span class="label">كلمة المرور</span>
-                <span class="input-icon input-icon-password" data-password><i class="fa-solid fa-eye"></i></span>
+                <span class="input-icon input-icon-password" data-password>
+        <i class="fa-solid fa-eye"></i>
+    </span>
             </label>
             {{--            <input class="inp">--}}
             {{--            <input type="text" name="input" class="input-text" placeholder="&nbsp;">--}}
@@ -116,10 +120,8 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-login" id="loginButton">تسجيل الدخول</button>
-            <p class="text-mute">ليس لديك حساب؟
-                <a href="{{url('/admin/register')}}">سجل الآن</a>
-            </p>
+            <button class="btn btn-login" id="loginButton">تسجيل </button>
+
         </form>
     </main>
     <div class="welcome-container" style="background-color: white !important;">
@@ -140,12 +142,17 @@
     document.querySelectorAll('input[name="verificationType"]').forEach((elem) => {
         elem.addEventListener("change", function (event) {
             const inputField = document.getElementById('inputField');
+            const placeHolder = document.getElementById('placeHolder');
+            const inputIcon = document.querySelector('.input-icon i'); // Get the icon element
+
             if (event.target.value === 'email') {
                 inputField.type = 'email';
-                inputField.placeholder = 'أدخل البريد الالكتروني';
+                placeHolder.textContent = 'البريد الالكتروني'; // Update placeholder text
+                inputIcon.className = 'fa-solid fa-envelope'; // Change icon to email
             } else if (event.target.value === 'phone') {
                 inputField.type = 'number';
-                inputField.placeholder = 'أدخل رقم الجوال';
+                placeHolder.textContent = 'رقم الجوال'; // Update placeholder text
+                inputIcon.className = 'fa-solid fa-phone'; // Change icon to phone
             }
         });
     });
