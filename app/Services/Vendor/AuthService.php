@@ -149,6 +149,7 @@ class AuthService extends BaseService
             'vendor_id' => $vendor->id,
             'region_id' => $vendor->region_id,
             'status' => 1,
+            'is_main' => 1,
             'name' => 'الفرع الرئيسي'
         ]);
 
@@ -156,7 +157,6 @@ class AuthService extends BaseService
         $vendorBranch = VendorBranch::create([
             'vendor_id' => $vendor->id,
             'branch_id' => $branch->id,
-            'is_main' => 1
         ]);
 
         if ($vendor) {
