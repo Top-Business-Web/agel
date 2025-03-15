@@ -21,9 +21,9 @@ class VendorSeeder extends Seeder
     {
         $vendor = Vendor::create([
             'name' => 'vendor',
-            'phone' => '000000000',
-            'national_id' => '1234456464',
-            'commercial_number' => '12344564645',
+            'phone' => '0000001000',
+            'national_id' => '1234456412164',
+            'commercial_number' => '12312144564645',
             'region_id' => 1,
             'role_id' => 6,
             'status' => 1,
@@ -33,25 +33,25 @@ class VendorSeeder extends Seeder
         ]);
         $ahmed = Vendor::create([
             'name' => 'vendor',
-            'phone' => '000000000',
-            'national_id' => '1234456464',
-            'commercial_number' => '12344564645',
+            'phone' => '00210000000',
+            'national_id' => '1234451216464',
+            'commercial_number' => '12341214564645',
             'region_id' => 1,
             'role_id' => 6,
             'status' => 1,
-            'username' => 'vendor',
+            'username' => 'vendgdfor',
             'email' => 'ahmedesmaelgamal@gmail.com',
             'password' => bcrypt('vendor'),
         ]);
         $mohamed = Vendor::create([
-            'name' => 'vendor',
-            'phone' => '000000000',
-            'national_id' => '1234456464',
-            'commercial_number' => '12344564645',
+            'name' => 'vendor2',
+            'phone' => '00000012000',
+            'national_id' => '1234456422164',
+            'commercial_number' => '12344121564645',
             'region_id' => 1,
             'role_id' => 6,
             'status' => 1,
-            'username' => 'vendor',
+            'username' => 'vendgor',
             'email' => 'amomatter48@gmail.com',
             'password' => bcrypt('vendor'),
         ]);

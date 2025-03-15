@@ -23,7 +23,7 @@
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{أغلاق</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">أغلاق</button>
             <button type="submit" class="btn btn-primary" id="addButton">حفظ
 </button>
         </div>

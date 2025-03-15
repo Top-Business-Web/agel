@@ -70,7 +70,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
-                            {أغلاق
+                            أغلاق
                         </button>
                         <button type="button" class="btn btn-danger" id="delete_btn">حذف !</button>
                     </div>
@@ -177,8 +177,8 @@
                 name: 'name'
             },
             {
-                data: 'city_id',
-                name: 'city_id'
+                data: 'region_id',
+                name: 'region_id'
             },
             {
                 data: 'status',
