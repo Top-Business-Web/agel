@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -12,12 +13,10 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('branches', function (Blueprint $table) {
+        Schema::create('vendor_branches', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('region_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->boolean('status')->default(1);
-            $table->boolean('is_main')->default(0);
+            $table->foreignId('vendor_id')->constrained('vendors')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('branch_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('branches');
+        Schema::dropIfExists('vendor_branches');
     }
 };

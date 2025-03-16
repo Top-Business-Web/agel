@@ -3,7 +3,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @include('vendor.auth.css')
+    @include('admin.auth.css')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
     <style>
@@ -65,14 +65,14 @@
         <h1 class="heading-primary"> مرحبا<span class="span-blue">.</span></h1>
         <p class="text-mute">قم بإدخال بيانات التأكيد</p>
 
-        <form class="signup-form" action="{{route('vendor.register')}}" method="post" id="RegisterForm">
+        <form class="signup-form" action="{{route('admin.register')}}" method="post" id="RegisterForm">
             @csrf
             <div class="input-row">
-                <label class="inp">
-                    <input type="text" name="name" class="input-text"  required>
-                    <span class="label">اسم المكتب</span>
-                    <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
-                </label>
+{{--                <label class="inp">--}}
+{{--                    <input type="text" name="name" class="input-text"  required>--}}
+{{--                    <span class="label">اسم المكتب</span>--}}
+{{--                    <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>--}}
+{{--                </label>--}}
                 <label class="inp">
                     <input type="number" name="phone" class="input-text" required>
                     <span class="label">رقم الهاتف</span>
@@ -86,11 +86,11 @@
                     <span class="label">البريد الإلكتروني</span>
                     <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
                 </label>
-                <label class="inp">
-                    <input type="number" name="commercial_number" class="input-text" required>
-                    <span class="label">رقم السجل التجاري</span>
-                    <span class="input-icon"><i class="fa-solid fa-building"></i></span>
-                </label>
+{{--                <label class="inp">--}}
+{{--                    <input type="number" name="commercial_number" class="input-text" required>--}}
+{{--                    <span class="label">رقم السجل التجاري</span>--}}
+{{--                    <span class="input-icon"><i class="fa-solid fa-building"></i></span>--}}
+{{--                </label>--}}
             </div>
 
             <div class="input-row">
@@ -125,7 +125,7 @@
 
             <button class="btn btn-login" id="registerButton">دخول</button>
             <p class="text-mute"> لديك حساب؟
-                <a href="{{url('/partner')}}">سجل الآن</a>
+                <a href="{{url('/admin/login')}}">سجل الآن</a>
             </p>
         </form>
 
@@ -162,7 +162,7 @@
 </div>
 </body>
 
-@include('vendor.auth.js')
+@include('admin.auth.js')
     <script>
         document.getElementById('toggleDarkMode').addEventListener('click', function () {
             document.body.classList.toggle('dark-mode');

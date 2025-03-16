@@ -26,25 +26,30 @@ class VendorRequest extends FormRequest
 
             'name' => 'required',
             'email' => 'required|email|unique:vendors,email',
-            'phone' => 'required|numeric',
-            'city_id'=>'required|exists:cities,id',
-            'national_id' => 'required|numeric|unique:vendors,national_id',
+            'phone' => 'required|numeric|unique:vendors,phone|digits:9',
+            'region_id'=>'required|exists:regions,id',
+            'national_id' => 'required|numeric|unique:vendors,national_id|digits:10',
             'password' => 'required|min:6|confirmed',
             'image' => 'nullable|image',
+            "permissions"=>'required|array',
+            'branch_ids' => 'required|array',
         ];
     }
 
     protected function update(): array
     {
         return [
+            'id' => 'required|exists:vendors,id',
             'name' => 'nullable',
-            'email' => 'nullable|email',
-            'phone' => 'nullable|numeric',
-            'national_id' => 'nullable|numeric|unique:vendors,national_id,' . $this->id,
-            'city_id'=>'required|exists:cities,id',
+            'email' => 'nullable|email|unique:vendors,email,' . $this->id,
+            'phone' => 'nullable|numeric|digits:9|unique:vendors,phone,' . $this->id,
+            'national_id' => 'nullable|numeric|digits:10|unique:vendors,national_id,' . $this->id,
+            'region_id'=>'required|exists:regions,id',
             'password' => 'nullable|min:6|confirmed',
             'image' => 'nullable|image',
-//            'module_id' => 'nullable',
+            "permissions"=>'required|array',
+            'branch_ids'=>'required|array',
+
         ];
     }
 }
