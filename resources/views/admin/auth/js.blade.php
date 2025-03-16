@@ -29,24 +29,43 @@
 
             },
             success: function (data) {
-                if (data.status === 204) {
+                if (data === 204) {
                     window.location.href = '{{route('adminHome')}}';
                 }
-                if (data.status === 205) {
-                    toastr.error('من فضلك تأكد من رقم الجوال و أعد المحاوله');
-                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
+                // if (data === 205) {
+                //     toastr.error('من فضلك تأكد من رقم الجوال و أعد المحاوله');
+                //     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
+                //
+                // }
 
+
+
+                if (data.status === 205 ) {
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
+                    toastr.error('حدث خطأ أثناء محاولة تسجيل الدخول بهذا الحساب');
                 }
-                if (data.status === 206) {
+                if (data.status === 206 ) {
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
                     toastr.error('هذا البريد الإلكتروني غير مسجل بالنظام');
-                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
-
                 }
-                if (data === 200 ) {
+                if (data.status === 207 ) {
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
+                    toastr.error('هذا البريد الإلكتروني غير مفعل الرجاء تفعيله ثم إعاده المحاوله');
+                }
+                if (data.status === 208 ) {
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
+                    toastr.error('حدث خطأ أثناء محاولة تسجيل الدخول بهذا الحساب الرجاء التأكد من كلمة المرور و إعادة المحاوله');
+                }
+                if (data.status === 200 ) {
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
                     window.location.href = '{{route('adminHome')}}';
-                } else if (data === 500) {
+                }
+                if (data.status === 204 ) {
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
+                    window.location.href = '{{route('adminHome')}}';
+                }else if (data.status === 500) {
                     toastr.error('لقد قمت بإدخال الكود الذي تم إرساله بشكل خاطئ');
+
                     window.location.href = '/';
                 }
 
