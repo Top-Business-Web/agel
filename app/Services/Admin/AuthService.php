@@ -58,19 +58,19 @@ class AuthService extends BaseService
 
         if ($request->verificationType == 'phone') {
 //            dd($data);
-            $vendor = Admin::where('phone', $data['input'])->first();
+            $admin = Admin::where('phone', $data['input'])->first();
 
-            if ($vendor==null) {
+            if (!$admin) {
                 return response()->json([
-                    'status' => 205,
+                    'status' => 206,
 //                    'email' => $vendor->email
-                ], 200);
+                ], 206);
             }
-            if ($vendor->status == 0) {
+            if ($admin->status == 0) {
                 return response()->json([
                     'status' => 207,
 //                    'email' => $vendor->email
-                ], 200);
+                ], 207);
             }
             $credentials = [
                 'phone' => $data['input'],
@@ -79,49 +79,53 @@ class AuthService extends BaseService
             if (Auth::guard('admin')->attempt($credentials)) {
                 return response()->json([
                     'status' => 204,
-                    'email' => $vendor->email
-                ], 200);
+                    'email' => $admin->email
+                ], 204);
             } else {
                 return response()->json([
                     'status' => 205,
-                    'email' => $vendor->email
-                ], 200);
+                    'email' => $admin->email
+                ], 205);
             }
         } elseif ($request->verificationType == 'email') {
-            $vendor = Admin::where('email', $data['input'])->first();
+            $admin = Admin::where('email', $data['input'])->first();
             $credentials = [
                 'email' => $data['input'],
                 'password' => $data['password'],
             ];
-            if (!$vendor) {
+            if (!$admin) {
                 return response()->json([
                     'status' => 206,
 //                    'email' => $vendor->email
-                ], 200);
+                ], 206);
             }
-            if ($vendor->status == 0) {
-                return response()->json(206);
+            if ($admin->status == 0) {
+                return response()->json(207);
             }
 
             if (Auth::guard('admin')->validate($credentials)) {
                 $otp = rand(1000, 9999);
-                $vendor->update([
+                $admin->update([
                     'otp' => $otp,
                     'otp_expire_at' => now()->addMinutes(5)
                 ]);
 
-                Mail::to($vendor->email)->send(new Otp($vendor->name, $otp));
+                Mail::to($admin->email)->send(new Otp($admin->name, $otp));
                 return response()->json([
                     'status' => 200,
-                    'email' => $vendor->email
+                    'email' => $admin->email
                 ], 200);
+            }else{
+                return response()->json([
+                    'status' => 208,
+                    'email' => $admin->email
+                ], 208);
             }
         }
 
         return response()->json([
-            'status' => 405,
-            'message' => 'لم يتم العثور على المشرف'
-        ], 405);
+            'status' => 205,
+        ], 205);
     }
 
 
