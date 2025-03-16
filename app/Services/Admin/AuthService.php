@@ -44,7 +44,6 @@ class AuthService extends BaseService
 
     public function login($request): \Illuminate\Http\JsonResponse
     {
-//dd($request);
         $data = $request->validate(
             [
                 'input' => 'required',
