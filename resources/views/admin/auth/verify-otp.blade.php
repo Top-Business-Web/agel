@@ -78,7 +78,7 @@
                 <span class="label">الكود</span>
                 <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
             </label>
-            @if($type == 'login')
+            @if($type == 'login'||$type == 'reset-password')
                 <button class="btn btn-login" id="loginButton">تأكيد</button>
             @elseif($status == 'register')
             <button class="btn btn-login" id="loginButton"> تفعيل</button>

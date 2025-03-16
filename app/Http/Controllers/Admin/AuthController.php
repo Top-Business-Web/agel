@@ -14,6 +14,7 @@ class AuthController extends Controller
 
     public function index()
     {
+
         return $this->objService->index();
     }
 

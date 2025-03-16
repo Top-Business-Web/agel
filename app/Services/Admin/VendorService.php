@@ -30,21 +30,26 @@ class VendorService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $obj = $this->getDataTable();
+            $obj = $this->model->where('parent_id', null);
             return DataTables::of($obj)
-//                ->addColumn('action', function ($obj) {
-//                    $buttons = '
-//
-//                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-//                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
-//                            <i class="fas fa-trash"></i>
-//                        </button>
-//
-//
-//                    ';
-//                    return $buttons;
-//                })
-        ->editcolumn('status', function ($obj) {
+                ->addColumn('action', function ($obj) {
+                    $buttons = '';
+
+                    if ($this->model->where('parent_id', $obj->id)->exists() ? false : true) {
+
+                        $buttons .= '
+
+                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
+                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
+                            <i class="fas fa-trash"></i>
+                        </button>
+
+
+                    ';
+                    }
+                    return $buttons;
+                })
+                ->editcolumn('status', function ($obj) {
 
                     return $this->statusDatatable($obj);
                 })->editcolumn('image', function ($obj) {
@@ -58,7 +63,6 @@ class VendorService extends BaseService
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
                 'bladeName' => "المكاتب",
-
                 'route' => $this->route,
             ]);
         }
@@ -120,6 +124,7 @@ class VendorService extends BaseService
             ]);
         }
     }
+
     public function show($id)
     {
 

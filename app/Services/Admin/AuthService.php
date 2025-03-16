@@ -57,8 +57,10 @@ class AuthService extends BaseService
         );
 
         if ($request->verificationType == 'phone') {
+//            dd($data);
             $vendor = Admin::where('phone', $data['input'])->first();
-            if (!$vendor) {
+
+            if ($vendor==null) {
                 return response()->json([
                     'status' => 205,
 //                    'email' => $vendor->email
@@ -66,7 +68,7 @@ class AuthService extends BaseService
             }
             if ($vendor->status == 0) {
                 return response()->json([
-                    'status' => 205,
+                    'status' => 207,
 //                    'email' => $vendor->email
                 ], 200);
             }
@@ -220,6 +222,7 @@ class AuthService extends BaseService
     public
     function showOtpForm($email, $type)
     {
+
         return view('admin.auth.verify-otp', ['email' => $email, 'type' => $type]);
     }
 
