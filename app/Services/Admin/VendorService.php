@@ -35,7 +35,6 @@ class VendorService extends BaseService
                 ->addColumn('action', function ($obj) {
                     $buttons = '';
 
-                    if ($this->model->where('parent_id', $obj->id)->exists() ? false : true) {
 
                         $buttons .= '
 
@@ -46,7 +45,7 @@ class VendorService extends BaseService
 
 
                     ';
-                    }
+
                     return $buttons;
                 })
                 ->editcolumn('status', function ($obj) {
@@ -102,11 +101,7 @@ class VendorService extends BaseService
 
         $data['username'] = $this->generateUsername($data['name']);
         $data['phone'] = '+966' . $data['phone'];
-        if (isset(auth()->user()->parent_id)) {
-            $data['parent_id'] = auth()->user()->parent_id;
-        } else {
-            $data['parent_id'] = auth()->user()->id;
-        }
+
 
         $data['password'] = Hash::make($data['password']);
 
