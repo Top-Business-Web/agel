@@ -95,6 +95,7 @@ class AuthService extends BaseService
                 'email' => $data['input'],
                 'password' => $data['password'],
             ];
+//            dd($admin);
             if (!$admin) {
                 return response()->json([
                     'status' => 206,
@@ -228,11 +229,11 @@ class AuthService extends BaseService
     public
     function showOtpForm($email, $type,$resetPassword)
     {
-        if ($resetPassword == true) {
+        if ($resetPassword == 2) {
             return view('admin.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
         }
         if ($resetPassword==null){
-            $resetPassword=false;
+            $resetPassword=1;
         }
 
 
