@@ -235,7 +235,7 @@ class AuthService extends BaseService
             return view('admin.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
         }
         if ($resetPassword == null) {
-            $resetPassword = false;
+            $resetPassword = 1;
         }
 
 
