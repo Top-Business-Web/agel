@@ -68,11 +68,6 @@
         <form class="signup-form" action="{{route('admin.register')}}" method="post" id="RegisterForm">
             @csrf
             <div class="input-row">
-{{--                <label class="inp">--}}
-{{--                    <input type="text" name="name" class="input-text"  required>--}}
-{{--                    <span class="label">اسم المكتب</span>--}}
-{{--                    <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>--}}
-{{--                </label>--}}
                 <label class="inp">
                     <input type="number" name="phone" class="input-text" required>
                     <span class="label">رقم الهاتف</span>
