@@ -1,9 +1,9 @@
 @extends('admin/layouts/master')
 @section('title')
-    {{ config()->get('app.name') }} | {{ trns('Admin') }}
+    {{ config()->get('app.name') }} | المشرفين
 @endsection
 @section('page_name')
-    {{ trns('Admin') }}
+    المشرفين
 @endsection
 @section('content')
     <div class="row">
@@ -14,7 +14,7 @@
                     <div class="d-flex">
                         <div class="text-white">
                             <h2 class="mb-0 number-font">{{ \App\Models\Admin::count() }}</h2>
-                            <p class="text-white mb-0"> {{ trns('admins_count') }}</p>
+                            <p class="text-white mb-0"> عدد المشرفين</p>
                         </div>
                         <div class="mr-auto">
                             <i class="fe fe-user-check text-white fs-30 ml-2 mt-2"></i>

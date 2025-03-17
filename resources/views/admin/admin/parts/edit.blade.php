@@ -41,7 +41,7 @@
                 <div class="form-group">
                     <label for="role_id" class="form-control-label">صلاحيات النظام</label>
                     <select class="form-control" name="role_id" id="role_id">
-                        <option value="">{{ trns('select_role') }}</option>
+                        <option value="">أختر الدور</option>
                         @foreach($roles as $role)
                             <option value="{{ \App\Enums\RoleEnum::tryFrom($role->id)->label() }}" {{ $admin->hasRole($role->id) ? 'selected' : '' }}>
                                 {{ \App\Enums\RoleEnum::tryFrom($role->id)->lang() }}

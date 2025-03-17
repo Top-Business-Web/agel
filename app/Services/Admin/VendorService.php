@@ -7,11 +7,14 @@ namespace App\Services\Admin;
 namespace App\Services\Admin;
 
 use App\Http\Middleware\Custom\vendor;
+use App\Models\Region;
 use App\Models\Vendor as ObjModel;
 
 //use App\Models\VendorModule;
 use App\Services\BaseService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\DataTables;
 
 class VendorService extends BaseService
@@ -19,7 +22,7 @@ class VendorService extends BaseService
     protected string $folder = 'admin/vendor';
     protected string $route = 'admin.vendors';
 
-    public function __construct(ObjModel $objModel, protected CityService $cityService)
+    public function __construct(ObjModel $objModel, protected CityService $cityService, protected Region $region)
     {
         parent::__construct($objModel);
     }
@@ -27,10 +30,14 @@ class VendorService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $obj = $this->getDataTable();
+            $obj = $this->model->where('parent_id', null);
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
-                    $buttons = '
+                    $buttons = '';
+
+                    if ($this->model->where('parent_id', $obj->id)->exists() ? false : true) {
+
+                        $buttons .= '
 
                         <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                             data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
@@ -39,8 +46,10 @@ class VendorService extends BaseService
 
 
                     ';
+                    }
                     return $buttons;
-                })->editcolumn('status', function ($obj) {
+                })
+                ->editcolumn('status', function ($obj) {
 
                     return $this->statusDatatable($obj);
                 })->editcolumn('image', function ($obj) {
@@ -53,7 +62,7 @@ class VendorService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
-                'bladeName' => trns($this->route),
+                'bladeName' => "المكاتب",
                 'route' => $this->route,
             ]);
         }
@@ -65,30 +74,52 @@ class VendorService extends BaseService
             'storeRoute' => route("{$this->route}.store"),
             'cities' => $this->cityService->getAll(),
             'vendors' => $this->model->all(),
-
+            'regions' => $this->region->get(),
+            'permissions' => Permission::where('guard_name', 'vendor')
+                ->get(),
 
         ]);
     }
 
-    public function store($data): \Illuminate\Http\JsonResponse
+    public function store($data): JsonResponse
     {
+        $allData = $data;
+
+        // تحقق من وجود المفتاح 'permissions' في المصفوفة
+        if (isset($data['permissions'])) {
+            unset($data['permissions']);
+        } else {
+            // إذا لم يكن المفتاح موجودًا، قم بتعيين قيمة افتراضية أو التعامل مع الخطأ
+            return response()->json([
+                'status' => 400,
+                'message' => "المفتاح 'permissions' غير موجود في البيانات المرسلة.",
+            ]);
+        }
+
         if (isset($data['image'])) {
             $data['image'] = $this->handleFile($data['image'], 'Vendor');
         }
 
         $data['username'] = $this->generateUsername($data['name']);
-        if ($data['has_parent'] == 0) {
-            $data['parent_id'] = null;
+        $data['phone'] = '+966' . $data['phone'];
+        if (isset(auth()->user()->parent_id)) {
+            $data['parent_id'] = auth()->user()->parent_id;
+        } else {
+            $data['parent_id'] = auth()->user()->id;
         }
-        $data['password'] = Hash::make($data['password']);
-        try {
-            $vendor = $this->model->create($data->except('has_parent'));
 
-            return response()->json(['status' => 200, 'message' => trns('Data created successfully.')]);
+        $data['password'] = Hash::make($data['password']);
+
+        try {
+            $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();
+            $obj = $this->model->create($data);
+            $obj->syncPermissions($permissions);
+
+            return $this->responseMsg();
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 500,
-                'message' => trns('Something went wrong.'),
+                'message' => "حدث خطأ",
                 'error' => $e->getMessage()
             ]);
         }
@@ -106,7 +137,9 @@ class VendorService extends BaseService
             'updateRoute' => route("{$this->route}.update", $obj->id),
             'cities' => $this->cityService->getAll(),
             'vendors' => $this->model->all(),
-
+            'regions' => $this->region->get(),
+            'permissions' => Permission::where('guard_name', 'vendor')
+                ->get(),
 //            'vendorModules' => $obj->vendor_modules->pluck('module_id')->toArray(),
 //            'moduleService' => $this->moduleService->getAll(),
         ]);
@@ -145,16 +178,12 @@ class VendorService extends BaseService
 
         try {
             $oldObj->update($data);
-            return response()->json(['status' => 200, 'message' => trns('Data updated successfully.')]);
+            return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
+
         } catch (\Exception $e) {
-            return response()->json(['status' => 500, 'message' => trns('Something went wrong.'), trns('error') => $e->getMessage()]);
+            return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
         }
     }
 
-    public function getVendorsByModule($moduleId)
-    {
-        return \App\Models\Vendor::whereHas('vendor_modules', function ($query) use ($moduleId) {
-            $query->where('module_id', $moduleId);
-        })->get();
-    }
+
 }

@@ -11,7 +11,7 @@
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"> {{ $bladeName }} {{ config()->get('app.name') }}</h3>
+                    <h3 class="card-title"></h3>
                     <div class="">
                         <button class="btn btn-secondary btn-icon text-white addBtn">
                             <span>
@@ -22,9 +22,9 @@
                             <span><i class="fe fe-trash"></i></span> حذف المحدد
                         </button>
 
-                        <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
-                            <span><i class="fe fe-trending-up"></i></span> تحديث حالة المحدد
-                        </button>
+{{--                        <button class="btn btn-secondary btn-icon text-white" id="bulk-update">--}}
+{{--                            <span><i class="fe fe-trending-up"></i></span> تحديث حالة المحدد--}}
+{{--                        </button>--}}
                     </div>
                 </div>
                 <div class="card-body">
@@ -67,7 +67,11 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
+<<<<<<< HEAD
                             إلغاء
+=======
+                            أغلاق
+>>>>>>> 5e07fcb1d2b728e771b622a28b59b4ead2c1825a
                         </button>
                         <button type="button" class="btn btn-danger" id="delete_btn">حذف !</button>
                     </div>
@@ -81,7 +85,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="example-Modal3">تفاصيل العنصر</h5>
+                        <h5 class="modal-title" id="example-Modal3">التفاصيل</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -225,6 +229,7 @@
                         if (val !== 0) {
                             toastr.success('Success', "نشط");
                         } else {
+<<<<<<< HEAD
                             toastr.warning('Success', "غير نشط");
                         }
                     } else {
@@ -233,6 +238,16 @@
                 },
                 error: function() {
                     toastr.error('Error', "هناك خطأ ما");
+=======
+                            toastr.warning('Success', "غير نشط ");
+                        }
+                    } else {
+                        toastr.error('Error', "حدث خطأ ما");
+                    }
+                },
+                error: function () {
+                    toastr.error('Error', "حدث خطأ ما");
+>>>>>>> 5e07fcb1d2b728e771b622a28b59b4ead2c1825a
                 }
             });
         });

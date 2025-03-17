@@ -4,6 +4,10 @@
 @endsection
 @section('page_name')
     المسئول
+    {{ config()->get('app.name') }} | المشرفين
+@endsection
+@section('page_name')
+    المشرفين
 @endsection
 @section('content')
     <div class="row">

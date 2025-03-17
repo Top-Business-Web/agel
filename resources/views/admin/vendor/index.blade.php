@@ -6,25 +6,28 @@
 @section('page_name')
     {{ $bladeName }}
 @endsection
+{{--@section('page_name') {{ $title }} @endsection--}}
+
 @section('content')
 
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"> {{ $bladeName }} {{ config()->get('app.name') }}</h3>
+                    <h3></h3>
+                    <h3 class="card-title"></h3>
                     <div class="">
-{{--                        <button class="btn btn-secondary btn-icon text-white addBtn">--}}
-{{--									<span>--}}
-{{--										<i class="fe fe-plus"></i>--}}
-{{--									</span> {{ trns('add_new') . ' ' . $bladeName }}--}}
-{{--                        </button>--}}
+                        <button class="btn btn-secondary btn-icon text-white addBtn">
+									<span>
+										<i class="fe fe-plus"></i>
+									</span> أضافه
+                        </button>
                         <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
                             <span><i class="fe fe-trash"></i></span> حذف المحدد
                         </button>
 
                         <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
-                            <span><i class="fe fe-trending-up"></i></span> تحديث حالة المحدد
+                            <span><i class="fe fe-trending-up"></i></span> تغير الحالة
                         </button>
                     </div>
                 </div>
@@ -40,11 +43,11 @@
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-50px rounded-end">الإسم</th>
                                 <th class="min-w-50px rounded-end">البريد الإلكتروني</th>
-                                <th class="min-w-50px rounded-end">رقم الهاتف</th>
+                                <th class="min-w-50px rounded-end">رقم الجوال</th>
                                 <th class="min-w-50px rounded-end">إسم المستخدم</th>
-                                <th class="min-w-50px rounded-end">رقم الهويه</th>
-                                <th class="min-w-50px rounded-end">الحاله</th>
-                                <th class="min-w-50px rounded-end">الصوره</th>
+                                <th class="min-w-50px rounded-end">رقم الهوية</th>
+                                <th class="min-w-50px rounded-end">الحالة</th>
+                                <th class="min-w-50px rounded-end">الصورة</th>
                                 <th class="min-w-50px rounded-end">العمليات</th>
                             </tr>
                             </thead>
@@ -68,7 +71,7 @@
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
                         <p>هل أنت متأكد من أنك تريد حذف هذا العنصر <span id="title"
-                                                                                        class="text-danger"></span>?</p>
+                                                                         class="text-danger"></span>?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
@@ -86,7 +89,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="example-Modal3">تفاصيل العنصر</h5>
+                        <h5 class="modal-title" id="example-Modal3">التفاصيل</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -115,9 +118,11 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">إلغاء</button>
+                                data-bs-dismiss="modal">إلغاء
+                        </button>
                         <button type="button" class="btn btn-danger"
-                                id="confirm-delete-btn">حذف</button>
+                                id="confirm-delete-btn">حذف
+                        </button>
                     </div>
                 </div>
             </div>
@@ -142,7 +147,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">إلغاء</button>
+                                data-bs-dismiss="modal">إلغاء
+                        </button>
                         <button type="button" class="btn btn-send" id="confirm-update-btn">تعديل</button>
                     </div>
                 </div>
@@ -173,7 +179,10 @@
             {data: 'national_id', name: 'national_id'},
             {data: 'status', name: 'status'},
             {data: 'image', name: 'image'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
+
+            {
+                data: 'action', name: 'action', orderable: false, searchable: false
+            },
         ]
         showData('{{route($route.'.index')}}', columns);
 
@@ -192,16 +201,14 @@
         editScript();
     </script>
 
-       <script>
+    <script>
         // for status
-        $(document).on('click', '.statusBtn', function() {
+        $(document).on('click', '.statusBtn', function () {
             let id = $(this).data('id');
 
             var val = $(this).is(':checked') ? 1 : 0;
 
             let ids = [id];
-
-
 
 
             $.ajax({
@@ -211,27 +218,25 @@
                     "_token": "{{ csrf_token() }}",
                     'ids': ids,
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.status === 200) {
                         if (val !== 0) {
-                            toastr.success('Success', "{{ trns('active') }}");
+                            toastr.success('Success', "نشط");
                         } else {
-                            toastr.warning('Success', "{{ trns('inactive') }}");
+                            toastr.warning('Success', "غير نشط ");
                         }
                     } else {
-                        toastr.error('Error', "{{ trns('something_went_wrong') }}");
+                        toastr.error('Error', "حدث خطأ ما");
                     }
                 },
-                error: function() {
-                    toastr.error('Error', "{{ trns('something_went_wrong') }}");
+                error: function () {
+                    toastr.error('Error', "حدث خطأ ما");
                 }
             });
         });
 
 
-
     </script>
-
 
 @endsection
 

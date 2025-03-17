@@ -1,7 +1,7 @@
 @extends('vendor/layouts/master')
 
 @section('title')
-    {{ config()->get('app.name') ?? '' }} | {{ trns('settings') }}
+    {{ config()->get('app.name') ?? '' }} | الإعدادات
 @endsection
 @section('page_name')
     settings
@@ -118,7 +118,8 @@
                         </div>
                         <div class="modal-footer">
 
-                            <button type="submit" class="btn btn-primary" id="addButton">{{ trns('save') }}</button>
+                            <button type="submit" class="btn btn-primary" id="addButton">حفظ
+</button>
                         </div>
                     </div>
                 </form>
@@ -145,7 +146,7 @@
                     cache: false,
                     beforeSend: function () {
                         $('#addButton').html('<span class="spinner-border spinner-border-sm mr-2" ' +
-                            ' ></span> <span style="margin-left: 4px;">{{  trns('loading...') }}</span>').attr('disabled', true);
+                            ' ></span> <span style="margin-left: 4px;">جاري التحميل...</span>').attr('disabled', true);
                     },
 
                     success: function(data) {

@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    public function __construct(protected ObjService $objService) {}
+    public function __construct(protected ObjService $objService)
+    {
+    }
 
     public function index(Request $request)
     {
@@ -28,9 +30,9 @@ class ClientController extends Controller
         return $this->objService->store($data);
     }
 
-    public function edit(ObjModel $model)
+    public function edit(ObjModel $client)
     {
-        return $this->objService->edit($model);
+        return $this->objService->edit($client);
     }
 
     public function update(ObjRequest $request, $id)
@@ -43,12 +45,14 @@ class ClientController extends Controller
     {
         return $this->objService->delete($id);
     }
-        public function updateColumnSelected(\Request $request)
+
+    public function updateColumnSelected(\Request $request)
     {
-        return $this->objService->updateColumnSelected($request,'status');
+        return $this->objService->updateColumnSelected($request, 'status');
     }
 
-    public function deleteSelected(\Request $request){
+    public function deleteSelected(\Request $request)
+    {
         return $this->objService->deleteSelected($request);
     }
 }

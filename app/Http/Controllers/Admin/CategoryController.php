@@ -28,9 +28,9 @@ class CategoryController extends Controller
         return $this->objService->store($data);
     }
 
-    public function edit(ObjModel $category)
+    public function edit(ObjModel $model)
     {
-        return $this->objService->edit($category);
+        return $this->objService->edit($model);
     }
 
     public function update(ObjRequest $request, $id)
@@ -43,6 +43,7 @@ class CategoryController extends Controller
     {
         return $this->objService->delete($id);
     }
+
     public function updateColumnSelected(Request $request)
     {
         return $this->objService->updateColumnSelected($request, 'status');

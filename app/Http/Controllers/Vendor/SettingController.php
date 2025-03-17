@@ -23,7 +23,7 @@ class SettingController extends Controller
 
     }
 
-    public function update(SettingRequest $request)
+    public function update(SettingRequest  $request)
     {
 
         return $this->service->update($request->all());

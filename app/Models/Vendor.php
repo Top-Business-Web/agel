@@ -19,6 +19,12 @@ class Vendor extends Authenticatable implements JWTSubject
     protected $fillable = [];
     protected $casts = [];
 
+    public function branches()
+    {
+        return $this->hasMany(VendorBranch::class);
+
+    }
+
 
     public function getJWTIdentifier()
     {

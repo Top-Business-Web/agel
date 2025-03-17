@@ -43,7 +43,7 @@ class RoleService extends BaseService
                     return $buttons;
                 })
                 ->addColumn('name', function ($model) {
-                    return trns($model->name);
+                    return $model->name;
                 })
                 ->addColumn('permissions', function ($models) {
                     return $models->permissions->count() > 0 ? '<span class="badge badge-success">' .

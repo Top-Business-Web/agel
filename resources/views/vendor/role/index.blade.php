@@ -1,17 +1,18 @@
 @extends('vendor/layouts/master')
 
 @section('title')
-    {{ config()->get('app.name') }} | {{ trns('roles') }}
+    {{ config()->get('app.name') }} | الإدوار و الصلاحيات
 @endsection
 @section('page_name')
-    {{ trns('roles') }}
+الادوار
+
 @endsection
 @section('content')
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"> {{ trns('roles') }} {{ config()->get('app.name') }}</h3>
+                    <h3 class="card-title"></h3>
                     <div class="">
                         <button class="btn btn-secondary btn-icon text-white addBtn">
                             <span>
@@ -49,21 +50,26 @@
             <div class="modal-dialog " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{ trns('delete') }}</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">حذف</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
+<<<<<<< HEAD
                         <p>{{ trns('are_you_sure_you_want_to_delete_this_obj') }} <span id="title"
                                 class="text-danger"></span>?</p>
+=======
+                        <p>هل أنت متأكد من أنك تريد حذف هذا العنصر<span id="title"
+                                                                                        class="text-danger"></span>?</p>
+>>>>>>> 5e07fcb1d2b728e771b622a28b59b4ead2c1825a
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
-                            {{ trns('close') }}
+                            أغلاق
                         </button>
-                        <button type="button" class="btn btn-danger" id="delete_btn">{{ trns('delete') }} !</button>
+                        <button type="button" class="btn btn-danger" id="delete_btn">حذف !</button>
                     </div>
                 </div>
             </div>
@@ -75,7 +81,11 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
+<<<<<<< HEAD
                         <h5 class="modal-title" id="example-Modal3">{{ trns('object_details') }}</h5>
+=======
+                        <h5 class="modal-title" id="example-Modal3">التفاصيل</h5>
+>>>>>>> 5e07fcb1d2b728e771b622a28b59b4ead2c1825a
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

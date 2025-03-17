@@ -4,6 +4,7 @@ namespace App\Services\Vendor;
 
 use App\Models\Client as ObjModel;
 use App\Services\BaseService;
+use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
 class ClientService extends BaseService
@@ -46,7 +47,7 @@ class ClientService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
-                'bladeName' => trns($this->route),
+                'bladeName' => "العملاء",
                 'route' => $this->route,
             ]);
         }
@@ -69,18 +70,21 @@ class ClientService extends BaseService
 
         try {
             $this->createData($data);
-            return response()->json(['status' => 200, 'message' => trns('Data created successfully.')]);
+            return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception $e) {
-            return response()->json(['status' => 500, 'message' => trns('Something went wrong.'), trns('error') => $e->getMessage()]);
+            return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
         }
     }
 
     public function edit($obj)
     {
+
         $branches = $this->branchService->getAll();
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
-            'updateRoute' => route("{$this->route}.update", $obj->id),
+//            'updateRoute' =>route("{$this->route}.update", [Str::singular($this->route) => $obj->id]),
+
+        'updateRoute' => route("{$this->route}.update", $obj->id),
             'branches' => $branches,
         ]);
     }
@@ -99,9 +103,10 @@ class ClientService extends BaseService
 
         try {
             $oldObj->update($data);
-            return response()->json(['status' => 200, 'message' => trns('Data updated successfully.')]);
+            return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
+
         } catch (\Exception $e) {
-            return response()->json(['status' => 500, 'message' => trns('Something went wrong.'), trns('error') => $e->getMessage()]);
+            return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
         }
     }
 }

@@ -48,6 +48,51 @@
                     </select>
                 </div>
             </div>
+            <!-- aya -->
+                         <div class="col-lg-3 col-12 mb-2">
+                            <div class="name-rule">
+                                <h5>صلاحيات المدير</h5>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-12 d-flex flex-wrap justify-content-between mb-5">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                  اختيار الكل
+                                </label>
+                              </div>
+                        </div>
+                        <div class="col-lg-3 col-12 mb-2">
+                            <div class="name-rule">
+                                <h5>  الفروع</h5>
+                            </div>
+                        </div>
+                        <div class="col-lg-9 col-12 d-flex flex-wrap justify-content-between mb-5">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault11">
+                                <label class="form-check-label" for="flexCheckDefault11">
+                                 عرض
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault12">
+                                <label class="form-check-label" for="flexCheckDefault12">
+                                 اضافة
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault13">
+                                <label class="form-check-label" for="flexCheckDefault13">
+                                 تعديل
+                                </label>
+                              </div>
+                              <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault15">
+                                <label class="form-check-label" for="flexCheckDefault15">
+                                 حذف
+                                </label>
+                              </div>
+                        </div>
         </div>
 
         <div class="modal-footer">

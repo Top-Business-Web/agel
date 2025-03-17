@@ -6,89 +6,164 @@
         <div class="row">
 
 
+            <!-- Image Upload -->
             <div class="col-12">
                 <div class="form-group">
-                    <label for="image" class="form-control-label">{{ trns('image') }}</label>
+                    <label for="image" class="form-control-label">الصوره</label>
                     <input type="file" class="dropify" name="image" id="image"
-                        data-default-file="{{ $obj->image }}">
+                           data-default-file="{{ getFile($obj->image) }}">
                 </div>
             </div>
 
+            <!-- Region Selection -->
             <div class="col-6">
                 <div class="form-group">
-                    <label for="city_id" class="form-control-label">المدينه</label>
-                    <select placeholder="{{ trns('-- select_city --') }}" class="form-control" name="city_id" id="city_id">
-                        @foreach ($cities as $city)
-                            <option value="{{$city->id }}">{{$city->name}}</option>
+                    <label for="region_id" class="form-control-label">اسم الحي</label>
+                    <select class="form-control" name="region_id" id="region_id">
+                        <option value="" disabled>اختر الحي</option>
+                        @foreach ($regions as $region)
+                            <option
+                                value="{{ $region->id }}" {{ $obj->region_id == $region->id ? 'selected' : '' }}>{{ $region->name }}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
 
+            <!-- Branches Selection (Multiple) -->
             <div class="col-6">
                 <div class="form-group">
-                    <label for="name" class="form-control-label">{{ trns('name') }}</label>
-                    <input type="text" class="form-control" name="name" id="name"
-                        value="{{ $obj->name }}">
+                    <label for="branch_id" class="form-control-label">اسم الفرع التابع له</label>
+                    <select class="form-control" name="branch_ids[]" id="branch_id" multiple>
+                        @foreach ($branches as $branch)
+                            <option
+                                value="{{ $branch->id }}" {{ in_array($branch->id, $obj->branches->pluck('branch_id')->toArray()) ? 'selected' : '' }}>
+                                {{ $branch->name }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 
-
-
+            <!-- Name -->
             <div class="col-6">
                 <div class="form-group">
-                    <label for="email" class="form-control-label">{{ trns('email') }}</label>
-                    <input type="email" class="form-control" name="email" id="email"
-                        value="{{ $obj->email }}">
+                    <label for="name" class="form-control-label">الإسم</label>
+                    <input type="text" class="form-control" name="name" id="name" value="{{ $obj->name }}">
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="email" class="form-control-label">البريد الإلكتروني</label>
+                    <input type="email" class="form-control" name="email" id="email" value="{{ $obj->email }}">
+                </div>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="phone" class="form-control-label">رقم الهاتف</label>
+                    <div class="input-group">
+                        <span class="input-group-text">+966</span>
+                        <input type="number" class="form-control" name="phone" maxlength="11"
+                               value="{{ substr($obj->phone, 4) }}">
+                    </div>
+                </div>
+            </div>
+
+            <!-- National ID -->
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="national_id" class="form-control-label">رقم الهويه</label>
+                    <input type="number" class="form-control" name="national_id" minlength="14"
+                           value="{{ $obj->national_id }}">
+                </div>
+            </div>
+
+            <!-- Password Fields -->
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="password" class="form-control-label">كلمة المرور</label>
+                    <input type="password" class="form-control" name="password">
                 </div>
             </div>
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="name" class="form-control-label">{{ trns('phone') }}</label>
-                    <input type="number" class="form-control" name="phone" maxlength="11" id="name"
-                        value="{{ $obj->phone }}">
+                    <label for="password_confirmation" class="form-control-label">تأكيد كلمة المرور</label>
+                    <input type="password" class="form-control" name="password_confirmation">
                 </div>
             </div>
 
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="name" class="form-control-label">{{ trns('national_id') }}</label>
-                    <input type="number" class="form-control" name="national_id" minlength="14" id="name"
-                        value="{{ $obj->national_id }}">
+            <!-- Permissions Section -->
+            <div class="col-lg-3 col-12 mb-2">
+                <div class="name-rule">
+                    <h5>صلاحيات المدير</h5>
                 </div>
             </div>
 
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="password" class="form-control-label">{{ trns('password') }}</label>
-                    <input type="password" class="form-control" name="password" id="password">
+            <div class="col-lg-9 col-12 d-flex flex-wrap justify-content-between mb-5">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="selectAllPermissions">
+                    <label class="form-check-label" for="selectAllPermissions">اختيار الكل</label>
+                </div>
+                @foreach ($permissions->groupBy('parent_name') as $parent => $group)
+            </div>
+
+            <div class="col-lg-3 col-12 mb-2">
+                <div class="name-rule">
+                    <h5>{{ trans('permissions.'.$parent) }}</h5>
                 </div>
             </div>
 
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="password" class="form-control-label">{{ trns('password_confirmation') }}</label>
-                    <input type="password" class="form-control" name="password_confirmation" id="password">
-                </div>
+            <div class="col-lg-9 col-12 d-flex flex-wrap justify-content-between mb-5">
+                @foreach($group as $permission)
+                    <div class="form-check">
+                        <input class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
+                               value="{{ $permission->id }}" data-group="{{ $parent }}"
+                            {{ in_array($permission->id, $obj->permissions->pluck('id')->toArray()) ? 'checked' : '' }}>
+                        <label class="form-check-label">
+                            {{ getKey()[$loop->iteration-1] }}
+                        </label>
+                    </div>
+                @endforeach
+                @endforeach
             </div>
-
-
-
         </div>
 
-
-
+        <!-- Modal Footer -->
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ trns('close') }}</button>
-            <button type="submit" class="btn btn-success" id="updateButton">{{ trns('update') }}</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">أغلاق</button>
+            <button type="submit" class="btn btn-primary" id="updateButton">حفظ</button>
         </div>
     </form>
 </div>
+
+<!-- Scripts -->
 <script>
     $('.dropify').dropify();
-    $('select').select2({
-        dropdownParent: $('#editOrCreate .modal-content')
+    $('select').select2({dropdownParent: $('#editOrCreate .modal-content')});
 
+    // Select All Permissions
+    document.getElementById('selectAllPermissions').addEventListener('change', function () {
+        document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+
+        document.querySelectorAll('.parent-select-all').forEach(groupCheckbox => {
+            groupCheckbox.checked = this.checked;
+        });
+    });
+
+    // Ensure dependent checkboxes are checked
+    document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            let group = this.dataset.group;
+            let secondPermission = document.querySelectorAll(`.permission-checkbox[data-group='${group}']`)[1];
+            if (this.checked && secondPermission) {
+                secondPermission.checked = true;
+            }
+        });
     });
 </script>

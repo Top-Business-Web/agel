@@ -24,7 +24,7 @@
             @foreach(\App\Enums\AdminModuleEnum::cases() as $module)
                 <div class="col-12">
                     <div class="form-group">
-                        <label for="name" class="form-control-label">{{ trns($module->value) }}</label>
+                        <label for="name" class="form-control-label">{{ $module->value }}</label>
                         <div class="row">
                             @foreach($module->permissions() as $permission)
                                 <div class="col-6">
@@ -32,7 +32,7 @@
                                         <input type="checkbox" id="{{$permission}}" name="permissions[]"
                                                value="{{$permission}}"
                                                {{ in_array($permission,$old_permissions) ? 'checked="checked"' : '' }}
-                                               class="permission-checkbox"> {{trns($permission)}}
+                                               class="permission-checkbox"> {{$permission}}
                                     </label>
                                 </div>
                             @endforeach
@@ -44,8 +44,8 @@
 
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ trns('close') }}</button>
-            <button type="submit" class="btn btn-success" id="updateButton">{{ trns('update') }}</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">أغلاق</button>
+            <button type="submit" class="btn btn-success" id="updateButton">تحديث</button>
         </div>
     </form>
 </div>

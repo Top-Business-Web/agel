@@ -55,7 +55,7 @@ class AdminService extends BaseService
             return view($this->folder . '/index',[
 
                 'route' => $this->route,
-                'title' => trns('admins')
+                'title' => "المشرفين"
             ]);
         }
     }

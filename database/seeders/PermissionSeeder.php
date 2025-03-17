@@ -36,8 +36,7 @@ class PermissionSeeder extends Seeder
             foreach ($case->permissions() as $permission) {
                 Permission::updateOrCreate(
                     ['name' => $permission, 'guard_name' => $guardName],
-                    ['guard_name' => $guardName]
-                );
+                    ['guard_name' => $guardName, 'parent_name' => $case->name]);
             }
         }
     }

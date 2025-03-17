@@ -50,7 +50,8 @@ class PlanService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
-                'bladeName' => trns($this->route),
+                'bladeName' => "الإشتراكات",
+
                 'route' => $this->route,
             ]);
         }
@@ -95,13 +96,14 @@ class PlanService extends BaseService
                 }
             }
 
-            return response()->json(['status' => 200, 'message' => trns('Data created successfully.')]);
+            return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 500,
-                'message' => trns('Something went wrong.'),
+                'message' =>"حدث خطأ",
                 'error' => $e->getMessage()
             ]);
+
         }
     }
 
@@ -122,15 +124,14 @@ class PlanService extends BaseService
         if (!$plan) {
             return response()->json([
                 'status' => 404,
-                'message' => trns('Plan not found.')
+                'message' =>"البيانات غير موجودة"
             ]);
         }
 
         // Handle file upload
         if ($request->hasFile('image')) {
-            // Delete old image if it exists
             if ($plan->image) {
-                $this->deleteFile($plan->image);  // Define the deleteFile method to handle image deletion
+                $this->deleteFile($plan->image);
             }
             $data['image'] = $this->handleFile($request->file('image'), 'Plan');
         }
@@ -163,14 +164,16 @@ class PlanService extends BaseService
 
             return response()->json([
                 'status' => 200,
-                'message' => trns('Data updated successfully.')
+                'message' => "تمت العمليه بنجاح"
+
             ]);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 500,
-                'message' => trns('Something went wrong.'),
+                'message' =>"حدث خطأ",
                 'error' => $e->getMessage()
             ]);
+
         }
     }
 }

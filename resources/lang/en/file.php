@@ -227,4 +227,6 @@ return array (
   'planSubscription' => 'PlanSubscription',
   'categorys' => 'Categorys',
   'clients' => 'Clients',
+  'clients' => 'Clients',
+  'investors' => 'Investors',
 );

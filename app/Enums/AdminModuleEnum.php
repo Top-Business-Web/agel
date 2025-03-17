@@ -8,16 +8,29 @@ enum AdminModuleEnum: string
     // System Admin Modules
     //----------------------
 
-    case ADMIN_MANAGEMENT = 'subscription_management';
-    case COUNTRY_MANAGEMENT = 'country_management';
-    case CITY_MANAGEMENT = 'city_management';
-    case INVESTOR_MANAGEMENT = 'investor_management';
-    case VENDOR_MANAGEMENT = 'vendor_management';
-    case SETTING_MANAGEMENT= 'setting_management';
+    case ADMIN = 'admin';
+    case COUNTRY = 'country';
+    case CITY = 'city';
+    case PLAN = 'plan';
+    case PLAN_SUBSCRIPTION = 'plan_subscription';
+    case INVESTOR = 'investor';
+    case VENDOR = 'vendor';
+    case SETTING= 'setting';
+    case ACTIVITY_LOG = 'activity_log';
     public function lang(): string
-{
-    return trns($this->value);
-}
+    {
+        return match ($this) {
+            self::ADMIN => ' المشرفين',
+            self::COUNTRY => ' الدول',
+            self::CITY => ' المدن',
+            self::PLAN => ' الخطط',
+            self::PLAN_SUBSCRIPTION => ' الاشتراكات',
+            self::INVESTOR => ' المستثمرين',
+            self::VENDOR => ' المكاتب',
+            self::SETTING => 'إعدادات النظام',
+            self::ACTIVITY_LOG => 'سجل النظام',
+        };
+    }
 
     public function permissions(): array
     {

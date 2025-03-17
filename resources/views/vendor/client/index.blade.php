@@ -11,7 +11,7 @@
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"> {{ $bladeName }} {{ config()->get('app.name') }}</h3>
+                    <h3 class="card-title"></h3>
                     <div class="">
                         <button class="btn btn-secondary btn-icon text-white addBtn">
                             <span>
@@ -70,6 +70,12 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
                             إلغاء
+                        <p>هل تريد حذف هذا العنصر؟ <span id="title"
+                                                                                        class="text-danger"></span>?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
+                            اغلاق
                         </button>
                         <button type="button" class="btn btn-danger" id="delete_btn">حذف !</button>
                     </div>
@@ -83,7 +89,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="example-Modal3">تفاصيل العنصر</h5>
+                        <h5 class="modal-title" id="example-Modal3">التفاصيل</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -108,7 +114,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>هل أنت متأكد من أنك تريد حذف العناصر المحدده</p>
+                        <p>هل أنت متأكد من أنك تريد حذف العناصر المحددة</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
@@ -134,6 +140,7 @@
                     </div>
                     <div class="modal-body">
                         <p>هل انت متاكد من تعديل هذه السجلات</p>
+                        <p>هل أنت متأكد من أنك تريد تعديل حالة العناصر المحددة</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
@@ -145,7 +152,7 @@
 
         <!-- delete selected  Modal -->
     </div>
-    @include('admin/layouts/myAjaxHelper')
+    @include('vendor/layouts/myAjaxHelper')
 @endsection
 @section('ajaxCalls')
     <script>
@@ -238,6 +245,14 @@
                 },
                 error: function() {
                     toastr.error('Error', "هناك خطأ ما");
+                            toastr.warning('Success', "غير نشط ");
+                        }
+                    } else {
+                        toastr.error('Error', "حدث خطأ ما");
+                    }
+                },
+                error: function() {
+                    toastr.error('Error', "حدث خطأ ما");
                 }
             });
         });
