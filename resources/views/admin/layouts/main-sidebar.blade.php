@@ -51,6 +51,55 @@
             <!-- Main users Management Section -->
         @endcanany
         <!-- Main locations Management Section -->
+        <li
+            class="slide {{ arrRouteActive(['countries.index', 'cities.index', 'Plans.index', 'planSubscription.index', 'categories.index']) }}">
+            <a class="side-menu__item {{ arrRouteActive(['countries.index', 'cities.index'], 'active') }}"
+                data-toggle="slide" href="#">
+                <i class="fas fa-map-marker-alt side-menu__icon"></i> <!-- Location Icon -->
+                <span class="side-menu__label">إدارة المواقع</span>
+                <i class="angle fa fa-angle-right"></i>
+            </a>
+            <ul class="slide-menu">
+                <li class="{{ routeActive('countries.index') }}">
+                    <a class="slide-item {{ routeActive('countries.index') }}" href="{{ route('countries.index') }}">
+                        <i class="fa fa-globe side-menu__icon"></i> <!-- Country Icon -->
+                        الدولة
+                    </a>
+                </li>
+                <li class="{{ routeActive('cities.index') }}">
+                    <a class="slide-item {{ routeActive('cities.index') }}" href="{{ route('cities.index') }}">
+                        <i class="fa fa-building side-menu__icon"></i> <!-- City Icon -->
+                        المدينة
+                    </a>
+                </li>
+
+                <li class="{{ routeActive('Plans.index') }}">
+                    <a class="slide-item {{ routeActive('Plans.index') }}" href="{{ route('Plans.index') }}">
+                        <i class="fas fa-clipboard-list side-menu__icon"></i> <!-- Plan Icon -->
+                        الخطة
+                    </a>
+                </li>
+
+                <li class="{{ routeActive('planSubscription.index') }}">
+                    <a class="slide-item {{ routeActive('planSubscription.index') }}"
+                        href="{{ route('planSubscription.index') }}">
+                        <i class="fas fa-clipboard-list side-menu__icon"></i> <!-- Plan Icon -->
+                        الاشتراكات
+                    </a>
+                </li>
+
+                <li class="{{ routeActive('categories.index') }}">
+                    <a class="slide-item {{ routeActive('categories.index') }}"
+                        href="{{ route('categories.index') }}">
+                        <i class="fas fa-clipboard-list side-menu__icon"></i> <!-- Plan Icon -->
+                        الفئات
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+        <!-- Main locations Management Section -->
+
         @canany(['create_country', 'read_country', 'update_country', 'delete_country','create_city', 'read_city', 'update_city', 'delete_city','create_plan', 'read_plan', 'update_plan', 'delete_plan','create_plan_subscription', 'read_plan_subscription', 'update_plan_subscription', 'delete_plan_subscription'])
             <li
                 class="slide {{ arrRouteActive(['countries.index', 'cities.index', 'Plans.index', 'planSubscription.index']) }}">

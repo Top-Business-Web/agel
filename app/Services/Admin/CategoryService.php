@@ -32,6 +32,8 @@ class CategoryService extends BaseService
                         </button>
                     ';
                     return $buttons;
+                })->editColumn('status', function ($obj) {
+                    return $this->statusDatatable($obj);
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -39,6 +41,7 @@ class CategoryService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
+                'bladeName' => ($this->route),
                 'bladeName' => "",
                 'route' => $this->route,
             ]);
@@ -60,10 +63,13 @@ class CategoryService extends BaseService
 
         try {
             $this->createData($data);
+
+            return response()->json(['status' => 200, 'message' => ('Data created successfully.')]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception $e) {
-return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
-
+            return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
         }
     }
 
@@ -90,10 +96,8 @@ return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', '�
         try {
             $oldObj->update($data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
-
         } catch (\Exception $e) {
-return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
-
+            return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
         }
     }
 }

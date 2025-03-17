@@ -6,6 +6,11 @@
 
             <div class="col-12">
                 <div class="form-group">
+                    <label for="name" class="form-control-label">{{ trns('name') }}</label>
+
+
+            <div class="col-12">
+                <div class="form-group">
                     <label for="image" class="form-control-label">الصورة
 </label>
                     <input type="file" class="dropify" name="image" id="image">
@@ -23,6 +28,8 @@
         </div>
 
         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ trns('close') }}</button>
+            <button type="submit" class="btn btn-primary" id="addButton">{{ trns('save') }}</button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">أغلاق</button>
             <button type="submit" class="btn btn-primary" id="addButton">حفظ
 </button>
@@ -37,4 +44,5 @@
     $('select').select2({
         dropdownParent: $('#editOrCreate .modal-content')
 
-    });</script>
+    });
+</script>
