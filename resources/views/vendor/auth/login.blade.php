@@ -115,7 +115,7 @@
             </label>
             <button class="btn btn-primary fs-3 p-3" id="loginButton" style="background-color: #3cb9c7; border-color: #3cb9c7;">تسجيل </button>
             <div class="d-flex justify-content-end">
-                    <a style="text-decoration: none; color: gray; font-size: 15px;" href="{{route('vendor.resetPassword')}}">نسيت كلمة المرور !</a>
+                    <a style="text-decoration: none; color: gray; font-size: 15px;" href="{{route('vendor.resetPasswordForm')}}">نسيت كلمة المرور !</a>
             </div>
             <div class="d-flex justify-content-center">
             <p class="text-mute fs-4">ليس لديك حساب؟
