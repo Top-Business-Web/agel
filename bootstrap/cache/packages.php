@@ -6,6 +6,17 @@
       0 => 'Alisalehi\\LaravelLangFilesTranslator\\LangFilesTranslatorServiceProvider',
     ),
   ),
+  'barryvdh/laravel-debugbar' => 
+  array (
+    'aliases' => 
+    array (
+      'Debugbar' => 'Barryvdh\\Debugbar\\Facades\\Debugbar',
+    ),
+    'providers' => 
+    array (
+      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
+    ),
+  ),
   'buglinjo/laravel-webp' => 
   array (
     'aliases' => 
