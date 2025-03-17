@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @include('admin.auth.css')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">
+    <link href="{{asset('assets/admin')}}/assets/plugins/bootstrap5/css/bootstrap.min.css" rel="stylesheet"/>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
     <style>
         .swal2-popup,
@@ -54,47 +56,63 @@
         .welcome-container {
             transition: background-color 0.3s, color 0.3s;
         }
+        .form-check .form-check-input {
+    float: right;
+    margin-right: -1.5em;
+}
+.form-check-input:checked {
+    background-color: #3cb9c7;
+    border-color: #3cb9c7;
+}
     </style>
 </head>
-<body class="">
-<div class="container">
+<body class="d-flex align-items-center" style="background-image: linear-gradient(rgba(33,33,34,0.4), rgba(33,33,34,0.8)),url('{{ asset('bg.jpg') }}'); background-size: cover;
+    background-repeat: no-repeat; height: 100vh">
+<div class="container-fluid">
 
-    <main class="signup-container" style="margin-top: 40px">
-        <h1 class="heading-primary">منصة أجل<span class="span-blue">.</span></h1>
-        <form class="signup-form" action="{{route('admin.login')}}" method="POST" id="LoginForm">
+       <div class="row">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-6">
+        <div  class="signup-container" style="background-color: white; width: 100%;" >
+        <div class="d-flex justify-content-center w-100">
+    <img src="{{ asset('logo 1.png') }}" style="height: 90px;">
+    </div>        <form class="signup-form" action="{{route('admin.login')}}" method="POST" id="LoginForm">
             @csrf
             @method('POST')
+            <div class="gap-2">
+                <div class="d-flex justify-content-evenly gap-3 mb-2">
+                    <div class="form-check">
+                        <input class="form-check-input mt-2" type="radio" value="email" name="verificationType"
+                               id="verificationTypeEmail" checked>
+                        <label class="form-check-label fs-4" for="verificationTypeEmail">التسجيل بالبريد الالكترونى</label>
+                    </div>
+                    <div class="form-check">
+
+                        <input class="form-check-input mt-2" type="radio" value="phone" name="verificationType"
+                               id="verificationTypePhone">
+
+                        <label class="form-check-label fs-4" for="verificationTypePhone">التسجيل برقم الجوال</label>
+                    </div>
+                </div>
+            </div>
             <label class="inp">
-                <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField">
-                <span class="label" id="placeHolder">البريد الالكتروني</span> <!-- Default placeholder -->
+                <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField" style="background-color: rgb(232, 240, 254);">
+                <span class="label" id="placeHolder">البريد الالكتروني</span>
                 <span class="input-icon">
                     <i class="fa-solid fa-envelope"></i> <!-- Default icon -->
                 </span>
             </label>
             <label class="inp">
-                <input type="password" name="password" class="input-text" placeholder="&nbsp;" id="password">
+                <input type="password" name="password" class="input-text" placeholder="&nbsp;" id="password" style="background-color: rgb(232, 240, 254);">
                 <span class="label"> كلمة المرور</span>
                 <span class="input-icon input-icon-password" data-password><i class="fa-solid fa-eye"></i></span>
             </label>
-            <div class="d-flex align-items-center gap-2">
-                <span class="text-muted">تسجيل الدخول عبر </span>
-                <div class="d-flex align-items-center gap-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" value="email" name="verificationType"
-                               id="verificationTypeEmail" checked>
-                        <label class="form-check-label" for="verificationTypeEmail">Email</label>
-                    </div>
-                    <div class="form-check">
-
-                        <input class="form-check-input" type="radio" value="phone" name="verificationType"
-                               id="verificationTypePhone">
-
-                        <label class="form-check-label" for="verificationTypePhone">Phone</label>
-                    </div>
-                </div>
-            </div>
-            <button class="btn btn-login" id="loginButton"> تسجيل</button>
+            <button class="btn btn-primary fs-3 p-3" id="loginButton" style="background-color: #3cb9c7; border-color: #3cb9c7;"> تسجيل</button>
         </form>
+        </div>
+        </div>
+        <div class="col-lg-3"></div>
+       </div>
 
         {{--        <form class="signup-form" action="{{route('admin.login')}}" method="post" id="LoginForm">--}}
         {{--            @csrf--}}
@@ -109,7 +127,6 @@
         {{--                <button class="btn btn-login" id="loginButton">تسجيل</button>--}}
         {{--            </label>--}}
         {{--        </form>--}}
-    </main>
 
 </div>
 </body>
