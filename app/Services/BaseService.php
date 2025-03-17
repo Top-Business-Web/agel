@@ -364,22 +364,22 @@ abstract class BaseService
 
     protected function updateEnvVariable($key, $value): void
     {
-        $path = base_path('.env');
+        $path = base_path('..env');
 
         if (file_exists($path)) {
-            // Read the .env file content
+            // Read the ..env file content
             $envContent = file_get_contents($path);
 
-            // Find the variable in the .env file or add it if it doesn’t exist
+            // Find the variable in the ..env file or add it if it doesn’t exist
             if (strpos($envContent, "{$key}=") !== false) {
                 // Replace the value of the existing key
                 $envContent = preg_replace("/^{$key}=.*/m", "{$key}={$value}", $envContent);
             } else {
-                // Append new variable to the end of .env file
+                // Append new variable to the end of ..env file
                 $envContent .= "\n{$key}={$value}";
             }
 
-            // Write the updated content back to the .env file
+            // Write the updated content back to the ..env file
             file_put_contents($path, $envContent);
         }
     }

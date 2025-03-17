@@ -235,13 +235,7 @@
 
     <div class="container">
 
-        {{-- <div class="language-switcher">--}}
-        {{-- <a href="{{ LaravelLocalization::getLocalizedURL(lang() == 'en' ? 'ar' : 'en', null, [], true) }}"--}}
-        {{-- class="btn btn-language" style="background-color: #0285CE;">{{ lang() == 'en' ? trns('Arabic') : trns('English') }}</a>--}}
-        {{-- </div>--}}
-        {{-- <div class="dark-switcher">--}}
-        {{-- <a id="toggleDarkMode" class="btn btn-language">{{ trns('dark_mode') }}</a>--}}
-        {{-- </div>--}}
+
 
         <main class="signup-container" style="margin-top: 40px">
             <!-- <h1 class="heading-primary">مرحبا بعودتك<span class="span-blue">.</span></h1> -->
