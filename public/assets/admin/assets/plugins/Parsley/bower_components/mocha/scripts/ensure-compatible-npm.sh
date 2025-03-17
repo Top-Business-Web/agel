@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/.env sh
 
 set -o nounset
 set -o errexit

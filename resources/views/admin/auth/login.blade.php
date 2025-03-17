@@ -524,13 +524,7 @@
 </head>
 <body class="">
 <div class="container">
-    {{--        <div class="language-switcher">--}}
-    {{--            <a href="{{ LaravelLocalization::getLocalizedURL(lang() == 'en' ? 'ar' : 'en', null, [], true) }}"--}}
-    {{--               class="btn btn-language" style="background-color: #0285CE;">{{ lang() == 'en' ? trns('Arabic') : trns('English') }}</a>--}}
-    {{--        </div>--}}
-    {{--        <div class="dark-switcher">--}}
-    {{--            <a id="toggleDarkMode" class="btn btn-language">dark_mode</a>--}}
-    {{--        </div>--}}
+
     <main class="signup-container" style="margin-top: 40px">
         <h1 class="heading-primary">منصة أجل<span class="span-blue">.</span></h1>
         <form class="signup-form" action="{{route('admin.login')}}" method="POST" id="LoginForm">
@@ -582,9 +576,7 @@
         {{--            </label>--}}
         {{--        </form>--}}
     </main>
-    <div class="welcome-container" style="background-color: white !important;">
-        <img style="border-radius: 10%" src="{{asset('logo.webp')}}">
-    </div>
+
 </div>
 </body>
 @include('admin.auth.js')
