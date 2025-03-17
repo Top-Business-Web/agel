@@ -5,6 +5,7 @@ namespace App\Services\Admin;
 use App\Mail\Otp;
 use App\Models\Admin;
 use App\Models\Region;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Hash;
@@ -43,7 +44,7 @@ class AuthService extends BaseService
 //        }
     }
 
-    public function login($request): \Illuminate\Http\JsonResponse
+    public function login($request): JsonResponse
     {
         $data = $request->validate(
             [
@@ -82,7 +83,7 @@ class AuthService extends BaseService
                 return response()->json([
                     'status' => 204,
                     'email' => $admin->email
-                ], 204);
+                ], 200);
             } else {
                 return response()->json([
                     'status' => 205,
@@ -113,6 +114,8 @@ class AuthService extends BaseService
                 ]);
 
                 Mail::to($admin->email)->send(new Otp($admin->name, $otp));
+
+
                 return response()->json([
                     'status' => 200,
                     'email' => $admin->email
@@ -228,7 +231,7 @@ class AuthService extends BaseService
     public
     function showOtpForm($email, $type,$resetPassword)
     {
-        if ($resetPassword == true) {
+        if ($resetPassword == 2) {
             return view('admin.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
         }
         if ($resetPassword==null){

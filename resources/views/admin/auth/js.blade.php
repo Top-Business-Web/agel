@@ -69,8 +69,7 @@
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
                     window.location.href = '{{route('adminHome')}}';
                 }
-                if (data.status === 204 ) {
-                    console.log('204')
+                if (data.status == 204 ) {
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
                     window.location.href = '{{route('adminHome')}}';
                 }else if (data.status === 500) {
@@ -80,9 +79,11 @@
                 }
 
 
-                if (data.status === 200) {
+                if (data.status == 200) {
+                    console.log(data.status);
+
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
-                    window.location.href = '{{ route('admin.otp.verify', ['email' => '__EMAIL__','type'=>'login','resetPassword'=>false]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
+                    window.location.href = '{{ route('admin.otp.verify', ['email' => '__EMAIL__','type'=>'login','resetPassword'=>1]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
                 }
                 // else {
                 //     // toastr.error('خطأ في  بيانات الدخول');
