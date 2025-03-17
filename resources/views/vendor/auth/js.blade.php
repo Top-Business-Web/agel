@@ -29,6 +29,9 @@
 
             },
             success: function (data) {
+                if (data.status === 200) {
+                    window.location.href = '{{route('vendorHome')}}';
+                }
                 if (data.status === 204) {
                     window.location.href = '{{route('vendorHome')}}';
                 }
@@ -37,15 +40,26 @@
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
 
                 }
+                if (data.status === 207) {
+                    toastr.error('كلمة المرور غير صحيحه');
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
+
+                }
+                if (data.status === 300) {
+                    toastr.error('تم تأكيد الكود , قم بإدخال كلمة المرور الجديده');
+                    $('#ResetPasswordButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
+                    window.location.href = '{{route('vendor.newPasswordForm',['email' => '__EMAIL__'])}}'.replace('__EMAIL__', encodeURIComponent(data.email));
+                }
                 if (data.status === 206) {
                     toastr.error('هذا البريد الإلكتروني غير مسجل بالنظام');
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
 
                 }
-                if (data === 200 ) {
+                {{--if (data === 200 ) {--}}
 
-                    window.location.href = '{{route('vendorHome')}}';
-                } else if (data === 500) {
+                {{--    window.location.href = '{{route('vendorHome')}}';--}}
+                {{--} --}}
+                if (data === 500) {
                     toastr.error('لقد قمت بإدخال الكود الذي تم إرساله بشكل خاطئ');
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
                     window.location.href = '/partner';
@@ -54,9 +68,10 @@
 
                 if (data.status === 200) {
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
-                    window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__','type'=>'login','resetPassword'=>false]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
+                    window.location.href = '{{ route('vendor.otp.verify', ['email' => '__EMAIL__','type'=>'login','resetPassword'=>1]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
                     // toastr.warning('من فضلك قم بإدخال الكود الذي تم إرساله على البريد الإلكتروني');
                 }
+
                 // else {
                 //     // toastr.error('خطأ في  بيانات الدخول');
                 //     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
@@ -115,16 +130,26 @@
                     window.location.href = '/register';
 
                 }
-                 else if (data === 500) {
+                if (data.status === 400 ) {
+                    window.location.href = '{{route('vendor.resetPasswordForm')}}';
+                    sessionStorage.setItem('toastrMessage', 'الكود الذي أدخلته غير صحيح يرجى المحاوله مره أخرى');
+                }
+                 if (data === 500) {
                     toastr.error('لقد قمت بإدخال الكود الذي تم إرساله بشكل خاطئ');
                     $('#ResetPasswordButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
                     window.location.href = '/partner';
                 }
-
+                if(data.status===209){
+                    window.location.href = '{{ route('vendor.otp.verify', ['email' => '__EMAIL__','type'=>'login','resetPassword'=>2]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
+                    // $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
+                    {{--window.location.href = '{{ route('vendor.newPasswordForm', ['email' => '__EMAIL__']) }}'.replace('__EMAIL__', encodeURIComponent(data.email));--}}
+                }
 
                 if (data.status === 200) {
                     $('#ResetPasswordButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
-                    window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__','type'=>'login','resetPassword'=>true]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
+                    window.location.href = '/register';
+
+                    {{--window.location.href = '{{ route('vendor.otp.verify', ['email' => '__EMAIL__','type'=>'login','resetPassword'=>false]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));--}}
                     // toastr.warning('من فضلك قم بإدخال الكود الذي تم إرساله على البريد الإلكتروني');
                 }
                 // else {
@@ -187,11 +212,12 @@
             },
             success: function (data) {
 
+
                 if (data.status === 200) {
                     // toastr.success('من فضلك قم بتفعيل حسابك');
                     sessionStorage.setItem('toastrMessage', 'من فضلك قم بتفعيل حسابك');
 
-                    window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__','type'=>'register','resetPassword'=>false]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
+                    window.location.href = '{{ route('vendor.otp.verify', ['email' => '__EMAIL__','type'=>'register','resetPassword'=>false]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
 
                 } else {
                     toastr.error('خطأ في  بيانات الدخول');

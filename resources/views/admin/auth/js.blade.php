@@ -35,15 +35,16 @@
                 //     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
                 //
                 // }
-
+                if (data.status === 300) {
+                    toastr.error('تم تأكيد الكود , قم بإدخال كلمة المرور الجديده');
+                    $('#ResetPasswordButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
+                    window.location.href = '{{route('vendor.newPasswordForm',['email' => '__EMAIL__'])}}'.replace('__EMAIL__', encodeURIComponent(data.email));
+                }
                 if (data === 200 ) {
                     window.location.href = '{{route('adminHome')}}';
                 }
 
-                if (data === 400 ) {
-                    window.location.href = '{{route('adminHome')}}';
-                    sessionStorage.setItem('toastrMessage', 'الكود الذي أدخلته غير صحيح يرجى المحاوله مره أخرى');
-                }
+
                 if (data === 500 ) {
                     window.location.href = '{{route('adminHome')}}';
                     sessionStorage.setItem('toastrMessage', 'انتهت صلاحية هذا الكود الرجاء إعادة المحاوله');
@@ -178,7 +179,7 @@
                         title: "من فضلك قم بتفعيل حسابك",
                         icon: "success"
                     }).then(function () {
-                        window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__','type'=>'register','resetPassword'=>false]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
+                        window.location.href = '{{ route('admin.otp.verify', ['email' => '__EMAIL__','type'=>'register','resetPassword'=>false]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
                     });
 
                 } else {

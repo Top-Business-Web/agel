@@ -18,5 +18,11 @@ return [
 
     'ACTIVITY_LOG' => 'سجل النشاط',
 
+
+    //admin
+    'ADMIN' => 'مدرين النظام',
+    'PLAN'=>'الخطط',
+    'PLAN_SUBSCRIPTION'=>'الاشتراكات'
+
 ];
 

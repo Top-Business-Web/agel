@@ -226,9 +226,17 @@ class AuthService extends BaseService
     }
 
     public
-    function showOtpForm($email, $type)
+    function showOtpForm($email, $type,$resetPassword)
     {
-        return view('admin.auth.verify-otp', ['email' => $email, 'type' => $type]);
+        if ($resetPassword == true) {
+            return view('admin.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
+        }
+        if ($resetPassword==null){
+            $resetPassword=false;
+        }
+
+
+        return view('admin.auth.verify-otp', ['email' => $email, 'type' => $type,'resetPassword'=>$resetPassword]);
     }
 
 

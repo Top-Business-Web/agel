@@ -53,4 +53,5 @@ jobs:
           script: |
             cd domains/scriptech.ebharbook.com/public_html/agel
             php artisan optimize:clear
-            php artisan mi:f --seed
+            php artisan migrate:fresh --seed --force
+

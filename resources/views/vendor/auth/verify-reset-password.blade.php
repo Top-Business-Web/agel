@@ -75,7 +75,7 @@
 
         <h4>إرسال الكود التأكيدي عبر البريد الإلكتروني</h4>
 
-        <form class="signup-form" action="{{route('vendor.resetPassword')}}" method="post" id="ResetPasswordForm">
+        <form class="signup-form" action="{{route('vendor.verifyResetPassword')}}" method="post" id="ResetPasswordForm">
             @csrf
             <label class="inp">
                 <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField" style="background-color: rgb(232, 240, 254);">

@@ -40,10 +40,12 @@ Route::group(
         Route::group(['prefix' => 'vendor'], function () {
             Route::POST('/login', [AuthController::class, 'login'])->name('vendor.login');
             Route::POST('/register', [AuthController::class, 'register'])->name('vendor.register');
-            Route::get('/verify-otp/{email}/{type}/{resetPassword}', [AuthController::class, 'showOtpForm'])->name('otp.verify');
-            Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('otp.check');
-            Route::get('/reset-password', [AuthController::class, 'resetPasswordForm'])->name('vendor.resetPassword');
-            Route::POST('/reset-password', [AuthController::class, 'resetPassword'])->name('vendor.resetPassword');
+            Route::get('/verify-otp/{email}/{type}/{resetPassword}', [AuthController::class, 'showOtpForm'])->name('vendor.otp.verify');
+            Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('vendor.otp.check');
+            Route::POST('/verify-reset-password', [AuthController::class, 'verifyResetPassword'])->name('vendor.verifyResetPassword');
+            Route::get('/reset-password', [AuthController::class, 'resetPasswordForm'])->name('vendor.resetPasswordForm');
+            Route::get('/new-password/{email}', [AuthController::class, 'newPasswordForm'])->name('vendor.newPasswordForm');
+            Route::POST('/reset-password/{email}', [AuthController::class, 'ResetPassword'])->name('vendor.resetPassword');
 
 
             Route::group(['middleware' => 'auth:vendor'], function () {

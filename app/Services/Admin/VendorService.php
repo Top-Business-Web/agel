@@ -7,10 +7,12 @@ namespace App\Services\Admin;
 namespace App\Services\Admin;
 
 use App\Http\Middleware\Custom\vendor;
+use App\Models\Branch;
 use App\Models\Region;
 use App\Models\Vendor as ObjModel;
 
 //use App\Models\VendorModule;
+use App\Models\VendorBranch;
 use App\Services\BaseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
@@ -34,7 +36,11 @@ class VendorService extends BaseService
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
                     $buttons = '';
-
+                    $buttons .= '
+                            <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
+                            <i class="fa fa-edit"></i>
+                            </button>
+                       ';
 
                         $buttons .= '
 
@@ -84,11 +90,9 @@ class VendorService extends BaseService
     {
         $allData = $data;
 
-        // تحقق من وجود المفتاح 'permissions' في المصفوفة
         if (isset($data['permissions'])) {
             unset($data['permissions']);
         } else {
-            // إذا لم يكن المفتاح موجودًا، قم بتعيين قيمة افتراضية أو التعامل مع الخطأ
             return response()->json([
                 'status' => 400,
                 'message' => "المفتاح 'permissions' غير موجود في البيانات المرسلة.",
@@ -101,6 +105,14 @@ class VendorService extends BaseService
 
         $data['username'] = $this->generateUsername($data['name']);
         $data['phone'] = '+966' . $data['phone'];
+        //check if phone is unique
+        $phone = $this->model->where('phone', $data['phone'])->first();
+        if ($phone) {
+            return response()->json([
+                'status' => 422,
+                'message' => 'رقم الهاتف مستخدم من قبل',
+            ]);
+        }
 
 
         $data['password'] = Hash::make($data['password']);
@@ -109,6 +121,21 @@ class VendorService extends BaseService
             $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();
             $obj = $this->model->create($data);
             $obj->syncPermissions($permissions);
+
+            // Create primary branch for the vendor with default settings
+            $branch = Branch::create([
+                'vendor_id' => $obj->id,
+                'region_id' => $obj->region_id,
+                'status' => 1,
+                'is_main' => 1,
+                'name' => 'الفرع الرئيسي'
+            ]);
+
+// Associate vendor with the created branch
+            $vendorBranch = VendorBranch::create([
+                'vendor_id' => $obj->id,
+                'branch_id' => $branch->id,
+            ]);
 
             return $this->responseMsg();
         } catch (\Exception $e) {
@@ -120,63 +147,64 @@ class VendorService extends BaseService
         }
     }
 
-    public function show($id)
-    {
 
-    }
 
-    public function edit($obj)
+    public function edit($id)
     {
+        $obj=$this->getById($id);
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
-            'cities' => $this->cityService->getAll(),
             'vendors' => $this->model->all(),
             'regions' => $this->region->get(),
             'permissions' => Permission::where('guard_name', 'vendor')
                 ->get(),
-//            'vendorModules' => $obj->vendor_modules->pluck('module_id')->toArray(),
-//            'moduleService' => $this->moduleService->getAll(),
         ]);
     }
 
-    public function update($data, $id)
+    public function update($data): JsonResponse
     {
-        $oldObj = $this->getById($id);
-
-        if (isset($data['image'])) {
-            $data['image'] = $this->handleFile($data['image'], 'Vendor');
-
-            if ($oldObj->image) {
-                $this->deleteFile($oldObj->image);
-            }
-        }
-
-        if (isset($data['password']) && $data['password'] != null) {
-            $data['password'] = Hash::make($data['password']);
-        } else {
-            unset($data['password']);
-        }
-
-        // Remove module_id from data to avoid updating non-existent column
-        $moduleIds = $data['module_id'];
-        unset($data['module_id']);
-
-        // Update vendor_modules
-        $oldObj->vendor_modules()->delete();
-        foreach ($moduleIds as $module_id) {
-            $oldObj->vendor_modules()->create([
-                'vendor_id' => $oldObj->id,
-                'module_id' => $module_id,
-            ]);
-        }
-
         try {
-            $oldObj->update($data);
-            return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
+            $allData = $data;
+            unset($data['permissions'], $data['branch_ids']);
+            $oldObj = $this->getById($data['id']);
 
+            if (isset($data['image'])) {
+                $data['image'] = $this->handleFile($data['image'], 'Vendor');
+
+                if ($oldObj->image) {
+                    $this->deleteFile($oldObj->image);
+                }
+            }
+
+            $data['phone'] = '+966' . $data['phone'];
+
+
+            if (isset($data['password'])) {
+                $data['password'] = Hash::make($data['password']);
+            }else{
+                unset($data['password']);
+            }
+
+            // Update model and get the instance
+            $obj = $oldObj;
+            $obj->update($data);
+
+            // Sync permissions if provided
+            if (isset($allData['permissions'])) {
+                $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();
+                $obj->syncPermissions($permissions);
+            }
+
+
+
+            return $this->responseMsg();
         } catch (\Exception $e) {
-            return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
+            return response()->json([
+                'status' => 500,
+                'message' => "حدث خطأ",
+                'error' => $e->getMessage()
+            ]);
         }
     }
 
