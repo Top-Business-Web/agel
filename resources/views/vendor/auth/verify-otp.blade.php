@@ -69,27 +69,25 @@
         @elseif($type == 'register')
             <p class="text-mute">من فضلك ادخل كود التفعيل</p>
         @endif
-        @if($resetPassword==true)
-            <form class="signup-form" action="{{route('otp.check',$resetPassword=true)}}" method="post" id="LoginForm">
-                @else
-                    <form class="signup-form" action="{{route('otp.check')}}" method="post" id="LoginForm">
-
-                        @endif
-                        @csrf
-                        <input type="hidden" name="email" value="{{$email}}">
-                        <label class="inp">
-                            <input type="text" name="otp" class="input-text" placeholder="&nbsp;">
-                            <span class="label">الكود</span>
-                            <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
-                        </label>
-                        @if($type == 'login')
-                            <button class="btn btn-login" id="loginButton">تأكيد</button>
-                        @elseif($type == 'register')
-                            <button class="btn btn-login" id="loginButton"> تفعيل</button>
-                        @endif
+        <form class="signup-form" action="{{route('vendor.otp.check')}}" method="post" id="LoginForm">
+            @if($resetPassword==2)
+                <input type="hidden" name="isReset" value="{{$resetPassword}}">
+            @endif
+            @csrf
+            <input type="hidden" name="email" value="{{$email}}">
+            <label class="inp">
+                <input type="text" name="otp" class="input-text" placeholder="&nbsp;">
+                <span class="label">الكود</span>
+                <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
+            </label>
+            @if($type == 'login')
+                <button class="btn btn-login" id="loginButton">تأكيد</button>
+            @elseif($type == 'register')
+                <button class="btn btn-login" id="loginButton"> تفعيل</button>
+            @endif
 
 
-                    </form>
+        </form>
     </main>
     <div class="welcome-container" style="background-color: white !important;"
     >

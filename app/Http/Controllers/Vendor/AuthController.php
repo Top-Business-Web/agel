@@ -8,7 +8,8 @@ use Illuminate\Routing\Controller;
 
 class AuthController extends Controller
 {
-    public function __construct(protected ObjService $objService){
+    public function __construct(protected ObjService $objService)
+    {
 
     }
 
@@ -33,10 +34,10 @@ class AuthController extends Controller
         return $this->objService->register($request);
     }
 
-    public function showOtpForm($email,$type,$resetPassword)
+    public function showOtpForm($email, $type, $resetPassword)
     {
 
-        return $this->objService->showOtpForm($email,$type,$resetPassword);
+        return $this->objService->showOtpForm($email, $type, $resetPassword);
 
     }
 
@@ -51,12 +52,23 @@ class AuthController extends Controller
     {
         return $this->objService->logout();
     }
-    public function resetPassword(Request $request)
+
+    public function verifyResetPassword(Request $request)
     {
-        return $this->objService->resetPassword($request);
+        return $this->objService->verifyResetPassword($request);
     }
+
     public function resetPasswordForm()
     {
         return $this->objService->resetPasswordForm();
+    }
+
+    public function resetPassword()
+    {
+        return $this->objService->resetPassword();
+    }
+    public function newPasswordForm($email)
+    {
+        return $this->objService->newPasswordForm($email);
     }
 }//end class

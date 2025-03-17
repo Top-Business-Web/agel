@@ -30,9 +30,9 @@ class AuthController extends Controller
     {
         return $this->objService->register($request);
     }
-    public function showOtpForm($email,$type)
+    public function showOtpForm($email,$type,$resetPassword)
     {
-        return $this->objService->showOtpForm($email,$type);
+        return $this->objService->showOtpForm($email,$type,$resetPassword);
 
     }
 

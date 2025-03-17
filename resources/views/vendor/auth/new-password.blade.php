@@ -90,15 +90,23 @@
         {{--        </form>--}}
 
 
-        <form class="signup-form" action="{{route('vendor.resetPassword')}}" method="post" id="ResetPasswordForm">
+        <form class="signup-form" action="{{route('vendor.resetPassword',['email'=>$email])}}" method="post" id="ResetPasswordForm">
             @csrf
             <label class="inp">
                 <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField">
-                <span class="label" id="placeHolder">البريد الالكتروني</span> <!-- Default placeholder -->
+                <span class="label" id="placeHolder">كلمة المرور الجديده</span> <!-- Default placeholder -->
                 <span class="input-icon">
         <i class="fa-solid fa-envelope"></i> <!-- Default icon -->
     </span>
             </label>
+            <label class="inp">
+                <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField">
+                <span class="label" id="placeHolder">تأكيد كلمة المرور</span> <!-- Default placeholder -->
+                <span class="input-icon">
+        <i class="fa-solid fa-envelope"></i> <!-- Default icon -->
+    </span>
+            </label>
+
             {{--            <label class="inp">--}}
             {{--                <input type="password" name="password" class="input-text" placeholder="&nbsp;" id="password">--}}
             {{--                <span class="label">كلمة المرور</span>--}}
