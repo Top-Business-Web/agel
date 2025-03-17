@@ -132,7 +132,7 @@ class AuthService extends BaseService
             'phone' => 'required|numeric|digits:9|unique:vendors,phone',
             'password' => 'required|min:6|confirmed',
             'region_id' => 'required|exists:regions,id',
-            'commercial_number' => 'required|unique:vendors,commercial_number',
+            'commercial_number' => 'required|di|digits:10|numeric|unique:vendors,commercial_number',
             'national_id' => 'required|numeric|digits:10|unique:vendors,national_id',
         ]);
 
