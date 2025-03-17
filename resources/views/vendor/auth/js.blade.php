@@ -29,7 +29,7 @@
 
             },
             success: function (data) {
-                if (data.status === 200) {
+                if (data === 200) {
                     window.location.href = '{{route('vendorHome')}}';
                 }
                 if (data.status === 204) {
