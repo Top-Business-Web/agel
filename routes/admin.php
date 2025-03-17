@@ -42,8 +42,8 @@ Route::group(
             Route::POST('login', [AuthController::class, 'login'])->name('admin.login');
 
 //            Route::POST('/register', [AuthController::class, 'register'])->name('admin.register');
-            Route::get('/verify-otp/{email}/{type}', [AuthController::class, 'showOtpForm'])->name('otp.verify');
-            Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('otp.check');
+            Route::get('/verify-otp/{email}/{type}', [AuthController::class, 'showOtpForm'])->name('admin.otp.verify');
+            Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('admin.otp.check');
 
 
 //            Route::group(['middleware' => 'auth:admin'], function () {

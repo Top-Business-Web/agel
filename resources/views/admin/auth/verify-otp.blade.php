@@ -3,7 +3,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @include('vendor.auth.css')
+    @include('admin.auth.css')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
     <style>
@@ -70,7 +70,7 @@
             <p class="text-mute">من فضلك ادخل كود التفعيل</p>
         @endif
 
-        <form class="signup-form" action="{{route('otp.check')}}" method="post" id="LoginForm">
+        <form class="signup-form" action="{{route('admin.otp.check')}}" method="post" id="LoginForm">
             @csrf
             <input type="hidden" name="email" value="{{$email}}">
             <label class="inp">
@@ -94,7 +94,7 @@
     </div>
 </div>
 </body>
-@include('vendor.auth.js')
+@include('admin.auth.js')
 <script>
     document.getElementById('toggleDarkMode').addEventListener('click', function () {
         document.body.classList.toggle('dark-mode');

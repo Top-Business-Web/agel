@@ -29,17 +29,25 @@
 
             },
             success: function (data) {
-                if (data === 204) {
-                    window.location.href = '{{route('adminHome')}}';
-                }
+
                 // if (data === 205) {
                 //     toastr.error('من فضلك تأكد من رقم الجوال و أعد المحاوله');
                 //     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
                 //
                 // }
 
+                if (data === 200 ) {
+                    window.location.href = '{{route('adminHome')}}';
+                }
 
-
+                if (data === 400 ) {
+                    window.location.href = '{{route('adminHome')}}';
+                    sessionStorage.setItem('toastrMessage', 'الكود الذي أدخلته غير صحيح يرجى المحاوله مره أخرى');
+                }
+                if (data === 500 ) {
+                    window.location.href = '{{route('adminHome')}}';
+                    sessionStorage.setItem('toastrMessage', 'انتهت صلاحية هذا الكود الرجاء إعادة المحاوله');
+                }
                 if (data.status === 205 ) {
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
                     toastr.error('حدث خطأ أثناء محاولة تسجيل الدخول بهذا الحساب');
@@ -61,6 +69,7 @@
                     window.location.href = '{{route('adminHome')}}';
                 }
                 if (data.status === 204 ) {
+                    console.log('204')
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
                     window.location.href = '{{route('adminHome')}}';
                 }else if (data.status === 500) {
@@ -72,7 +81,7 @@
 
                 if (data.status === 200) {
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
-                    window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__','type'=>'login','resetPassword'=>false]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
+                    window.location.href = '{{ route('admin.otp.verify', ['email' => '__EMAIL__','type'=>'login','resetPassword'=>false]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
                 }
                 // else {
                 //     // toastr.error('خطأ في  بيانات الدخول');
@@ -208,4 +217,13 @@
     });
 
 
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var toastrMessage = sessionStorage.getItem('toastrMessage');
+        if (toastrMessage) {
+            toastr.error(toastrMessage);
+            sessionStorage.removeItem('toastrMessage');
+        }
+    });
 </script>
