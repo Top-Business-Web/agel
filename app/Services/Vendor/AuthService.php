@@ -61,7 +61,7 @@ class AuthService extends BaseService
                 return response()->json([
                     'status' => 205,
 //                    'email' => $vendor->email
-                ], 205);
+                ], 200);
             }
             $credentials = [
                 'phone' => $data['input'],
@@ -71,12 +71,12 @@ class AuthService extends BaseService
                 return response()->json([
                     'status' => 204,
                     'email' => $vendor->email
-                ], 204);
+                ], 200);
             } else {
                 return response()->json([
                     'status' => 207,
                     'email' => $vendor->email
-                ], 207);
+                ], 200);
             }
         } elseif ($request->verificationType == 'email') {
 
@@ -229,15 +229,21 @@ class AuthService extends BaseService
 //                return  redirect()->route('vendor.newPasswordForm',['email' => $request->email]);
 //                return redirect('', ['email' => $request->email]);
 
-                return $this->responseMsg();
+                return response()->json([
+                    'status' => 300,
+                    'email' => $vendor->email,
+                    'message' => 'لم يتم العثور على المكتب'
+                ], 200);
             } else {
                 Auth::guard('vendor')->login($vendor);
                 return response()->json(200);
             }
         }
         if ($vendor && $vendor->otp == $vendor->otp && $vendor->otp_expire_at < now()) {
-            return response()->json(400);
-
+            return response()->json([
+                'status' => 400,
+                'message' => 'إنتهت صلاحية هذا الكود'
+            ], 200);
         } else {
 
             return response()->json(500);
@@ -253,6 +259,25 @@ class AuthService extends BaseService
     public function newPasswordForm($email)
     {
         return view('vendor.auth.new-password', ['email' => $email]);
+    }
+
+    public function resetPassword($request)
+    {
+//        dd($request);
+        $request->validate([
+            'email'=>'required|exists:vendors,email',
+            'password' => 'required|min:6|confirmed',
+        ]);
+        $vendor = Vendor::where('email', $request->email)->first();
+        $vendor->update([
+            'password'=>$request->password
+        ]);
+        Auth::guard('vendor')->login($vendor);
+        return response()->json([
+            'status' => 200,
+            'email' => $vendor->email,
+            'message' => 'لم يتم العثور على المكتب'
+        ], 200);
     }
 
     public function verifyResetPassword($request): \Illuminate\Http\JsonResponse
@@ -272,13 +297,13 @@ class AuthService extends BaseService
             return response()->json([
                 'status' => 209,
                 'email' => $vendor->email
-            ], 209);
+            ], 200);
         }
 
         return response()->json([
             'status' => 405,
             'message' => 'لم يتم العثور على المكتب'
-        ], 405);
+        ], 200);
 
     }
 

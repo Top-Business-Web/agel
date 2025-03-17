@@ -92,15 +92,16 @@
 
         <form class="signup-form" action="{{route('vendor.resetPassword',['email'=>$email])}}" method="post" id="ResetPasswordForm">
             @csrf
+            <input type="hidden" name="email" value="{{$email}}">
             <label class="inp">
-                <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField">
+                <input type="text" name="password" class="input-text" placeholder="&nbsp;" id="inputField">
                 <span class="label" id="placeHolder">كلمة المرور الجديده</span> <!-- Default placeholder -->
                 <span class="input-icon">
         <i class="fa-solid fa-envelope"></i> <!-- Default icon -->
     </span>
             </label>
             <label class="inp">
-                <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField">
+                <input type="text" name="password_confirmation" class="input-text" placeholder="&nbsp;" id="inputField">
                 <span class="label" id="placeHolder">تأكيد كلمة المرور</span> <!-- Default placeholder -->
                 <span class="input-icon">
         <i class="fa-solid fa-envelope"></i> <!-- Default icon -->

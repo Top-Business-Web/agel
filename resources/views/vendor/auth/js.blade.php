@@ -29,8 +29,7 @@
 
             },
             success: function (data) {
-                console.log(data);
-                if (data === 200) {
+                if (data.status === 200) {
                     window.location.href = '{{route('vendorHome')}}';
                 }
                 if (data.status === 204) {
@@ -46,7 +45,7 @@
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
 
                 }
-                if (data.status == 300) {
+                if (data.status === 300) {
                     toastr.error('تم تأكيد الكود , قم بإدخال كلمة المرور الجديده');
                     $('#ResetPasswordButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
                     window.location.href = '{{route('vendor.newPasswordForm',['email' => '__EMAIL__'])}}'.replace('__EMAIL__', encodeURIComponent(data.email));
@@ -131,7 +130,10 @@
                     window.location.href = '/register';
 
                 }
-
+                if (data.status === 400 ) {
+                    window.location.href = '{{route('vendor.resetPasswordForm')}}';
+                    sessionStorage.setItem('toastrMessage', 'الكود الذي أدخلته غير صحيح يرجى المحاوله مره أخرى');
+                }
                  if (data === 500) {
                     toastr.error('لقد قمت بإدخال الكود الذي تم إرساله بشكل خاطئ');
                     $('#ResetPasswordButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
