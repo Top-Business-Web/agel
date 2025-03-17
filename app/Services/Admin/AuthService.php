@@ -96,6 +96,7 @@ class AuthService extends BaseService
                 'email' => $data['input'],
                 'password' => $data['password'],
             ];
+//            dd($admin);
             if (!$admin) {
                 return response()->json([
                     'status' => 206,
@@ -235,7 +236,7 @@ class AuthService extends BaseService
             return view('admin.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
         }
         if ($resetPassword==null){
-            $resetPassword=false;
+            $resetPassword=1;
         }
 
 
