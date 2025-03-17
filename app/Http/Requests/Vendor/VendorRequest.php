@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Vendor;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class VendorRequest extends FormRequest
 {
@@ -26,7 +27,9 @@ class VendorRequest extends FormRequest
 
             'name' => 'required',
             'email' => 'required|email|unique:vendors,email',
-            'phone' => 'required|numeric|unique:vendors,phone|digits:9',
+            'phone'=>   ['required', Rule::unique('vendors', 'phone')->where(function ($query) {
+                return $query->where('phone', '+966' . $this->phone);
+            })],
             'region_id'=>'required|exists:regions,id',
             'national_id' => 'required|numeric|unique:vendors,national_id|digits:10',
             'password' => 'required|min:6|confirmed',
@@ -42,7 +45,9 @@ class VendorRequest extends FormRequest
             'id' => 'required|exists:vendors,id',
             'name' => 'nullable',
             'email' => 'nullable|email|unique:vendors,email,' . $this->id,
-            'phone' => 'nullable|numeric|digits:9|unique:vendors,phone,' . $this->id,
+            'phone'=>   ['required', Rule::unique('vendors', 'phone')->where(function ($query) {
+                return $query->where('phone', '+966' . $this->phone);
+            })->ignore($this->id)],
             'national_id' => 'nullable|numeric|digits:10|unique:vendors,national_id,' . $this->id,
             'region_id'=>'required|exists:regions,id',
             'password' => 'nullable|min:6|confirmed',

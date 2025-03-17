@@ -32,15 +32,15 @@ class VendorController extends Controller
 
 
 
-    public function edit(ObjModel $vendor)
+    public function edit($id)
     {
-        return $this->objService->edit($vendor);
+        return $this->objService->edit($id);
     }
 
-    public function update(ObjRequest $request, $id)
+    public function update(ObjRequest $request)
     {
         $data = $request->validated();
-        return $this->objService->update($data, $id);
+        return $this->objService->update($data);
     }
 
     public function destroy($id)

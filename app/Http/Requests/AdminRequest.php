@@ -38,19 +38,24 @@ class AdminRequest extends FormRequest
             'code' => 'required|unique:admins,code',
             'email' => 'required|email|unique:admins,email',
             'password' => 'required|min:6|confirmed',
-            'role_id' => 'required',
-        ];
+            "permissions"=>'required|array',
+            'phone'=>   ['required', Rule::unique('admins', 'phone')->where(function ($query) {
+                return $query->where('phone', '+966' . $this->phone);
+            })],
+            ];
     }
 
     protected function update(): array
     {
         return [
+            'id'=>'required|exists:admins,id',
             'name' => 'required',
-            'code' => 'required|unique:admins,code,'  . $this->admin,
             'email' => 'required|email|unique:admins,email,' . $this->admin,
             'password' => 'nullable|min:6|confirmed',
-            'role_id' => 'required',
-        ];
+            "permissions"=>'nullable|array',
+             'phone'=>   ['required', Rule::unique('admins', 'phone')->where(function ($query) {
+                            return $query->where('phone', '+966' . $this->phone);
+                        })->ignore($this->admin)],        ];
     }
 
     public function messages()

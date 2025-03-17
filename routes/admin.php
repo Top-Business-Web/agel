@@ -35,7 +35,7 @@ Route::group(
     function () {
 
         Route::get('/', [AuthController::class, 'index']);
-        Route::get('/admin/register', [AuthController::class, 'registerForm'])->name('admin.register');
+//        Route::get('/admin/register', [AuthController::class, 'registerForm'])->name('admin.register');
 
         Route::group(['prefix' => 'admin'], function () {
             Route::get('/login', [AuthController::class, 'index'])->name('admin.login');
@@ -91,16 +91,6 @@ Route::group(
                     Route::resourceWithDeleteSelected('planSubscription', PlanSubscriptionController::class);
                     #============================ categories ==================================
                     Route::resourceWithDeleteSelected('categories', CategoryController::class);
-                #============================ Admin ====================================
-                Route::resourceWithDeleteSelected('admins', AdminController::class);
-                #============================ countries ==================================
-                Route::resourceWithDeleteSelected('countries', CountryController::class);
-                #============================ cities ==================================
-                Route::resourceWithDeleteSelected('cities', CityController::class);
-                #============================ Plans ==================================
-                Route::resourceWithDeleteSelected('Plans', PlanController::class);
-                #============================ planSubscription ==================================
-                Route::resourceWithDeleteSelected('planSubscription', PlanSubscriptionController::class);
 
 
                 Route::get('my_profile', [AdminController::class, 'myProfile'])->name('myProfile');
