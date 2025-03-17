@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @include('vendor.auth.css')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">
+    <link href="{{asset('assets/admin')}}/assets/plugins/bootstrap5/css/bootstrap.min.css" rel="stylesheet"/>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
     <style>
         .swal2-popup,
@@ -17,7 +19,7 @@
             background-color: #212741;
         }
     </style>
-{{--wdokf--}}
+
     <style>
         body.dark-mode {
             background-color: #212741;
@@ -54,80 +56,77 @@
         .welcome-container {
             transition: background-color 0.3s, color 0.3s;
         }
+        .signup-container{
+            padding: 5rem 10rem;
+        }
+        .form-check .form-check-input {
+    float: right;
+    margin-right: -1.5em;
+}
+.form-check-input:checked {
+    background-color: #3cb9c7;
+    border-color: #3cb9c7;
+}
     </style>
 
 </head>
 
-<body class="">
-<div class="container">
-    {{--    <div class="language-switcher">--}}
-    {{--        <a href="{{ LaravelLocalization::getLocalizedURL(lang() == 'en' ? 'ar' : 'en', null, [], true) }}"--}}
-    {{--           class="btn btn-language" style="background-color: #0285CE;">{{ lang() == 'en' ? trns('Arabic') : trns('English') }}</a>--}}
-    {{--    </div>--}}
-    {{--    <div class="dark-switcher">--}}
-    {{--        <a id="toggleDarkMode" class="btn btn-language">{{ trns('dark_mode') }}</a>--}}
-    {{--    </div>--}}
-
-    <main class="signup-container" style="margin-top: 40px">
-        <h1 class="heading-primary">منصة أجل<span class="span-blue">.</span></h1>
-        <p class="text-mute">يرجى إدخال بيانات التحقق</p>
-
+<body class="d-flex align-items-center" style="background-image: linear-gradient(rgba(33,33,34,0.4), rgba(33,33,34,0.8)),url('{{ asset('bg.jpg') }}'); background-size: cover;
+    background-repeat: no-repeat; height: 100vh">
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-3 col-12"></div>
+<div class="col-lg-6 col-12">
+<div class="signup-container" style="background-color: white; width: 100%;">
+    <div class="d-flex justify-content-center w-100">
+    <img src="{{ asset('logo 1.png') }}" style="height: 90px;">
+    </div>
+        <!-- <h1 class="heading-primary">منصة أجل<span class="span-blue">.</span></h1> -->
         <form class="signup-form" action="{{route('vendor.login')}}" method="post" id="LoginForm">
             @csrf
+                <div class="d-flex justify-content-evenly gap-3 mb-2">
+                    <div class="form-check">
+                        <input class="form-check-input mt-2" type="radio" value="email" name="verificationType"
+                               id="verificationTypeEmail" checked>
+                        <label class="form-check-label fs-4" for="verificationTypeEmail">التسجيل بالبريد الالكترونى</label>
+                    </div>
+                    <div class="form-check">
+
+                        <input class="form-check-input mt-2" type="radio" value="phone" name="verificationType"
+                               id="verificationTypePhone">
+
+                        <label class="form-check-label fs-4" for="verificationTypePhone">التسجيل برقم الجوال</label>
+                    </div>
+                </div>
             <label class="inp">
 
-                <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField">
+                <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField" style="background-color: rgb(232, 240, 254);">
                 <span class="label" id="placeHolder">البريد الالكتروني</span> <!-- Default placeholder -->
                 <span class="input-icon">
         <i class="fa-solid fa-envelope"></i> <!-- Default icon -->
     </span>
             </label>
             <label class="inp">
-                <input type="password" name="password" class="input-text" placeholder="&nbsp;" id="password">
+                <input type="password" name="password" class="input-text" placeholder="&nbsp;" id="password" style="background-color: rgb(232, 240, 254);">
                 <span class="label">كلمة المرور</span>
                 <span class="input-icon input-icon-password" data-password>
         <i class="fa-solid fa-eye"></i>
     </span>
             </label>
-            {{--            <input class="inp">--}}
-            {{--            <input type="text" name="input" class="input-text" placeholder="&nbsp;">--}}
-            <div class="d-flex align-items-center gap-2">
-                <span class="text-muted">تسجيل الدخول عبر </span>
-                <div class="d-flex align-items-center gap-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" value="email" name="verificationType"
-                               id="verificationTypeEmail" checked>
-                        <label class="form-check-label" for="verificationTypeEmail">Email</label>
-                    </div>
-                    <div class="form-check">
-
-                        <input class="form-check-input" type="radio" value="phone" name="verificationType"
-                               id="verificationTypePhone">
-
-                        <label class="form-check-label" for="verificationTypePhone">Phone</label>
-                    </div>
-                </div>
-                <p class="text-mute">نسيت كلمة المرور؟
-                    <a href="{{route('vendor.resetPasswordForm')}}">إعادة تعيين</a>
-                </p>
+            <button class="btn btn-primary fs-3 p-3" id="loginButton" style="background-color: #3cb9c7; border-color: #3cb9c7;">تسجيل </button>
+            <div class="d-flex justify-content-end">
+                    <a style="text-decoration: none; color: gray; font-size: 15px;" href="{{route('vendor.resetPassword')}}">نسيت كلمة المرور !</a>
             </div>
-            <button class="btn btn-login" id="loginButton">تسجيل </button>
-            <p class="text-mute">ليس لديك حساب؟
-                <a href="{{url('/register')}}">سجل الآن</a>
+            <div class="d-flex justify-content-center">
+            <p class="text-mute fs-4">ليس لديك حساب؟
+                <a style="text-decoration: none; color: #3cb9c7;" href="{{url('/register')}}">سجل الآن</a>
             </p>
+            </div>
         </form>
-    </main>
-
-    <div class="welcome-container" style="background-color: white !important;"
-    >
-        {{--        <h1 class="heading-secondary">--}}
-        {{--            {{ trns('welcome back') }}--}}
-        {{--            <span class="lg">--}}
-        {{--            {{isset($setting) ? $setting->title_ar : config('app.name')}}--}}
-        {{--        </span>--}}
-        {{--        </h1>--}}
-        <img style="border-radius: 10%" src="{{asset('logo.webp')}}">
     </div>
+</div>
+<div class="col-lg-3 col-12"></div>
+</div>
 </div>
 </body>
 @include('vendor.auth.js')
