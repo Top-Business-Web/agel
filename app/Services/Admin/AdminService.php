@@ -127,9 +127,6 @@ class AdminService extends BaseService
             }
             $oldObj = $this->getById($data['id']);
 
-            $data['phone'] = '+966' . $data['phone'];
-
-
             if (isset($data['password'])) {
                 $data['password'] = Hash::make($data['password']);
             }else{

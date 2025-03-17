@@ -229,17 +229,17 @@ class AuthService extends BaseService
     }
 
     public
-    function showOtpForm($email, $type,$resetPassword)
+    function showOtpForm($email, $type, $resetPassword)
     {
         if ($resetPassword == 2) {
             return view('admin.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
         }
-        if ($resetPassword==null){
-            $resetPassword=false;
+        if ($resetPassword == null) {
+            $resetPassword = false;
         }
 
 
-        return view('admin.auth.verify-otp', ['email' => $email, 'type' => $type,'resetPassword'=>$resetPassword]);
+        return view('admin.auth.verify-otp', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
     }
 
 
@@ -270,7 +270,6 @@ class AuthService extends BaseService
     public function logout()
     {
         Auth::guard('admin')->logout();
-        toastr()->info('تم تسجيل الخروج');
         return redirect()->route('admin.login');
     }
 }

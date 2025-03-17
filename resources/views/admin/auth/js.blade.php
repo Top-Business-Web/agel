@@ -3,6 +3,19 @@
 @toastr_render
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
+<style>
+    /* Change Toastr Background Color */
+    #toast-container > .toast-error {
+        background-color: #38bcc7 !important;
+        color: #fff !important;
+    }
+
+    /* Change Toastr Progress Bar Color */
+    #toast-container > .toast-error .toast-progress {
+        background-color: #fff !important;
+    }
+
+</style>
 <script>
     function expand(lbl) {
         var elemId = lbl.getAttribute("for");
