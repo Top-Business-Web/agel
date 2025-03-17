@@ -24,6 +24,8 @@ class PlanService extends BaseService
             $obj = $this->getDataTable();
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
+                    if ($obj->id == 1) {
+                        return 'لا يمكن اتخاذ اي أجراء ';}
                     $buttons = '
 
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
@@ -38,7 +40,7 @@ class PlanService extends BaseService
                 })->editColumn('image', function ($obj) {
                     return $this->imageDataTable($obj->image);
                 })->editColumn('status', function ($obj) {
-                    return $this->statusDatatable($obj);
+                    return$obj->id == 1 ? 'غير متاح' : $this->statusDatatable($obj);
                 })->editColumn('description', function ($obj) {
                     return strlen($obj->description) > 50 ? substr($obj->description, 0, 50) . '...' : $obj->description;
                 })->editColumn('discount', function ($obj) {
@@ -108,11 +110,11 @@ class PlanService extends BaseService
     }
 
 
-    public function edit($obj)
+    public function edit($id)
     {
         return view("{$this->folder}/parts/edit", [
-            'obj' => $obj,
-            'updateRoute' => route("{$this->route}.update", $obj->id),
+            'plan' => $this->getById($id),
+            'updateRoute' => route("{$this->route}.update", $id),
         ]);
     }
 
