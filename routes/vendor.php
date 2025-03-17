@@ -40,8 +40,8 @@ Route::group(
         Route::group(['prefix' => 'vendor'], function () {
             Route::POST('/login', [AuthController::class, 'login'])->name('vendor.login');
             Route::POST('/register', [AuthController::class, 'register'])->name('vendor.register');
-            Route::get('/verify-otp/{email}/{type}/{resetPassword}', [AuthController::class, 'showOtpForm'])->name('otp.verify');
-            Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('otp.check');
+            Route::get('/verify-otp/{email}/{type}/{resetPassword}', [AuthController::class, 'showOtpForm'])->name('vendor.otp.verify');
+            Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('vendor.otp.check');
             Route::get('/reset-password', [AuthController::class, 'resetPasswordForm'])->name('vendor.resetPassword');
             Route::POST('/reset-password', [AuthController::class, 'resetPassword'])->name('vendor.resetPassword');
 

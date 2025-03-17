@@ -194,9 +194,9 @@ class AuthService extends BaseService
     public
     function showOtpForm($email, $type, $resetPassword)
     {
-        dd($resetPassword);
+//        dd($resetPassword);
         if ($resetPassword==true){
-            dd('jkhsdf');
+//            dd('jkhsdf');
             return view('vendor.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
         }
         return view('vendor.auth.verify-otp', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);

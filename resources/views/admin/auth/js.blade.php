@@ -178,7 +178,7 @@
                         title: "من فضلك قم بتفعيل حسابك",
                         icon: "success"
                     }).then(function () {
-                        window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__','type'=>'register','resetPassword'=>false]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
+                        window.location.href = '{{ route('admin.otp.verify', ['email' => '__EMAIL__','type'=>'register','resetPassword'=>false]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
                     });
 
                 } else {

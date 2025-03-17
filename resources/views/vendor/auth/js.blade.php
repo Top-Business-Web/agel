@@ -54,7 +54,7 @@
 
                 if (data.status === 200) {
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
-                    window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__','type'=>'login','resetPassword'=>false]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
+                    window.location.href = '{{ route('vendor.otp.verify', ['email' => '__EMAIL__','type'=>'login','resetPassword'=>false]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
                     // toastr.warning('من فضلك قم بإدخال الكود الذي تم إرساله على البريد الإلكتروني');
                 }
                 // else {
@@ -124,7 +124,7 @@
 
                 if (data.status === 200) {
                     $('#ResetPasswordButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
-                    window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__','type'=>'login','resetPassword'=>true]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
+                    window.location.href = '{{ route('vendor.otp.verify', ['email' => '__EMAIL__','type'=>'login','resetPassword'=>true]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
                     // toastr.warning('من فضلك قم بإدخال الكود الذي تم إرساله على البريد الإلكتروني');
                 }
                 // else {
@@ -191,7 +191,7 @@
                     // toastr.success('من فضلك قم بتفعيل حسابك');
                     sessionStorage.setItem('toastrMessage', 'من فضلك قم بتفعيل حسابك');
 
-                    window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__','type'=>'register','resetPassword'=>false]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
+                    window.location.href = '{{ route('vendor.otp.verify', ['email' => '__EMAIL__','type'=>'register','resetPassword'=>false]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
 
                 } else {
                     toastr.error('خطأ في  بيانات الدخول');
