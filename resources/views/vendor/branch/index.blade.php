@@ -4,19 +4,20 @@
     {{ config()->get('app.name') }} | {{ $bladeName }}
 @endsection
 @section('page_name')
-    {{ $bladeName }}
+    الفروع
 @endsection
 @section('content')
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
+                    <h3 class="card-title"> الفروع</h3>
                     <h3 class="card-title"></h3>
                     <div class="">
                         <button class="btn btn-secondary btn-icon text-white addBtn">
-        <span>
-            <i class="fe fe-plus"></i>
-        </span> إضافة فرع جديد
+                            <span>
+                                <i class="fe fe-plus"></i>
+                            </span> إضافة فرع جديد
                         </button>
                         <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
                             <span><i class="fe fe-trash"></i></span> حذف المحدد
@@ -33,6 +34,17 @@
                         <!--begin::Table-->
                         <table class="table table-bordered text-nowrap w-100" id="dataTable">
                             <thead>
+                                <tr class="fw-bolder text-muted bg-light">
+                                    <th class="min-w-25px">
+                                        <input type="checkbox" id="select-all">
+                                    </th>
+                                    <th class="min-w-25px">#</th>
+                                    <th class="min-w-25px">الاسم</th>
+                                    <th class="min-w-25px">المدينة</th>
+                                    <th class="min-w-25px">الحاله</th>
+                                    <th class="min-w-50px rounded-end">العمليات</th>
+                                </tr>
+
                             <tr class="fw-bolder text-muted bg-light">
                                 <th class="min-w-25px">
                                     <input type="checkbox" id="select-all">
@@ -65,6 +77,12 @@
                     </div>
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
+<<<<<<< HEAD
+                        <p>هل انت متاكد من حذف هذا العنصر <span id="title" class="text-danger"></span>?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
+                            اغلاق
                         <p>هل أنت متأكد أنك تريد حذف هذا العنصر؟ <span id="title"
                                                                        class="text-danger"></span>?</p>
                     </div>
@@ -84,6 +102,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <h5 class="modal-title" id="example-Modal3">تفاصيل الفرع</h5>
                         <h5 class="modal-title" id="example-Modal3">التفاصيل</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -103,12 +122,18 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <h5 class="modal-title" id="deleteConfirmModalLabel">تأكيد الحذف</h5>
                         <h5 class="modal-title" id="deleteConfirmModalLabel">تاكيد الحذف</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
+                        <p>هل انت متاكد من حذف هذه السجلات</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">الغاء</button>
+                        <button type="button" class="btn btn-danger" id="confirm-delete-btn">حذف</button>
                         <p>هل أنت متأكد أنك تريد حذف العناصر المحددة؟</p>
 
                     </div>
@@ -133,12 +158,19 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <h5 class="modal-title" id="deleteConfirmModalLabel">تأكيد التعديل</h5>
                         <h5 class="modal-title" id="deleteConfirmModalLabel">تأكيد</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
+                        <p>هل انت متاكد من تعديل هذه السجلات</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">الغاء</button>
+                        <button type="button" class="btn btn-send" id="confirm-update-btn">تعديل</button>
+
                         <p>هل أنت متأكد أنك تريد حذف هذا العنصر؟ <span id="title"></span></p>
                     </div>
                     <div class="modal-footer">
@@ -230,6 +262,14 @@
                         if (val !== 0) {
                             toastr.success('Success', "نشط");
                         } else {
+                            toastr.warning('Success', "غير نشط");
+                        }
+                    } else {
+                        toastr.error('Error', "هناك خطأ ما");
+                    }
+                },
+                error: function() {
+                    toastr.error('Error', "هناك خطأ ما");
                             toastr.warning('Success', "غير نشط ");
                         }
                     } else {
