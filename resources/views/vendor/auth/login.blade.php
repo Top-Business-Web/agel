@@ -69,7 +69,7 @@
     {{--    </div>--}}
 
     <main class="signup-container" style="margin-top: 40px">
-        <h1 class="heading-primary">مرحبًا بعودتك<span class="span-blue">.</span></h1>
+        <h1 class="heading-primary">منصة أجل<span class="span-blue">.</span></h1>
         <p class="text-mute">يرجى إدخال بيانات التحقق</p>
 
         <form class="signup-form" action="{{route('vendor.login')}}" method="post" id="LoginForm">

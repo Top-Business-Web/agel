@@ -532,7 +532,7 @@
     {{--            <a id="toggleDarkMode" class="btn btn-language">dark_mode</a>--}}
     {{--        </div>--}}
     <main class="signup-container" style="margin-top: 40px">
-        <h1 class="heading-primary">مرحبا بعودتك<span class="span-blue">.</span></h1>
+        <h1 class="heading-primary">منصة أجل<span class="span-blue">.</span></h1>
         <form class="signup-form" action="{{route('admin.login')}}" method="POST" id="LoginForm">
             @csrf
             @method('POST')

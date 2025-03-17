@@ -63,7 +63,7 @@
 
 
     <main class="signup-container" style="margin-top: 40px">
-        <h1 class="heading-primary">مرحبا <span class="span-blue">.</span></h1>
+        <h1 class="heading-primary">منصة أجل <span class="span-blue">.</span></h1>
         @if($type == 'login')
             <p class="text-mute">من فضلك ادخل كود التأكيد</p>
         @elseif($status == 'register')

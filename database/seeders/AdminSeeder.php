@@ -20,7 +20,7 @@ class AdminSeeder extends Seeder
         $admin = Admin::create([
             'name' => 'admin',
             'user_name' => 'admin',
-            'phone' => '0123456789',
+            'phone' => '+966123456789',
             'code' => Str::random(11),
             'email' => 'admin@admin.com',
             'role_id' => 1,
@@ -29,7 +29,7 @@ class AdminSeeder extends Seeder
         ]);
         $ahmed = Admin::create([
             'name' => 'ahmed',
-            'phone' => '012345678',
+            'phone' => '+966123456787',
 
             'user_name' => 'ahmed',
             'code' => Str::random(11),
@@ -41,7 +41,7 @@ class AdminSeeder extends Seeder
         ]);
         $mohamed = Admin::create([
             'name' => 'mohamed',
-            'phone' => '0123456780',
+            'phone' => '+966123456782',
 
             'user_name' => 'mohamed',
             'code' => Str::random(11),
