@@ -85,6 +85,7 @@ class AuthService extends BaseService
                 'email' => $data['input'],
                 'password' => $data['password'],
             ];
+//            dd($credentials);
             if (!$vendor) {
                 return response()->json([
                     'status' => 206,
@@ -94,6 +95,7 @@ class AuthService extends BaseService
             if ($vendor->status == 0) {
                 return response()->json(206);
             }
+//            dd($credentials,$vendor);
 
             if (Auth::guard('vendor')->validate($credentials)) {
 //                dd('dsfsdf');
@@ -108,6 +110,7 @@ class AuthService extends BaseService
                     'status' => 200,
                     'email' => $vendor->email
                 ], 200);
+
             } else {
                 return response()->json([
                     'status' => 207,
@@ -270,7 +273,7 @@ class AuthService extends BaseService
         ]);
         $vendor = Vendor::where('email', $request->email)->first();
         $vendor->update([
-            'password'=>$request->password
+            'password'=>Hash::make($request->password)
         ]);
         Auth::guard('vendor')->login($vendor);
         return response()->json([
