@@ -45,9 +45,6 @@ class AdminService extends BaseService
                     return $buttons;
                 })
 
-                ->addColumn('role', function ($admins) {
-                    return RoleEnum::tryFrom($admins->roles[0]->id)->lang();
-                })
                 ->addIndexColumn()
                 ->escapeColumns([])
                 ->make(true);

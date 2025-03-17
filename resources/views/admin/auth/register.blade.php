@@ -62,7 +62,7 @@
 
 
     <main class="signup-container">
-        <h1 class="heading-primary"> مرحبا<span class="span-blue">.</span></h1>
+        <h1 class="heading-primary"> منصة أجل<span class="span-blue">.</span></h1>
         <p class="text-mute">قم بإدخال بيانات التأكيد</p>
 
         <form class="signup-form" action="{{route('admin.register')}}" method="post" id="RegisterForm">

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -42,8 +43,8 @@ Route::group(
             Route::POST('login', [AuthController::class, 'login'])->name('admin.login');
 
 //            Route::POST('/register', [AuthController::class, 'register'])->name('admin.register');
-            Route::get('/verify-otp/{email}/{type}', [AuthController::class, 'showOtpForm'])->name('otp.verify');
-            Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('otp.check');
+            Route::get('/verify-otp/{email}/{type}', [AuthController::class, 'showOtpForm'])->name('admin.otp.verify');
+            Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('admin.otp.check');
 
 
 //            Route::group(['middleware' => 'auth:admin'], function () {
@@ -70,14 +71,26 @@ Route::group(
 
                 #============================ vendors ====================================
 //                    Route::resourceWithDeleteSelected('vendors', VendorController::class);
-                Route::get('vendors/index', [VendorController::class, 'index'])->name('admin.vendors.index');
-                Route::get('vendors/create', [VendorController::class, 'create'])->name('admin.vendors.create');
-                Route::post('vendors', [VendorController::class, 'store'])->name('admin.vendors.store');
-                Route::put('vendors/update', [VendorController::class, 'update'])->name('admin.vendors.update');
-                Route::delete('vendors/{id}', [VendorController::class, 'destroy'])->name('admin.vendors.destroy');
-                Route::get('vendors/{id}/edit', [VendorController::class, 'edit'])->name('admin.vendors.edit');
-                Route::post('vendors/delete-selected', [VendorController::class, 'deleteSelected'])->name('admin.vendors.deleteSelected');
-                Route::post('vendors/update-column-selected', [VendorController::class, 'updateColumnSelected'])->name('admin.vendors.updateColumnSelected');
+                    Route::get('vendors/index', [VendorController::class, 'index'])->name('admin.vendors.index');
+                    Route::get('vendors/create', [VendorController::class, 'create'])->name('admin.vendors.create');
+                    Route::post('vendors', [VendorController::class, 'store'])->name('admin.vendors.store');
+                    Route::put('vendors/update', [VendorController::class, 'update'])->name('admin.vendors.update');
+                    Route::delete('vendors/{id}', [VendorController::class, 'destroy'])->name('admin.vendors.destroy');
+                    Route::get('vendors/{id}/edit', [VendorController::class, 'edit'])->name('admin.vendors.edit');
+                    Route::post('vendors/delete-selected', [VendorController::class, 'deleteSelected'])->name('admin.vendors.deleteSelected');
+                    Route::post('vendors/update-column-selected', [VendorController::class, 'updateColumnSelected'])->name('admin.vendors.updateColumnSelected');
+                    #============================ Admin ====================================
+                    Route::resourceWithDeleteSelected('admins', AdminController::class);
+                    #============================ countries ==================================
+                    Route::resourceWithDeleteSelected('countries', CountryController::class);
+                    #============================ cities ==================================
+                    Route::resourceWithDeleteSelected('cities', CityController::class);
+                    #============================ Plans ==================================
+                    Route::resourceWithDeleteSelected('Plans', PlanController::class);
+                    #============================ planSubscription ==================================
+                    Route::resourceWithDeleteSelected('planSubscription', PlanSubscriptionController::class);
+                    #============================ categories ==================================
+                    Route::resourceWithDeleteSelected('categories', CategoryController::class);
                 #============================ Admin ====================================
                 Route::resourceWithDeleteSelected('admins', AdminController::class);
                 #============================ countries ==================================
@@ -120,3 +133,7 @@ Route::group(
 
 Route::resourceWithDeleteSelected('plan_subscriptions', \App\Http\Controllers\Admin\PlanSubscriptionController::class);
 
+
+Route::resourceWithDeleteSelected('stocks', \App\Http\Controllers\Admin\StockController::class);
+
+Route::resourceWithDeleteSelected('categorys', \App\Http\Controllers\Admin\CategoryController::class);

@@ -1,5 +1,9 @@
 @extends('vendor/layouts/master')
 @section('title')
+    الرئيسية
+@endsection
+@section('page_name')
+    المسئول
     {{ config()->get('app.name') }} | المشرفين
 @endsection
 @section('page_name')
