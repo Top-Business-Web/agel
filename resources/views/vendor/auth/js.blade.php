@@ -187,6 +187,7 @@
             },
             success: function (data) {
 
+
                 if (data.status === 200) {
                     // toastr.success('من فضلك قم بتفعيل حسابك');
                     sessionStorage.setItem('toastrMessage', 'من فضلك قم بتفعيل حسابك');
