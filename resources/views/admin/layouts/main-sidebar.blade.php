@@ -60,7 +60,7 @@
                 <a class="side-menu__item {{ arrRouteActive(['countries.index', 'cities.index'], 'active') }}"
                    data-toggle="slide" href="#">
                     <i class="fas fa-map-marker-alt side-menu__icon"></i> <!-- Location Icon -->
-                    <span class="side-menu__label">إدارة المواقع</span>
+                    <span class="side-menu__label">إدارة الخطط</span>
                     <i class="angle fa fa-angle-right"></i>
                 </a>
                 <ul class="slide-menu">
