@@ -1,3 +1,5 @@
+
+
 <script>
     var loader = `
 			<div id="skeletonLoader" class="skeleton-loader">
@@ -10,6 +12,8 @@
 
 </div>
         `;
+
+
 
 
     // Show Data Using YAJRA

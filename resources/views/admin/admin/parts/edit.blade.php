@@ -16,7 +16,7 @@
                     <label for="phone" class="form-control-label">رقم الهاتف</label>
                     <div class="input-group">
                         <span class="input-group-text">+966</span>
-                        <input type="number" class="form-control" name="phone" value="{{$admin->phone}}" maxlength="11">
+                        <input type="number" class="form-control" name="phone"  value="{{ substr($admin->phone, 4) }}" maxlength="11">
                     </div>
                 </div>
             </div>

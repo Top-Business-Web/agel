@@ -266,7 +266,6 @@ class AuthService extends BaseService
 
     public function resetPassword($request)
     {
-//        dd($request);
         $request->validate([
             'email'=>'required|exists:vendors,email',
             'password' => 'required|min:6|confirmed',

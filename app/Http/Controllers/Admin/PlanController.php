@@ -28,9 +28,9 @@ class PlanController extends Controller
         return $this->objService->store($request);
     }
 
-    public function edit(ObjModel $plan)
+    public function edit($id)
     {
-        return $this->objService->edit($plan);
+        return $this->objService->edit($id);
     }
 
     public function update(ObjRequest $request, $id)
