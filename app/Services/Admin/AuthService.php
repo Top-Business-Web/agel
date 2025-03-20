@@ -232,42 +232,120 @@ class AuthService extends BaseService
     public
     function showOtpForm($email, $type, $resetPassword)
     {
-        if ($resetPassword == 2) {
-            return view('admin.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
+
+//        if ($resetPassword == 2) {
+////            return view('vendor.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
+////            return view('vendor.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
+//        }
+        if ($resetPassword == null) {
+            $resetPassword = 1;
         }
-
-        if ($resetPassword==null){
-            $resetPassword=1;
-        }
-
-
         return view('admin.auth.verify-otp', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
+
     }
+
 
 
     public
     function verifyOtp($request)
     {
+//        dd($request);
         $admin = Admin::where('email', $request->email)->first();
 
-        if ($admin && $admin->otp == $admin->otp && $admin->otp_expire_at > now()) {
+        if ($admin && $admin->otp == $request->otp && $admin->otp_expire_at > now()) {
             $admin->update([
                 'otp' => null,
                 'otp_expire_at' => null,
                 'status' => 1
             ]);
-            Auth::guard('admin')->login($admin);
-            return response()->json(200);
+            if ($request->isReset == 2) {
+//                dd('sl/kd/fjl');
+//                return  redirect()->route('vendor.newPasswordForm',['email' => $request->email]);
+//                return redirect('', ['email' => $request->email]);
+
+                return response()->json([
+                    'status' => 300,
+                    'email' => $admin->email,
+                    'message' => 'لم يتم العثور على المكتب'
+                ], 200);
+            } else {
+                Auth::guard('vendor')->login($admin);
+                return response()->json(200);
+            }
         }
         if ($admin && $admin->otp == $admin->otp && $admin->otp_expire_at < now()) {
-            return response()->json(400);
-
+            return response()->json([
+                'status' => 400,
+                'message' => 'إنتهت صلاحية هذا الكود'
+            ], 200);
         } else {
 
             return response()->json(500);
         }
 
     }
+
+
+
+    public function resetPasswordForm()
+    {
+//        dd('yyyyyyy');
+        return view('admin.auth.verify-reset-password');
+    }
+
+    public function newPasswordForm($email)
+    {
+//        dd('bhjkkl');
+        return view('admin.auth.new-password', ['email' => $email]);
+    }
+
+    public function resetPassword($request)
+    {
+//        dd($request);
+        $request->validate([
+            'email'=>'required|exists:admins,email',
+            'password' => 'required|min:6|confirmed',
+        ]);
+        $admin = Admin::where('email', $request->email)->first();
+        $admin->update([
+            'password'=>Hash::make($request->password)
+        ]);
+        Auth::guard('admin')->login($admin);
+        return response()->json([
+            'status' => 200,
+            'email' => $admin->email,
+            'message' => 'لم يتم العثور على المكتب'
+        ], 200);
+    }
+
+    public function verifyResetPassword($request): \Illuminate\Http\JsonResponse
+    {
+//        dd($request->all());
+        $admin = Admin::where('email', $request->input)->first();
+
+        if ($admin) {
+            // generate otp
+            $otp = rand(1000, 9999);
+            $admin->update([
+                'otp' => $otp,
+                'otp_expire_at' => now()->addMinutes(5)
+            ]);
+
+            Mail::to($admin->email)->send(new Otp($admin->name, $otp));
+            return response()->json([
+                'status' => 209,
+                'email' => $admin->email
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 405,
+            'message' => 'لم يتم العثور على المكتب'
+        ], 200);
+
+    }
+
+
 
     public function logout()
     {
