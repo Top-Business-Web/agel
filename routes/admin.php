@@ -47,6 +47,14 @@ Route::group(
             Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('admin.otp.check');
 
 
+            Route::POST('/verify-reset-password', [AuthController::class, 'verifyResetPassword'])->name('admin.verifyResetPassword');
+            Route::get('/reset-password', [AuthController::class, 'resetPasswordForm'])->name('admin.resetPasswordForm');
+            Route::get('/new-password/{email}', [AuthController::class, 'newPasswordForm'])->name('admin.newPasswordForm');
+            Route::POST('/reset-password/{email}', [AuthController::class, 'ResetPassword'])->name('admin.resetPassword');
+
+
+
+
 //            Route::group(['middleware' => 'auth:admin'], function () {
 //                Route::get('/', function () {
 //                    return view('admin/index');

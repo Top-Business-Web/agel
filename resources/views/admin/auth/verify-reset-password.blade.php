@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @include('admin.auth.css')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">
+    <link href="{{asset('assets/admin')}}/assets/plugins/bootstrap5/css/bootstrap.min.css" rel="stylesheet"/>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
     <style>
         .swal2-popup,
@@ -58,49 +60,48 @@
 
 </head>
 
-<body class="">
-<div class="container">
+<body class="d-flex align-items-center" style="background-image: linear-gradient(rgba(33,33,34,0.4), rgba(33,33,34,0.8)),url('{{asset('logo.webp')}}'); background-size: cover;
+    background-repeat: no-repeat; height: 100vh">
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-3 col-12"></div>
+<div class="col-lg-6 col-12">
+<div class="signup-container" style="background-color: white; width: 100%;">
+        <div class="text-center w-100">
+        <div class="d-flex justify-content-center w-100">
+    <img src="{{ asset('logo 1.png') }}" style="height: 90px;">
+    </div>
+        </div>
 
+        <h4>إرسال الكود التأكيدي عبر البريد الإلكتروني</h4>
 
-    <main class="signup-container" style="margin-top: 40px">
-        <h1 class="heading-primary">منصة أجل <span class="span-blue">.</span></h1>
-        @if($type == 'login')
-            <p class="text-mute">من فضلك ادخل كود التأكيد</p>
-        @elseif($status == 'register')
-            <p class="text-mute">من فضلك ادخل كود التفعيل</p>
-        @endif
-
-        <form class="signup-form" action="{{route('admin.otp.check')}}" method="post" id="LoginForm">
-            @if($resetPassword==2)
-                <input type="hidden" name="isReset" value="{{$resetPassword}}">
-            @endif
+        <form class="signup-form" action="{{route('admin.verifyResetPassword')}}" method="post" id="ResetPasswordForm">
             @csrf
-            <input type="hidden" name="email" value="{{$email}}">
             <label class="inp">
-                <input type="text" name="otp" class="input-text" placeholder="&nbsp;">
-                <span class="label">الكود</span>
-                <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
+                <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField" style="background-color: rgb(232, 240, 254);">
+                <span class="label" id="placeHolder">البريد الالكتروني</span> <!-- Default placeholder -->
+                <span class="input-icon">
+        <i class="fa-solid fa-envelope"></i> <!-- Default icon -->
+    </span>
             </label>
-            @if($type == 'login'||$type == 'reset-password')
-                <button class="btn btn-login" id="loginButton">تأكيد</button>
-            @elseif($status == 'register')
-            <button class="btn btn-login" id="loginButton"> تفعيل</button>
-            @endif
-
+            <div class="d-flex align-items-center">
+            </div>
+            <button class="btn btn-primary fs-3 p-3" id="ResetPasswordButton" style="background-color: #3cb9c7; border-color: #3cb9c7;">إرسال</button>
 
         </form>
-    </main>
-    <div class="welcome-container" style="background-color: white !important;"
-    >
-
-        <img style="border-radius: 10%" src="{{asset('logo.webp')}}">
     </div>
 </div>
+<div class="col-lg-3 col-12"></div>
+</div>
+
+</div>
 </body>
+
 @include('admin.auth.js')
 <script>
     document.getElementById('toggleDarkMode').addEventListener('click', function () {
         document.body.classList.toggle('dark-mode');
     });
 </script>
+
 </html>

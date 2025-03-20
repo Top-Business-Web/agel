@@ -108,6 +108,9 @@
                 <span class="input-icon input-icon-password" data-password><i class="fa-solid fa-eye"></i></span>
             </label>
             <button class="btn btn-primary fs-3 p-3" id="loginButton" style="background-color: #3cb9c7; border-color: #3cb9c7;"> تسجيل</button>
+                <div class="d-flex justify-content-end">
+                    <a style="text-decoration: none; color: gray; font-size: 15px;" href="{{route('admin.resetPasswordForm')}}">نسيت كلمة المرور !</a>
+                </div>
         </form>
         </div>
         </div>
