@@ -49,8 +49,7 @@ class AuthService extends BaseService
             ]
         );
         if ($request->verificationType == 'phone') {
-//            dd($request->all());
-            $vendor = Vendor::where('phone', $data['input'])->first();
+            $vendor = Vendor::where('phone', '+966'.$data['input'])->first();
             if (!$vendor) {
                 return response()->json([
                     'status' => 205,
@@ -59,12 +58,12 @@ class AuthService extends BaseService
             }
             if ($vendor->status == 0) {
                 return response()->json([
-                    'status' => 205,
+                    'status' => 301,
 //                    'email' => $vendor->email
                 ], 200);
             }
             $credentials = [
-                'phone' => $data['input'],
+                'phone' => '+966'.$data['input'],
                 'password' => $data['password'],
             ];
             if (Auth::guard('vendor')->attempt($credentials)) {

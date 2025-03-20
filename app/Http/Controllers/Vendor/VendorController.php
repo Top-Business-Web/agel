@@ -57,4 +57,8 @@ class VendorController extends Controller
     {
         return $this->objService->deleteSelected($request);
     }
+    public function myProfile()
+    {
+        return $this->objService->myProfile();
+    }
 }

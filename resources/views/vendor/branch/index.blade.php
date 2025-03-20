@@ -11,7 +11,6 @@
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"> الفروع</h3>
                     <h3 class="card-title"></h3>
                     <div class="">
                         <button class="btn btn-secondary btn-icon text-white addBtn">
@@ -65,6 +64,7 @@
                     </div>
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
+
                         <p>هل انت متاكد من حذف هذا العنصر <span id="title" class="text-danger"></span>?</p>
                     </div>
 
@@ -104,6 +104,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
+
                         <h5 class="modal-title" id="deleteConfirmModalLabel">تاكيد الحذف</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -112,6 +113,7 @@
                     <div class="modal-body">
                         <p>هل انت متاكد من حذف هذه السجلات</p>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">الغاء</button>
                         <button type="button" class="btn btn-danger" id="confirm-delete-btn">حذف</button>
@@ -170,8 +172,10 @@
             orderable: false,
             searchable: false,
             render: function (data, type, row) {
-                return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
-            }
+                if (row.is_main === 1) {
+                    return ''; // Return empty string to hide the checkbox
+                }
+                return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;            }
         },
             {
                 data: 'id',
