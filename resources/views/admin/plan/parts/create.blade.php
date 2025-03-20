@@ -13,14 +13,14 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="name" class="form-control-label">السعر</label>
-                    <input type="text" class="form-control" name="price" id="price">
+                    <input type="number" class="form-control" name="price" id="price" step="0.01">
                 </div>
             </div>
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="name" class="form-control-label">المده</label>
-                    <input type="text" class="form-control" name="period" id="period">
+                    <label for="name" class="form-control-label">المدة بالأيام</label>
+                    <input type="number" class="form-control" name="period" id="period">
                 </div>
             </div>
             <div class="col-6">
@@ -50,7 +50,7 @@
         <div class="col-12">
             <div id="plans_container"></div>
             <button type="button" class="btn btn-success mt-2" id="add_plan">
-                <i class="fe fe-plus"></i> إضافة خطة جديدة
+                <i class="fe fe-plus"></i> إضافة تفاصيل
             </button>
         </div>
 
@@ -73,12 +73,13 @@
 
     $(document).ready(function() {
         let planCount = 0;
+        let selectedOptions = new Set(); // Store selected options
 
         $('#add_plan').on('click', function() {
             planCount++;
 
             let selectKey = `
-            <select class="form-control" name="plans[${planCount}][key]" required>
+            <select class="form-control plan-select" name="plans[${planCount}][key]" required>
                 <option value="">اختر نوع</option>
                 <option value="employee">الموظفين</option>
                 <option value="branch">الفروع</option>
@@ -97,14 +98,13 @@
                 <div class="col-4">
                     <div class="form-group">
                         <label class="form-control-label">Value</label>
-                        <input type="text" class="form-control" name="plans[${planCount}][value]" >
+                        <input type="text" class="form-control plan-value" name="plans[${planCount}][value]">
                     </div>
                 </div>
 
                 <div class="col-2 d-flex align-items-center">
                     <div class="form-group">
-                        <label class="form-control-label">Unlimited</label>
-                        <!-- Hidden input يضمن إرسال 0 إذا لم يتم تحديد checkbox -->
+                        <label class="form-control-label">غير محدود</label>
                         <input type="hidden" name="plans[${planCount}][is_unlimited]" value="0">
                         <input type="checkbox" class="unlimited-checkbox" name="plans[${planCount}][is_unlimited]" value="1">
                     </div>
@@ -119,10 +119,51 @@
         `;
 
             $('#plans_container').append(newPlan);
+            updateSelectOptions(); // Update options to disable already selected values
         });
 
-        $('#plans_container').on('click', '.remove-plan', function() {
-            $(this).closest('.plan-row').remove();
+        // Handle option selection
+        $('#plans_container').on('change', '.plan-select', function() {
+            let selectedValue = $(this).val();
+            if (selectedValue) {
+                selectedOptions.add(selectedValue);
+            }
+            updateSelectOptions();
         });
+
+        // Handle unlimited checkbox toggle
+        $('#plans_container').on('change', '.unlimited-checkbox', function() {
+            let inputField = $(this).closest('.plan-row').find('.plan-value');
+            if ($(this).is(':checked')) {
+                inputField.prop('disabled', true).val(''); // Disable input when checked
+            } else {
+                inputField.prop('disabled', false);
+            }
+        });
+
+        // Handle removing a plan
+        $('#plans_container').on('click', '.remove-plan', function() {
+            let removedValue = $(this).closest('.plan-row').find('.plan-select').val();
+            if (removedValue) {
+                selectedOptions.delete(removedValue);
+            }
+            $(this).closest('.plan-row').remove();
+            updateSelectOptions();
+        });
+
+        // Function to update select options
+        function updateSelectOptions() {
+            $('.plan-select').each(function() {
+                let currentValue = $(this).val();
+                $(this).find('option').each(function() {
+                    let optionValue = $(this).val();
+                    if (optionValue && selectedOptions.has(optionValue) && optionValue !== currentValue) {
+                        $(this).prop('disabled', true);
+                    } else {
+                        $(this).prop('disabled', false);
+                    }
+                });
+            });
+        }
     });
 </script>

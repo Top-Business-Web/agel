@@ -35,7 +35,7 @@ class VendorRequest extends FormRequest
             'password' => 'required|min:6|confirmed',
             'image' => 'nullable|image',
             "permissions"=>'required|array',
-            'commercial_number' => 'required|di|digits:10|numeric|unique:vendors,commercial_number',
+            'commercial_number' => 'required|digits:10|numeric|unique:vendors,commercial_number',
         ];
     }
 
