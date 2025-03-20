@@ -11,7 +11,6 @@
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"> الفروع</h3>
                     <h3 class="card-title"></h3>
                     <div class="">
                         <button class="btn btn-secondary btn-icon text-white addBtn">
@@ -34,28 +33,15 @@
                         <!--begin::Table-->
                         <table class="table table-bordered text-nowrap w-100" id="dataTable">
                             <thead>
-                                <tr class="fw-bolder text-muted bg-light">
-                                    <th class="min-w-25px">
-                                        <input type="checkbox" id="select-all">
-                                    </th>
-                                    <th class="min-w-25px">#</th>
-                                    <th class="min-w-25px">الاسم</th>
-                                    <th class="min-w-25px">المدينة</th>
-                                    <th class="min-w-25px">الحاله</th>
-                                    <th class="min-w-50px rounded-end">العمليات</th>
-                                </tr>
-
                             <tr class="fw-bolder text-muted bg-light">
                                 <th class="min-w-25px">
                                     <input type="checkbox" id="select-all">
                                 </th>
                                 <th class="min-w-25px">#</th>
-                                <th class="min-w-25px">الاسم
-                                </th>
-                                <th class="min-w-25px">المدينة
-                                </th>
-                                <th class="min-w-25px">الحالة</th>
-                                <th class="min-w-50px rounded-end">الاجراءات</th>
+                                <th class="min-w-25px">الاسم</th>
+                                <th class="min-w-25px">المدينة</th>
+                                <th class="min-w-25px">الحاله</th>
+                                <th class="min-w-50px rounded-end">العمليات</th>
                             </tr>
                             </thead>
                         </table>
@@ -77,15 +63,15 @@
                     </div>
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
-<<<<<<< HEAD
-                        <p>هل انت متاكد من حذف هذا العنصر <span id="title" class="text-danger"></span>?</p>
+                        {{--<<<<<<< HEAD--}}
+                        <p>هل انت متاكد من حذف هذا العنصر <span id="title" class="text-danger"></span>؟</p>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
-                            اغلاق
-                        <p>هل أنت متأكد أنك تريد حذف هذا العنصر؟ <span id="title"
-                                                                       class="text-danger"></span>?</p>
-                    </div>
+                    {{--                    <div class="modal-footer">--}}
+                    {{--                        <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">--}}
+                    {{--                            اغلاق--}}
+                    {{--                        <p>هل أنت متأكد أنك تريد حذف هذا العنصر؟ <span id="title"--}}
+                    {{--                                                                       class="text-danger"></span>?</p>--}}
+                    {{--                    </div>--}}
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
                             أغلاق
@@ -123,7 +109,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="deleteConfirmModalLabel">تأكيد الحذف</h5>
-                        <h5 class="modal-title" id="deleteConfirmModalLabel">تاكيد الحذف</h5>
+                        {{--                        <h5 class="modal-title" id="deleteConfirmModalLabel">تاكيد الحذف</h5>--}}
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -131,12 +117,12 @@
                     <div class="modal-body">
                         <p>هل انت متاكد من حذف هذه السجلات</p>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">الغاء</button>
-                        <button type="button" class="btn btn-danger" id="confirm-delete-btn">حذف</button>
-                        <p>هل أنت متأكد أنك تريد حذف العناصر المحددة؟</p>
+                    {{--                    <div class="modal-footer">--}}
+                    {{--                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">الغاء</button>--}}
+                    {{--                        <button type="button" class="btn btn-danger" id="confirm-delete-btn">حذف</button>--}}
+                    {{--                        <p>هل أنت متأكد أنك تريد حذف العناصر المحددة؟</p>--}}
 
-                    </div>
+                    {{--                    </div>--}}
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">أغلاق
@@ -197,8 +183,10 @@
             orderable: false,
             searchable: false,
             render: function (data, type, row) {
-                return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
-            }
+                if (row.is_main === 1) {
+                    return ''; // Return empty string to hide the checkbox
+                }
+                return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;            }
         },
             {
                 data: 'id',
@@ -268,14 +256,7 @@
                         toastr.error('Error', "هناك خطأ ما");
                     }
                 },
-                error: function() {
-                    toastr.error('Error', "هناك خطأ ما");
-                            toastr.warning('Success', "غير نشط ");
-                        }
-                    } else {
-                        toastr.error('Error', "حدث خطأ ما");
-                    }
-                },
+
                 error: function () {
                     toastr.error('Error', "حدث خطأ ما");
                 }

@@ -64,9 +64,9 @@ class AuthService extends BaseService
 
             if (!$admin) {
                 return response()->json([
-                    'status' => 206,
+                    'status' => 203,
 //                    'email' => $admin->email
-                ], 206);
+                ], 200);
             }
             if ($admin->status == 0) {
                 return response()->json([
@@ -88,7 +88,7 @@ class AuthService extends BaseService
                 return response()->json([
                     'status' => 205,
                     'email' => $admin->email
-                ], 205);
+                ], 200);
             }
         } elseif ($request->verificationType == 'email') {
             $admin = Admin::where('email', $data['input'])->first();
@@ -101,7 +101,7 @@ class AuthService extends BaseService
                 return response()->json([
                     'status' => 206,
 //                    'email' => $admin->email
-                ], 206);
+                ], 200);
             }
             if ($admin->status == 0) {
                 return response()->json(207);
@@ -125,13 +125,13 @@ class AuthService extends BaseService
                 return response()->json([
                     'status' => 208,
                     'email' => $admin->email
-                ], 208);
+                ], 200);
             }
         }
 
         return response()->json([
             'status' => 205,
-        ], 205);
+        ], 200);
     }
 
 
@@ -234,8 +234,8 @@ class AuthService extends BaseService
     {
 
 //        if ($resetPassword == 2) {
-////            return view('vendor.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
-////            return view('vendor.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
+////            return view('admin.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
+////            return view('admin.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
 //        }
         if ($resetPassword == null) {
             $resetPassword = 1;
@@ -260,7 +260,7 @@ class AuthService extends BaseService
             ]);
             if ($request->isReset == 2) {
 //                dd('sl/kd/fjl');
-//                return  redirect()->route('vendor.newPasswordForm',['email' => $request->email]);
+//                return  redirect()->route('admin.newPasswordForm',['email' => $request->email]);
 //                return redirect('', ['email' => $request->email]);
 
                 return response()->json([
@@ -269,7 +269,7 @@ class AuthService extends BaseService
                     'message' => 'لم يتم العثور على المكتب'
                 ], 200);
             } else {
-                Auth::guard('vendor')->login($admin);
+                Auth::guard('admin')->login($admin);
                 return response()->json(200);
             }
         }
