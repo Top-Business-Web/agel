@@ -71,7 +71,6 @@ Route::group(
 
                 #============================ vendors ====================================
 //                    Route::resourceWithDeleteSelected('vendors', VendorController::class);
-<<<<<<< HEAD
                     Route::get('vendors/index', [VendorController::class, 'index'])->name('admin.vendors.index');
                     Route::get('vendors/create', [VendorController::class, 'create'])->name('admin.vendors.create');
                     Route::post('vendors', [VendorController::class, 'store'])->name('admin.vendors.store');
@@ -92,7 +91,6 @@ Route::group(
                     Route::resourceWithDeleteSelected('planSubscription', PlanSubscriptionController::class);
                     #============================ categories ==================================
                     Route::resourceWithDeleteSelected('categories', CategoryController::class);
-=======
                 Route::get('vendors/index', [VendorController::class, 'index'])->name('admin.vendors.index');
                 Route::get('vendors/create', [VendorController::class, 'create'])->name('admin.vendors.create');
                 Route::post('vendors', [VendorController::class, 'store'])->name('admin.vendors.store');
@@ -111,9 +109,6 @@ Route::group(
                 Route::resourceWithDeleteSelected('Plans', PlanController::class);
                 #============================ planSubscription ==================================
                 Route::resourceWithDeleteSelected('planSubscription', PlanSubscriptionController::class);
-
->>>>>>> 5e07fcb1d2b728e771b622a28b59b4ead2c1825a
-
                 Route::get('my_profile', [AdminController::class, 'myProfile'])->name('myProfile');
                 Route::get('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
@@ -145,9 +140,6 @@ Route::group(
 Route::resourceWithDeleteSelected('plan_subscriptions', \App\Http\Controllers\Admin\PlanSubscriptionController::class);
 
 
-<<<<<<< HEAD
-=======
 Route::resourceWithDeleteSelected('stocks', \App\Http\Controllers\Admin\StockController::class);
 
->>>>>>> 5e07fcb1d2b728e771b622a28b59b4ead2c1825a
 Route::resourceWithDeleteSelected('categorys', \App\Http\Controllers\Admin\CategoryController::class);
