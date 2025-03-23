@@ -3,7 +3,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    @include('vendor.auth.css')
+    @include('admin.auth.css')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
     <style>
@@ -63,14 +63,17 @@
 
 
     <main class="signup-container" style="margin-top: 40px">
-        <h1 class="heading-primary">مرحبا <span class="span-blue">.</span></h1>
+        <h1 class="heading-primary">منصة أجل <span class="span-blue">.</span></h1>
         @if($type == 'login')
             <p class="text-mute">من فضلك ادخل كود التأكيد</p>
         @elseif($status == 'register')
             <p class="text-mute">من فضلك ادخل كود التفعيل</p>
         @endif
 
-        <form class="signup-form" action="{{route('otp.check')}}" method="post" id="LoginForm">
+        <form class="signup-form" action="{{route('admin.otp.check')}}" method="post" id="LoginForm">
+            @if($resetPassword==2)
+                <input type="hidden" name="isReset" value="{{$resetPassword}}">
+            @endif
             @csrf
             <input type="hidden" name="email" value="{{$email}}">
             <label class="inp">
@@ -94,7 +97,7 @@
     </div>
 </div>
 </body>
-@include('vendor.auth.js')
+@include('admin.auth.js')
 <script>
     document.getElementById('toggleDarkMode').addEventListener('click', function () {
         document.body.classList.toggle('dark-mode');

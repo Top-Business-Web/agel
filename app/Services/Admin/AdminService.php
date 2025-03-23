@@ -4,8 +4,10 @@ namespace App\Services\Admin;
 
 use App\Enums\RoleEnum;
 use App\Models\Admin as ObjModel;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
 use App\Services\BaseService;
@@ -45,9 +47,6 @@ class AdminService extends BaseService
                     return $buttons;
                 })
 
-                ->addColumn('role', function ($admins) {
-                    return RoleEnum::tryFrom($admins->roles[0]->id)->lang();
-                })
                 ->addIndexColumn()
                 ->escapeColumns([])
                 ->make(true);
@@ -71,16 +70,34 @@ class AdminService extends BaseService
     {
         $code = $this->generateCode();
         $roles = Role::all();
-        return view($this->folder . '/parts/create', compact('code', 'roles'));
+        return view($this->folder . '/parts/create',[
+            'permissions' => Permission::where('guard_name', 'admin')
+                ->get(),
+            'code' => $code,
+        ]);
     }
 
     public function store($data): \Illuminate\Http\JsonResponse
     {
+
+        $allData = $data;
+
+        if (isset($data['permissions'])) {
+            unset($data['permissions']);
+        } else {
+            return response()->json([
+                'status' => 400,
+                'message' => "المفتاح 'permissions' غير موجود في البيانات المرسلة.",
+            ]);
+        }
         $data['password'] = Hash::make($data['password']);
+        $data['phone'] = '+966' . $data['phone'];
+
         $data['user_name']=$this->generateUsername($data['name']);
-        $model = $this->createData($data);
-        if ($model) {
-            $model->assignRole($data['role_id']);
+        $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();
+        $obj = $this->model->create($data);
+        $obj->syncPermissions($permissions);
+        if ($obj) {
             return response()->json(['status' => 200]);
         } else {
             return response()->json(['status' => 405]);
@@ -89,26 +106,52 @@ class AdminService extends BaseService
 
     public function edit($admin)
     {
-        $roles = Role::all();
-        return view($this->folder . '/parts/edit', compact('admin', 'roles'));
+        return view($this->folder . '/parts/edit',[
+            'permissions' => Permission::where('guard_name', 'admin')
+                ->get(),
+            'admin' => $admin
+        ]);
     }
 
-    public function update($id, $data)
+    public function update($data): JsonResponse
     {
-        $admin = $this->getById($id);
+        try {
+            $allData = $data;
+            if (isset($data['permissions'])) {
+                unset($data['permissions']);
+            } else {
+                return response()->json([
+                    'status' => 400,
+                    'message' => "المفتاح 'permissions' غير موجود في البيانات المرسلة.",
+                ]);
+            }
+            $oldObj = $this->getById($data['id']);
 
-        if ($data['password'] && $data['password'] != null) {
+            if (isset($data['password'])) {
+                $data['password'] = Hash::make($data['password']);
+            }else{
+                unset($data['password']);
+            }
 
-            $data['password'] = Hash::make($data['password']);
-        } else {
-            unset($data['password']);
-        }
+            // Update model and get the instance
+            $obj = $oldObj;
+            $obj->update($data);
 
-        if ($this->updateData($id, $data)) {
-            $admin->syncRoles($data['role_id']);
-            return response()->json(['status' => 200]);
-        } else {
-            return response()->json(['status' => 405]);
+            // Sync permissions if provided
+            if (isset($allData['permissions'])) {
+                $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();
+                $obj->syncPermissions($permissions);
+            }
+
+
+
+            return $this->responseMsg();
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => "حدث خطأ",
+                'error' => $e->getMessage()
+            ]);
         }
     }
 

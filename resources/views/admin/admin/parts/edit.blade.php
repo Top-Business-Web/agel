@@ -4,7 +4,7 @@
         @method('PUT')
         <input type="hidden" value="{{$admin->id}}" name="id">
         <div class="row">
-            <div class="col-6">
+            <div class="col-12">
                 <div class="form-group">
                     <label for="name" class="form-control-label">الإسم</label>
                     <input type="text" class="form-control" name="name" value="{{$admin->name}}" id="name">
@@ -13,11 +13,15 @@
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="code" class="form-control-label">الكود</label>
-                    <span class="form-control text-center">{{ $admin->code }}</span>
-                    <input hidden type="hidden" class="form-control" name="code" value="{{ $admin->code }}" id="code">
+                    <label for="phone" class="form-control-label">رقم الهاتف</label>
+                    <div class="input-group">
+                        <span class="input-group-text">+966</span>
+                        <input type="number" class="form-control" name="phone"  value="{{ substr($admin->phone, 4) }}" maxlength="11">
+                    </div>
                 </div>
             </div>
+
+
             <div class="col-6">
                 <div class="form-group">
                     <label for="email" class="form-control-label">البريد الإلكتروني</label>
@@ -37,18 +41,39 @@
                     <input type="password" class="form-control" name="password_confirmation" id="password">
                 </div>
             </div>
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="role_id" class="form-control-label">صلاحيات النظام</label>
-                    <select class="form-control" name="role_id" id="role_id">
-                        <option value="">أختر الدور</option>
-                        @foreach($roles as $role)
-                            <option value="{{ \App\Enums\RoleEnum::tryFrom($role->id)->label() }}" {{ $admin->hasRole($role->id) ? 'selected' : '' }}>
-                                {{ \App\Enums\RoleEnum::tryFrom($role->id)->lang() }}
-                            </option>
-                        @endforeach
-                    </select>
+            <!-- Permissions Section -->
+            <div class="col-lg-3 col-12 mb-2">
+                <div class="name-rule">
+                    <h5>صلاحيات المدير</h5>
                 </div>
+            </div>
+
+            <div class="col-lg-9 col-12 d-flex flex-wrap justify-content-between mb-5">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="selectAllPermissions">
+                    <label class="form-check-label" for="selectAllPermissions">اختيار الكل</label>
+                </div>
+                @foreach ($permissions->groupBy('parent_name') as $parent => $group)
+            </div>
+
+            <div class="col-lg-3 col-12 mb-2">
+                <div class="name-rule">
+                    <h5>{{ trans('permissions.'.$parent) }}</h5>
+                </div>
+            </div>
+
+            <div class="col-lg-9 col-12 d-flex flex-wrap justify-content-between mb-5">
+                @foreach($group as $permission)
+                    <div class="form-check">
+                        <input class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
+                               value="{{ $permission->id }}" data-group="{{ $parent }}"
+                            {{ in_array($permission->id, $admin->permissions->pluck('id')->toArray()) ? 'checked' : '' }}>
+                        <label class="form-check-label">
+                            {{ getKey()[$loop->iteration-1] }}
+                        </label>
+                    </div>
+                @endforeach
+                @endforeach
             </div>
 
         </div>
@@ -60,9 +85,28 @@
 </div>
 <script>
     $('.dropify').dropify();
+    $('select').select2({dropdownParent: $('#editOrCreate .modal-content')});
 
-    $('select').select2({
-        dropdownParent: $('#editOrCreate .modal-content')
+    // Select All Permissions
+    document.getElementById('selectAllPermissions').addEventListener('change', function () {
+        document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
 
+        document.querySelectorAll('.parent-select-all').forEach(groupCheckbox => {
+            groupCheckbox.checked = this.checked;
+        });
+    });
+
+    // Ensure dependent checkboxes are checked
+    document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            let group = this.dataset.group;
+            let secondPermission = document.querySelectorAll(`.permission-checkbox[data-group='${group}']`)[1];
+            if (this.checked && secondPermission) {
+                secondPermission.checked = true;
+            }
+        });
     });
 </script>
+

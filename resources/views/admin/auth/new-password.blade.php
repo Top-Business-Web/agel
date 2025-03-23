@@ -90,15 +90,25 @@
         {{--        </form>--}}
 
 
-        <form class="signup-form" action="{{route('vendor.resetPassword')}}" method="post" id="ResetPasswordForm">
+        <form class="signup-form" action="{{route('admin.resetPassword',['email'=>$email])}}" method="post"
+              id="ResetPasswordForm">
             @csrf
+            <input type="hidden" name="email" value="{{$email}}">
             <label class="inp">
-                <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField">
-                <span class="label" id="placeHolder">البريد الالكتروني</span> <!-- Default placeholder -->
+                <input type="text" name="password" class="input-text" placeholder="&nbsp;" id="inputField">
+                <span class="label" id="placeHolder">كلمة المرور الجديده</span> <!-- Default placeholder -->
                 <span class="input-icon">
         <i class="fa-solid fa-envelope"></i> <!-- Default icon -->
     </span>
             </label>
+            <label class="inp">
+                <input type="text" name="password_confirmation" class="input-text" placeholder="&nbsp;" id="inputField">
+                <span class="label" id="placeHolder">تأكيد كلمة المرور</span> <!-- Default placeholder -->
+                <span class="input-icon">
+        <i class="fa-solid fa-envelope"></i> <!-- Default icon -->
+    </span>
+            </label>
+
             {{--            <label class="inp">--}}
             {{--                <input type="password" name="password" class="input-text" placeholder="&nbsp;" id="password">--}}
             {{--                <span class="label">كلمة المرور</span>--}}
@@ -132,7 +142,7 @@
 </div>
 </body>
 
-@include('vendor.auth.js')
+@include('admin.auth.js')
 <script>
     document.getElementById('toggleDarkMode').addEventListener('click', function () {
         document.body.classList.toggle('dark-mode');

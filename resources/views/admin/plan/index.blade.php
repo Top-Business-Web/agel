@@ -23,7 +23,7 @@
                         </button>
 
                         <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
-                            <span><i class="fe fe-trending-up"></i></span> تحديث حالة المحدد
+                            <span><i class="fe fe-trending-up"></i></span> تحديث الحالة
                         </button>
                     </div>
                 </div>

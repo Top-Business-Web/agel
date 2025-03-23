@@ -1,3 +1,5 @@
+
+
 <script>
     var loader = `
 			<div id="skeletonLoader" class="skeleton-loader">
@@ -10,6 +12,8 @@
 
 </div>
         `;
+
+
 
 
     // Show Data Using YAJRA
@@ -219,9 +223,9 @@
                     $('#updateButton').html('تحديث').attr('disabled', false);
                     if (data.status == 200) {
                         $('#dataTable').DataTable().ajax.reload();
-                        toastr.success(data.message);
+                        toastr.success('تمت العملية بنجاح');
                     } else {
-                        toastr.error(data.message);
+                        toastr.error('حدث خطأ ما');
                     }
                     $('#editOrCreate').modal('hide');
                 },

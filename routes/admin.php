@@ -35,7 +35,7 @@ Route::group(
     function () {
 
         Route::get('/', [AuthController::class, 'index']);
-        Route::get('/admin/register', [AuthController::class, 'registerForm'])->name('admin.register');
+//        Route::get('/admin/register', [AuthController::class, 'registerForm'])->name('admin.register');
 
         Route::group(['prefix' => 'admin'], function () {
             Route::get('/login', [AuthController::class, 'index'])->name('admin.login');
@@ -43,8 +43,16 @@ Route::group(
             Route::POST('login', [AuthController::class, 'login'])->name('admin.login');
 
 //            Route::POST('/register', [AuthController::class, 'register'])->name('admin.register');
-            Route::get('/verify-otp/{email}/{type}', [AuthController::class, 'showOtpForm'])->name('otp.verify');
-            Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('otp.check');
+            Route::get('/verify-otp/{email}/{type}/{resetPassword}', [AuthController::class, 'showOtpForm'])->name('admin.otp.verify');
+            Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('admin.otp.check');
+
+
+            Route::POST('/verify-reset-password', [AuthController::class, 'verifyResetPassword'])->name('admin.verifyResetPassword');
+            Route::get('/reset-password', [AuthController::class, 'resetPasswordForm'])->name('admin.resetPasswordForm');
+            Route::get('/new-password/{email}', [AuthController::class, 'newPasswordForm'])->name('admin.newPasswordForm');
+            Route::POST('/reset-password/{email}', [AuthController::class, 'ResetPassword'])->name('admin.resetPassword');
+
+
 
 
 //            Route::group(['middleware' => 'auth:admin'], function () {
@@ -109,6 +117,8 @@ Route::group(
                 Route::resourceWithDeleteSelected('Plans', PlanController::class);
                 #============================ planSubscription ==================================
                 Route::resourceWithDeleteSelected('planSubscription', PlanSubscriptionController::class);
+
+
                 Route::get('my_profile', [AdminController::class, 'myProfile'])->name('myProfile');
                 Route::get('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
@@ -138,8 +148,5 @@ Route::group(
 
 
 Route::resourceWithDeleteSelected('plan_subscriptions', \App\Http\Controllers\Admin\PlanSubscriptionController::class);
-
-
 Route::resourceWithDeleteSelected('stocks', \App\Http\Controllers\Admin\StockController::class);
 
-Route::resourceWithDeleteSelected('categorys', \App\Http\Controllers\Admin\CategoryController::class);

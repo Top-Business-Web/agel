@@ -5,6 +5,7 @@ namespace App\Services\Admin;
 use App\Mail\Otp;
 use App\Models\Admin;
 use App\Models\Region;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Services\BaseService;
 use Illuminate\Support\Facades\Hash;
@@ -23,11 +24,12 @@ class AuthService extends BaseService
     {
         parent::__construct($model);
     }
+
     public function index($key = null)
     {
         if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->status == 1) {
             return redirect()->route('adminHome');
-        }else{
+        } else {
             return view('admin.auth.login');
 
         }
@@ -42,7 +44,7 @@ class AuthService extends BaseService
 //        }
     }
 
-    public function login($request): \Illuminate\Http\JsonResponse
+    public function login($request): JsonResponse
     {
         $data = $request->validate(
             [
@@ -56,31 +58,32 @@ class AuthService extends BaseService
             ]
         );
 
+//            dd($request);
         if ($request->verificationType == 'phone') {
-//            dd($data);
             $admin = Admin::where('phone', $data['input'])->first();
 
             if (!$admin) {
                 return response()->json([
                     'status' => 206,
-//                    'email' => $vendor->email
+//                    'email' => $admin->email
                 ], 206);
             }
             if ($admin->status == 0) {
                 return response()->json([
                     'status' => 207,
-//                    'email' => $vendor->email
+//                    'email' => $admin->email
                 ], 207);
             }
             $credentials = [
                 'phone' => $data['input'],
                 'password' => $data['password'],
             ];
+//            dd(Auth::guard('admin')->attempt($credentials));
             if (Auth::guard('admin')->attempt($credentials)) {
                 return response()->json([
                     'status' => 204,
                     'email' => $admin->email
-                ], 204);
+                ], 200);
             } else {
                 return response()->json([
                     'status' => 205,
@@ -93,10 +96,11 @@ class AuthService extends BaseService
                 'email' => $data['input'],
                 'password' => $data['password'],
             ];
+//            dd($admin);
             if (!$admin) {
                 return response()->json([
                     'status' => 206,
-//                    'email' => $vendor->email
+//                    'email' => $admin->email
                 ], 206);
             }
             if ($admin->status == 0) {
@@ -111,11 +115,13 @@ class AuthService extends BaseService
                 ]);
 
                 Mail::to($admin->email)->send(new Otp($admin->name, $otp));
+
+
                 return response()->json([
                     'status' => 200,
                     'email' => $admin->email
                 ], 200);
-            }else{
+            } else {
                 return response()->json([
                     'status' => 208,
                     'email' => $admin->email
@@ -171,15 +177,15 @@ class AuthService extends BaseService
     {
         $validate = $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:vendors,email',
-            'phone' => 'required|numeric|unique:vendors,phone',
+            'email' => 'required|email|unique:admins,email',
+            'phone' => 'required|numeric|unique:admins,phone',
             'password' => 'required|min:6|confirmed',
             'region_id' => 'required|exists:regions,id',
-            'commercial_number' => 'required|unique:vendors,commercial_number',
-            'national_id' => 'required|numeric|unique:vendors,national_id',
+            'commercial_number' => 'required|unique:admins,commercial_number',
+            'national_id' => 'required|numeric|unique:admins,national_id',
         ]);
 
-        $vendor = Admin::create([
+        $admin = Admin::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -193,18 +199,18 @@ class AuthService extends BaseService
 
         ]);
 
-        if ($vendor) {
+        if ($admin) {
             // generate otp
             $otp = rand(1000, 9999);
-            $vendor->update([
+            $admin->update([
                 'otp' => $otp,
                 'otp_expire_at' => now()->addMinutes(5)
             ]);
 
-            Mail::to($vendor->email)->send(new Otp($vendor->name, $otp));
+            Mail::to($admin->email)->send(new Otp($admin->name, $otp));
             return response()->json([
                 'status' => 200,
-                'email' => $vendor->email
+                'email' => $admin->email
             ], 200);
         }
 
@@ -224,26 +230,54 @@ class AuthService extends BaseService
     }
 
     public
-    function showOtpForm($email, $type)
+    function showOtpForm($email, $type, $resetPassword)
     {
 
-        return view('admin.auth.verify-otp', ['email' => $email, 'type' => $type]);
+//        if ($resetPassword == 2) {
+////            return view('vendor.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
+////            return view('vendor.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
+//        }
+        if ($resetPassword == null) {
+            $resetPassword = 1;
+        }
+        return view('admin.auth.verify-otp', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
+
     }
+
 
 
     public
     function verifyOtp($request)
     {
-        $vendor = Admin::where('email', $request->email)->first();
+//        dd($request);
+        $admin = Admin::where('email', $request->email)->first();
 
-        if ($vendor && $vendor->otp == $request->otp && $vendor->otp_expire_at > now()) {
-            $vendor->update([
+        if ($admin && $admin->otp == $request->otp && $admin->otp_expire_at > now()) {
+            $admin->update([
                 'otp' => null,
                 'otp_expire_at' => null,
                 'status' => 1
             ]);
-            Auth::guard('vendor')->login($vendor);
-            return response()->json(200);
+            if ($request->isReset == 2) {
+//                dd('sl/kd/fjl');
+//                return  redirect()->route('vendor.newPasswordForm',['email' => $request->email]);
+//                return redirect('', ['email' => $request->email]);
+
+                return response()->json([
+                    'status' => 300,
+                    'email' => $admin->email,
+                    'message' => 'لم يتم العثور على المكتب'
+                ], 200);
+            } else {
+                Auth::guard('vendor')->login($admin);
+                return response()->json(200);
+            }
+        }
+        if ($admin && $admin->otp == $admin->otp && $admin->otp_expire_at < now()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'إنتهت صلاحية هذا الكود'
+            ], 200);
         } else {
 
             return response()->json(500);
@@ -251,10 +285,71 @@ class AuthService extends BaseService
 
     }
 
+
+
+    public function resetPasswordForm()
+    {
+//        dd('yyyyyyy');
+        return view('admin.auth.verify-reset-password');
+    }
+
+    public function newPasswordForm($email)
+    {
+//        dd('bhjkkl');
+        return view('admin.auth.new-password', ['email' => $email]);
+    }
+
+    public function resetPassword($request)
+    {
+//        dd($request);
+        $request->validate([
+            'email'=>'required|exists:admins,email',
+            'password' => 'required|min:6|confirmed',
+        ]);
+        $admin = Admin::where('email', $request->email)->first();
+        $admin->update([
+            'password'=>Hash::make($request->password)
+        ]);
+        Auth::guard('admin')->login($admin);
+        return response()->json([
+            'status' => 200,
+            'email' => $admin->email,
+            'message' => 'لم يتم العثور على المكتب'
+        ], 200);
+    }
+
+    public function verifyResetPassword($request): \Illuminate\Http\JsonResponse
+    {
+//        dd($request->all());
+        $admin = Admin::where('email', $request->input)->first();
+
+        if ($admin) {
+            // generate otp
+            $otp = rand(1000, 9999);
+            $admin->update([
+                'otp' => $otp,
+                'otp_expire_at' => now()->addMinutes(5)
+            ]);
+
+            Mail::to($admin->email)->send(new Otp($admin->name, $otp));
+            return response()->json([
+                'status' => 209,
+                'email' => $admin->email
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 405,
+            'message' => 'لم يتم العثور على المكتب'
+        ], 200);
+
+    }
+
+
+
     public function logout()
     {
         Auth::guard('admin')->logout();
-        toastr()->info('تم تسجيل الخروج');
         return redirect()->route('admin.login');
     }
 }

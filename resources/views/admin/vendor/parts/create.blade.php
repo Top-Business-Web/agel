@@ -3,7 +3,6 @@
         @csrf
         <div class="row">
 
-
             <div class="col-12">
                 <div class="form-group">
                     <label for="image" class="form-control-label">الصوره</label>
@@ -11,7 +10,7 @@
                 </div>
             </div>
 
-            <div class="col-12">
+            <div class="col-6">
                 <div class="form-group">
                     <label for="region_id" class="form-control-label">اسم الحي</label>
                     <select class="form-control" name="region_id" id="region_id">
@@ -20,6 +19,13 @@
                             <option value="{{$region->id }}">{{$region->name}}</option>
                         @endforeach
                     </select>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="commercial_number" class="form-control-label">رقم السجل الضريبي</label>
+                    <input type="number" class="form-control" name="commercial_number" id="commercial_number">
                 </div>
             </div>
 

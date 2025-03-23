@@ -37,7 +37,6 @@ class AuthService extends BaseService
 
     public function login($request): \Illuminate\Http\JsonResponse
     {
-//dd($request);
         $data = $request->validate(
             [
                 'input' => 'required',
@@ -49,7 +48,6 @@ class AuthService extends BaseService
                 'password.required' => 'يرجي ادخال كلمة المرور',
             ]
         );
-
         if ($request->verificationType == 'phone') {
 //            dd($request->all());
             $vendor = Vendor::where('phone', $data['input'])->first();
@@ -76,16 +74,18 @@ class AuthService extends BaseService
                 ], 200);
             } else {
                 return response()->json([
-                    'status' => 205,
+                    'status' => 207,
                     'email' => $vendor->email
                 ], 200);
             }
         } elseif ($request->verificationType == 'email') {
+
             $vendor = Vendor::where('email', $data['input'])->first();
             $credentials = [
                 'email' => $data['input'],
                 'password' => $data['password'],
             ];
+//            dd($credentials);
             if (!$vendor) {
                 return response()->json([
                     'status' => 206,
@@ -95,8 +95,10 @@ class AuthService extends BaseService
             if ($vendor->status == 0) {
                 return response()->json(206);
             }
+//            dd($credentials,$vendor);
 
             if (Auth::guard('vendor')->validate($credentials)) {
+//                dd('dsfsdf');
                 $otp = rand(1000, 9999);
                 $vendor->update([
                     'otp' => $otp,
@@ -106,6 +108,12 @@ class AuthService extends BaseService
                 Mail::to($vendor->email)->send(new Otp($vendor->name, $otp));
                 return response()->json([
                     'status' => 200,
+                    'email' => $vendor->email
+                ], 200);
+
+            } else {
+                return response()->json([
+                    'status' => 207,
                     'email' => $vendor->email
                 ], 200);
             }
@@ -127,14 +135,14 @@ class AuthService extends BaseService
             'phone' => 'required|numeric|digits:9|unique:vendors,phone',
             'password' => 'required|min:6|confirmed',
             'region_id' => 'required|exists:regions,id',
-            'commercial_number' => 'required|unique:vendors,commercial_number',
+            'commercial_number' => 'required|digits:10|numeric|unique:vendors,commercial_number',
             'national_id' => 'required|numeric|digits:10|unique:vendors,national_id',
         ]);
 
         $vendor = Vendor::create([
             'name' => $request->name,
             'email' => $request->email,
-            'phone' =>'+966'. $request->phone,
+            'phone' => '+966' . $request->phone,
             'password' => Hash::make($request->password),
             'region_id' => $request->region_id,
             'commercial_number' => $request->commercial_number,
@@ -194,10 +202,13 @@ class AuthService extends BaseService
     public
     function showOtpForm($email, $type, $resetPassword)
     {
-        dd($resetPassword);
-        if ($resetPassword==true){
-            dd('jkhsdf');
-            return view('vendor.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
+
+//        if ($resetPassword == 2) {
+////            return view('vendor.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
+////            return view('vendor.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
+//        }
+        if ($resetPassword == null) {
+            $resetPassword = 1;
         }
         return view('vendor.auth.verify-otp', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
 
@@ -207,6 +218,7 @@ class AuthService extends BaseService
     public
     function verifyOtp($request)
     {
+//        dd($request);
         $vendor = Vendor::where('email', $request->email)->first();
 
         if ($vendor && $vendor->otp == $request->otp && $vendor->otp_expire_at > now()) {
@@ -215,12 +227,26 @@ class AuthService extends BaseService
                 'otp_expire_at' => null,
                 'status' => 1
             ]);
+            if ($request->isReset == 2) {
+//                dd('sl/kd/fjl');
+//                return  redirect()->route('vendor.newPasswordForm',['email' => $request->email]);
+//                return redirect('', ['email' => $request->email]);
 
-//            } else {
-//
-//                Auth::guard('vendor')->login($vendor);
-//                return response()->json(200);
-//            }
+                return response()->json([
+                    'status' => 300,
+                    'email' => $vendor->email,
+                    'message' => 'لم يتم العثور على المكتب'
+                ], 200);
+            } else {
+                Auth::guard('vendor')->login($vendor);
+                return response()->json(200);
+            }
+        }
+        if ($vendor && $vendor->otp == $vendor->otp && $vendor->otp_expire_at < now()) {
+            return response()->json([
+                'status' => 400,
+                'message' => 'إنتهت صلاحية هذا الكود'
+            ], 200);
         } else {
 
             return response()->json(500);
@@ -230,10 +256,33 @@ class AuthService extends BaseService
 
     public function resetPasswordForm()
     {
-        return view('vendor.auth.reset-password');
+        return view('vendor.auth.verify-reset-password');
     }
 
-    public function resetPassword($request): \Illuminate\Http\JsonResponse
+    public function newPasswordForm($email)
+    {
+        return view('vendor.auth.new-password', ['email' => $email]);
+    }
+
+    public function resetPassword($request)
+    {
+        $request->validate([
+            'email'=>'required|exists:vendors,email',
+            'password' => 'required|min:6|confirmed',
+        ]);
+        $vendor = Vendor::where('email', $request->email)->first();
+        $vendor->update([
+            'password'=>Hash::make($request->password)
+        ]);
+        Auth::guard('vendor')->login($vendor);
+        return response()->json([
+            'status' => 200,
+            'email' => $vendor->email,
+            'message' => 'لم يتم العثور على المكتب'
+        ], 200);
+    }
+
+    public function verifyResetPassword($request): \Illuminate\Http\JsonResponse
     {
 //        dd($request->all());
         $vendor = Vendor::where('email', $request->input)->first();
@@ -248,7 +297,7 @@ class AuthService extends BaseService
 
             Mail::to($vendor->email)->send(new Otp($vendor->name, $otp));
             return response()->json([
-                'status' => 200,
+                'status' => 209,
                 'email' => $vendor->email
             ], 200);
         }
@@ -256,7 +305,7 @@ class AuthService extends BaseService
         return response()->json([
             'status' => 405,
             'message' => 'لم يتم العثور على المكتب'
-        ], 405);
+        ], 200);
 
     }
 

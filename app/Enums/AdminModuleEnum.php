@@ -9,8 +9,6 @@ enum AdminModuleEnum: string
     //----------------------
 
     case ADMIN = 'admin';
-    case COUNTRY = 'country';
-    case CITY = 'city';
     case PLAN = 'plan';
     case PLAN_SUBSCRIPTION = 'plan_subscription';
     case INVESTOR = 'investor';

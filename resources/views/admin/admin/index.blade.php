@@ -37,10 +37,9 @@
 
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-50px">الإسم</th>
-                                <th class="min-w-50px">الكود</th>
                                 <th class="min-w-125px">البريد الإلكتروني</th>
-                                <th class="min-w-125px">الصلاحيه</th>
-                                <th class="min-w-50px rounded-end">العمليات</th>
+                                    <th class="min-w-50px">رقم الجوال</th>
+                                    <th class="min-w-50px rounded-end">العمليات</th>
                             </tr>
                             </thead>
                         </table>
@@ -164,9 +163,8 @@
             @endif
             {data: 'id', name: 'id'},
             {data: 'name', name: 'name'},
-            {data: 'code', name: 'code'},
             {data: 'email', name: 'email'},
-            {data: 'role', name: 'role'},
+            {data: 'phone', name: 'phone'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
 
         ]

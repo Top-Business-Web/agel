@@ -48,7 +48,7 @@ class AdminController extends Controller
     public function update(ObjRequest $request, $id)
     {
         $data = $request->validated();
-        return $this->objService->update($id, $data);
+        return $this->objService->update($data);
     }
     public function updateColumnSelected(Request $request)
     {

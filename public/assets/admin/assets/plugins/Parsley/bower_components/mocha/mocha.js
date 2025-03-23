@@ -2265,7 +2265,7 @@ function coverageClass(coveragePctg) {
 }).call(this,require('_process'),"/lib/reporters")
 },{"./json-cov":23,"_process":51,"fs":41,"jade":41,"path":41}],21:[function(require,module,exports){
 (function (global){
-/* eslint-env browser */
+/* eslint-.env browser */
 
 /**
  * Module dependencies.
@@ -5481,7 +5481,7 @@ inherits(Test, Runnable);
 
 },{"./runnable":35,"./utils":39}],39:[function(require,module,exports){
 (function (process,Buffer){
-/* eslint-env browser */
+/* eslint-.env browser */
 
 /**
  * Module dependencies.
@@ -12030,7 +12030,7 @@ var exec = require('child_process').exec
 function which(name) {
   var paths = process.env.PATH.split(':');
   var loc;
-  
+
   for (var i = 0, len = paths.length; i < len; ++i) {
     loc = path.join(paths[i], name);
     if (exists(loc)) return loc;

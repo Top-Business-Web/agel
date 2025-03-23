@@ -52,7 +52,7 @@ class VendorService extends BaseService
                     return $buttons;
                 })->editcolumn('status', function ($obj) {
 
-                    return         $obj->id !== auth('vendor')->user()->id ?$this->statusDatatable($obj):'غير متاح';
+                    return $obj->id !== auth('vendor')->user()->id ? $this->statusDatatable($obj) : 'غير متاح';
                 })->editcolumn('image', function ($obj) {
 
                     return $this->imageDataTable($obj->image);
@@ -109,18 +109,18 @@ class VendorService extends BaseService
 
 
         try {
-        $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();
-        $obj = $this->model->create($data);
-        $obj->syncPermissions($permissions);
+            $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();
+            $obj = $this->model->create($data);
+            $obj->syncPermissions($permissions);
 
-        //create vendor branch
-        foreach ($allData['branch_ids'] as $branch_id) {
-            $this->vendorBranch->create([
-                'vendor_id' => $obj->id,
-                'branch_id' => $branch_id,
-            ]);
+            //create vendor branch
+            foreach ($allData['branch_ids'] as $branch_id) {
+                $this->vendorBranch->create([
+                    'vendor_id' => $obj->id,
+                    'branch_id' => $branch_id,
+                ]);
 
-        }
+            }
 
 
             return $this->responseMsg();
@@ -157,62 +157,62 @@ class VendorService extends BaseService
         ]);
     }
 
-public function update($data): JsonResponse
-{
-    try {
-        $allData = $data;
-        unset($data['permissions'], $data['branch_ids']);
-        $oldObj = $this->getById($data['id']);
+    public function update($data): JsonResponse
+    {
+        try {
+            $allData = $data;
+            unset($data['permissions'], $data['branch_ids']);
+            $oldObj = $this->getById($data['id']);
 
-        if (isset($data['image'])) {
-            $data['image'] = $this->handleFile($data['image'], 'Vendor');
+            if (isset($data['image'])) {
+                $data['image'] = $this->handleFile($data['image'], 'Vendor');
 
-            if ($oldObj->image) {
-                $this->deleteFile($oldObj->image);
+                if ($oldObj->image) {
+                    $this->deleteFile($oldObj->image);
+                }
             }
-        }
 
-        $data['phone'] = '+966' . $data['phone'];
-        if (isset(auth()->user()->parent_id)) {
-            $data['parent_id'] = auth()->user()->parent_id;
-        } else {
-            $data['parent_id'] = auth()->user()->id;
-        }
+            $data['phone'] = '+966' . $data['phone'];
+            if (isset(auth()->user()->parent_id)) {
+                $data['parent_id'] = auth()->user()->parent_id;
+            } else {
+                $data['parent_id'] = auth()->user()->id;
+            }
 
-        if (isset($data['password'])) {
-            $data['password'] = Hash::make($data['password']);
-        }else{
-            unset($data['password']);
-        }
+            if (isset($data['password'])) {
+                $data['password'] = Hash::make($data['password']);
+            } else {
+                unset($data['password']);
+            }
 
-        // Update model and get the instance
-        $obj = $oldObj;
-        $obj->update($data);
+            // Update model and get the instance
+            $obj = $oldObj;
+            $obj->update($data);
 
-        // Sync permissions if provided
-        if (isset($allData['permissions'])) {
-            $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();
-            $obj->syncPermissions($permissions);
-        }
+            // Sync permissions if provided
+            if (isset($allData['permissions'])) {
+                $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();
+                $obj->syncPermissions($permissions);
+            }
 
-        // Delete existing branch relations and create new ones
-        $this->vendorBranch->where('vendor_id', $obj->id)->delete();
-        foreach ($allData['branch_ids'] as $branch_id) {
-            $this->vendorBranch->create([
-                'vendor_id' => $obj->id,
-                'branch_id' => $branch_id,
+            // Delete existing branch relations and create new ones
+            $this->vendorBranch->where('vendor_id', $obj->id)->delete();
+            foreach ($allData['branch_ids'] as $branch_id) {
+                $this->vendorBranch->create([
+                    'vendor_id' => $obj->id,
+                    'branch_id' => $branch_id,
+                ]);
+            }
+
+            return $this->responseMsg();
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => "حدث خطأ",
+                'error' => $e->getMessage()
             ]);
         }
-
-        return $this->responseMsg();
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => 500,
-            'message' => "حدث خطأ",
-            'error' => $e->getMessage()
-        ]);
     }
-}
 
     public function getVendorsByModule($moduleId)
     {
