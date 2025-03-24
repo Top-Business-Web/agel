@@ -18,8 +18,8 @@ case ACTIVITY_LOG='activity_log';
     public function permissions(): array
     {
         return [
-            'create_' . $this->value,
             'read_' . $this->value,
+            'create_' . $this->value,
             'update_' . $this->value,
             'delete_' . $this->value
         ];

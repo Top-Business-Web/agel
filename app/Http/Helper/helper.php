@@ -21,8 +21,8 @@ if (!function_exists('getKey')) {
     function getKey(): array
     {
         $arr = [
-            'إنشاء',
             'عرض',
+            'إنشاء',
             'تحديث',
             'حذف',
         ];
@@ -31,20 +31,7 @@ if (!function_exists('getKey')) {
 }
 
 
-if (!function_exists('vendor_has_module')) {
-    function vendor_has_module($module_id)
-    {
-        $vendor = auth()->guard('vendor')->user();
-        $vendorModule = $vendor->vendor_modules->pluck('module_id');
-        if ($vendorModule->contains($module_id)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
-
-}
 if (!function_exists('getAuthSetting')) {
     function getAuthSetting($key)
     {

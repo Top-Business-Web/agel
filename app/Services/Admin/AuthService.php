@@ -58,7 +58,6 @@ class AuthService extends BaseService
             ]
         );
 
-//            dd($request);
         if ($request->verificationType == 'phone') {
             $admin = Admin::where('phone', $data['input'])->first();
 
@@ -78,7 +77,6 @@ class AuthService extends BaseService
                 'phone' => $data['input'],
                 'password' => $data['password'],
             ];
-//            dd(Auth::guard('admin')->attempt($credentials));
             if (Auth::guard('admin')->attempt($credentials)) {
                 return response()->json([
                     'status' => 204,
@@ -96,7 +94,6 @@ class AuthService extends BaseService
                 'email' => $data['input'],
                 'password' => $data['password'],
             ];
-//            dd($admin);
             if (!$admin) {
                 return response()->json([
                     'status' => 206,
@@ -172,8 +169,7 @@ class AuthService extends BaseService
 //    }
 
 
-    public
-    function register($request)
+    public function register($request)
     {
         $validate = $request->validate([
             'name' => 'required',
@@ -221,8 +217,7 @@ class AuthService extends BaseService
 
     }
 
-    public
-    function generateUsername($name)
+    public function generateUsername($name)
     {
         return str_replace(' ', '', strtolower($name)) . rand(1000, 9999);
 
@@ -249,7 +244,6 @@ class AuthService extends BaseService
     public
     function verifyOtp($request)
     {
-//        dd($request);
         $admin = Admin::where('email', $request->email)->first();
 
         if ($admin && $admin->otp == $request->otp && $admin->otp_expire_at > now()) {
@@ -290,19 +284,16 @@ class AuthService extends BaseService
 
     public function resetPasswordForm()
     {
-//        dd('yyyyyyy');
         return view('admin.auth.verify-reset-password');
     }
 
     public function newPasswordForm($email)
     {
-//        dd('bhjkkl');
         return view('admin.auth.new-password', ['email' => $email]);
     }
 
     public function resetPassword($request)
     {
-//        dd($request);
         $request->validate([
             'email'=>'required|exists:admins,email',
             'password' => 'required|min:6|confirmed',
@@ -321,7 +312,6 @@ class AuthService extends BaseService
 
     public function verifyResetPassword($request): \Illuminate\Http\JsonResponse
     {
-//        dd($request->all());
         $admin = Admin::where('email', $request->input)->first();
 
         if ($admin) {
