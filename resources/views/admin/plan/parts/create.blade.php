@@ -1,66 +1,113 @@
+<meta charset="UTF-8">
 <div class="modal-body">
     <form id="addForm" class="addForm" method="POST" enctype="multipart/form-data" action="{{ $storeRoute }}">
         @csrf
         <div class="row">
-
-            <div class="col-6">
+            <!-- Name Field -->
+            <div class="col-md-6">
                 <div class="form-group">
                     <label for="name" class="form-control-label">الإسم</label>
-                    <input type="text" class="form-control" name="name" id="name">
+                    <input type="text" class="form-control" name="name" id="name" required>
                 </div>
             </div>
 
-            <div class="col-6">
+            <!-- Price Field -->
+            <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name" class="form-control-label">السعر</label>
-                    <input type="number" class="form-control" name="price" id="price" step="0.01">
+                    <label for="price" class="form-control-label">السعر</label>
+                    <input type="number" class="form-control" name="price" id="price" step="0.01" required>
                 </div>
             </div>
 
-            <div class="col-6">
+            <!-- Period Field -->
+            <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name" class="form-control-label">المدة بالأيام</label>
-                    <input type="number" class="form-control" name="period" id="period">
+                    <label for="period" class="form-control-label">المدة بالأيام</label>
+                    <input type="number" class="form-control" name="period" id="period" required>
                 </div>
             </div>
-            <div class="col-6">
+
+            <!-- Discount Field -->
+            <div class="col-md-6">
                 <div class="form-group">
-                    <label for="name" class="form-control-label">الخصم</label>
+                    <label for="discount" class="form-control-label">الخصم</label>
                     <input type="number" class="form-control" name="discount" id="discount">
                 </div>
             </div>
 
-            <div class="col-12">
+            <!-- Description Field -->
+            <div class="col-md-12">
                 <div class="form-group">
-                    <label for="name" class="form-control-label">الوصف</label>
-                    <textarea rows="3" type="text" class="form-control" name="description" id="description"> </textarea>
+                    <label for="description" class="form-control-label">الوصف</label>
+                    <textarea rows="3" class="form-control" name="description" id="description"></textarea>
                 </div>
             </div>
 
-
-            <div class="col-12">
+            <!-- Image Upload -->
+            <div class="col-md-12">
                 <div class="form-group">
-                    <label for="image" class="form-control-label">الصوره</label>
-                    <input type="file" class="dropify" name="image" id="image">
+                    <label for="image" class="form-control-label">الصورة</label>
+                    <input type="file" class="form-control dropify" name="image" id="image">
                 </div>
             </div>
-
         </div>
 
-        <div class="col-12">
-            <div id="plans_container"></div>
-            <button type="button" class="btn btn-success mt-2" id="add_plan">
+        <!-- Plans Section -->
+        <button type="button" class="btn btn-success mt-2" >
                 <i class="fe fe-plus"></i> إضافة تفاصيل
             </button>
+        <div class="col-12">
+            <div id="plans_container"></div>
+           
+
+            <!-- Plan Row -->
+            <div class="row plan-row border p-3 mb-2 align-items-center">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-control-label">اختر نوع</label>
+                        <select class="form-control" name="key">
+                            <option value="employee">الموظفين</option>
+                            <option value="branch">الفروع</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-control-label">القيمة</label>
+                        <input type="text" class="form-control plan-value" name="value">
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label class="form-control-label">غير محدود</label>
+                        <input type="checkbox" class="unlimited-checkbox" name="is_unlimited" value="1">
+                    </div>
+                </div>
+
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-danger remove-plan">
+                        <i class="fe fe-trash"></i>
+                    </button>
+                </div>
+
+                <div class="col-md-1">
+                    <button type="button" class="btn btn-success add-plan" id="add_plan">
+                        <i class="fe fe-plus"></i>
+                    </button>
+                </div>
+            </div>
         </div>
 
+        <!-- Modal Footer -->
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
             <button type="submit" class="btn btn-primary" id="addButton">حفظ</button>
         </div>
-
     </form>
 </div>
+
 
 
 <script>

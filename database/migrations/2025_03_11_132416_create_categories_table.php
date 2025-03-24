@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->boolean('status')->default(1);
-            $table->foreignId('vendor_id')->constrained('vendors')->onDelete('cascade');
+            $table->boolean('status')->default(false);
+            $table->unsignedBigInteger('vendor_id');
             $table->timestamps();
         });
     }

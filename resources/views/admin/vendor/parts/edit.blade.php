@@ -18,16 +18,17 @@
             <!-- Region Selection -->
             <div class="col-6">
                 <div class="form-group">
-                    <label for="region_id" class="form-control-label">اسم الحي</label>
+                    <label for="region_id" class="form-control-label">اسم المدينة</label>
                     <select class="form-control" name="region_id" id="region_id">
-                        <option value="" disabled>اختر الحي</option>
-                        @foreach ($regions as $region)
+                        <option value="" disabled>اختر المدينة</option>
+                        @foreach ($cities as $city)
                             <option
-                                value="{{ $region->id }}" {{ $obj->region_id == $region->id ? 'selected' : '' }}>{{ $region->name }}</option>
+                                value="{{ $city->id }}" {{ $obj->region_id == $city->id ? 'selected' : '' }}>{{ $city->name }}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
+            
 
 
 

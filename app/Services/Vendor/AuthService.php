@@ -7,6 +7,7 @@ use App\Models\Branch;
 use App\Models\Region;
 use App\Models\Vendor;
 use App\Models\VendorBranch;
+use App\Services\Admin\CityService;
 use App\Services\BaseService;
 use App\Services\Vendor\AuthService as ObjService;
 use Illuminate\Support\Facades\Auth;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Mail;
 
 class AuthService extends BaseService
 {
-    public function __construct(Vendor $model, protected Region $region)
+    public function __construct(Vendor $model, protected CityService $cityService)
     {
         parent::__construct($model);
     }
@@ -29,11 +30,11 @@ class AuthService extends BaseService
 
             return view('vendor.auth.login');
         } else {
-//            $cites = City::select('id', 'name')->where('status', 1)->get();
-            $regions = $this->region->get();
-            return view('vendor.auth.register', compact('regions'));
+            $cites = $this->cityService->getAll();
+            return view('vendor.auth.register', compact('cites'));
         }
     }
+     
 
     public function login($request): \Illuminate\Http\JsonResponse
     {

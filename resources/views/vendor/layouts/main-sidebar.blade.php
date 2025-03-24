@@ -26,6 +26,12 @@
                 الفروع
             </a>
         </li>
+        <li class="{{ routeActive('branches.index') }}">
+            <a class="slide-item {{ routeActive('branches.index') }}" href="{{ route('branches.index') }}">
+            <i class="fas fa-th side-menu__icon"></i> <!-- Category Icon -->
+            التصنيفات         
+   </a>
+        </li>
 
         <!-- إدارة المستخدمين -->
         <li class="slide {{ arrRouteActive(['users.index', 'vendor.vendors.index']) }}">
