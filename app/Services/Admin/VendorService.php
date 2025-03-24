@@ -57,8 +57,7 @@ class VendorService extends BaseService
                 ->editcolumn('status', function ($obj) {
 
                     return $this->statusDatatable($obj);
-                })->editcolumn('image', function ($obj) {
-
+                })->editColumn('image', function ($obj) {
                     return $this->imageDataTable($obj->image);
                 })
                 ->addIndexColumn()
@@ -156,7 +155,7 @@ class VendorService extends BaseService
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
             'vendors' => $this->model->all(),
-            'regions' => $this->region->get(),
+            'cities' => $this->cityService->getAll(),
             'permissions' => Permission::where('guard_name', 'vendor')
                 ->get(),
         ]);

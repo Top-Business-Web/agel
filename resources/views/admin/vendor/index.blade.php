@@ -44,7 +44,6 @@
                                 <th class="min-w-50px rounded-end">الإسم</th>
                                 <th class="min-w-50px rounded-end">البريد الإلكتروني</th>
                                 <th class="min-w-50px rounded-end">رقم الجوال</th>
-                                <th class="min-w-50px rounded-end">إسم المستخدم</th>
                                 <th class="min-w-50px rounded-end">رقم الهوية</th>
                                 <th class="min-w-50px rounded-end">الحالة</th>
                                 <th class="min-w-50px rounded-end">الصورة</th>
@@ -175,7 +174,6 @@
             {data: 'name', name: 'name'},
             {data: 'email', name: 'email'},
             {data: 'phone', name: 'phone'},
-            {data: 'username', name: 'username'},
             {data: 'national_id', name: 'national_id'},
             {data: 'status', name: 'status'},
             {data: 'image', name: 'image'},

@@ -12,11 +12,11 @@
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="region_id" class="form-control-label">اسم الحي</label>
+                    <label for="region_id" class="form-control-label">اسم المدينة </label>
                     <select class="form-control" name="region_id" id="region_id">
-                        <option value="" selected disabled>اختر الحي</option>
-                        @foreach ($regions as $region)
-                            <option value="{{$region->id }}">{{$region->name}}</option>
+                        <option value="" selected disabled>اختر المدينة</option>
+                        @foreach ($cities as $city)
+                            <option value="{{$city->id }}">{{$city->name}}</option>
                         @endforeach
                     </select>
                 </div>
