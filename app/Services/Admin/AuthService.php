@@ -263,13 +263,14 @@ class AuthService extends BaseService
 //                return  redirect()->route('vendor.newPasswordForm',['email' => $request->email]);
 //                return redirect('', ['email' => $request->email]);
 
+
                 return response()->json([
                     'status' => 300,
                     'email' => $admin->email,
                     'message' => 'لم يتم العثور على المكتب'
                 ], 200);
             } else {
-                Auth::guard('vendor')->login($admin);
+                Auth::guard('admin')->login($admin);
                 return response()->json(200);
             }
         }

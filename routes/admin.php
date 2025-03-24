@@ -55,10 +55,6 @@ Route::group(
 
 
 
-//            Route::group(['middleware' => 'auth:admin'], function () {
-//                Route::get('/', function () {
-//                    return view('admin/index');
-//                })->name('adminHome');
 
             Route::group(['middleware' => 'auth:admin'], function () {
                 Route::get('/', function () {
