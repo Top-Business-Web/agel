@@ -35,7 +35,7 @@ class AdminSeeder extends Seeder
             'code' => Str::random(11),
             'email' => 'ahmedesmaelgamal@gmail.com',
             'role_id' => 1,
-            'status' => 1,
+            'status' => 1,  
 
             'password' => bcrypt('admin'),
         ]);
