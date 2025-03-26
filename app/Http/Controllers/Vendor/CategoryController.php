@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest as ObjRequest;
 use App\Models\Category as ObjModel;
-use App\Services\Admin\CategoryService as ObjService;
+use App\Services\Vendor\CategoryService as ObjService;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -28,9 +28,9 @@ class CategoryController extends Controller
         return $this->objService->store($data);
     }
 
-    public function edit(ObjModel $model)
+    public function edit(ObjModel $category)
     {
-        return $this->objService->edit($model);
+        return $this->objService->edit($category);
     }
 
     public function update(ObjRequest $request, $id)

@@ -94,8 +94,7 @@ Route::group(
                     #============================ planSubscription ==================================
                     Route::resourceWithDeleteSelected('planSubscription', PlanSubscriptionController::class);
                     Route::get('getToDate', [PlanSubscriptionController::class, 'getToDate'])->name('getToDate');
-                    #============================ categories ==================================
-                    Route::resourceWithDeleteSelected('categories', CategoryController::class);
+                   
                 Route::get('vendors/index', [VendorController::class, 'index'])->name('admin.vendors.index');
                 Route::get('vendors/create', [VendorController::class, 'create'])->name('admin.vendors.create');
                 Route::post('vendors', [VendorController::class, 'store'])->name('admin.vendors.store');

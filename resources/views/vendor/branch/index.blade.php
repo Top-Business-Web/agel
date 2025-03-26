@@ -160,7 +160,7 @@
 
         <!-- delete selected  Modal -->
     </div>
-    @include('admin/layouts/myAjaxHelper')
+    @include('vendor/layouts/myAjaxHelper')
 @endsection
 @section('ajaxCalls')
     <script>

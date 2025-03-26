@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Services\Admin;
+namespace App\Services\Vendor;
 
 use App\Models\Category as ObjModel;
+use App\Models\Vendor;
 use App\Services\BaseService;
 use Yajra\DataTables\DataTables;
 
 class CategoryService extends BaseService
 {
-    protected string $folder = 'admin/category';
-    protected string $route = 'categorys';
+    protected string $folder = 'vendor/category';
+    protected string $route = 'categories';
 
     public function __construct(ObjModel $objModel)
     {
@@ -57,8 +58,11 @@ class CategoryService extends BaseService
 
     public function store($data): \Illuminate\Http\JsonResponse
     {
-        if (isset($data['image'])) {
-            $data['image'] = $this->handleFile($data['image'], 'Category');
+        $data['vendor_id'] = auth()->guard('vendor')->id();
+        $vendor = Vendor::find($data['vendor_id']);
+
+        if ($vendor && $vendor->parent_id !== null) {
+            $data['vendor_id'] = $vendor->parent_id;
         }
 
         try {
