@@ -23,6 +23,11 @@ class PlanSubscriptionRequest extends FormRequest
     protected function store(): array
     {
         return [
+            'vendor_id' => 'required|exists:vendors,id',
+            'plan_id' => 'required|exists:plans,id',
+            'from' => 'required|date',
+            'to' => 'required|date',
+            'payment_receipt' => 'nullable|image',
 
         ];
     }
@@ -30,7 +35,11 @@ class PlanSubscriptionRequest extends FormRequest
     protected function update(): array
     {
         return [
-
+            'vendor_id' => 'nullable|exists:vendors,id',
+            'plan_id' => 'nullable|exists:plans,id',
+            'from' => 'nullable|date',
+            'to' => 'nullable|date',
+            'payment_receipt' => 'nullable|image',
         ];
     }
 }

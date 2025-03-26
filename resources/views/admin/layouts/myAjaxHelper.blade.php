@@ -173,7 +173,7 @@
                     } else if (data.status == 405) {
                         toastr.error(data.mymessage);
                     } else if (data.status == 250) {
-                        toastr.error(data.message);
+                        toastr.error('هذا المشترك مشترك بالفعل');
                     } else {
                         toastr.error('حدث خطأ ما');
                     }
