@@ -124,7 +124,7 @@ class VendorService extends BaseService
             // Create primary branch for the vendor with default settings
             $branch = Branch::create([
                 'vendor_id' => $obj->id,
-                'region_id' => $obj->region_id,
+                'region_id' => $data['region_id']??null,
                 'status' => 1,
                 'is_main' => 1,
                 'name' => 'الفرع الرئيسي'

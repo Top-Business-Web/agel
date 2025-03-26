@@ -149,7 +149,7 @@
                             <div class="col-md-6 col-12 mb-3">
                                 <label class="inp">
                                     <label class="fs-4 mb-3">  المدينة</label>
-                                    <select name="region_id" class="input-text" required style="background-color: rgb(232, 240, 254);">
+                                    <select name="city_id" class="input-text" required style="background-color: rgb(232, 240, 254);">
                                         @foreach($cites as $city)
                                         <option value="{{$city->id}}">{{$city->name}}</option>
                                         @endforeach
