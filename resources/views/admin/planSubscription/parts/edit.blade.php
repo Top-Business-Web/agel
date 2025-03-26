@@ -10,7 +10,6 @@
                     <div class="form-group">
                         <label class="form-control-label">اختر المكتب</label>
                         <select class="form-control" name="vendor_id">
-                            <option value="">اختر المكتب</option>
                             @foreach($vendors as $vendor)
                             <option value="{{ $vendor->id }}" {{ $obj->vendor_id == $vendor->id ? 'selected' : '' }}>{{ $vendor->name }}</option>
                             @endforeach
@@ -22,7 +21,6 @@
                     <div class="form-group">
                         <label class="form-control-label">اختر الخطة</label>
                         <select class="form-control" name="plan_id" id="plan_id">
-                            <option value="">اختر الخطة</option>
                             @foreach($plans as $plan)
                             <option value="{{ $plan->id }}" {{ $obj->plan_id == $plan->id ? 'selected' : '' }}>{{ $plan->name }}</option>
                             @endforeach
@@ -33,15 +31,15 @@
         <div class="row">
                 <div class="form-group col-6">
                     <label for="name" class="form-control-label">من</label>
-                    <input type="date" class="form-control" name="from" id="from" value="{{ $obj->from }}">
+                    <input type="date" class="form-control" name="from" id="from" value="{{ $obj->from }}" readonly>
                 </div>
 
                 <div class="form-group col-6">
                     <label for="name" class="form-control-label">الى</label>
-                    <input type="date" class="form-control" name="to" id="to" value="{{ $obj->to }}">
+                    <input type="date" class="form-control" name="to" id="to" value="{{ $obj->to }}" readonly>
                 </div>
         </div>
-           
+
         <div class="col-12">
                 <div class="form-group">
                     <label for="image" class="form-control-label">ايصال الدفع</label>

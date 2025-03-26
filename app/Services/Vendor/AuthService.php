@@ -34,7 +34,7 @@ class AuthService extends BaseService
             return view('vendor.auth.register', compact('cites'));
         }
     }
-     
+
 
     public function login($request): \Illuminate\Http\JsonResponse
     {
@@ -135,7 +135,7 @@ class AuthService extends BaseService
             'email' => 'required|email|unique:vendors,email',
             'phone' => 'required|numeric|digits:9|unique:vendors,phone',
             'password' => 'required|min:6|confirmed',
-            'region_id' => 'required|exists:regions,id',
+            'city_id' => 'required|exists:cities,id',
             'commercial_number' => 'required|digits:10|numeric|unique:vendors,commercial_number',
             'national_id' => 'required|numeric|digits:10|unique:vendors,national_id',
         ]);
@@ -145,7 +145,7 @@ class AuthService extends BaseService
             'email' => $request->email,
             'phone' => '+966' . $request->phone,
             'password' => Hash::make($request->password),
-            'region_id' => $request->region_id,
+            'city_id' => $request->city_id,
             'commercial_number' => $request->commercial_number,
             'national_id' => $request->national_id,
             'username' => $this->generateUsername($request->name),
@@ -157,7 +157,7 @@ class AuthService extends BaseService
 // Create primary branch for the vendor with default settings
         $branch = Branch::create([
             'vendor_id' => $vendor->id,
-            'region_id' => $vendor->region_id,
+            'region_id' => $$request->region_id??null,
             'status' => 1,
             'is_main' => 1,
             'name' => 'الفرع الرئيسي'

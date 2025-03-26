@@ -57,8 +57,8 @@ class PlanSubscriptionService extends BaseService
     {
         return view("{$this->folder}/parts/create", [
             'storeRoute' => route("{$this->route}.store"),
-            'plans' => $this->planService->getAll(),
-            'vendors' => $this->vendorService->getAll(),
+            'plans' => $this->planService->model->where('id','!=',1)->get(),
+            'vendors' => $this->vendorService->model->where('parent_id', null)->get(),
         ]);
 
     }
@@ -76,6 +76,7 @@ class PlanSubscriptionService extends BaseService
         }
 
         try {
+            $data['status'] = 1;
             $this->createData($data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception $e) {
@@ -87,8 +88,8 @@ class PlanSubscriptionService extends BaseService
     {
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
-            'plans' => $this->planService->getAll(),
-            'vendors' => $this->vendorService->getAll(),
+            'plans' => $this->planService->model->where('id','!=',1)->get(),
+            'vendors' => $this->vendorService->model->where('parent_id', null)->get(),
             'updateRoute' => route("{$this->route}.update", $obj->id),
         ]);
     }
@@ -114,6 +115,6 @@ class PlanSubscriptionService extends BaseService
         }
     }
 
-    
-       
+
+
 }
