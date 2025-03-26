@@ -12,11 +12,11 @@
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="region_id" class="form-control-label">اسم الحي</label>
-                    <select class="form-control" name="region_id" id="region_id">
-                        <option value="" selected disabled>اختر الحي</option>
-                        @foreach ($regions as $region)
-                            <option value="{{$region->id }}">{{$region->name}}</option>
+                    <label for="city_id" class="form-control-label">اسم المدينة </label>
+                    <select class="form-control" name="city_id" id="city_id">
+                        <option value="" selected disabled>اختر المدينة</option>
+                        @foreach ($cities as $city)
+                            <option value="{{$city->id }}">{{$city->name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -169,7 +169,7 @@
     document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', function () {
             let group = this.dataset.group;
-            let secondPermission = document.querySelectorAll(`.permission-checkbox[data-group='${group}']`)[1];
+            let secondPermission = document.querySelectorAll(`.permission-checkbox[data-group='${group}']`)[0];
             if (this.checked && secondPermission) {
                 secondPermission.checked = true;
             }

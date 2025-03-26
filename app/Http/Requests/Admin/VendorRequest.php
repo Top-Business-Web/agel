@@ -30,7 +30,7 @@ class VendorRequest extends FormRequest
             'phone'=>   ['required', Rule::unique('vendors', 'phone')->where(function ($query) {
                 return $query->where('phone', '+966' . $this->phone);
             })],
-            'region_id'=>'required|exists:regions,id',
+            'city_id' => 'required|exists:cities,id',
             'national_id' => 'required|numeric|unique:vendors,national_id|digits:10',
             'password' => 'required|min:6|confirmed',
             'image' => 'nullable|image',
@@ -52,7 +52,7 @@ class VendorRequest extends FormRequest
             'name' => 'nullable',
             'email' => 'nullable|email|unique:vendors,email,' . $this->id,
             'national_id' => 'nullable|numeric|digits:10|unique:vendors,national_id,' . $this->id,
-            'region_id'=>'required|exists:regions,id',
+            'city_id' => 'required|exists:cities,id',
             'password' => 'nullable|min:6|confirmed',
             'image' => 'nullable|image',
             "permissions"=>'required|array',

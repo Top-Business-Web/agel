@@ -45,6 +45,12 @@ class PlanService extends BaseService
                     return strlen($obj->description) > 50 ? substr($obj->description, 0, 50) . '...' : $obj->description;
                 })->editColumn('discount', function ($obj) {
                     return $obj->discount . '%';
+                })->editColumn('period', function ($obj) {
+                    if ($obj->period <= 10) {
+                        return $obj->period . ' ايام';
+                    } else {
+                        return $obj->period . ' يوم';
+                    }
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -68,46 +74,44 @@ class PlanService extends BaseService
 
     public function store($request)
     {
-        $data = $request->all();
 
-
+        $validatedData=$request;
+        // Handle image upload
         if ($request->hasFile('image')) {
-            $data['image'] = $this->handleFile($request->file('image'), 'Plan');
+            $validatedData['image'] = $this->handleFile($request->file('image'), 'Plan');
         }
 
-        try {
-
+//        try {
+            // Save main plan
             $plan = Plan::create([
-                'name' => $data['name'],
-                'price' => $data['price'],
-                'period' => $data['period'],
-                'discount' => $data['discount'] ?? null,
-                'description' => $data['description'] ?? null,
-                'image' => $data['image'] ?? null,
+                'name' => $validatedData['name'],
+                'price' => $validatedData['price'],
+                'period' => $validatedData['period'],
+                'discount' => $validatedData['discount'] ?? null,
+                'description' => $validatedData['description'] ?? null,
+                'image' => $validatedData['image'] ?? null,
             ]);
 
-
-            if (isset($data['plans']) && is_array($data['plans'])) {
-                foreach ($data['plans'] as $planDetail) {
-                    PlanDetail::create([
-                        'plan_id' => $plan->id,
-                        'key' => $planDetail['key'] ?? null,
-                        'value' => isset($planDetail['is_unlimited']) && $planDetail['is_unlimited'] == 1 ? null : ($planDetail['value'] ?? null),
-                        'is_unlimited' => isset($planDetail['is_unlimited']) ? 1 : 0,
-                    ]);
-                }
+            // Save plan details
+            foreach ($validatedData['plans'] as $planDetail) {
+                PlanDetail::create([
+                    'plan_id' => $plan->id,
+                    'key' => $planDetail['key'],
+                    'value' => isset($planDetail['is_unlimited']) && $planDetail['is_unlimited'] == 1 ? null : $planDetail['value'],
+                    'is_unlimited' => isset($planDetail['is_unlimited']) ? 1 : 0,
+                ]);
             }
 
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 500,
-                'message' =>"حدث خطأ",
-                'error' => $e->getMessage()
-            ]);
-
-        }
+//        } catch (\Exception $e) {
+//            return response()->json([
+//                'status' => 500,
+//                'message' => "حدث خطأ أثناء الحفظ",
+//                'error' => $e->getMessage()
+//            ]);
+//        }
     }
+
 
 
     public function edit($id)

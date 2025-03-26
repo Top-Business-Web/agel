@@ -23,7 +23,7 @@
                         </button>
 
                         <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
-                            <span><i class="fe fe-trending-up"></i></span> تحديث حالة المحدد
+                            <span><i class="fe fe-trending-up"></i></span> تحديث الحالة
                         </button>
                     </div>
                 </div>
@@ -39,11 +39,11 @@
                                     <th class="min-w-25px">#</th>
                                     <th class="min-w-25px">الإسم</th>
                                     <th class="min-w-25px">السعر</th>
-                                    <th class="min-w-25px">المده</th>
+                                    <th class="min-w-25px">المدة</th>
                                     <th class="min-w-25px">الوصف</th>
                                     <th class="min-w-25px">الصوره</th>
                                     <th class="min-w-25px">الخصم</th>
-                                    <th class="min-w-25px">الحاله</th>
+                                    <th class="min-w-25px">الحالة</th>
                                     <th class="min-w-50px rounded-end">العمليات</th>
                                 </tr>
                             </thead>

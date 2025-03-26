@@ -47,10 +47,14 @@ Route::group(
             Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('admin.otp.check');
 
 
-//            Route::group(['middleware' => 'auth:admin'], function () {
-//                Route::get('/', function () {
-//                    return view('admin/index');
-//                })->name('adminHome');
+            Route::POST('/verify-reset-password', [AuthController::class, 'verifyResetPassword'])->name('admin.verifyResetPassword');
+            Route::get('/reset-password', [AuthController::class, 'resetPasswordForm'])->name('admin.resetPasswordForm');
+            Route::get('/new-password/{email}', [AuthController::class, 'newPasswordForm'])->name('admin.newPasswordForm');
+            Route::POST('/reset-password/{email}', [AuthController::class, 'ResetPassword'])->name('admin.resetPassword');
+
+
+
+
 
             Route::group(['middleware' => 'auth:admin'], function () {
                 Route::get('/', function () {
@@ -79,18 +83,21 @@ Route::group(
                     Route::get('vendors/{id}/edit', [VendorController::class, 'edit'])->name('admin.vendors.edit');
                     Route::post('vendors/delete-selected', [VendorController::class, 'deleteSelected'])->name('admin.vendors.deleteSelected');
                     Route::post('vendors/update-column-selected', [VendorController::class, 'updateColumnSelected'])->name('admin.vendors.updateColumnSelected');
-                    #============================ Admin ====================================
-                    Route::resourceWithDeleteSelected('admins', AdminController::class);
-                    #============================ countries ==================================
-                    Route::resourceWithDeleteSelected('countries', CountryController::class);
-                    #============================ cities ==================================
-                    Route::resourceWithDeleteSelected('cities', CityController::class);
-                    #============================ Plans ==================================
-                    Route::resourceWithDeleteSelected('Plans', PlanController::class);
-                    #============================ planSubscription ==================================
-                    Route::resourceWithDeleteSelected('planSubscription', PlanSubscriptionController::class);
+                    Route::get('getToDate', [PlanSubscriptionController::class, 'getToDate'])->name('getToDate');
                     #============================ categories ==================================
                     Route::resourceWithDeleteSelected('categories', CategoryController::class);
+                Route::post('vendors/delete-selected', [VendorController::class, 'deleteSelected'])->name('admin.vendors.deleteSelected');
+                Route::post('vendors/update-column-selected', [VendorController::class, 'updateColumnSelected'])->name('admin.vendors.updateColumnSelected');
+                #============================ Admin ====================================
+                Route::resourceWithDeleteSelected('admins', AdminController::class);
+                #============================ countries ==================================
+                Route::resourceWithDeleteSelected('countries', CountryController::class);
+                #============================ cities ==================================
+                Route::resourceWithDeleteSelected('cities', CityController::class);
+                #============================ Plans ==================================
+                Route::resourceWithDeleteSelected('Plans', PlanController::class);
+                #============================ planSubscription ==================================
+                Route::resourceWithDeleteSelected('planSubscription', PlanSubscriptionController::class);
 
 
                 Route::get('my_profile', [AdminController::class, 'myProfile'])->name('myProfile');
@@ -122,8 +129,5 @@ Route::group(
 
 
 Route::resourceWithDeleteSelected('plan_subscriptions', \App\Http\Controllers\Admin\PlanSubscriptionController::class);
-
-
 Route::resourceWithDeleteSelected('stocks', \App\Http\Controllers\Admin\StockController::class);
 
-Route::resourceWithDeleteSelected('categorys', \App\Http\Controllers\Admin\CategoryController::class);

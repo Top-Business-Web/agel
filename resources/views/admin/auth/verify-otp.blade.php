@@ -71,6 +71,9 @@
         @endif
 
         <form class="signup-form" action="{{route('admin.otp.check')}}" method="post" id="LoginForm">
+            @if($resetPassword==2)
+                <input type="hidden" name="isReset" value="{{$resetPassword}}">
+            @endif
             @csrf
             <input type="hidden" name="email" value="{{$email}}">
             <label class="inp">

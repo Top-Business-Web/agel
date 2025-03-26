@@ -11,7 +11,7 @@ class PlanSubscriptionService extends BaseService
     protected string $folder = 'admin/planSubscription';
     protected string $route = 'planSubscription';
 
-    public function __construct(ObjModel $objModel)
+    public function __construct(ObjModel $objModel, protected PlanService $planService, protected VendorService $vendorService)
     {
         parent::__construct($objModel);
     }
@@ -37,6 +37,8 @@ class PlanSubscriptionService extends BaseService
                     return $obj->vendor->name;
                 })->editColumn('plan_id', function ($obj) {
                     return $obj->plan->name;
+                })->editColumn('payment_receipt', function ($obj) {
+                    return $this->imageDataTable($obj->payment_receipt);
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -55,16 +57,26 @@ class PlanSubscriptionService extends BaseService
     {
         return view("{$this->folder}/parts/create", [
             'storeRoute' => route("{$this->route}.store"),
+            'plans' => $this->planService->model->where('id','!=',1)->get(),
+            'vendors' => $this->vendorService->model->where('parent_id', null)->get(),
         ]);
+
     }
 
     public function store($data): \Illuminate\Http\JsonResponse
     {
-        if (isset($data['image'])) {
-            $data['image'] = $this->handleFile($data['image'], 'PlanSubscription');
+        if (isset($data['payment_receipt'])) {
+            $data['payment_receipt'] = $this->handleFile($data['payment_receipt'], 'PlanSubscription');
+        }
+
+        $existingSubscription = $this->model->where('vendor_id', $data['vendor_id'])->where('plan_id', $data['plan_id'])->first();  // Check if a subscription already exists for the same vendor and plan
+
+        if ($existingSubscription) {
+            return response()->json(['status' => 250, 'message' => "هذا الاشتراك موجود بالفعل"]);
         }
 
         try {
+            $data['status'] = 1;
             $this->createData($data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception $e) {
@@ -76,6 +88,8 @@ class PlanSubscriptionService extends BaseService
     {
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
+            'plans' => $this->planService->model->where('id','!=',1)->get(),
+            'vendors' => $this->vendorService->model->where('parent_id', null)->get(),
             'updateRoute' => route("{$this->route}.update", $obj->id),
         ]);
     }
@@ -100,4 +114,7 @@ class PlanSubscriptionService extends BaseService
             return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
         }
     }
+
+
+
 }
