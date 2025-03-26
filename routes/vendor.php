@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Vendor\CategoryController;
 use App\Http\Controllers\Vendor\ActivityLogController;
 use App\Http\Controllers\Vendor\AuthController;
 
@@ -54,6 +55,8 @@ Route::group(
                 Route::get('homeVendor', [HomeController::class, 'index'])->name('vendorHome');
                 #============================ branches ==================================
                 Route::resourceWithDeleteSelected('branches', BranchController::class);
+ #============================ categories ==================================
+                Route::resourceWithDeleteSelected('categories', CategoryController::class);
                 #============================ vendors ====================================
                 //                    Route::resourceWithDeleteSelected('vendors', VendorController::class);
                 Route::get('vendors/index', [VendorController::class, 'index'])->name('vendor.vendors.index');
