@@ -74,13 +74,14 @@ class PlanService extends BaseService
 
     public function store($request)
     {
-    
+
+        $validatedData=$request;
         // Handle image upload
         if ($request->hasFile('image')) {
             $validatedData['image'] = $this->handleFile($request->file('image'), 'Plan');
         }
-    
-        try {
+
+//        try {
             // Save main plan
             $plan = Plan::create([
                 'name' => $validatedData['name'],
@@ -90,7 +91,7 @@ class PlanService extends BaseService
                 'description' => $validatedData['description'] ?? null,
                 'image' => $validatedData['image'] ?? null,
             ]);
-    
+
             // Save plan details
             foreach ($validatedData['plans'] as $planDetail) {
                 PlanDetail::create([
@@ -100,17 +101,17 @@ class PlanService extends BaseService
                     'is_unlimited' => isset($planDetail['is_unlimited']) ? 1 : 0,
                 ]);
             }
-    
+
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 500,
-                'message' => "حدث خطأ أثناء الحفظ",
-                'error' => $e->getMessage()
-            ]);
-        }
+//        } catch (\Exception $e) {
+//            return response()->json([
+//                'status' => 500,
+//                'message' => "حدث خطأ أثناء الحفظ",
+//                'error' => $e->getMessage()
+//            ]);
+//        }
     }
-    
+
 
 
     public function edit($id)

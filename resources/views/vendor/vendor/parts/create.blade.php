@@ -13,9 +13,9 @@
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="region_id" class="form-control-label">اسم الحي</label>
-                    <select class="form-control" name="region_id" id="region_id">
-                        <option value="" selected disabled>اختر الحي</option>
+                    <label for="region_id" class="form-control-label">اسم المدينه</label>
+                    <select class="form-control" name="city_id" id="region_id">
+                        <option value="" selected disabled>اسم المدينه</option>
                         @foreach ($cities as $city)
                             <option value="{{$city->id }}">{{$city->name}}</option>
                         @endforeach

@@ -9,6 +9,7 @@ use App\Models\Region;
 use App\Models\Vendor as ObjModel;
 
 use App\Models\VendorBranch;
+use App\Services\Admin\CityService;
 use App\Services\BaseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +21,7 @@ class VendorService extends BaseService
     protected string $folder = 'vendor/vendor';
     protected string $route = 'vendor.vendors';
 
-    public function __construct(ObjModel $objModel, protected Region $region, protected BranchService $branchService, protected VendorBranch $vendorBranch)
+    public function __construct(ObjModel $objModel, protected Region $region, protected BranchService $branchService, protected VendorBranch $vendorBranch, protected CityService $cityService)
     {
         parent::__construct($objModel);
     }
@@ -82,7 +83,7 @@ class VendorService extends BaseService
 
         return view("{$this->folder}/parts/create", [
             'storeRoute' => route("{$this->route}.store"),
-            'regions' => $this->region->get(),
+            'cities' => $this->cityService->getAll(),
             'branches' => $branches,
             'permissions' => Permission::where('guard_name', 'vendor')
                 ->get(),

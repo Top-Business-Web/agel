@@ -8,7 +8,7 @@
                     <div class="form-group">
                         <label class="form-control-label">اختر المكتب</label>
                         <select class="form-control" name="vendor_id">
-                            <option value="">اختر المكتب</option>
+                            <option selected disabled value="">اختر المكتب</option>
                             @foreach($vendors as $vendor)
                                 <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
                             @endforeach
@@ -20,7 +20,7 @@
                     <div class="form-group">
                         <label class="form-control-label">اختر الخطة</label>
                         <select class="form-control" name="plan_id" id="plan_id">
-                            <option value="">اختر الخطة</option>
+                            <option  selected disabled value="">اختر الخطة</option>
                             @foreach($plans as $plan)
                                 <option value="{{ $plan->id }}">{{ $plan->name }}</option>
                             @endforeach
@@ -31,15 +31,15 @@
         <div class="row">
                 <div class="form-group col-6">
                     <label for="name" class="form-control-label">من</label>
-                    <input type="date" class="form-control" name="from" id="from">
+                    <input type="date" class="form-control" name="from" id="from" readonly>
                 </div>
 
                 <div class="form-group col-6">
                     <label for="name" class="form-control-label">الى</label>
-                    <input type="date" class="form-control" name="to" id="to" >
+                    <input type="date" class="form-control" name="to" id="to"  readonly>
                 </div>
         </div>
-           
+
 
         <div class="col-12">
                 <div class="form-group">
@@ -70,7 +70,7 @@ $(document).ready(function () {
         var plan_id = $(this).val();
         var from = $('#from').val() || new Date().toISOString().split('T')[0]; // Ensure 'from' has a value
 
-        
+
             $.ajax({
                 url: "{{ route('getToDate') }}",
                 type: 'GET',
@@ -87,12 +87,12 @@ $(document).ready(function () {
                     alert('حدث خطأ في جلب بيانات الخطة.');
                 }
             });
-        
+
     });
 });
 
-    
 
-    
+
+
     </script>
 
