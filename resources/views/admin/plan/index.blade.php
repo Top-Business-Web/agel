@@ -39,11 +39,11 @@
                                     <th class="min-w-25px">#</th>
                                     <th class="min-w-25px">الإسم</th>
                                     <th class="min-w-25px">السعر</th>
-                                    <th class="min-w-25px">المده</th>
+                                    <th class="min-w-25px">المدة</th>
                                     <th class="min-w-25px">الوصف</th>
                                     <th class="min-w-25px">الصوره</th>
                                     <th class="min-w-25px">الخصم</th>
-                                    <th class="min-w-25px">الحاله</th>
+                                    <th class="min-w-25px">الحالة</th>
                                     <th class="min-w-50px rounded-end">العمليات</th>
                                 </tr>
                             </thead>

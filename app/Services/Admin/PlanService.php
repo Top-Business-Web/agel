@@ -45,6 +45,12 @@ class PlanService extends BaseService
                     return strlen($obj->description) > 50 ? substr($obj->description, 0, 50) . '...' : $obj->description;
                 })->editColumn('discount', function ($obj) {
                     return $obj->discount . '%';
+                })->editColumn('period', function ($obj) {
+                    if ($obj->period <= 10) {
+                        return $obj->period . ' ايام';
+                    } else {
+                        return $obj->period . ' يوم';
+                    }
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
