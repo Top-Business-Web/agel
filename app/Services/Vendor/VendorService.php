@@ -99,7 +99,6 @@ class VendorService extends BaseService
         }
 
         $data['username'] = $this->generateUsername($data['name']);
-        $data['phone'] = '+966' . $data['phone'];
         if (isset(auth()->user()->parent_id)) {
             $data['parent_id'] = auth()->user()->parent_id;
         } else {
