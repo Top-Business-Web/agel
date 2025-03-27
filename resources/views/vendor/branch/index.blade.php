@@ -164,12 +164,15 @@
 @endsection
 @section('ajaxCalls')
     <script>
-        var columns = [{
+        var columns = [ {
             data: 'checkbox',
             name: 'checkbox',
             orderable: false,
             searchable: false,
-            render: function (data, type, row) {
+            render: function(data, type, row) {
+                if (row.name =='الفرع الرئيسي') {
+                    return '';
+                }
                 return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
             }
         },

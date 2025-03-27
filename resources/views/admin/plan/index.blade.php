@@ -156,15 +156,18 @@
 @endsection
 @section('ajaxCalls')
     <script>
-        var columns = [{
-                data: 'checkbox',
-                name: 'checkbox',
-                orderable: false,
-                searchable: false,
-                render: function(data, type, row) {
-                    return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
+        var columns = [   {
+            data: 'checkbox',
+            name: 'checkbox',
+            orderable: false,
+            searchable: false,
+            render: function(data, type, row) {
+                if (row.id == 1) {
+                    return '';
                 }
-            },
+                return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
+            }
+        },
             {
                 data: 'id',
                 name: 'id'
