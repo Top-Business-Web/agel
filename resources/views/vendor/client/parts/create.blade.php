@@ -3,11 +3,7 @@
         @csrf
         <div class="row">
 
-{{--            name--}}
-{{--            phone--}}
-{{--            national_id--}}
-{{--            status--}}
-{{--            branch_id--}}
+
             <div class="col-6">
                 <div class="form-group">
                     <label for="name" class="form-control-label">الإسم</label>
@@ -17,7 +13,10 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="phone" class="form-control-label">رقم الهاتف</label>
-                    <input type="number" class="form-control" name="phone" id="phone">
+                    <div class="input-group">
+                        <span class="input-group-text">+966</span>
+                        <input type="number" class="form-control" name="phone" maxlength="11">
+                    </div>
                 </div>
             </div>
             <div class="col-6">

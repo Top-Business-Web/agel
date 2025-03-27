@@ -55,7 +55,7 @@ class BranchService extends BaseService
 
                     return $buttons;
                 })->editColumn('region_id', function ($obj) {
-                    return $obj->region->name;
+                    return $obj->region_id ? $obj->region->name: 'غير محدد';
                 })->editColumn('status', function ($obj) {
                     return $obj->is_main === 1 ? 'غير متاح' : $this->statusDatatable($obj);
                 })

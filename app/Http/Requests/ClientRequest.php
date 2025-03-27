@@ -24,9 +24,8 @@ class ClientRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'phone' => 'required',
-            'national_id' => 'required',
-//            'status' => 'required|boolean',
+            'phone' => 'required|unique:clients,phone|numeric|digits:9',
+            'national_id' => 'required|unique:clients,national_id|numeric|digits:10',
             'branch_id' => 'required|exists:branches,id',
         ];
     }
@@ -37,7 +36,6 @@ class ClientRequest extends FormRequest
             'name' => 'required',
             'phone' => 'required',
             'national_id' => 'required',
-//            'status' => 'required|boolean',
             'branch_id' => 'required|exists:branches,id',
         ];
     }

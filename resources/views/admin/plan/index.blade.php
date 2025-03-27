@@ -242,9 +242,9 @@
                 success: function(data) {
                     if (data.status === 200) {
                         if (val !== 0) {
-                            toastr.success('Success', "نشط");
+                            toastr.success('', "نشط");
                         } else {
-                            toastr.warning('Success', "غير نشط ");
+                            toastr.warning('', "غير نشط ");
                         }
                     } else {
                         toastr.error('Error', "حدث خطأ ما");

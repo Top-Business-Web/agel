@@ -227,10 +227,10 @@
                 success: function(data) {
                     if (data.status === 200) {
                         if (val !== 0) {
-                            toastr.success('Success', "نشط");
+                            toastr.success('', "نشط");
                         } else {
 <<<<<<< HEAD
-                            toastr.warning('Success', "غير نشط");
+                            toastr.warning('', "غير نشط");
                         }
                     } else {
                         toastr.error('Error', "هناك خطأ ما");
@@ -239,7 +239,7 @@
                 error: function() {
                     toastr.error('Error', "هناك خطأ ما");
 =======
-                            toastr.warning('Success', "غير نشط ");
+                            toastr.warning('', "غير نشط ");
                         }
                     } else {
                         toastr.error('Error', "حدث خطأ ما");
