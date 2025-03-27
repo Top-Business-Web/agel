@@ -59,6 +59,9 @@ class VendorService extends BaseService
                     return $this->statusDatatable($obj);
                 })->editColumn('image', function ($obj) {
                     return $this->imageDataTable($obj->image);
+                })->editColumn('phone', function ($obj) {
+                    $phone = str_replace('+', '', $obj->phone);
+                    return $phone;
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])

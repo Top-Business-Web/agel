@@ -35,6 +35,9 @@ class InvestorService extends BaseService
                         </button>
                     ';
                     return $buttons;
+                })->editColumn('phone', function ($obj) {
+                    $phone = str_replace('+', '', $obj->phone);
+                    return $phone;
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
