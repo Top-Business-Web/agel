@@ -72,114 +72,165 @@ class PlanService extends BaseService
         ]);
     }
 
-    public function store($request)
-    {
+   public function store($request)
+{
+    try {
+        $validatedData = $request->validated();
 
-        $validatedData=$request;
-        // Handle image upload
         if ($request->hasFile('image')) {
             $validatedData['image'] = $this->handleFile($request->file('image'), 'Plan');
         }
 
-//        try {
-            // Save main plan
-            $plan = Plan::create([
-                'name' => $validatedData['name'],
-                'price' => $validatedData['price'],
-                'period' => $validatedData['period'],
-                'discount' => $validatedData['discount'] ?? null,
-                'description' => $validatedData['description'] ?? null,
-                'image' => $validatedData['image'] ?? null,
-            ]);
+        $plan = Plan::create([
+            'name' => $validatedData['name'],
+            'price' => $validatedData['price'],
+            'period' => $validatedData['period'],
+            'discount' => $validatedData['discount'] ?? null,
+            'description' => $validatedData['description'] ?? null,
+            'image' => $validatedData['image'] ?? null,
+        ]);
 
-            // Save plan details
-            foreach ($validatedData['plans'] as $planDetail) {
-                PlanDetail::create([
-                    'plan_id' => $plan->id,
-                    'key' => $planDetail['key'],
-                    'value' => isset($planDetail['is_unlimited']) && $planDetail['is_unlimited'] == 1 ? null : $planDetail['value'],
-                    'is_unlimited' => isset($planDetail['is_unlimited']) ? 1 : 0,
-                ]);
-            }
+        $this->createPlanDetails($plan, $validatedData['plans']);
 
-            return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
-//        } catch (\Exception $e) {
-//            return response()->json([
-//                'status' => 500,
-//                'message' => "حدث خطأ أثناء الحفظ",
-//                'error' => $e->getMessage()
-//            ]);
-//        }
+        return response()->json([
+            'status' => 200,
+            'message' => "تمت العملية بنجاح"
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 500,
+            'message' => "حدث خطأ أثناء الحفظ",
+            'error' => $e->getMessage()
+        ]);
     }
+}
 
+private function createPlanDetails(Plan $plan, array $planDetails): void
+{
+    foreach ($planDetails as $detail) {
+        PlanDetail::create([
+            'plan_id' => $plan->id,
+            'key' => $detail['key'],
+            'value' => isset($detail['is_unlimited']) && $detail['is_unlimited'] == 1 ? null : $detail['value'],
+            'is_unlimited' => isset($detail['is_unlimited']) && $detail['is_unlimited'] == 1 ? 1 : 0,
+        ]);
+    }
+}
 
 
     public function edit($id)
     {
         return view("{$this->folder}/parts/edit", [
-            'plan' => $this->getById($id),
+            'obj' => $this->getById($id),
             'updateRoute' => route("{$this->route}.update", $id),
         ]);
     }
 
-    public function update($request, $id)
+public function update($request, $id)
     {
-        $data = $request->all();
         $plan = Plan::find($id);
 
         if (!$plan) {
-            return response()->json([
-                'status' => 404,
-                'message' =>"البيانات غير موجودة"
-            ]);
+            return $this->notFoundResponse();
         }
 
-        // Handle file upload
+        try {
+            $data = $this->prepareUpdateData($request);
+            $this->handleImageUpdate($request, $plan, $data);
+            $this->updatePlanDetails($plan, $data);
+
+            return $this->successResponse();
+        } catch (\Exception $e) {
+            return $this->errorResponse($e);
+        }
+    }
+
+    private function prepareUpdateData($request): array
+    {
+        return [
+            'name' => $request->input('name'),
+            'price' => $request->input('price'),
+            'period' => $request->input('period'),
+            'discount' => $request->input('discount'),
+            'description' => $request->input('description'),
+            'plans' => $request->input('plans', [])
+        ];
+    }
+
+    private function handleImageUpdate($request, Plan $plan, array &$data): void
+    {
         if ($request->hasFile('image')) {
             if ($plan->image) {
                 $this->deleteFile($plan->image);
             }
             $data['image'] = $this->handleFile($request->file('image'), 'Plan');
-        }
-
-        try {
-            // Update Plan
-            $plan->update([
-                'name' => $data['name'],
-                'price' => $data['price'],
-                'period' => $data['period'],
-                'discount' => $data['discount'] ?? null,
-                'description' => $data['description'] ?? null,
-                'image' => $data['image'] ?? $plan->image,
-            ]);
-
-            // Update Plan Details
-            if (isset($data['plans']) && is_array($data['plans'])) {
-                // Remove all old plan details first (optional, depends on your requirement)
-                $plan->details()->delete();  // This deletes the associated plan details
-
-                foreach ($data['plans'] as $planDetailId => $planDetail) {
-                    PlanDetail::create([
-                        'plan_id' => $plan->id,
-                        'key' => $planDetail['key'] ?? null,
-                        'value' => isset($planDetail['is_unlimited']) && $planDetail['is_unlimited'] == 1 ? null : ($planDetail['value'] ?? null),
-                        'is_unlimited' => isset($planDetail['is_unlimited']) ? 1 : 0,
-                    ]);
-                }
-            }
-
-            return response()->json([
-                'status' => 200,
-                'message' => "تمت العمليه بنجاح"
-
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'status' => 500,
-                'message' =>"حدث خطأ",
-                'error' => $e->getMessage()
-            ]);
-
+        } else {
+            $data['image'] = $plan->image;
         }
     }
-}
+
+    private function updatePlanDetails(Plan $plan, array $data): void
+    {
+        $plan->update([
+            'name' => $data['name'],
+            'price' => $data['price'],
+            'period' => $data['period'],
+            'discount' => $data['discount'],
+            'description' => $data['description'],
+            'image' => $data['image'],
+        ]);
+
+        if (!empty($data['plans']) && is_array($data['plans'])) {
+            $plan->details()->delete();
+            $this->createPlanDetailsFromData($plan, $data['plans']);
+        }
+    }
+
+    private function createPlanDetailsFromData(Plan $plan, array $planDetails): void
+    {
+        foreach ($planDetails as $detail) {
+            PlanDetail::create([
+                'plan_id' => $plan->id,
+                'key' => $detail['key'] ?? null,
+                'value' => $this->getPlanDetailValue($detail),
+                'is_unlimited' => $this->isPlanDetailUnlimited($detail),
+            ]);
+        }
+    }
+
+    private function getPlanDetailValue(array $detail): ?string
+    {
+        return isset($detail['is_unlimited']) && $detail['is_unlimited'] == 1
+            ? null
+            : ($detail['value'] ?? null);
+    }
+
+    private function isPlanDetailUnlimited(array $detail): int
+    {
+        return isset($detail['is_unlimited']) ? 1 : 0;
+    }
+
+    private function notFoundResponse(): \Illuminate\Http\JsonResponse
+    {
+        return response()->json([
+            'status' => 404,
+            'message' => "البيانات غير موجودة"
+        ]);
+    }
+
+    private function successResponse(): \Illuminate\Http\JsonResponse
+    {
+        return response()->json([
+            'status' => 200,
+            'message' => "تمت العمليه بنجاح"
+        ]);
+    }
+
+    private function errorResponse(\Exception $e): \Illuminate\Http\JsonResponse
+    {
+        return response()->json([
+            'status' => 500,
+            'message' => "حدث خطأ",
+            'error' => $e->getMessage()
+        ]);
+    }}

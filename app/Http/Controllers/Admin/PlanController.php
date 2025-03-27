@@ -35,8 +35,7 @@ class PlanController extends Controller
 
     public function update(ObjRequest $request, $id)
     {
-        $data = $request->validated();
-        return $this->objService->update($data, $id);
+        return $this->objService->update($request, $id);
     }
 
     public function destroy($id)
