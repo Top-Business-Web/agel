@@ -55,10 +55,16 @@ abstract class BaseService
     public function statusDatatable($obj)
     {
         return '
-                    <div class="form-check form-switch">
-                       <input style="margin-left: 0px;" class="tgl tgl-ios statusBtn form-check-input" data-id="' . $obj->id . '" name="statusBtn" id="statusUser-' . $obj->id . '" type="checkbox" ' . ($obj->status == 1 ? 'checked' : '') . '/>
-                       <label class="tgl-btn" dir="ltr" for="statusUser-' . $obj->id . '"></label>
-                    </div>';
+        <div class="d-flex justify-content-center align-items-center" style="min-height: 40px;">
+            <div class="form-check form-switch">
+                <input class="tgl tgl-ios statusBtn form-check-input"
+                       data-id="' . $obj->id . '"
+                       name="statusBtn"
+                       id="statusUser-' . $obj->id . '"
+                       type="checkbox" ' . ($obj->status == 1 ? 'checked' : '') . '/>
+                <label class="tgl-btn" for="statusUser-' . $obj->id . '"></label>
+            </div>
+        </div>';
 
 
     }
