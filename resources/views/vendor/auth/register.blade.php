@@ -112,7 +112,6 @@
                                 <label class="inp">
                                     <label class="fs-4 mb-3">اسم المكتب</label>
                                     <input type="text" name="name" class="input-text" required style="background-color: rgb(232, 240, 254);">
-                                    <!-- <span class="label">اسم المكتب</span> -->
                                     <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>
                                 </label>
                             </div>
@@ -149,7 +148,8 @@
                             <div class="col-md-6 col-12 mb-3">
                                 <label class="inp">
                                     <label class="fs-4 mb-3">  المدينة</label>
-                                    <select name="city_id" class="input-text" required style="background-color: rgb(232, 240, 254);">
+                                    <select name="city_id"  class="input-text" required style="background-color: rgb(232, 240, 254);">
+                                        <option value="" selected disabled>اختر المدينة</option>
                                         @foreach($cites as $city)
                                         <option value="{{$city->id}}">{{$city->name}}</option>
                                         @endforeach

@@ -103,7 +103,6 @@ class VendorService extends BaseService
         }
 
         $data['username'] = $this->generateUsername($data['name']);
-        $data['phone'] = '+966' . $data['phone'];
         //check if phone is unique
         $phone = $this->model->where('phone', $data['phone'])->first();
         if ($phone) {
