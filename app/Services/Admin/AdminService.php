@@ -45,13 +45,15 @@ class AdminService extends BaseService
                     }
 
                     return $buttons;
+                })->editColumn('phone', function ($admins) {
+                    $phone = str_replace('+', '', $admins->phone);
+                    return $phone;
                 })
-
                 ->addIndexColumn()
                 ->escapeColumns([])
                 ->make(true);
         } else {
-            return view($this->folder . '/index',[
+            return view($this->folder . '/index', [
 
                 'route' => $this->route,
                 'title' => "المشرفين"
@@ -70,7 +72,7 @@ class AdminService extends BaseService
     {
         $code = $this->generateCode();
         $roles = Role::all();
-        return view($this->folder . '/parts/create',[
+        return view($this->folder . '/parts/create', [
             'permissions' => Permission::where('guard_name', 'admin')
                 ->get(),
             'code' => $code,
@@ -93,7 +95,7 @@ class AdminService extends BaseService
         $data['password'] = Hash::make($data['password']);
         $data['phone'] = '+966' . $data['phone'];
 
-        $data['user_name']=$this->generateUsername($data['name']);
+        $data['user_name'] = $this->generateUsername($data['name']);
         $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();
         $obj = $this->model->create($data);
         $obj->syncPermissions($permissions);
@@ -106,7 +108,7 @@ class AdminService extends BaseService
 
     public function edit($admin)
     {
-        return view($this->folder . '/parts/edit',[
+        return view($this->folder . '/parts/edit', [
             'permissions' => Permission::where('guard_name', 'admin')
                 ->get(),
             'admin' => $admin
@@ -129,7 +131,7 @@ class AdminService extends BaseService
 
             if (isset($data['password'])) {
                 $data['password'] = Hash::make($data['password']);
-            }else{
+            } else {
                 unset($data['password']);
             }
 
@@ -142,7 +144,6 @@ class AdminService extends BaseService
                 $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();
                 $obj->syncPermissions($permissions);
             }
-
 
 
             return $this->responseMsg();

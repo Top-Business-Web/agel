@@ -34,14 +34,12 @@ Route::group(
     function () {
 
         Route::get('/', [AuthController::class, 'index']);
-//        Route::get('/admin/register', [AuthController::class, 'registerForm'])->name('admin.register');
 
         Route::group(['prefix' => 'admin'], function () {
             Route::get('/login', [AuthController::class, 'index'])->name('admin.login');
 
             Route::POST('login', [AuthController::class, 'login'])->name('admin.login');
 
-//            Route::POST('/register', [AuthController::class, 'register'])->name('admin.register');
             Route::get('/verify-otp/{email}/{type}/{resetPassword}', [AuthController::class, 'showOtpForm'])->name('admin.otp.verify');
             Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])->name('admin.otp.check');
 
@@ -68,9 +66,7 @@ Route::group(
                 Route::get('activity_logs', [ActivityLogController::class, 'index'])->name('admin.activity_logs.index');
                 Route::delete('activity_logs/{id}', [ActivityLogController::class, 'destroy'])->name('admin.activity_logs.destroy');
                 Route::post('activity_logs/delete-selected', [ActivityLogController::class, 'deleteSelected'])->name('admin.activity_logs.deleteSelected');
-                #============================ User ====================================
 
-                #============================ User ====================================
 
                 #============================ vendors ====================================
 //                    Route::resourceWithDeleteSelected('vendors', VendorController::class);
@@ -84,13 +80,6 @@ Route::group(
                     Route::post('vendors/update-column-selected', [VendorController::class, 'updateColumnSelected'])->name('admin.vendors.updateColumnSelected');
                     Route::get('getToDate', [PlanSubscriptionController::class, 'getToDate'])->name('getToDate');
 
-
-                Route::delete('vendors/{id}', [VendorController::class, 'destroy'])->name('admin.vendors.destroy');
-                Route::get('vendors/{id}/edit', [VendorController::class, 'edit'])->name('admin.vendors.edit');
-
-
-                Route::post('vendors/delete-selected', [VendorController::class, 'deleteSelected'])->name('admin.vendors.deleteSelected');
-                Route::post('vendors/update-column-selected', [VendorController::class, 'updateColumnSelected'])->name('admin.vendors.updateColumnSelected');
                 #============================ Admin ====================================
                 Route::resourceWithDeleteSelected('admins', AdminController::class);
                 #============================ countries ==================================
