@@ -1,7 +1,7 @@
 @extends('vendor/layouts/master')
 
 @section('title')
-    {{ config()->get('app.name') }} | {{ $bladeName }}
+    {{ config()->get('app.name') }}
 @endsection
 @section('page_name')
     {{ $bladeName }}

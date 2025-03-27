@@ -1,7 +1,7 @@
 @extends('vendor/layouts/master')
 
 @section('title')
-    {{ config()->get('app.name') }} | {{ $bladeName }}
+    {{ config()->get('app.name') }}
 @endsection
 @section('page_name')
     الفروع
@@ -140,12 +140,6 @@
                         <p>هل انت متاكد من تعديل هذه السجلات</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">الغاء</button>
-                        <button type="button" class="btn btn-send" id="confirm-update-btn">تعديل</button>
-
-                        <p>هل أنت متأكد أنك تريد حذف هذا العنصر؟ <span id="title"></span></p>
-                    </div>
-                    <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">أغلاق
                         </button>
@@ -180,7 +174,7 @@
                 data: 'name',
                 name: 'name'
             },
-           
+
             {
                 data: 'status',
                 name: 'status'

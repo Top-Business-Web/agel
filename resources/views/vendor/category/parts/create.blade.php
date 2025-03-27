@@ -15,8 +15,8 @@
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">close</button>
-            <button type="submit" class="btn btn-primary" id="addButton">save</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">الغاء</button>
+            <button type="submit" class="btn btn-primary" id="addButton">حفظ</button>
         </div>
 
     </form>

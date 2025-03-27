@@ -5,6 +5,7 @@ namespace App\Services\Vendor;
 use App\Models\Category as ObjModel;
 use App\Models\Vendor;
 use App\Services\BaseService;
+use Illuminate\Http\JsonResponse;
 use Yajra\DataTables\DataTables;
 
 class CategoryService extends BaseService
@@ -42,7 +43,6 @@ class CategoryService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
-                'bladeName' => ($this->route),
                 'bladeName' => "",
                 'route' => $this->route,
             ]);
@@ -56,26 +56,34 @@ class CategoryService extends BaseService
         ]);
     }
 
-    public function store($data): \Illuminate\Http\JsonResponse
+    public function store($data): JsonResponse
     {
-        $data['vendor_id'] = auth()->guard('vendor')->id();
-        $vendor = Vendor::find($data['vendor_id']);
-
-        if ($vendor && $vendor->parent_id !== null) {
-            $data['vendor_id'] = $vendor->parent_id;
-        }
-
+        $data['vendor_id'] = $this->getVendorId();
+        $data['status'] = 1;
         try {
             $this->createData($data);
 
             return response()->json(['status' => 200, 'message' => ('Data created successfully.')]);
         } catch (\Exception $e) {
             return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
-            return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
         }
     }
+
+    /**
+     * Get the appropriate vendor ID based on authentication and hierarchy
+     *
+     * @return int
+     */
+    private function getVendorId(): int
+    {
+        $authenticatedVendorId = auth()->guard('vendor')->id();
+        $vendor = Vendor::find($authenticatedVendorId);
+
+        return ($vendor && $vendor->parent_id !== null)
+            ? $vendor->parent_id
+            : $authenticatedVendorId;
+    }
+
 
     public function edit($obj)
     {

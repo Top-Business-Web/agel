@@ -55,7 +55,7 @@ Route::group(
                 Route::get('homeVendor', [HomeController::class, 'index'])->name('vendorHome');
                 #============================ branches ==================================
                 Route::resourceWithDeleteSelected('branches', BranchController::class);
- #============================ categories ==================================
+             #============================ categories ==================================
                 Route::resourceWithDeleteSelected('categories', CategoryController::class);
                 #============================ vendors ====================================
                 //                    Route::resourceWithDeleteSelected('vendors', VendorController::class);

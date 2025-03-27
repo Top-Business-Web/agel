@@ -3,7 +3,6 @@
 use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -85,16 +84,10 @@ Route::group(
                     Route::post('vendors/update-column-selected', [VendorController::class, 'updateColumnSelected'])->name('admin.vendors.updateColumnSelected');
                     Route::get('getToDate', [PlanSubscriptionController::class, 'getToDate'])->name('getToDate');
 
-                   
-                Route::get('vendors/index', [VendorController::class, 'index'])->name('admin.vendors.index');
-                Route::get('vendors/create', [VendorController::class, 'create'])->name('admin.vendors.create');
-                Route::post('vendors', [VendorController::class, 'store'])->name('admin.vendors.store');
-                Route::put('vendors/update', [VendorController::class, 'update'])->name('admin.vendors.update');
+
                 Route::delete('vendors/{id}', [VendorController::class, 'destroy'])->name('admin.vendors.destroy');
                 Route::get('vendors/{id}/edit', [VendorController::class, 'edit'])->name('admin.vendors.edit');
 
-                    #============================ categories ==================================
-                    Route::resourceWithDeleteSelected('categories', CategoryController::class);
 
                 Route::post('vendors/delete-selected', [VendorController::class, 'deleteSelected'])->name('admin.vendors.deleteSelected');
                 Route::post('vendors/update-column-selected', [VendorController::class, 'updateColumnSelected'])->name('admin.vendors.updateColumnSelected');

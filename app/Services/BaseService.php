@@ -32,6 +32,8 @@ abstract class BaseService
         $this->model = $model;
     }
 
+
+
     /**
      * Get all instances of the model.
      *
