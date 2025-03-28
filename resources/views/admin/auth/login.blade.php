@@ -117,19 +117,6 @@
         <div class="col-lg-3"></div>
        </div>
 
-        {{--        <form class="signup-form" action="{{route('admin.login')}}" method="post" id="LoginForm">--}}
-        {{--            @csrf--}}
-        {{--            <label class="inp">--}}
-        {{--                <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField">--}}
-        {{--                <label class="form-check-label" for="verificationTypePhone">Phone</label>--}}
-        {{--                 <div>--}}
-        {{--                    <p class="text-mute">نسيت كلمة المرور؟--}}
-        {{--                        <a href="{{url('/reset-password')}}">إعادة تعيين</a>--}}
-        {{--                    </p>--}}
-        {{--                </div>--}}
-        {{--                <button class="btn btn-login" id="loginButton">تسجيل</button>--}}
-        {{--            </label>--}}
-        {{--        </form>--}}
 
 </div>
 </body>
@@ -158,23 +145,5 @@
     });
 </script>
 
-{{--<script>--}}
-{{--    document.querySelectorAll('input[name="verificationType"]').forEach((elem) => {--}}
-{{--        elem.addEventListener("change", function (event) {--}}
-{{--            const inputField = document.getElementById('inputField');--}}
-{{--            const placeHolder = document.getElementById('placeHolder');--}}
-{{--            const inputIcon = document.querySelector('.input-icon i'); // Get the icon element--}}
 
-{{--            if (event.target.value === 'email') {--}}
-{{--                inputField.type = 'email';--}}
-{{--                placeHolder.textContent = 'البريد الالكتروني'; // Update placeholder text--}}
-{{--                inputIcon.className = 'fa-solid fa-envelope'; // Change icon to email--}}
-{{--            } else if (event.target.value === 'phone') {--}}
-{{--                inputField.type = 'number';--}}
-{{--                placeHolder.textContent = 'رقم الجوال'; // Update placeholder text--}}
-{{--                inputIcon.className = 'fa-solid fa-phone'; // Change icon to phone--}}
-{{--            }--}}
-{{--        });--}}
-{{--    });--}}
-{{--</script>--}}
 </html>
