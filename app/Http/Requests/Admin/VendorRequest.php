@@ -33,7 +33,12 @@ class VendorRequest extends FormRequest
 
             'name' => 'required',
             'email' => 'required|email|unique:vendors,email',
-            'phone' => 'required|unique:vendors,phone',
+            'phone' => [
+                'required',
+                'string',
+                'regex:/^\+966\d{9}$/',
+                'unique:vendors,phone'
+            ],
             'city_id' => 'required|exists:cities,id',
             'national_id' => 'required|numeric|unique:vendors,national_id|digits:10',
             'password' => 'required|min:6|confirmed',
@@ -47,7 +52,12 @@ class VendorRequest extends FormRequest
     {
         return [
 
-            'phone' => 'required|unique:vendors,phone,' . $this->id,
+            'phone' => [
+                'required',
+                'string',
+                'regex:/^\+966\d{9}$/',
+                Rule::unique('vendors', 'phone')->ignore($this->id)
+            ],
             'id' => 'required|exists:vendors,id',
             'name' => 'nullable',
             'email' => 'nullable|email|unique:vendors,email,' . $this->id,

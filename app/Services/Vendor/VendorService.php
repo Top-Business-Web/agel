@@ -152,7 +152,7 @@ class VendorService extends BaseService
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $id),
-            'regions' => $this->region->get(),
+            'cities' => $this->cityService->getAll(),
             'branches' => $branches,
 
             'permissions' => Permission::where('guard_name', 'vendor')
@@ -175,7 +175,7 @@ class VendorService extends BaseService
                 }
             }
 
-            $data['phone'] = '+966' . $data['phone'];
+//            $data['phone'] = '+966' . $data['phone'];
             if (isset(auth()->user()->parent_id)) {
                 $data['parent_id'] = auth()->user()->parent_id;
             } else {
