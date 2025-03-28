@@ -33,15 +33,6 @@ class AuthService extends BaseService
             return view('admin.auth.login');
 
         }
-//        if ($key == 'login') {
-//
-//            return view('admin.auth.login');
-//        }
-//        } else {
-////            $cites = City::select('id', 'name')->where('status', 1)->get();
-//            $regions = $this->region->get();
-//            return view('admin.auth.register', compact('regions'));
-//        }
     }
 
     public function login($request): JsonResponse
