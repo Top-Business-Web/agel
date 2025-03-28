@@ -9,19 +9,23 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="name" class="form-control-label">الإسم</label>
-                    <input type="text" class="form-control" name="name" id="name">
+                    <input type="text" class="form-control" name="name" id="name" value="{{ $obj->name }}">
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="email" class="form-control-label">البريد الإلكتروني</label>
-                    <input type="email" class="form-control" name="email" id="email">
+                    <input type="email" class="form-control" name="email" id="email" value="{{ $obj->email }}">
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="phone" class="form-control-label">رقم الهاتف</label>
-                    <input type="number" class="form-control" name="phone" id="phone">
+                    <div class="input-group">
+                        <span class="input-group-text">+966</span>
+                        <input type="number" class="form-control" name="phone" maxlength="11"
+                               value="{{ substr($obj->phone, 4) }}">
+                    </div>
                 </div>
             </div>
             <div class="col-6">
@@ -30,7 +34,7 @@
                     <select name="branch_id" class="form-control">
                         <option value="null" selected disabled>اختر الفرع</option>
                         @foreach($branches as $branch)
-                            <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                            <option value="{{ $branch->id }}" {{ $obj->branch_id == $branch->id ? 'selected' : ''}}>{{ $branch->name }}</option>
                         @endforeach
                     </select>
                 </div>

@@ -13,6 +13,8 @@ class InvestorRequest extends FormRequest
 
     public function rules()
     {
+
+
         if ($this->isMethod('put')) {
             return $this->update();
         } else {
@@ -25,7 +27,7 @@ class InvestorRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required|email',
-            'phone' => 'required',
+            'phone' => 'required|numeric|digits:9',
             'branch_id' => 'required:exists:branches,id',
         ];
     }
@@ -35,7 +37,7 @@ class InvestorRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required|email',
-            'phone' => 'required',
+            'phone' => 'required|numeric|digits:9',
             'branch_id' => 'required:exists:branches,id',
         ];
     }
