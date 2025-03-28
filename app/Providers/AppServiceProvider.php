@@ -2,7 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Admin;
 use App\Models\Setting;
+use App\Models\Vendor;
+use App\Observers\ActivityObserver;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
@@ -33,7 +36,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
+        Admin::observe(ActivityObserver::class);
+        Vendor::observe(ActivityObserver::class);
         App::setLocale('ar');
         LaravelLocalization::setLocale('ar');
 

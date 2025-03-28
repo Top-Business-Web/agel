@@ -12,7 +12,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class Admin extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable,HasRoles,LogsActivity;
+    use HasApiTokens, HasFactory, Notifiable,HasRoles;
 
 
     protected $fillable = [
@@ -24,11 +24,11 @@ class Admin extends Authenticatable
     ];
 
 
-    public function getActivitylogOptions(): LogOptions
+    public function activityLogs()
     {
-        return LogOptions::defaults()
-            ->logAll();
+        return $this->morphMany(ActivityLog::class, 'userable');
     }
+
 
 
 }//end class

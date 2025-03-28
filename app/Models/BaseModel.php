@@ -10,7 +10,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class BaseModel extends Model
 {
-    use AutoFillable ,LogsActivity;
+    use AutoFillable;
 
 
 
@@ -28,9 +28,5 @@ class BaseModel extends Model
         request()->merge(['apply_scope' => true]);
         return $this;
     }
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-            ->logAll();
-    }
+
 }

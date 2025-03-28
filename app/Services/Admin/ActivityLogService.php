@@ -3,8 +3,9 @@
 namespace App\Services\Admin;
 
 use App\Services\BaseService;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
-use Spatie\Activitylog\Models\Activity as ObjModel;
+use App\Models\ActivityLog as ObjModel;
 use Yajra\DataTables\DataTables;
 use App\Models\Admin as AdminObj;
 
@@ -21,55 +22,49 @@ class ActivityLogService extends BaseService
     }
 
 
-    public function index($request)
+
+    public function index( $request)
     {
         if ($request->ajax()) {
+            $objs = $this->getDataTable();
 
-            $obj = $this->getDataTable()->where('causer_type','App\Models\Admin');
-//            dd($obj->first());
-//            dd($this->adminObj->first()->name);
-//            dd($this->adminObj->name);
-//            dd($this->adminObj->where('name',$obj->causer_id)->first());
-            return DataTables::of($obj)
-                ->editColumn('description', function ($obj) {
-                    return $obj->description;
-                })
-                ->editColumn('subject_type', function ($obj) {
-                    return class_basename($obj->subject_type);
-//                    return $obj->subject_type;
-                })
-                ->editColumn('subject_id', function ($obj) {
-                    return $obj->subject_id;
-                })
-//                ->editColumn('causer_type', function ($obj) {
-//                    return class_basename($obj->causer_type);
-////                    return Str::match('*',$obj->causer_type);
-////                    return $obj->causer_type;
-//                })
-                ->editColumn('causer_id', function ($obj) {
-//                    return $this->adminObj->first()->name ;
-//                    return class_basename($obj->subject_type);
-                    return $this->adminObj->where('id', $obj->causer_id)->first()->name??"";
+            return DataTables::of($objs)
+                ->addColumn('user', function ($obj) {
+                    return $obj->userable ? $obj->userable->name : 'غير معروف';
                 })
                 ->addColumn('action', function ($obj) {
-                    $buttons = '
+                    return $obj->action;
+                })
+                ->addColumn('ip_address', function ($obj) {
+                    return $obj->ip_address ?? 'غير متوفر';
+                })
+                ->addColumn('created_at', function ($obj) {
+                    Carbon::setLocale('ar');
+                    return $obj->created_at->translatedFormat('j F Y الساعة g:i A');
+                })
+
+                ->addColumn('delete', function ($obj) {
+                    $buttons = '';
+
+                    $buttons .= '
+
                         <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                             data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
                             <i class="fas fa-trash"></i>
                         </button>
+
+
                     ';
                     return $buttons;
-                })
-                ->addIndexColumn()
-                ->escapeColumns([])
+
+                })->rawColumns(['delete'])
                 ->make(true);
         } else {
             return view($this->folder . '/index', [
-                // 'createRoute' => route($this->route . '.create'),
-                'bladeName' => "سجل الأنشطه",
-
+                'bladeName' => "سجل الأنشطة",
                 'route' => $this->route,
             ]);
         }
     }
+
 }

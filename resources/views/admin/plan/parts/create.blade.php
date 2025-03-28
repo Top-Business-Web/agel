@@ -92,8 +92,10 @@
             let selectKey = `
             <select class="form-control plan-select" name="plans[${planCount}][key]" required>
                 <option selected disabled value="">اختر نوع</option>
-                <option value="employee">الموظفين</option>
-                <option value="branch">الفروع</option>
+                <option value="Vendor">الموظفين</option>
+                <option value="Branch">الفروع</option>
+                <option value="Investor">المستثمرين</option>
+                <option value="Order">العمليات</option>
             </select>`;
 
             let newPlan = `

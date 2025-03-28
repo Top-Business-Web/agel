@@ -24,6 +24,11 @@ class AdminRequest extends FormRequest
      */
     public function rules()
     {
+        if ($this->has('phone')) {
+            $this->merge([
+                'phone' => '+966' . ltrim($this->phone, '0')
+            ]);
+        }
         if (request()->isMethod('put')) {
             return $this->update();
         } else {
@@ -34,14 +39,18 @@ class AdminRequest extends FormRequest
     protected function store(): array
     {
         return [
+            'phone' => [
+                'required',
+                'string',
+                'regex:/^\+966\d{9}$/',
+                'unique:admins,phone'
+            ],
             'name' => 'required',
             'code' => 'required|unique:admins,code',
             'email' => 'required|email|unique:admins,email',
             'password' => 'required|min:6|confirmed',
             "permissions"=>'required|array',
-            'phone'=>   ['required', Rule::unique('admins', 'phone')->where(function ($query) {
-                return $query->where('phone', '+966' . $this->phone);
-            })],
+
             ];
     }
 
@@ -53,9 +62,13 @@ class AdminRequest extends FormRequest
             'email' => 'required|email|unique:admins,email,' . $this->admin,
             'password' => 'nullable|min:6|confirmed',
             "permissions"=>'nullable|array',
-             'phone'=>   ['required', Rule::unique('admins', 'phone')->where(function ($query) {
-                            return $query->where('phone', '+966' . $this->phone);
-                        })->ignore($this->admin)],        ];
+            'phone' => [
+                'required',
+                'string',
+                'regex:/^\+966\d{9}$/',
+                Rule::unique('admins', 'phone')->ignore($this->id)
+            ],
+        ];
     }
 
     public function messages()
@@ -67,6 +80,10 @@ class AdminRequest extends FormRequest
             'email.unique' => 'الإيميل مستخدم من قبل',
             'password.required_without' => 'يجب ادخال كلمة مرور',
             'password.min' => 'الحد الادني لكلمة المرور : 6 أحرف',
+            'password.confirmed' => 'كلمة المرور غير متطابقة',
+            'phone.required' => 'يجب ادخال رقم الهاتف',
+            'phone.regex' => 'رقم الهاتف يجب ان يحتوي علي 9 ارقام',
+
         ];
     }
 }
