@@ -90,15 +90,15 @@
                             </a>
                         </li>
                     @endcanany
-                    @canany(['create_plan', 'read_plan', 'update_plan', 'delete_plan','create_plan_subscription', 'read_plan_subscription', 'update_plan_subscription', 'delete_plan_subscription'])
-                        <li class="{{ routeActive('planSubscription.index') }}">
-                            <a class="slide-item {{ routeActive('planSubscription.index') }}"
-                               href="{{ route('planSubscription.index') }}">
-                                <i class="fas fa-clipboard-list side-menu__icon"></i> <!-- Plan Icon -->
-                                الاشتراكات
-                            </a>
-                        </li>
-                    @endcanany
+{{--                    @canany(['create_plan', 'read_plan', 'update_plan', 'delete_plan','create_plan_subscription', 'read_plan_subscription', 'update_plan_subscription', 'delete_plan_subscription'])--}}
+{{--                        <li class="{{ routeActive('planSubscription.index') }}">--}}
+{{--                            <a class="slide-item {{ routeActive('planSubscription.index') }}"--}}
+{{--                               href="{{ route('planSubscription.index') }}">--}}
+{{--                                <i class="fas fa-clipboard-list side-menu__icon"></i> <!-- Plan Icon -->--}}
+{{--                                الاشتراكات--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    @endcanany--}}
                 </ul>
             </li>
             <!-- Main locations Management Section -->
