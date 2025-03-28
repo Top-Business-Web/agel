@@ -2,10 +2,13 @@
     "name": "laravel/laravel",
     "type": "project",
     "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "keywords": [
+        "framework",
+        "laravel"
+    ],
     "license": "MIT",
     "require": {
-"php": "^8.1",
+        "php": "^8.1",
         "ext-fileinfo": "*",
         "a6digital/laravel-default-profile-image": "^2.0",
         "alisalehi/laravel-lang-files-translator": "^1.0",
@@ -20,7 +23,6 @@
         "mcamara/laravel-localization": "^1.7",
         "php-flasher/flasher-sweetalert-laravel": "^1.15",
         "phpreel/static": "^1.0",
-        "spatie/laravel-activitylog": "^4.10",
         "spatie/laravel-permission": "^6.16",
         "spatie/laravel-translatable": "^6.8",
         "tymon/jwt-auth": "^2.1",
@@ -45,7 +47,8 @@
     "autoload-dev": {
         "psr-4": {
             "Tests\\": "tests/"
-        }, "files":[
+        },
+        "files": [
             "app/Http/Helper/helper.php"
         ]
     },

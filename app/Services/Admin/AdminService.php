@@ -93,7 +93,6 @@ class AdminService extends BaseService
             ]);
         }
         $data['password'] = Hash::make($data['password']);
-        $data['phone'] = '+966' . $data['phone'];
 
         $data['user_name'] = $this->generateUsername($data['name']);
         $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();

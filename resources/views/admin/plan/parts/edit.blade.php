@@ -70,9 +70,10 @@
                             <label class="form-control-label">اختر نوع</label>
                             <select class="form-control plan-select" name="plans[{{ $index }}][key]" required>
                                 <option selected disabled value="">اختر نوع</option>
-                                <option value="employee" {{ $plan->key == 'employee' ? 'selected' : '' }}>الموظفين
-                                </option>
-                                <option value="branch" {{ $plan->key == 'branch' ? 'selected' : '' }}>الفروع</option>
+                                <option value="Vendor" {{ $plan->key == 'Vendor' ? 'selected' : '' }}>الموظفين</option>
+                                <option value="Branch" {{ $plan->key == 'Branch' ? 'selected' : '' }}>الفروع</option>
+                                <option value="Investor" {{ $plan->key == 'Investor' ? 'selected' : '' }}>المستثمرين</option>
+                                <option value="Order" {{ $plan->key == 'Order' ? 'selected' : '' }}>العمليات</option>
                             </select>
                         </div>
                     </div>
@@ -141,8 +142,10 @@
                     <label class="form-control-label">اختر نوع</label>
                     <select class="form-control plan-select" name="plans[${planCount}][key]" required>
                         <option selected disabled value="">اختر نوع</option>
-                        <option value="employee">الموظفين</option>
-                        <option value="branch">الفروع</option>
+                      <option value="Vendor">الموظفين</option>
+                <option value="Branch">الفروع</option>
+                <option value="Investor">المستثمرين</option>
+                <option value="Order">العمليات</option>
                     </select>
                 </div>
             </div>

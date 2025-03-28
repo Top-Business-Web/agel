@@ -3,7 +3,9 @@
 @section('title')
     {{ config()->get('app.name') }} | {{ $title }}
 @endsection
-@section('page_name') {{ $title }} @endsection
+@section('page_name')
+    {{ $title }}
+@endsection
 @section('content')
 
     <div class="row">
@@ -29,17 +31,15 @@
                         <table class="table table-bordered text-nowrap w-100" id="dataTable">
                             <thead>
                             <tr class="fw-bolder text-muted bg-light">
-                                @if(auth('admin')->user()->id!=1)
                                     <th class="min-w-25px">
                                         <input type="checkbox" id="select-all">
                                     </th>
-                                @endif
 
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-50px">الإسم</th>
                                 <th class="min-w-125px">البريد الإلكتروني</th>
-                                    <th class="min-w-50px">رقم الجوال</th>
-                                    <th class="min-w-50px rounded-end">العمليات</th>
+                                <th class="min-w-50px">رقم الجوال</th>
+                                <th class="min-w-50px rounded-end">العمليات</th>
                             </tr>
                             </thead>
                         </table>
@@ -108,9 +108,11 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">إلغاء</button>
+                            data-bs-dismiss="modal">إلغاء
+                    </button>
                     <button type="button" class="btn btn-danger"
-                            id="confirm-delete-btn">حذف</button>
+                            id="confirm-delete-btn">حذف
+                    </button>
                 </div>
             </div>
         </div>
@@ -135,7 +137,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">إلغاء</button>
+                            data-bs-dismiss="modal">إلغاء
+                    </button>
                     <button type="button" class="btn btn-send" id="confirm-update-btn">تعديل</button>
                 </div>
             </div>
@@ -148,20 +151,21 @@
 @section('ajaxCalls')
     <script>
         var columns = [
-                @if(auth('admin')->user()->id!=1)
-
             {
-
                 data: 'checkbox',
                 name: 'checkbox',
                 orderable: false,
                 searchable: false,
-                render: function (data, type, row) {
+                render: function(data, type, row) {
+                    if (row.id === 1 || row.id === {{ auth()->user()->id }}) {
+                        return '';
+                    }
                     return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
                 }
             },
-            @endif
-            {data: 'id', name: 'id'},
+            {
+                data: 'id', name: 'id'
+            },
             {data: 'name', name: 'name'},
             {data: 'email', name: 'email'},
             {data: 'phone', name: 'phone'},
