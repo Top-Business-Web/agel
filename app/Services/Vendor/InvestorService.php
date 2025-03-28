@@ -4,6 +4,7 @@ namespace App\Services\Vendor;
 
 use App\Models\Investor as ObjModel;
 use App\Services\BaseService;
+use Illuminate\Http\JsonResponse;
 use Yajra\DataTables\DataTables;
 
 class InvestorService extends BaseService
@@ -64,11 +65,10 @@ class InvestorService extends BaseService
 
     public function store($data): \Illuminate\Http\JsonResponse
     {
-        if (isset($data['image'])) {
-            $data['image'] = $this->handleFile($data['image'], 'Investor');
-        }
+
 
         try {
+            $data['phone']='+966'.$data['phone'];
             $this->createData($data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception $e) {
@@ -86,18 +86,13 @@ class InvestorService extends BaseService
         ]);
     }
 
-    public function update($data, $investor): \Illuminate\Http\JsonResponse
+    public function update($data, $id): JsonResponse
     {
-        if (isset($data['image'])) {
-            $data['image'] = $this->handleFile($data['image'], 'Investor');
 
-            if ($investor->image) {
-                $this->deleteFile($investor->image);
-            }
-        }
 
         try {
-            $this->updateData($data, $investor->id);
+            $data['phone']='+966'.$data['phone'];
+            $this->updateData($id,$data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
 
         } catch (\Exception $e) {

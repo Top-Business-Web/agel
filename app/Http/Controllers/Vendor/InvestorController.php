@@ -33,22 +33,22 @@ class InvestorController extends Controller
         return $this->objService->edit($investor);
     }
 
-    public function update(ObjRequest $request, $investor)
+    public function update(ObjRequest $request, $id)
     {
         $data = $request->validated();
-        return $this->objService->update($data, $investor);
+        return $this->objService->update($data, $id);
     }
 
     public function destroy($id)
     {
         return $this->objService->delete($id);
     }
-        public function updateColumnSelected(\Request $request)
+        public function updateColumnSelected(Request $request)
     {
         return $this->objService->updateColumnSelected($request,'status');
     }
 
-    public function deleteSelected(\Request $request){
+    public function deleteSelected(Request $request){
         return $this->objService->deleteSelected($request);
     }
 }

@@ -91,7 +91,6 @@ Route::group(
                 #============================ investors ====================================
 
                 Route::resourceWithDeleteSelected('investors', InvestorController::class);
-                Route::post('investors/{investor}', [InvestorController::class, 'update'])->name('vendor.investors.update');
                 #============================ client ====================================
                 Route::resourceWithDeleteSelected('clients', ClientController::class);
 
