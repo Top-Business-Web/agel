@@ -178,7 +178,7 @@ class VendorService extends BaseService
                 }
             }
 
-            $data['phone'] = '+966' . $data['phone'];
+//            $data['phone'] = '+966' . $data['phone'];
 
 
             if (isset($data['password'])) {
