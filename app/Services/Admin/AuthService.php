@@ -50,22 +50,20 @@ class AuthService extends BaseService
         );
 
         if ($request->verificationType == 'phone') {
-            $admin = Admin::where('phone', $data['input'])->first();
+            $admin = Admin::where('phone', '+966'.$data['input'])->first();
 
             if (!$admin) {
                 return response()->json([
-                    'status' => 206,
-//                    'email' => $admin->email
+                    'status' => 208,
                 ], 206);
             }
             if ($admin->status == 0) {
                 return response()->json([
                     'status' => 207,
-//                    'email' => $admin->email
                 ], 207);
             }
             $credentials = [
-                'phone' => $data['input'],
+                'phone' => '+966'.$data['input'],
                 'password' => $data['password'],
             ];
             if (Auth::guard('admin')->attempt($credentials)) {
