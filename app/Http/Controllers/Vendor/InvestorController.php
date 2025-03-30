@@ -51,4 +51,11 @@ class InvestorController extends Controller
     public function deleteSelected(Request $request){
         return $this->objService->deleteSelected($request);
     }
+
+
+    public function addStockForm($id)
+    {
+        return$this->objService->addStockForm($id);
+
+    }
 }

@@ -2,7 +2,8 @@
 <aside class="app-sidebar">
     <div class="side-header">
         <a class="header-brand1" href="{{ route('vendorHome') }}">
-            <img src="{{ getFile(isset($setting) ?getFile(getAuthSetting('logo'))  : null) }}" class="header-brand-img" alt="logo">
+            <img src="{{ getFile(isset($setting) ?getFile(getAuthSetting('logo'))  : null) }}" class="header-brand-img"
+                 alt="logo">
         </a>
         <!-- الشعار -->
     </div>
@@ -22,15 +23,22 @@
 
         <li class="{{ routeActive('branches.index') }}">
             <a class="slide-item {{ routeActive('branches.index') }}" href="{{ route('branches.index') }}">
-                <i class="fas fa-code-branch side-menu__icon"></i> <!-- Branches Icon -->
+                <i class="fa fa-code-branch side-menu__icon"></i> <!-- Branches Icon -->
                 الفروع
             </a>
         </li>
         <li class="{{ routeActive('categories.index') }}">
             <a class="slide-item {{ routeActive('categories.index') }}" href="{{ route('categories.index') }}">
-            <i class="fas fa-th side-menu__icon"></i> <!-- Category Icon -->
-            التصنيفات
-   </a>
+                <i class="fa fa-th side-menu__icon"></i> <!-- Category Icon -->
+                التصنيفات
+            </a>
+        </li>
+
+        <li class="{{ routeActive('stocks.index') }}">
+            <a class="slide-item {{ routeActive('stocks.index') }}" href="{{ route('stocks.index') }}">
+                <i class="fa fa-star side-menu__icon"></i> <!-- stocks Icon -->
+                المخزون
+            </a>
         </li>
 
         <!-- إدارة المستخدمين -->
@@ -44,7 +52,8 @@
             <ul class="slide-menu">
                 <!-- التجار -->
                 <li class="{{ routeActive('vendor.index') }}">
-                    <a class="slide-item {{ routeActive('vendor.vendors.index') }}" href="{{ route('vendor.vendors.index') }}">
+                    <a class="slide-item {{ routeActive('vendor.vendors.index') }}"
+                       href="{{ route('vendor.vendors.index') }}">
                         <i class="fas fa-store side-menu__icon"></i> <!-- Vendor Icon -->
                         إدارة الموظفين
                     </a>
@@ -69,49 +78,49 @@
         </li>
         <!-- إدارة المستخدمين -->
 
-{{--        <!-- إدارة الإعدادات -->--}}
-{{--        <li class="slide {{ arrRouteActive(['countries.index', 'cities.index']) }}">--}}
-{{--            <a class="side-menu__item {{ arrRouteActive(['vendor.roles.index', 'vendor.activity_logs.index'], 'active') }}"--}}
-{{--               data-toggle="slide" href="#">--}}
-{{--                <i class="fas fa-cog side-menu__icon"></i> <!-- Settings Icon -->--}}
-{{--                <span class="side-menu__label">الإعدادات</span>--}}
-{{--                <i class="angle fa fa-angle-right"></i>--}}
-{{--            </a>--}}
+        {{--        <!-- إدارة الإعدادات -->--}}
+        {{--        <li class="slide {{ arrRouteActive(['countries.index', 'cities.index']) }}">--}}
+        {{--            <a class="side-menu__item {{ arrRouteActive(['vendor.roles.index', 'vendor.activity_logs.index'], 'active') }}"--}}
+        {{--               data-toggle="slide" href="#">--}}
+        {{--                <i class="fas fa-cog side-menu__icon"></i> <!-- Settings Icon -->--}}
+        {{--                <span class="side-menu__label">الإعدادات</span>--}}
+        {{--                <i class="angle fa fa-angle-right"></i>--}}
+        {{--            </a>--}}
 
-{{--            <ul class="slide-menu">--}}
-{{--                <!-- الأدوار والصلاحيات -->--}}
-{{--                <li class="{{ routeActive('vendor.roles.index') }}">--}}
-{{--                    <a class="slide-item {{ routeActive('vendor.roles.index') }}" href="{{ route('vendor.roles.index') }}">--}}
-{{--                        <i class="fas fa-user-shield side-menu__icon"></i> <!-- Permissions Management Icon -->--}}
-{{--                        إدارة الأدوار والصلاحيات--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--            </ul>--}}
+        {{--            <ul class="slide-menu">--}}
+        {{--                <!-- الأدوار والصلاحيات -->--}}
+        {{--                <li class="{{ routeActive('vendor.roles.index') }}">--}}
+        {{--                    <a class="slide-item {{ routeActive('vendor.roles.index') }}" href="{{ route('vendor.roles.index') }}">--}}
+        {{--                        <i class="fas fa-user-shield side-menu__icon"></i> <!-- Permissions Management Icon -->--}}
+        {{--                        إدارة الأدوار والصلاحيات--}}
+        {{--                    </a>--}}
+        {{--                </li>--}}
+        {{--            </ul>--}}
 
-{{--            <ul class="slide-menu">--}}
-{{--                <!-- سجلات الأنشطة -->--}}
-{{--                <li class="{{ routeActive('activity_logs.index') }}">--}}
-{{--                    <a class="slide-item {{ routeActive('vendor.activity_logs.index') }}" href="{{ route('vendor.activity_logs.index') }}">--}}
-{{--                        <i class="fas fa-heartbeat side-menu__icon"></i> <!-- Activity Icon -->--}}
-{{--                        سجلات الأنشطة--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--            </ul>--}}
-{{--        </li>--}}
-{{--        <!-- إدارة الإعدادات -->--}}
+        {{--            <ul class="slide-menu">--}}
+        {{--                <!-- سجلات الأنشطة -->--}}
+        {{--                <li class="{{ routeActive('activity_logs.index') }}">--}}
+        {{--                    <a class="slide-item {{ routeActive('vendor.activity_logs.index') }}" href="{{ route('vendor.activity_logs.index') }}">--}}
+        {{--                        <i class="fas fa-heartbeat side-menu__icon"></i> <!-- Activity Icon -->--}}
+        {{--                        سجلات الأنشطة--}}
+        {{--                    </a>--}}
+        {{--                </li>--}}
+        {{--            </ul>--}}
+        {{--        </li>--}}
+        {{--        <!-- إدارة الإعدادات -->--}}
 
 
-{{--        <!-- إدارة أعدادات النظام -->--}}
+        {{--        <!-- إدارة أعدادات النظام -->--}}
 
-{{--        <li class="slide">--}}
-{{--            <a class="side-menu__item  {{ Route::currentRouteName() == 'vendorSetting' ? 'active' : '' }}"--}}
-{{--               href="{{ route('vendorSetting') }}">--}}
-{{--                <i class="fa fa-home side-menu__icon"></i>--}}
-{{--                <span class="side-menu__label">أعدادات النظام</span>--}}
-{{--            </a>--}}
-{{--        </li>--}}
+        {{--        <li class="slide">--}}
+        {{--            <a class="side-menu__item  {{ Route::currentRouteName() == 'vendorSetting' ? 'active' : '' }}"--}}
+        {{--               href="{{ route('vendorSetting') }}">--}}
+        {{--                <i class="fa fa-home side-menu__icon"></i>--}}
+        {{--                <span class="side-menu__label">أعدادات النظام</span>--}}
+        {{--            </a>--}}
+        {{--        </li>--}}
 
-{{--        <!-- إدارة أعدادات النظام -->--}}
+        {{--        <!-- إدارة أعدادات النظام -->--}}
 
 
         <li class="slide">
