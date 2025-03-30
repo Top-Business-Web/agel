@@ -38,7 +38,7 @@ class Otp extends Mailable
     public function envelope()
     {
         return new Envelope(
-            from: new Address('info@admin-rcmc.zimamapps.com', 'Sender Name'), // Add this line
+            from: new Address('agel@ebharbookuae.com', 'Agel'),
             subject: 'Otp',
         );
     }
