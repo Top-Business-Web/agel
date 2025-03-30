@@ -8,7 +8,7 @@ use Yajra\DataTables\DataTables;
 
 class StockService extends BaseService
 {
-    protected string $folder = 'admin/stock';
+    protected string $folder = 'vendor/stock';
     protected string $route = 'stocks';
 
     public function __construct(ObjModel $objModel)

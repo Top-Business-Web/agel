@@ -1,4 +1,4 @@
-@extends('admin/layouts/master')
+@extends('vendor.layouts.master')
 
 @section('title')
     {{ config()->get('app.name') }}
@@ -39,7 +39,7 @@
                                     <input type="checkbox" id="select-all">
                                 </th>
                                 <th class="min-w-25px">#</th>
-                                <th class="min-w-50px rounded-end">ألإجراءات </th>
+                                <th class="min-w-50px rounded-end">ألإجراءات</th>
                             </tr>
                             </thead>
                         </table>
@@ -93,6 +93,9 @@
         </div>
         <!-- Create Or Edit Modal -->
 
+
+
+
         <!-- delete selected Modal -->
         <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog"
              aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
@@ -115,7 +118,6 @@
             </div>
         </div>
         <!-- delete selected Modal -->
-
 
 
         <!-- update cols selected Modal -->
@@ -142,7 +144,7 @@
         <!-- update selected Modal -->
 
     </div>
-    @include('admin/layouts/myAjaxHelper')
+    @include('vendor.layouts.myAjaxHelper')
 @endsection
 @section('ajaxCalls')
     <script>
@@ -176,16 +178,14 @@
         editScript();
     </script>
 
-       <script>
+    <script>
         // for status
-        $(document).on('click', '.statusBtn', function() {
+        $(document).on('click', '.statusBtn', function () {
             let id = $(this).data('id');
 
             var val = $(this).is(':checked') ? 1 : 0;
 
             let ids = [id];
-
-
 
 
             $.ajax({
@@ -195,7 +195,7 @@
                     "_token": "{{ csrf_token() }}",
                     'ids': ids,
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.status === 200) {
                         if (val !== 0) {
                             toastr.success('', "نشط");
@@ -206,15 +206,11 @@
                         toastr.error('Error', "حدث خطأ ما");
                     }
                 },
-                error: function() {
+                error: function () {
                     toastr.error('Error', "حدث خطأ ما");
                 }
             });
         });
-
-
-
-    </script>
 
 
 @endsection

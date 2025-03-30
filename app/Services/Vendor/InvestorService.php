@@ -3,6 +3,7 @@
 namespace App\Services\Vendor;
 
 use App\Models\Investor as ObjModel;
+use App\Models\VendorBranch;
 use App\Services\BaseService;
 use Illuminate\Http\JsonResponse;
 use Yajra\DataTables\DataTables;
@@ -12,7 +13,7 @@ class InvestorService extends BaseService
     protected string $folder = 'vendor/investor';
     protected string $route = 'investors';
 
-    public function __construct(ObjModel $objModel,protected BranchService $branchService)
+    public function __construct(ObjModel $objModel,protected BranchService $branchService,protected CategoryService $categoryService ,protected VendorBranch $vendorBranch)
     {
         parent::__construct($objModel);
     }
@@ -33,6 +34,10 @@ class InvestorService extends BaseService
                         <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                             data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
                             <i class="fas fa-trash"></i>
+                        </button>
+
+                             <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light addStock">
+                            <i class="fa fa-plus"></i>
                         </button>
                     ';
                     return $buttons;
@@ -98,6 +103,26 @@ class InvestorService extends BaseService
         } catch (\Exception $e) {
             return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
         }
+    }
+
+
+    public function addStockForm($id)
+    {
+        $auth = auth('vendor')->user();
+        $branches = [];
+        if ($auth->parent_id == null) {
+            $branches = $this->branchService->model->whereIn('vendor_id', [$auth->parent_id, $auth->id])->get();
+        } else {
+            $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
+            $branches = $this->branchService->model->whereIn('id', $branchIds)->get();
+        }
+        return view("{$this->folder}/parts/add_stock", [
+            'storeRoute' => route("{$this->route}.store"),
+            'investorId' => $id,
+            'categories' => $this->categoryService->model->apply()->get(),
+            'branches' => $branches,
+        ]);
+
     }
 
 }

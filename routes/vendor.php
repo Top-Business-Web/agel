@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\StockController;
 use App\Http\Controllers\Vendor\CategoryController;
 use App\Http\Controllers\Vendor\ActivityLogController;
 use App\Http\Controllers\Vendor\AuthController;
@@ -72,6 +73,9 @@ Route::group(
 
 
 
+
+
+
                 #============================ logout ====================================
                 Route::get('logout', [AuthController::class, 'logout'])->name('vendor.logout');
                 #============================ roles and permissions ====================================
@@ -91,8 +95,13 @@ Route::group(
                 #============================ investors ====================================
 
                 Route::resourceWithDeleteSelected('investors', InvestorController::class);
+                Route::get('investors/add-stock/{id}', [InvestorController::class, 'addStockForm'])->name('vendor.investors.addStock');
                 #============================ client ====================================
                 Route::resourceWithDeleteSelected('clients', ClientController::class);
+
+                #============================ Stocks ==================================
+                Route::resourceWithDeleteSelected('stocks', StockController::class);
+
 
             });
         });
