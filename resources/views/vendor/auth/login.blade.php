@@ -131,26 +131,34 @@
 </body>
 @include('vendor.auth.js')
 <script>
-    document.getElementById('toggleDarkMode').addEventListener('click', function () {
-        document.body.classList.toggle('dark-mode');
-    });
-</script>
-<script>
-    document.querySelectorAll('input[name="verificationType"]').forEach((elem) => {
-        elem.addEventListener("change", function (event) {
-            const inputField = document.getElementById('inputField');
-            const placeHolder = document.getElementById('placeHolder');
-            const inputIcon = document.querySelector('.input-icon i'); // Get the icon element
+    document.addEventListener("DOMContentLoaded", function () {
+        const emailRadio = document.getElementById("verificationTypeEmail");
+        const phoneRadio = document.getElementById("verificationTypePhone");
+        const inputField = document.getElementById("inputField");
+        const placeHolder = document.getElementById("placeHolder");
+        const inputIcon = document.querySelector('.input-icon i');
 
-            if (event.target.value === 'email') {
-                inputField.type = 'email';
-                placeHolder.textContent = 'البريد الالكتروني'; // Update placeholder text
-                inputIcon.className = 'fa-solid fa-envelope'; // Change icon to email
-            } else if (event.target.value === 'phone') {
-                inputField.type = 'number';
-                placeHolder.textContent = 'رقم الجوال'; // Update placeholder text
-                inputIcon.className = 'fa-solid fa-phone'; // Change icon to phone
-            }
+        // جعل البريد الإلكتروني الخيار الافتراضي عند تحميل الصفحة
+        emailRadio.checked = true;
+        inputField.type = 'email';
+        placeHolder.textContent = 'البريد الالكتروني';
+        inputIcon.className = 'fa-solid fa-envelope';
+        inputField.value = "";
+        password.value = "";
+
+        // تحديث الإدخال عند تغيير الاختيار
+        document.querySelectorAll('input[name="verificationType"]').forEach((elem) => {
+            elem.addEventListener("change", function (event) {
+                if (event.target.value === 'email') {
+                    inputField.type = 'email';
+                    placeHolder.textContent = 'البريد الالكتروني';
+                    inputIcon.className = 'fa-solid fa-envelope';
+                } else if (event.target.value === 'phone') {
+                    inputField.type = 'number';
+                    placeHolder.textContent = 'رقم الجوال';
+                    inputIcon.className = 'fa-solid fa-phone';
+                }
+            });
         });
     });
 </script>
