@@ -134,31 +134,31 @@ class InvestorService extends BaseService
     public function storeStock($data): JsonResponse
     {
         try {
-            $data['vendor_id'] = auth('vendor')->user()->parent_id !== null ? auth('vendor')->user()->parent_id : auth('vendor')->user()->id;
-            // check if operation is added or reduce
-            if ($data['operation'] == 1) {
-                $data['price'] = ($data['total_price_add'] - ($data['vendor_commission'] + $data['investor_commission'] + $data['sell_diff'])) / $data['quantity'];
-                unset($data['operation']);
+            $data['vendor_id'] = auth('vendor')->user()->parent_id ?? auth('vendor')->user()->id;
+            $data = $this->prepareStockData($data);
 
-                $obj = $this->stockService->createData($data);
-                $obj->operation()->create([
-                    'stock_id' => $obj->id,
-                    'type' => 1,
+            $obj = $this->stockService->createData($data);
+            $obj->operation()->create([
+                'stock_id' => $obj->id,
+                'type' => $data['operation_type'],
+            ]);
 
-                ]);
-            }else {
-                unset($data['operation']);
-                $obj = $this->stockService->createData($data);
-                $obj->operation()->create([
-                    'stock_id' => $obj->id,
-                    'type' => 0,
-                ]);
-            }
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception $e) {
             return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
         }
     }
 
+    private function prepareStockData($data)
+    {
+        if ($data['operation'] == 1) {
+            $data['price'] = ($data['total_price_add'] - ($data['vendor_commission'] + $data['investor_commission'] + $data['sell_diff'])) / $data['quantity'];
+            $data['operation_type'] = 1;
+        } else {
+            $data['operation_type'] = 0;
+        }
+        unset($data['operation']);
+        return $data;
+    }
 
 }
