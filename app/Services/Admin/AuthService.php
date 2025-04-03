@@ -100,7 +100,11 @@ class AuthService extends BaseService
                     'otp_expire_at' => now()->addMinutes(5)
                 ]);
 
-                Mail::to($admin->email)->send(new Otp($admin->name, $otp));
+                try{
+                    Mail::to($admin->email)->send(new Otp($admin->name, $otp));
+                }catch(\Exeption $e){
+
+                }
 
 
                 return response()->json([
