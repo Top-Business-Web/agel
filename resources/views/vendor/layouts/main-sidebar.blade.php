@@ -21,13 +21,13 @@
         </li>
 
         <li class="{{ routeActive('branches.index') }}">
-            <a class="slide-item {{ routeActive('branches.index') }}" href="{{ route('branches.index') }}">
+            <a class="slide-item {{ routeActive('branches.index') }}" style="margin-right:5px;" href="{{ route('branches.index') }}">
                 <i class="fas fa-code-branch side-menu__icon"></i> <!-- Branches Icon -->
                 الفروع
             </a>
         </li>
         <li class="{{ routeActive('categories.index') }}">
-            <a class="slide-item {{ routeActive('categories.index') }}" href="{{ route('categories.index') }}">
+            <a class="slide-item {{ routeActive('categories.index') }}" style="margin-right:5px;" href="{{ route('categories.index') }}">
             <i class="fas fa-th side-menu__icon"></i> <!-- Category Icon -->
             التصنيفات
    </a>
