@@ -1,5 +1,5 @@
 <div class="modal-body">
-    <form method="POST" enctype="multipart/form-data" action="{{ $storeRoute }}">
+    <form method="POST" id="addFormStock" class="addFormStock" enctype="multipart/form-data" action="{{ $storeRoute }}">
         @csrf
         <div class="row">
 
@@ -7,7 +7,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="operation" class="form-control-label">نوع العملية</label>
-                    <select class="form-control" name="operation" id="operation" required>
+                    <select class="form-control" name="operation" id="operation" >
                         <option value="" selected disabled>اختر نوع العملية</option>
                         <option value="1">أضافة</option>
                         <option value="0">أنقاص</option>
@@ -17,7 +17,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="category_id" class="form-control-label">الصنف</label>
-                    <select class="form-control" name="category_id" id="category_id" required>
+                    <select class="form-control" name="category_id" id="category_id" >
                         <option value="" selected disabled>اختر الصنف</option>
                         @foreach ($categories as $category)
                             <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -30,7 +30,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="branch_id" class="form-control-label">الفرع</label>
-                    <select class="form-control" name="branch_id" id="branch_id" required>
+                    <select class="form-control" name="branch_id" id="branch_id" >
                         <option value="" selected disabled>اختر الفرع</option>
                         @foreach ($branches as $branch)
                             <option value="{{ $branch->id }}">{{ $branch->name }}</option>
@@ -45,7 +45,7 @@
                     <label for="quantity " class="form-control-label">
                         الكمية
                     </label>
-                    <input type="number" class="form-control" name="quantity" id="quantity" required>
+                    <input type="number" class="form-control" name="quantity" id="quantity" >
                 </div>
             </div>
 
@@ -55,7 +55,7 @@
                     <label for="total_price_add" class="form-control-label">
                         السعر
                     </label>
-                    <input type="number" class="form-control" name="total_price_add" id="total_price_add" required>
+                    <input type="number" class="form-control" name="total_price_add" id="total_price_add" >
                 </div>
             </div>
 
@@ -64,7 +64,7 @@
                     <label for="total_price_sub" class="form-control-label">
                         السعر
                     </label>
-                    <input type="number" class="form-control" name="total_price_sub" id="total_price_sub" required>
+                    <input type="number" class="form-control" name="total_price_sub" id="total_price_sub" >
                 </div>
             </div>
 
@@ -72,7 +72,7 @@
                 <div class="form-group">
                     <label for="vendor_commission" class="form-control-label">أجمالي العمولة للمكتب
                     </label>
-                    <input type="number" class="form-control" name="vendor_commission" id="vendor_commission" required>
+                    <input type="number" class="form-control" name="vendor_commission" id="vendor_commission" >
                 </div>
             </div>
             <div class="col-6">
@@ -89,7 +89,7 @@
                     <label for="sell_diff" class="form-control-label">
                         فروقات اعاده البيع
                     </label>
-                    <input type="number" class="form-control" name="sell_diff" id="sell_diff" required>
+                    <input type="number" class="form-control" name="sell_diff" id="sell_diff" >
                 </div>
             </div>
         </div>
@@ -133,7 +133,7 @@
 
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">أغلاق</button>
-            <button type="submit" class="btn btn-primary" id="addButton">حفظ
+            <button type="submit" class="btn btn-primary" id="addButtonStock">حفظ
             </button>
         </div>
 
@@ -205,6 +205,55 @@
         $("#operation").closest('.col-6').show();
         $("#operation").change(toggleFields);
         toggleFields();
+    });
+
+
+    // add script
+    $(document).one('submit', '#addFormStock', function (e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        var url = $('#addFormStock').attr('action');
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: formData,
+            beforeSend: function () {
+                $('#addButtonStock').html('<span class="spinner-border spinner-border-sm mr-2" ' +
+                    ' ></span> <span style="margin-left: 4px;">أنتظر قليلًا...</span>').attr('disabled', true);
+            },
+            success: function (data) {
+                if (data.status == 200) {
+                    $('#dataTable').DataTable().ajax.reload();
+                    toastr.success('تمت العملية بنجاح');
+                } else if(data.status == 405){
+                    toastr.error(data.mymessage);
+                }
+                else
+                    toastr.error('حدث خطأ ما');
+                $('#addButtonStock').html(`اضافه`).attr('disabled', false);
+                $('#addStock').modal('hide')
+            },
+            error: function (data) {
+                if (data.status === 500) {
+                    toastr.error('');
+                } else if (data.status === 422) {
+                    var errors = $.parseJSON(data.responseText);
+                    $.each(errors, function (key, value) {
+                        if ($.isPlainObject(value)) {
+                            $.each(value, function (key, value) {
+                                toastr.error(value, 'خطأ');
+                            });
+                        }
+                    });
+                } else
+                    toastr.error('حدث خطأ ما');
+                $('#addButtonStock').html(`اضافة`).attr('disabled', false);
+            },//end error method
+
+            cache: false,
+            contentType: false,
+            processData: false
+        });
     });
 </script>
 
