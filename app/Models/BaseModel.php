@@ -5,8 +5,6 @@ namespace App\Models;
 use App\Traits\AutoFillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 
 class BaseModel extends Model
 {
