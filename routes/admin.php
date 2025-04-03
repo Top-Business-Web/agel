@@ -90,12 +90,20 @@ Route::group(
                 Route::resourceWithDeleteSelected('Plans', PlanController::class);
                 #============================ planSubscription ==================================
                 Route::resourceWithDeleteSelected('planSubscription', PlanSubscriptionController::class);
+                 #============================ settings ==================================
+                 Route::resourceWithDeleteSelected('planSubscription', PlanSubscriptionController::class);
+
+                 Route::get('settings', [SettingController::class,'index'])->name('settings.index');
+
 
 
                 Route::get('my_profile', [AdminController::class, 'myProfile'])->name('myProfile');
                 Route::get('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
-                Route::get('setting', [SettingController::class, 'index'])->name('settingIndex');
+                Route::get('setting', [SettingController::class, 'index'])->name('admin.setting');
+                Route::put('settings',action: [SettingController::class,'update'])->name('settings.update');
+
+
                 Route::POST('setting/store', [SettingController::class, 'store'])->name('setting.store');
                 Route::POST('setting/update/{id}/', [SettingController::class, 'update'])->name('settingUpdate');
 

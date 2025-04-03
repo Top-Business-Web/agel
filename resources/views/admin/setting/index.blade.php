@@ -1,146 +1,70 @@
-{{--@extends('admin/layouts/master')--}}
+@extends('admin.layouts.master')
 
-{{--@section('title')--}}
-{{--    {{ config()->get('app.name') ?? '' }} | {{ trns('settings') }}--}}
-{{--@endsection--}}
-{{--@section('page_name')--}}
-{{--    settings--}}
-{{--@endsection--}}
-{{--@section('content')--}}
-{{--    <div class="card">--}}
-{{--        <div class="card-body">--}}
-{{--            <div class="row">--}}
-{{--                <form id="addForm" class="addForm">--}}
-{{--                    <div class="row">--}}
-
-{{--                        <div class="col-6">--}}
-{{--                            <div class="form-group">--}}
-{{--                                <label for="title" class="form-control-label">{{ trns('title') }} {{ trns('ar') }}</label>--}}
-{{--                                <input type="text" class="form-control" name="title[ar]" id="title">--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-
-{{--                        <div class="col-6">--}}
-{{--                            <div class="form-group">--}}
-{{--                                <label for="title" class="form-control-label">{{ trns('title') }} {{ trns('en') }}</label>--}}
-{{--                                <input type="text" class="form-control" name="title[en]" id="title">--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+<!-- @section('title')
+    {{ config('app.name') }} | {{ $bladeName }}
+@endsection -->
 
 
-{{--                            <div class="col-6">--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label for="logo" class="form-control-label">{{ trns('logo') }}</label>--}}
-{{--                                    <input type="file" class="dropify" name="logo" id="logo">--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
 
-{{--                            <div class="col-6">--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label for="loader" class="form-control-label">{{ trns('loader') }}</label>--}}
-{{--                                    <input type="file" class="dropify" name="loader" id="loader">--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+@section('content')
+    <form id="updateForm" method="POST" enctype="multipart/form-data" action="{{ route('settings.update') }}">
+        @csrf
+        @method('PUT')
 
-{{--                            <div class="col-12">--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label for="fav_icon" class="form-control-label">{{ trns('fav icon') }}</label>--}}
-{{--                                    <input type="file" class="dropify" name="fav_icon" id="fav_icon">--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+        <div class="container rounded bg-white mt-5 mb-5">
+            <div class="row">
+                <div class="col-md-12 border-right">
+                    <div class="p-3 py-5 mt-3">
+                        <div class="row">
+                            <!-- Logo -->
+                            <!-- <div class="col-md-4 mt-3">
+                                <label class="labels">{{ __('Logo') }}</label>
+                                <input type="file" class="form-control dropify" name="logo">
+                            </div> -->
 
-{{--                            <div class="col-6">--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label for="facebook" class="form-control-label">{{ trns('facebook') }}</label>--}}
-{{--                                    <input type="text" class="form-control" name="facebook" id="facebook">--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+                            <!-- Fav Icon -->
+                            <!-- <div class="col-md-4 mt-3">
+                                <label class="labels">{{ __('Fav Icon') }}</label>
+                                <input type="file" class="form-control dropify" name="fav_icon">
+                            </div> -->
 
-{{--                            <div class="col-6">--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label for="youtube" class="form-control-label">{{ trns('youtube') }}</label>--}}
-{{--                                    <input type="text" class="form-control" name="youtube" id="youtube">--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+                            <!-- Loader -->
+                            <!-- <div class="col-md-4 mt-3">
+                                <label class="labels">{{ __('Loader') }}</label>
+                                <input type="file" class="form-control dropify" name="loader">
+                            </div> -->
+                        </div> 
 
-{{--                            <div class="col-6">--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label for="instagram" class="form-control-label">{{ trns('instagram') }}</label>--}}
-{{--                                    <input type="text" class="form-control" name="instagram" id="instagram">--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+                        <!-- App Version -->
+                        <div class="col-md-12 mt-3">
+                            <label class="labels">{{ __('App Version') }}</label>
+                            <input type="text" class="form-control" name="app_version"
+                                   value="{{ optional($settings->where('key', 'app_version')->first())->value ?? '' }}">
+                        </div>
 
-{{--                            <div class="col-6">--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label for="watsapp" class="form-control-label">{{ trns('watsapp') }}</label>--}}
-{{--                                    <input type="text" class="form-control" name="watsapp" id="watsapp">--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+                        <!-- About (EN) -->
+                        <div class="col-md-12 mt-3">
+                            <label class="labels">{{ __('About') }}</label>
+                            <textarea class="form-control" name="about">
+                                {{ optional($settings->where('key', 'about')->first())->value ?? 'لا يوجد بيانات' }}
+                            </textarea>
+                        </div>
 
+                        <!-- Submit Button -->
+                        <div class="mt-5 text-right mr-5">
+                            <button type="submit" class="btn btn-primary" id="updateButton">{{ __('Update') }}</button>
+                        </div>
 
-{{--                            <div class="col-6">--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label for="app_version" class="form-control-label">{{ trns('app version') }}</label>--}}
-{{--                                    <input type="text" class="form-control" name="app_version" id="app_version">--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    @include('admin.layouts.myAjaxHelper')
 
-{{--                            <div class="col-6">--}}
-{{--                                <div class="form-group">--}}
-{{--                                    <label for="app_maintanance" class="form-control-label">{{ trns('app maintanance') }}</label>--}}
-{{--                                    <input type="text" class="form-control" name="app_maintanance" id="app_maintanance">--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-
-{{--                        <div class="modal-footer">--}}
-{{--                            <button type="button" class="btn btn-secondary"--}}
-{{--                                data-bs-dismiss="modal">أغلاق</button>--}}
-{{--                            <button type="submit" class="btn btn-primary" id="addButton">حفظ
-</button>--}}
-{{--                        </div>--}}
-{{--                </form>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    @include('admin/layouts/myAjaxHelper')--}}
-{{--@endsection--}}
-{{--@section('ajaxCalls')--}}
-{{--    <script>--}}
-{{--        // editScript();--}}
-{{--    </script>--}}
-{{--    <script>--}}
-{{--        $(document).ready(function() {--}}
-{{--            $('#addForm').on('submit', function(event) {--}}
-{{--                event.preventDefault();--}}
-{{--                var formData = new FormData(this);--}}
-{{--                formData.append('_token', '{{ csrf_token() }}');--}}
-{{--                $.ajax({--}}
-{{--                    method: "POST",--}}
-{{--                    enctype: 'multipart/form-data',--}}
-{{--                    url: "{{ route('setting.store') }}",--}}
-{{--                    data: formData,--}}
-{{--                    processData: false,--}}
-{{--                    contentType: false,--}}
-{{--                    cache: false,--}}
-
-{{--                    success: function(data) {--}}
-{{--                        if (data.status == 200) {--}}
-{{--                            $('#create').modal('hide');--}}
-{{--                            toastr.success(data.message);--}}
-
-{{--                            xhr--}}
-{{--                            clearModalContents();--}}
-{{--                        }--}}
-{{--                    },--}}
-{{--                    error: function(xhr, status, error) {--}}
-{{--                        var errors = xhr.responseJSON.errors;--}}
-{{--                        $.each(errors, function(key, value) {--}}
-{{--                            toastr.error(value);--}}
-{{--                        });--}}
-{{--                    }--}}
-{{--                });--}}
-{{--            });--}}
-{{--        });--}}
-{{--    </script>--}}
-{{--@endsection--}}
+@section('ajaxCalls')
+    <script>
+        editScript();
+    </script>
+@endsection
+@endsection

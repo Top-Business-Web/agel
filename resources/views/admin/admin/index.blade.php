@@ -1,10 +1,10 @@
 @extends('admin/layouts/master')
 
 @section('title')
-    {{ config()->get('app.name') }} | {{ $title }}
+    <!-- {{ config()->get('app.name') }} | {{ $title }} -->
 @endsection
 @section('page_name')
-    {{ $title }}
+    <!-- {{ $title }} -->
 @endsection
 @section('content')
 
