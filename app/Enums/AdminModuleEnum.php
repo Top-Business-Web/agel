@@ -19,8 +19,6 @@ enum AdminModuleEnum: string
     {
         return match ($this) {
             self::ADMIN => ' المشرفين',
-            self::COUNTRY => ' الدول',
-            self::CITY => ' المدن',
             self::PLAN => ' الخطط',
             self::PLAN_SUBSCRIPTION => ' الاشتراكات',
             self::INVESTOR => ' المستثمرين',
