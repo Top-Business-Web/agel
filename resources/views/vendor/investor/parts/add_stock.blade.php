@@ -80,7 +80,7 @@
                     <label for="investor_commission" class="form-control-label">أجمالي العمولة للمستثمر
                     </label>
                     <input type="number" class="form-control" name="investor_commission" id="investor_commission"
-                           required>
+                           >
                 </div>
             </div>
 
