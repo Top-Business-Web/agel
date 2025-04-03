@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @include('admin.auth.css')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">
+    <link href="{{asset('assets/admin')}}/assets/plugins/bootstrap5/css/bootstrap.min.css" rel="stylesheet"/>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
     <style>
         .swal2-popup,
@@ -54,42 +56,31 @@
         .welcome-container {
             transition: background-color 0.3s, color 0.3s;
         }
+        .form-check .form-check-input {
+    float: right;
+    margin-right: -1.5em;
+}
+.form-check-input:checked {
+    background-color: #3cb9c7;
+    border-color: #3cb9c7;
+}
     </style>
 
 </head>
 
-<body class="">
-<div class="container">
-    {{--    <div class="language-switcher">--}}
-    {{--        <a href="{{ LaravelLocalization::getLocalizedURL(lang() == 'en' ? 'ar' : 'en', null, [], true) }}"--}}
-    {{--           class="btn btn-language" style="background-color: #0285CE;">{{ lang() == 'en' ? trns('Arabic') : trns('English') }}</a>--}}
-    {{--    </div>--}}
-    {{--    <div class="dark-switcher">--}}
-    {{--        <a id="toggleDarkMode" class="btn btn-language">{{ trns('dark_mode') }}</a>--}}
-    {{--    </div>--}}
+<body class="d-flex align-items-center" style="background-image: linear-gradient(rgba(33,33,34,0.4), rgba(33,33,34,0.8)),url('{{ asset('bg.jpg') }}'); background-size: cover;
+    background-repeat: no-repeat; height: 100vh">
+<div class="container-fluid">
 
-    <main class="signup-container" style="margin-top: 40px">
-        <h1 class="heading-primary">إعادة تعيين كلمة المرور<span class="span-blue">.</span></h1>
+<div class="row">
+        <div class="col-lg-3 col-12"></div>
+        <div class="col-lg-6 col-12">
+        <div class="signup-container" style="background-color: white; width: 100%;">
 
-        <h2>إرسال الكود التأكيدي عبر البريد الإلكتروني<span class="span-blue">.</span></h2>
-
-        {{--        <form class="signup-form" action="{{route('admin.login')}}" method="POST" id="LoginForm">--}}
-        {{--            @csrf--}}
-        {{--            @method('POST')--}}
-        {{--            <label class="inp">--}}
-        {{--                <input type="text" name="input" class="input-text" placeholder="&nbsp;">--}}
-        {{--                <span class="label">إدخل البريد الإلكتروني أو رقم الهاتف</span>--}}
-        {{--                <span class="input-icon"><i class="fa-solid fa-envelope"></i></span>--}}
-        {{--            </label>--}}
-        {{--            <label class="inp">--}}
-        {{--                <input type="password" name="password" class="input-text" placeholder="&nbsp;" id="password">--}}
-        {{--                <span class="label"> كلمة المرور</span>--}}
-        {{--                <span class="input-icon input-icon-password" data-password><i class="fa-solid fa-eye"></i></span>--}}
-        {{--            </label>--}}
-        {{--            <button class="btn btn-login" id="loginButton"> تسجيل الدخول</button>--}}
-        {{--        </form>--}}
-
-
+        <div class="d-flex justify-content-center w-100">
+    <img src="{{ asset('logo 1.png') }}" style="height: 90px;">
+    </div>
+    
         <form class="signup-form" action="{{route('vendor.resetPassword',['email'=>$email])}}" method="post" id="ResetPasswordForm">
             @csrf
             <input type="hidden" name="email" value="{{$email}}">
@@ -107,37 +98,16 @@
         <i class="fa-solid fa-envelope"></i> <!-- Default icon -->
     </span>
             </label>
-
-            {{--            <label class="inp">--}}
-            {{--                <input type="password" name="password" class="input-text" placeholder="&nbsp;" id="password">--}}
-            {{--                <span class="label">كلمة المرور</span>--}}
-            {{--                <span class="input-icon input-icon-password" data-password>--}}
-            {{--        <i class="fa-solid fa-eye"></i>--}}
-            {{--    </span>--}}
-            {{--            </label>--}}
-            {{--            <input class="inp">--}}
-            {{--            <input type="text" name="input" class="input-text" placeholder="&nbsp;">--}}
             <div class="d-flex align-items-center">
-                {{--                <span class="text-muted">إرسال الكود التأكيدي عبر البريد الإلكتروني </span>--}}
-                {{--                <div class="d-flex align-items-center gap-3">--}}
-                {{--                    <div class="form-check">--}}
-                {{--                        <input class="form-check-input" type="radio" value="email" name="verificationType" id="verificationTypeEmail" checked>--}}
-                {{--                        <label class="form-check-label" for="verificationTypeEmail">Email</label>--}}
-                {{--                    </div>--}}
-                {{--                    <div class="form-check">--}}
-                {{--                        <input class="form-check-input" type="radio" value="phone" name="verificationType" id="verificationTypePhone">--}}
-                {{--                        <label class="form-check-label" for="verificationTypePhone">Phone</label>--}}
-                {{--                    </div>--}}
-                {{--                </div>--}}
+               
             </div>
-            <button class="btn btn-login" id="ResetPasswordButton">إرسال</button>
+            <button class="btn btn-primary fs-3 p-3" id="ResetPasswordButton" style="background-color: #3cb9c7; border-color: #3cb9c7;">إرسال</button>
 
         </form>
-    </main>
-    <div class="welcome-container" style="background-color: white !important;">
-
-        <img style="border-radius: 10%" src="{{asset('logo.webp')}}">
-    </div>
+</div>
+        </div>
+        <div class="col-lg-3 col-12"></div>
+</div>
 </div>
 </body>
 

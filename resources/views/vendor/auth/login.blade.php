@@ -67,6 +67,10 @@
     background-color: #3cb9c7;
     border-color: #3cb9c7;
 }
+input:focus{
+    border: none;
+    outline: none;
+}
     </style>
 
 </head>
@@ -98,9 +102,9 @@
                         <label class="form-check-label fs-4" for="verificationTypePhone">التسجيل برقم الجوال</label>
                     </div>
                 </div>
-            <label class="inp">
-
-                <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField" style="background-color: rgb(232, 240, 254);">
+            <label class="inp d-flex">
+            <span class="input-group-text" id="validationTooltipUsernamePrepend" style="border-radius: 0 2rem 2rem 0; background-color: #e8f0ff; border: none; font-size: 20px;">+966</span>
+                <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField" style="background-color: rgb(232, 240, 254); border-radius: 2rem 0 0 2rem;">
                 <span class="label" id="placeHolder">البريد الالكتروني</span> <!-- Default placeholder -->
                 <span class="input-icon">
         <i class="fa-solid fa-envelope"></i> <!-- Default icon -->
