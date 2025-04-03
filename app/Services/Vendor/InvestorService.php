@@ -14,11 +14,11 @@ class InvestorService extends BaseService
     protected string $folder = 'vendor/investor';
     protected string $route = 'investors';
 
-    public function __construct(ObjModel $objModel,
-                                protected BranchService $branchService,
-                                protected CategoryService $categoryService ,
-                                protected VendorBranch $vendorBranch,
-    protected StockService $stockService,
+    public function __construct(ObjModel                  $objModel,
+                                protected BranchService   $branchService,
+                                protected CategoryService $categoryService,
+                                protected VendorBranch    $vendorBranch,
+                                protected StockService    $stockService,
     )
     {
         parent::__construct($objModel);
@@ -79,7 +79,7 @@ class InvestorService extends BaseService
 
 
         try {
-            $data['phone']='+966'.$data['phone'];
+            $data['phone'] = '+966' . $data['phone'];
             $this->createData($data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception $e) {
@@ -102,8 +102,8 @@ class InvestorService extends BaseService
 
 
         try {
-            $data['phone']='+966'.$data['phone'];
-            $this->updateData($id,$data);
+            $data['phone'] = '+966' . $data['phone'];
+            $this->updateData($id, $data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
 
         } catch (\Exception $e) {
@@ -117,10 +117,10 @@ class InvestorService extends BaseService
         $auth = auth('vendor')->user();
         $branches = [];
         if ($auth->parent_id == null) {
-            $branches = $this->branchService->model->apply()->whereIn('vendor_id', [$auth->parent_id, $auth->id])->where('name',"!=",'الفرع الرئيسي')->get();
+            $branches = $this->branchService->model->apply()->whereIn('vendor_id', [$auth->parent_id, $auth->id])->where('name', "!=", 'الفرع الرئيسي')->get();
         } else {
             $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
-            $branches = $this->branchService->model->apply()->whereIn('id', $branchIds)->where('name',"!=",'الفرع الرئيسي')->get();
+            $branches = $this->branchService->model->apply()->whereIn('id', $branchIds)->where('name', "!=", 'الفرع الرئيسي')->get();
         }
         return view("{$this->folder}/parts/add_stock", [
             'storeRoute' => route("vendor.investors.storeStock"),
@@ -134,18 +134,25 @@ class InvestorService extends BaseService
     public function storeStock($data): JsonResponse
     {
         try {
-            $data['vendor_id'] = auth('vendor')->user()->parent_id!==null?auth('vendor')->user()->parent_id:auth('vendor')->user()->id;
-            // check if operation is add or reduce
+            $data['vendor_id'] = auth('vendor')->user()->parent_id !== null ? auth('vendor')->user()->parent_id : auth('vendor')->user()->id;
+            // check if operation is added or reduce
             if ($data['operation'] == 1) {
-                $data['price']=($data['total_price_add']-($data['vendor_commission']+$data['investor_commission']+$data['sell_diff']))/$data['quantity'];
- unset($data['operation']);
+                $data['price'] = ($data['total_price_add'] - ($data['vendor_commission'] + $data['investor_commission'] + $data['sell_diff'])) / $data['quantity'];
+                unset($data['operation']);
 
-                $obj= $this->stockService->createData($data);
-          $obj->operation()->create([
-              'stock_id'=>$obj->id,
-              'type'=>1,
+                $obj = $this->stockService->createData($data);
+                $obj->operation()->create([
+                    'stock_id' => $obj->id,
+                    'type' => 1,
 
-          ]);
+                ]);
+            }else {
+                unset($data['operation']);
+                $obj = $this->stockService->createData($data);
+                $obj->operation()->create([
+                    'stock_id' => $obj->id,
+                    'type' => 0,
+                ]);
             }
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception $e) {

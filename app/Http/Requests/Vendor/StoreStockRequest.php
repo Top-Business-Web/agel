@@ -19,10 +19,10 @@ class StoreStockRequest extends FormRequest
             'category_id' => 'required|exists:categories,id',
             'branch_id' => 'required|exists:branches,id',
             'quantity' => 'required|numeric',
-            'total_price_add' => 'required_if:operation,1|numeric',
-            'vendor_commission' => 'required_if:operation,1|numeric',
+            'total_price_add' => 'required_if:operation,1',
+            'vendor_commission' => 'required_if:operation,1',
             'investor_commission' => 'required_if:operation,1',
-            'sell_diff' => 'required_if:operation,1|numeric',
+            'sell_diff' => 'required_if:operation,1',
             'total_price_sub' => 'required_if:operation,0',
         ];
 
