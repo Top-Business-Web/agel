@@ -15,6 +15,7 @@ use App\Models\Vendor as ObjModel;
 use App\Models\VendorBranch;
 use App\Services\BaseService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\DataTables;
@@ -36,12 +37,14 @@ class VendorService extends BaseService
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
                     $buttons = '';
-                    $buttons .= '
+                    if (Auth::guard('vendor')->user()->can('update_vendor')){
+                        $buttons .= '
                             <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
                             <i class="fa fa-edit"></i>
                             </button>
                        ';
-
+                }
+                    if (Auth::guard('vendor')->user()->can('delete_vendor')) {
                         $buttons .= '
 
                         <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
@@ -51,7 +54,7 @@ class VendorService extends BaseService
 
 
                     ';
-
+                    }
                     return $buttons;
                 })
                 ->editcolumn('status', function ($obj) {

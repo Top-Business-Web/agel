@@ -19,10 +19,12 @@ class VendorSeeder extends Seeder
     {
         $vendor = Vendor::create([
             'name' => 'vendor',
-            'phone' => '9660011111111',
+            'phone' => '+9660011111111',
             'national_id' => '0000000000',
             'commercial_number' => '12312144564645',
-            'region_id' => 1,
+//            'region_id' => 1,
+
+            'city_id'=> 1,
             'role_id' => 6,
             'status' => 1,
             'username' => 'vendor',
@@ -34,7 +36,8 @@ class VendorSeeder extends Seeder
             'phone' => '+9660111111111',
             'national_id' => '0000000001',
             'commercial_number' => '12341214564645',
-            'region_id' => 1,
+//            'region_id' => 1,
+        'city_id'=> 1,
             'role_id' => 6,
             'status' => 1,
             'username' => 'ahmed',
@@ -43,10 +46,12 @@ class VendorSeeder extends Seeder
         ]);
         $mohamed = Vendor::create([
             'name' => 'amo',
-            'phone' => '9660001111111',
+            'phone' => '+9660001111111',
             'national_id' => '0000000011',
             'commercial_number' => '12344121564645',
-            'region_id' => 1,
+//            'region_id' => 1,
+            'city_id'=> 1,
+
             'role_id' => 6,
             'status' => 1,
             'username' => 'amo',

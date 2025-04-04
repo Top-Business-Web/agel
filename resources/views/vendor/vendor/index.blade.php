@@ -3,9 +3,7 @@
 @section('title')
     {{ config()->get('app.name') }}
 @endsection
-@section('page_name')
-    {{ $bladeName }}
-@endsection
+
 @section('content')
 
     <div class="row">
@@ -14,17 +12,24 @@
                 <div class="card-header">
                     <h3 class="card-title"></h3>
                     <div class="">
-                        <button class="btn btn-secondary btn-icon text-white addBtn">
-        <span>
-            <i class="fe fe-plus"></i>
-        </span> إضافة  موظف
-                        </button>
-                        <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
-                            <span><i class="fe fe-trash"></i></span> حذف المحدد
-                        </button>
-                        <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
-                            <span><i class="fe fe-trending-up"></i></span> تحديث المحدد
-                        </button>
+                        @can('create_vendor')
+                            <button class="btn btn-secondary btn-icon text-white addBtn">
+                                <span>
+                                    <i class="fe fe-plus"></i>
+                                </span> إضافة موظف
+                            </button>
+                        @endcan
+                        @can('delete_vendor')
+                            <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
+                                <span><i class="fe fe-trash"></i></span> حذف المحدد
+                            </button>
+                        @endcan
+                        @can('update_vendor')
+                            <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
+                                <span><i class="fe fe-trending-up"></i></span> تحديث المحدد
+                            </button>
+                        @endcan
+
                     </div>
 
                 </div>
@@ -115,15 +120,16 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">إلغاء</button>
+                                data-bs-dismiss="modal">إلغاء
+                        </button>
                         <button type="button" class="btn btn-danger"
-                                id="confirm-delete-btn">حذف</button>
+                                id="confirm-delete-btn">حذف
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
         <!-- نهاية نافذة تأكيد الحذف -->
-
 
 
         <!-- تحديث العناصر المحددة - نافذة تأكيد -->
@@ -142,7 +148,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">إلغاء</button>
+                                data-bs-dismiss="modal">إلغاء
+                        </button>
                         <button type="button" class="btn btn-send" id="confirm-update-btn">تحديث</button>
                     </div>
                 </div>

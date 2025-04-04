@@ -29,33 +29,39 @@ class BranchService extends BaseService
             $child = $this->vendor->where('parent_id', $parentId)->pluck('id')->toArray();
             if ($auth->parent_id === null) {
                 $child[] = $auth->id;
-            }else{
+            } else {
                 $child[] = $auth->parent_id;
             }
-
 
 
             $obj = $this->model->whereIn('vendor_id', $child)->get();
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
-                    if ($obj->is_main===1) {
-                        return $buttons = 'لأيمكن اتخاذ لي أجراء';
-                    }else{
-
-                    $buttons = '
+                    if ($obj->is_main === 1) {
+                        return $buttons = 'لا يمكن اتخاذ هذا الإجراء';
+                    } else {
+                        $buttons = '';
+                    if (auth('vendor')->user()->can('update_branch')) {
+                        $buttons .= '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
                             <i class="fa fa-edit"></i>
                         </button>
+                    ';
+                    }
+                        if (auth('vendor')->user()->can('delete_branch')) {
+                            $buttons .= '
+
                         <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                             data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
                             <i class="fas fa-trash"></i>
                         </button>
                     ';
+                        }
                     }
 
                     return $buttons;
                 })->editColumn('region_id', function ($obj) {
-                    return $obj->region_id ? $obj->region->name: 'غير محدد';
+                    return $obj->region_id ? $obj->region->name : 'غير محدد';
                 })->editColumn('status', function ($obj) {
                     return $obj->is_main === 1 ? 'غير متاح' : $this->statusDatatable($obj);
                 })

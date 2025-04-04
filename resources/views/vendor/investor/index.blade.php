@@ -3,9 +3,7 @@
 @section('title')
     {{ config()->get('app.name') }}
 @endsection
-@section('page_name')
-    {{ $bladeName }}
-@endsection
+
 @section('content')
     <div class="row">
         <div class="col-md-12 col-lg-12">
@@ -13,14 +11,18 @@
                 <div class="card-header">
                     <h3 class="card-title"></h3>
                     <div class="">
-                        <button class="btn btn-secondary btn-icon text-white addBtn">
+                        @can('create_investor')
+                            <button class="btn btn-secondary btn-icon text-white addBtn">
                             <span>
                                 <i class="fe fe-plus"></i>
                             </span> إضافة
-                        </button>
-                        <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
-                            <span><i class="fe fe-trash"></i></span> حذف المحدد
-                        </button>
+                            </button>
+                        @endcan
+                        @can('delete_investor')
+                            <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
+                                <span><i class="fe fe-trash"></i></span> حذف المحدد
+                            </button>
+                        @endcan
 
 
                     </div>
@@ -79,7 +81,7 @@
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" >التفاصيل</h5>
+                        <h5 class="modal-title">التفاصيل</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>

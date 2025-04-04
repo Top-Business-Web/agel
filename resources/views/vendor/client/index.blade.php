@@ -3,9 +3,7 @@
 @section('title')
     {{ config()->get('app.name') }}
 @endsection
-@section('page_name')
-    {{ $bladeName }}
-@endsection
+
 @section('content')
     <div class="row">
         <div class="col-md-12 col-lg-12">
@@ -13,18 +11,23 @@
                 <div class="card-header">
                     <h3 class="card-title"></h3>
                     <div class="">
-                        <button class="btn btn-secondary btn-icon text-white addBtn">
+                        @can('create_client')
+                            <button class="btn btn-secondary btn-icon text-white addBtn">
                             <span>
                                 <i class="fe fe-plus"></i>
                             </span> إضافة
-                        </button>
-                        <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
-                            <span><i class="fe fe-trash"></i></span> حذف المحدد
-                        </button>
-
-                        <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
-                            <span><i class="fe fe-trending-up"></i></span> تعديل حالة المحدد
-                        </button>
+                            </button>
+                        @endcan
+                        @can('delete_client')
+                            <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
+                                <span><i class="fe fe-trash"></i></span> حذف المحدد
+                            </button>
+                        @endcan
+                        @can('update_client')
+                            <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
+                                <span><i class="fe fe-trending-up"></i></span> تعديل حالة المحدد
+                            </button>
+                        @endcan
                     </div>
                 </div>
                 <div class="card-body">
@@ -210,36 +213,36 @@
     <script>
         // for status
         $(document).on('click', '.statusBtn', function () {
-                let id = $(this).data('id');
+            let id = $(this).data('id');
 
-                var val = $(this).is(':checked') ? 1 : 0;
+            var val = $(this).is(':checked') ? 1 : 0;
 
-                let ids = [id];
+            let ids = [id];
 
 
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route($route . '.updateColumnSelected') }}',
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        'ids': ids,
-                    },
-                    success: function (data) {
-                        if (data.status === 200) {
-                            if (val !== 0) {
-                                toastr.success('', "نشط");
-                            } else {
-                                toastr.warning('', "غير نشط");
-                            }
+            $.ajax({
+                type: 'POST',
+                url: '{{ route($route . '.updateColumnSelected') }}',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    'ids': ids,
+                },
+                success: function (data) {
+                    if (data.status === 200) {
+                        if (val !== 0) {
+                            toastr.success('', "نشط");
                         } else {
-                            toastr.error('Error', "هناك خطأ ما");
+                            toastr.warning('', "غير نشط");
                         }
-                    },
-                    error: function () {
+                    } else {
                         toastr.error('Error', "هناك خطأ ما");
-                        toastr.warning('', "غير نشط ");
                     }
-                });
+                },
+                error: function () {
+                    toastr.error('Error', "هناك خطأ ما");
+                    toastr.warning('', "غير نشط ");
+                }
+            });
         });
     </script>
 @endsection
