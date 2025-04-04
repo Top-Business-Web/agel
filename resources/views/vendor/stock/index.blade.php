@@ -1,10 +1,10 @@
 @extends('vendor.layouts.master')
 
 @section('title')
-    {{ config()->get('app.name') }}
+    <!-- {{ config()->get('app.name') }} -->
 @endsection
 @section('page_name')
-    {{ $bladeName }}
+    <!-- {{ $bladeName }} -->
 @endsection
 @section('content')
 

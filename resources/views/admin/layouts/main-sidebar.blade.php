@@ -86,6 +86,7 @@
             </li>
             <!-- Main locations Management Section -->
         @endcanany
+
         <!-- setting Management Section -->
         @canany(['read_activity_log', 'delete_activity_log'])
         <li class="slide {{ arrRouteActive(['admin.activity_logs.index']) }}">
@@ -109,6 +110,16 @@
         </li>
         <!-- setting Management Section -->
         @endcanany
+
+        <li class="slide">
+            <a class="side-menu__item {{ Route::currentRouteName() == 'admin.setting' ? 'active' : '' }}"
+               href="{{ route('admin.setting') }}">
+                <i class="fas fa-cogs side-menu__icon"></i>
+                <span class="side-menu__label"> الاعدادات</span>
+            </a>
+        </li>
+
+
         <li class="slide">
             <a class="side-menu__item {{ Route::currentRouteName() == 'admin.logout' ? 'active' : '' }}"
                href="{{ route('admin.logout') }}">

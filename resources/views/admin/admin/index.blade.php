@@ -4,7 +4,7 @@
     {{ config()->get('app.name') }} | {{ $title }}
 @endsection
 @section('page_name')
-    {{ $title }}
+    <!-- {{ $title }} -->
 @endsection
 @section('content')
 
