@@ -49,6 +49,7 @@ Route::group(
             Route::get('/new-password/{email}', [AuthController::class, 'newPasswordForm'])->name('vendor.newPasswordForm');
             Route::POST('/reset-password/{email}', [AuthController::class, 'ResetPassword'])->name('vendor.resetPassword');
 
+            Route::get('my_profile', [VendorController::class, 'myProfile'])->name('myProfile');
 
             Route::group(['middleware' => 'auth:vendor'], function () {
 

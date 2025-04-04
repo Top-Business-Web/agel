@@ -68,6 +68,7 @@
                     </div>
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
+
                         <p>هل انت متاكد من حذف هذا العنصر <span id="title" class="text-danger"></span>?</p>
                     </div>
 
@@ -107,6 +108,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
+
                         <h5 class="modal-title" id="deleteConfirmModalLabel">تاكيد الحذف</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -115,6 +117,7 @@
                     <div class="modal-body">
                         <p>هل انت متاكد من حذف هذه السجلات</p>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">الغاء</button>
                         <button type="button" class="btn btn-danger" id="confirm-delete-btn">حذف</button>
@@ -173,11 +176,10 @@
             orderable: false,
             searchable: false,
             render: function (data, type, row) {
-                if (row.name == 'الفرع الرئيسي') {
-                    return '';
+                if (row.is_main === 1) {
+                    return ''; // Return empty string to hide the checkbox
                 }
-                return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
-            }
+                return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;            }
         },
             {
                 data: 'id',
@@ -239,9 +241,9 @@
                     success: function (data) {
                         if (data.status === 200) {
                             if (val !== 0) {
-                                toastr.success('', "نشط");
+                                toastr.success('Success', "نشط");
                             } else {
-                                toastr.warning('', "غير نشط");
+                                toastr.warning('Success', "غير نشط");
                             }
                         } else {
                             toastr.error('Error', "هناك خطأ ما");
@@ -249,7 +251,7 @@
                     },
                     error: function () {
                         toastr.error('Error', "هناك خطأ ما");
-                        toastr.warning('', "غير نشط ");
+                        toastr.warning('Success', "غير نشط ");
                     }
                 }
             );
