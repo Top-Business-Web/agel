@@ -94,43 +94,43 @@ class SettingService extends BaseService
         ]);
     }
 
-    public function update($data)
+    public function update(array $data)
     {
         try {
-            // Handle app_version
-            if (isset($data['app_version'])) {
-                $setting = $this->settingObj->where('key', 'app_version')->first();
-    
-                if ($setting) {
-                    // Update if exists
-                    $setting->update(['value' => $data['app_version']]);
-                } else {
-                    // Store if not found
-                    $this->settingObj->create([
-                        'key' => 'app_version',
-                        'value' => $data['app_version']
-                    ]);
+            // Handle file uploads
+            $files = ['logo', 'fav_icon', 'loader'];
+            foreach ($files as $file) {
+                if (isset($data[$file])) {
+                    $filePath = $data[$file]->store('public/settings');
+                    $this->storeOrUpdateSetting($file, basename($filePath));
                 }
             }
     
-            // Handle about
-            if (isset($data['about'])) {
-                $setting = $this->settingObj->where('key', 'about')->first();
-    
-                if ($setting) {
-                    // Update if exists
-                    $setting->update(['value' => $data['about']]);
-                } else {
-                    // Store if not found
-                    $this->settingObj->create([
-                        'key' => 'about',
-                        'value' => $data['about']
-                    ]);
+            // Handle text inputs
+            $textFields = ['app_version', 'about'];
+            foreach ($textFields as $field) {
+                if (!empty($data[$field])) {
+                    $this->storeOrUpdateSetting($field, $data[$field]);
                 }
             }
+
+            if (!empty($data['phones']) && is_array($data['phones'])) {
+                // Delete old phone numbers (optional: if you don't want duplicates)
+                $this->settingObj->where('key', 'phone')->delete();
     
-            return response()->json(['status' => 200, 'message' => 'Data stored or updated successfully.']);
+                foreach ($data['phones'] as $phone) {
+                    if (!empty($phone)) {
+                        $this->settingObj->updateOrCreate([
+                            'key' => 'phone',
+                            'value' => $phone
+                        ]);
+                    }
+                }
+            }
+
+            
     
+            return response()->json(['status' => 200, 'message' => 'Settings stored or updated successfully.']);
         } catch (\Exception $e) {
             return response()->json([
                 'status' => 500,
@@ -140,4 +140,14 @@ class SettingService extends BaseService
         }
     }
     
+    /**
+     * Store or update a setting
+     */
+    private function storeOrUpdateSetting($key, $value)
+    {
+        \App\Models\Setting::updateOrCreate(
+            ['key' => $key],
+            ['value' => $value]
+        );
+    }
 }

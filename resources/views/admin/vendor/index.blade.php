@@ -1,7 +1,7 @@
 @extends('admin/layouts/master')
 
 @section('title')
-    <!-- {{ config()->get('app.name') }} -->
+{{ config()->get('app.name') }} | المكاتب
 @endsection
 @section('page_name')
     <!-- {{ $bladeName }} -->
