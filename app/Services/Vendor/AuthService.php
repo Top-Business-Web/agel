@@ -128,15 +128,21 @@ class AuthService extends BaseService
     public
     function register($request)
     {
+        $request->merge([
+            'phone' => '+966' . $request->phone
+        ]);
+
+
         $validate = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:vendors,email',
-            'phone' => 'required|numeric|digits:9|unique:vendors,phone',
+            'phone' => 'required|regex:/^\+9665\d{8}$/|unique:vendors,phone',
             'password' => 'required|min:6|confirmed',
             'city_id' => 'required|exists:cities,id',
             'commercial_number' => 'required|digits:10|numeric|unique:vendors,commercial_number',
             'national_id' => 'required|numeric|digits:10|unique:vendors,national_id',
         ]);
+
 
         $vendor = Vendor::create([
             'name' => $request->name,
