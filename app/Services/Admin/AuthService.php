@@ -90,7 +90,9 @@ class AuthService extends BaseService
                 ], 206);
             }
             if ($admin->status == 0) {
-                return response()->json(207);
+                return response()->json([
+                    'status' => 207,
+                ], 207);
             }
 
             if (Auth::guard('admin')->validate($credentials)) {

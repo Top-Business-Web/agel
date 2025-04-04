@@ -79,7 +79,8 @@
                 <div class="form-group">
                     <label for="investor_commission" class="form-control-label">أجمالي العمولة للمستثمر
                     </label>
-                    <input type="number" min="1" class="form-control" name="investor_commission" id="investor_commission"
+                    <input type="number" min="1" class="form-control" name="investor_commission"
+                           id="investor_commission"
                     >
                 </div>
             </div>
@@ -304,7 +305,7 @@
             // For subtraction operation
             let totalPriceSub = parseFloat($("#total_price_sub").val()) || 0;
             let finalQuantity = parseFloat($("#available_quantity").text()) - quantity || 0;
-            let finalPrice = totalPriceSub-parseFloat($("#total_price").text()) || 0;
+            let finalPrice = totalPriceSub - parseFloat($("#total_price").text()) || 0;
 
             $("#sub_quantity").text(quantity);
             $("#total_price_of_sub_quantity").text(totalPriceSub);
