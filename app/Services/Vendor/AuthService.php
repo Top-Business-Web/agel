@@ -13,10 +13,11 @@ use App\Services\Vendor\AuthService as ObjService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Spatie\Permission\Models\Permission;
 
 class AuthService extends BaseService
 {
-    public function __construct(Vendor $model, protected Region $region)
+    public function __construct(Vendor $model, protected CityService $cityService)
     {
         parent::__construct($model);
     }
@@ -30,9 +31,8 @@ class AuthService extends BaseService
 
             return view('vendor.auth.login');
         } else {
-//            $cites = City::select('id', 'name')->where('status', 1)->get();
-            $regions = $this->region->get();
-            return view('vendor.auth.register', compact('regions'));
+            $cites = $this->cityService->getAll();
+            return view('vendor.auth.register', compact('cites'));
         }
     }
 
@@ -50,7 +50,7 @@ class AuthService extends BaseService
             ]
         );
         if ($request->verificationType == 'phone') {
-            $vendor = Vendor::where('phone', '+966'.$data['input'])->first();
+            $vendor = Vendor::where('phone', '+966' . $data['input'])->first();
             if (!$vendor) {
                 return response()->json([
                     'status' => 205,
@@ -63,7 +63,7 @@ class AuthService extends BaseService
                 ], 200);
             }
             $credentials = [
-                'phone' => '+966'.$data['input'],
+                'phone' => '+966' . $data['input'],
                 'password' => $data['password'],
             ];
             if (Auth::guard('vendor')->attempt($credentials)) {
@@ -133,7 +133,7 @@ class AuthService extends BaseService
             'email' => 'required|email|unique:vendors,email',
             'phone' => 'required|numeric|digits:9|unique:vendors,phone',
             'password' => 'required|min:6|confirmed',
-            'region_id' => 'required|exists:regions,id',
+            'city_id' => 'required|exists:cities,id',
             'commercial_number' => 'required|digits:10|numeric|unique:vendors,commercial_number',
             'national_id' => 'required|numeric|digits:10|unique:vendors,national_id',
         ]);
@@ -143,7 +143,7 @@ class AuthService extends BaseService
             'email' => $request->email,
             'phone' => '+966' . $request->phone,
             'password' => Hash::make($request->password),
-            'region_id' => $request->region_id,
+            'city_id' => $request->city_id,
             'commercial_number' => $request->commercial_number,
             'national_id' => $request->national_id,
             'username' => $this->generateUsername($request->name),
@@ -152,10 +152,13 @@ class AuthService extends BaseService
 
         ]);
 
+        // assign all permissions to the vendor
+        $vendor->syncPermissions(Permission::where('guard_name', 'vendor')->get());
+
 // Create primary branch for the vendor with default settings
         $branch = Branch::create([
             'vendor_id' => $vendor->id,
-            'region_id' => $vendor->region_id,
+            'region_id' => $vendor->region_id ?? null,
             'status' => 1,
             'is_main' => 1,
             'name' => 'الفرع الرئيسي'
@@ -266,12 +269,12 @@ class AuthService extends BaseService
     public function resetPassword($request)
     {
         $request->validate([
-            'email'=>'required|exists:vendors,email',
+            'email' => 'required|exists:vendors,email',
             'password' => 'required|min:6|confirmed',
         ]);
         $vendor = Vendor::where('email', $request->email)->first();
         $vendor->update([
-            'password'=>Hash::make($request->password)
+            'password' => Hash::make($request->password)
         ]);
         Auth::guard('vendor')->login($vendor);
         return response()->json([

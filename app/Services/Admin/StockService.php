@@ -20,8 +20,10 @@ class StockService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
+            $user = auth('vendor')->user();
+            $parentId = $user->parent_id ?? $user->id;
+            $obj = $this->model->where('vendor_id', $parentId)->whereHas('stocks')->get();
 
-            $obj = $this->getVendorDateTable();
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
                     $buttons = '';
@@ -44,7 +46,11 @@ class StockService extends BaseService
                     }
                     return $buttons;
                 })->editColumn('stocks', function ($obj) {
-                    return $obj->stocks->operations->where('type',1)->sum('stock.quantity');
+
+
+                    return $obj->stocks->flatMap(function ($stock) {
+                        return $stock->operations->where('type', 1);
+                    })->sum('stock.quantity');
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
