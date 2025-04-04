@@ -133,7 +133,6 @@ input:focus{
 </div>
 </div>
 </body>
-@include('vendor.auth.js')
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const emailRadio = document.getElementById("verificationTypeEmail");
@@ -141,6 +140,10 @@ input:focus{
         const inputField = document.getElementById("inputField");
         const placeHolder = document.getElementById("placeHolder");
         const inputIcon = document.querySelector('.input-icon i');
+        const phonePrefix = document.getElementById("validationTooltipUsernamePrepend");
+
+        phonePrefix.style.display = "none";
+
 
         // جعل البريد الإلكتروني الخيار الافتراضي عند تحميل الصفحة
         emailRadio.checked = true;
@@ -157,13 +160,16 @@ input:focus{
                     inputField.type = 'email';
                     placeHolder.textContent = 'البريد الالكتروني';
                     inputIcon.className = 'fa-solid fa-envelope';
+                    phonePrefix.style.display = "none"; // إخفاء كود الدولة
                 } else if (event.target.value === 'phone') {
                     inputField.type = 'number';
                     placeHolder.textContent = 'رقم الجوال';
                     inputIcon.className = 'fa-solid fa-phone';
+                    phonePrefix.style.display = "block"; // إظهار كود الدولة
                 }
             });
         });
     });
 </script>
+@include('vendor.auth.js')
 </html>
