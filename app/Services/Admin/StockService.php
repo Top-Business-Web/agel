@@ -4,6 +4,7 @@ namespace App\Services\Admin;
 
 use App\Models\Category as ObjModel;
 use App\Services\BaseService;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class StockService extends BaseService
@@ -23,15 +24,24 @@ class StockService extends BaseService
             $obj = $this->getVendorDateTable();
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
-                    $buttons = '
+                    $buttons = '';
+                    if (auth('vendor')->user()->can('update_vendor')) {
+                        $buttons .= '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
                             <i class="fa fa-edit"></i>
                         </button>
+
+                    ';
+                    }
+                    if (auth('vendor')->user()->can('delete_vendor')) {
+                        $buttons .= '
+
                         <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                             data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
                             <i class="fas fa-trash"></i>
                         </button>
                     ';
+                    }
                     return $buttons;
                 })->editColumn('stocks', function ($obj) {
                     return $obj->stocks->operations->where('type',1)->sum('stock.quantity');
@@ -65,7 +75,7 @@ class StockService extends BaseService
             $this->createData($data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception $e) {
-return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
+            return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
 
         }
     }
@@ -95,7 +105,7 @@ return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', '�
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
 
         } catch (\Exception $e) {
-return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
+            return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
 
         }
     }

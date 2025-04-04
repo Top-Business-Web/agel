@@ -3,29 +3,32 @@
 @section('title')
     {{ config()->get('app.name') }}
 @endsection
-@section('page_name')
-    الفروع
-@endsection
+
 @section('content')
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"> الفروع</h3>
                     <h3 class="card-title"></h3>
                     <div class="">
-                        <button class="btn btn-secondary btn-icon text-white addBtn">
+                        @can('create_branch')
+                            <button class="btn btn-secondary btn-icon text-white addBtn">
                             <span>
                                 <i class="fe fe-plus"></i>
                             </span> إضافة فرع جديد
-                        </button>
-                        <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
-                            <span><i class="fe fe-trash"></i></span> حذف المحدد
-                        </button>
+                            </button>
+                        @endcan
+                        @can('delete_branch')
+                            <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
+                                <span><i class="fe fe-trash"></i></span> حذف المحدد
+                            </button>
+                        @endcan
+                        @can('update_branch')
 
-                        <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
-                            <span><i class="fe fe-trending-up"></i></span> تحديث المحدد
-                        </button>
+                            <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
+                                <span><i class="fe fe-trending-up"></i></span> تحديث المحدد
+                            </button>
+                        @endcan
                     </div>
 
                 </div>
@@ -65,6 +68,7 @@
                     </div>
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
+
                         <p>هل انت متاكد من حذف هذا العنصر <span id="title" class="text-danger"></span>?</p>
                     </div>
 
@@ -104,6 +108,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
+
                         <h5 class="modal-title" id="deleteConfirmModalLabel">تاكيد الحذف</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -112,6 +117,7 @@
                     <div class="modal-body">
                         <p>هل انت متاكد من حذف هذه السجلات</p>
                     </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">الغاء</button>
                         <button type="button" class="btn btn-danger" id="confirm-delete-btn">حذف</button>
@@ -164,17 +170,16 @@
 @endsection
 @section('ajaxCalls')
     <script>
-        var columns = [ {
+        var columns = [{
             data: 'checkbox',
             name: 'checkbox',
             orderable: false,
             searchable: false,
-            render: function(data, type, row) {
-                if (row.name =='الفرع الرئيسي') {
-                    return '';
+            render: function (data, type, row) {
+                if (row.is_main === 1) {
+                    return ''; // Return empty string to hide the checkbox
                 }
-                return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
-            }
+                return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;            }
         },
             {
                 data: 'id',
@@ -236,9 +241,9 @@
                     success: function (data) {
                         if (data.status === 200) {
                             if (val !== 0) {
-                                toastr.success('', "نشط");
+                                toastr.success('Success', "نشط");
                             } else {
-                                toastr.warning('', "غير نشط");
+                                toastr.warning('Success', "غير نشط");
                             }
                         } else {
                             toastr.error('Error', "هناك خطأ ما");
@@ -246,7 +251,7 @@
                     },
                     error: function () {
                         toastr.error('Error', "هناك خطأ ما");
-                        toastr.warning('', "غير نشط ");
+                        toastr.warning('Success', "غير نشط ");
                     }
                 }
             );
