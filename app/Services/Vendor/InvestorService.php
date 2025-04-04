@@ -8,6 +8,7 @@ use App\Services\Admin\OperationService;
 use App\Services\Admin\StockService;
 use App\Services\BaseService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class InvestorService extends BaseService
@@ -15,12 +16,12 @@ class InvestorService extends BaseService
     protected string $folder = 'vendor/investor';
     protected string $route = 'investors';
 
-    public function __construct(ObjModel                  $objModel,
-                                protected BranchService   $branchService,
-                                protected CategoryService $categoryService,
-                                protected VendorBranch    $vendorBranch,
-                                protected StockService    $stockService,
-    protected OperationService $operationService
+    public function __construct(ObjModel                   $objModel,
+                                protected BranchService    $branchService,
+                                protected CategoryService  $categoryService,
+                                protected VendorBranch     $vendorBranch,
+                                protected StockService     $stockService,
+                                protected OperationService $operationService
     )
     {
         parent::__construct($objModel);
@@ -35,19 +36,34 @@ class InvestorService extends BaseService
                     return $obj->branch->name;
                 })
                 ->addColumn('action', function ($obj) {
-                    $buttons = '
+                    $buttons = '';
+                    if (Auth::guard('vendor')->user()->can("update_investor")) {
+
+                        $buttons .= '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
                             <i class="fa fa-edit"></i>
                         </button>
+                    ';
+                    }
+                    if (Auth::guard('vendor')->user()->can("delete_investor")) {
+
+                        $buttons .= '
+
                         <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                             data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
                             <i class="fas fa-trash"></i>
                         </button>
 
+                    ';
+                    }
+                    if (Auth::guard('vendor')->user()->can("create_stock")) {
+                        $buttons .= '
+
                              <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light addStock">
                             <i class="fa fa-plus"></i>
                         </button>
                     ';
+                    }
                     return $buttons;
                 })->editColumn('phone', function ($obj) {
                     $phone = str_replace('+', '', $obj->phone);
@@ -138,7 +154,7 @@ class InvestorService extends BaseService
         try {
             $data['vendor_id'] = auth('vendor')->user()->parent_id ?? auth('vendor')->user()->id;
             $data = $this->prepareStockData($data);
-            $stockData=$data;
+            $stockData = $data;
             unset($stockData['operation_type']);
 
             $obj = $this->stockService->createData($stockData);
@@ -164,6 +180,7 @@ class InvestorService extends BaseService
         unset($data['operation']);
         return $data;
     }
+
     public function getAvailableStock($request): JsonResponse
     {
         $investorId = $request->get('investor_id');
@@ -186,7 +203,7 @@ class InvestorService extends BaseService
             }]);
 
 
-         $addStock = $this->stockService->model->whereIn('id', $addOperations->pluck('stock_id'));
+        $addStock = $this->stockService->model->whereIn('id', $addOperations->pluck('stock_id'));
         $sellStock = $this->stockService->model->whereIn('id', $sellOperations->pluck('stock_id'));
 
         // حساب القيم المجمعة
@@ -194,7 +211,7 @@ class InvestorService extends BaseService
             'status' => 200,
             'available' => (int)($addStock->sum('quantity') - $sellStock->sum('quantity')),
             'total_price' => $addStock->sum('total_price_add') - $sellStock->sum('total_price_add'),
-            'total_price_commission' =>$addStock->sum('total_price_add') - ($addStock->sum('vendor_commission') + $addStock->sum('investor_commission') + $addStock->sum('sell_diff')) - $sellStock->sum('total_price_add') - ($sellStock->sum('vendor_commission') + $sellStock->sum('investor_commission') + $sellStock->sum('sell_diff')),
+            'total_price_commission' => $addStock->sum('total_price_add') - ($addStock->sum('vendor_commission') + $addStock->sum('investor_commission') + $addStock->sum('sell_diff')) - $sellStock->sum('total_price_add') - ($sellStock->sum('vendor_commission') + $sellStock->sum('investor_commission') + $sellStock->sum('sell_diff')),
         ]);
     }
 

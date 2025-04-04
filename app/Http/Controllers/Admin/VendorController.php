@@ -54,6 +54,8 @@ class VendorController extends Controller
     }
 
 
+
+
     public function deleteSelected(Request $request)
     {
         return $this->objService->deleteSelected($request);

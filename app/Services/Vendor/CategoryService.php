@@ -6,6 +6,7 @@ use App\Models\Category as ObjModel;
 use App\Models\Vendor;
 use App\Services\BaseService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class CategoryService extends BaseService
@@ -24,15 +25,22 @@ class CategoryService extends BaseService
             $obj = $this->getDataTable();
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
-                    $buttons = '
+                    $buttons = '';
+                    if (auth('vendor')->user()->can('update_category')) {
+                        $buttons .= '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
                             <i class="fa fa-edit"></i>
                         </button>
+                    ';
+                    }
+                    if (auth('vendor')->user()->can('delete_category')) {
+                        $buttons .= '
                         <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                             data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
                             <i class="fas fa-trash"></i>
                         </button>
                     ';
+                    }
                     return $buttons;
                 })->editColumn('status', function ($obj) {
                     return $this->statusDatatable($obj);

@@ -2,13 +2,8 @@
 @section('title')
     الرئيسية
 @endsection
-@section('page_name')
-    المسئول
-    {{ config()->get('app.name') }} | المشرفين
-@endsection
-@section('page_name')
-    المشرفين
-@endsection
+
+
 @section('content')
     <div class="row">
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
