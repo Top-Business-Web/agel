@@ -39,6 +39,9 @@
                                     <input type="checkbox" id="select-all">
                                 </th>
                                 <th class="min-w-25px">#</th>
+
+                                <th class="min-w-50px rounded-end">اسم الصنف</th>
+                                <th class="min-w-50px rounded-end">الكميه</th>
                                 <th class="min-w-50px rounded-end">ألإجراءات</th>
                             </tr>
                             </thead>
@@ -92,8 +95,6 @@
             </div>
         </div>
         <!-- Create Or Edit Modal -->
-
-
 
 
         <!-- delete selected Modal -->
@@ -159,6 +160,11 @@
                 }
             },
             {data: 'id', name: 'id'},
+            {data: 'name', name: 'name'},
+            {data: 'stocks', name: 'stocks'},
+
+
+
             {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
         showData('{{route($route.'.index')}}', columns);
@@ -211,7 +217,6 @@
                 }
             });
         });
-
 
 @endsection
 

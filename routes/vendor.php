@@ -61,7 +61,6 @@ Route::group(
                 #============================ vendors ====================================
 
 
-
                 Route::get('vendors/index', [VendorController::class, 'index'])->name('vendor.vendors.index');
                 Route::get('vendors/create', [VendorController::class, 'create'])->name('vendor.vendors.create');
                 Route::post('vendors', [VendorController::class, 'store'])->name('vendor.vendors.store');
@@ -72,15 +71,11 @@ Route::group(
                 Route::post('vendors/update-column-selected', [VendorController::class, 'updateColumnSelected'])->name('vendor.vendors.updateColumnSelected');
 
 
-
-
-
-
                 #============================ logout ====================================
                 Route::get('logout', [AuthController::class, 'logout'])->name('vendor.logout');
                 #============================ roles and permissions ====================================
                 Route::resourceWithDeleteSelected('roles', RoleController::class, [
-                    'as' => 'vendor'  // Prefix "vendor." to all route names
+                    'as' => 'vendor'
                 ]);
                 Route::post('roles/delete-selected', [RoleController::class, 'deleteSelected'])->name('vendor.roles.deleteSelected');
 

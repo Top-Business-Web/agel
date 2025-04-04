@@ -2,7 +2,7 @@
 
 namespace App\Services\Admin;
 
-use App\Models\Stock as ObjModel;
+use App\Models\Category as ObjModel;
 use App\Services\BaseService;
 use Yajra\DataTables\DataTables;
 
@@ -19,7 +19,8 @@ class StockService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $obj = $this->getDataTable();
+
+            $obj = $this->getVendorDateTable();
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
                     $buttons = '
@@ -32,6 +33,8 @@ class StockService extends BaseService
                         </button>
                     ';
                     return $buttons;
+                })->editColumn('stocks', function ($obj) {
+                    return $obj->stocks->operations->where('type',1)->sum('stock.quantity');
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])

@@ -95,29 +95,26 @@
             </div>
         </div>
 
-        <div class="footer" id="addFooter">
+        <div class="footer" style="display:flex;flex-wrap:wrap;" id="addFooter">
             <div class="text">
                 <span>الكميه = </span>
                 <span id="quantity_display">0</span>
             </div>
-            <br>
             <div class="text">
                 <span>السعر = </span>
                 <span id="price_display">0</span>
             </div>
-            <br>
+
 
             <div class="text">
                 <span> العمولات = </span>
                 <span id="commission_display">0</span>
             </div>
-            <br>
 
             <div class="text">
                 <span>فروقات اعاده البيع = </span>
                 <span id="sell_diff_display">0</span>
             </div>
-            <br>
 
             <div class="text">
                 <span>الإجمالي = </span>
@@ -136,12 +133,10 @@
                 <span>الكميه = </span>
                 <span id="available_quantity">0</span>
             </div>
-            <br>
             <div class="text">
                 <span>السعر الاجمالي = </span>
                 <span id="total_price">0</span>
             </div>
-            <br>
 
             <div class="text">
                 <span> السعر ناقص العموله = </span>
