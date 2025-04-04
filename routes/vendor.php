@@ -97,6 +97,8 @@ Route::group(
                 Route::resourceWithDeleteSelected('investors', InvestorController::class);
                 Route::get('investors/add-stock/{id}', [InvestorController::class, 'addStockForm'])->name('vendor.investors.addStock');
                 Route::post('investors/store-stock', [InvestorController::class, 'storeStock'])->name('vendor.investors.storeStock');
+                Route::get('/getAvailableStock', [InvestorController::class, 'getAvailableStock'])->name('vendor.investors.getAvailableStock');
+
                 #============================ client ====================================
                 Route::resourceWithDeleteSelected('clients', ClientController::class);
 

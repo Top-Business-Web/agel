@@ -8,11 +8,9 @@ class Stock extends BaseModel
     protected $casts = [];
 
 
-    public function operation()
+    public function operations()
     {
-        return $this->belongsTo(Operation::class);
-
-
-
+        return $this->hasMany(Operation::class);
     }
+
 }

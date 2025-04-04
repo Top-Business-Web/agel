@@ -4,6 +4,7 @@ namespace App\Services\Vendor;
 
 use App\Models\Investor as ObjModel;
 use App\Models\VendorBranch;
+use App\Services\Admin\OperationService;
 use App\Services\Admin\StockService;
 use App\Services\BaseService;
 use Illuminate\Http\JsonResponse;
@@ -19,6 +20,7 @@ class InvestorService extends BaseService
                                 protected CategoryService $categoryService,
                                 protected VendorBranch    $vendorBranch,
                                 protected StockService    $stockService,
+    protected OperationService $operationService
     )
     {
         parent::__construct($objModel);
@@ -136,9 +138,11 @@ class InvestorService extends BaseService
         try {
             $data['vendor_id'] = auth('vendor')->user()->parent_id ?? auth('vendor')->user()->id;
             $data = $this->prepareStockData($data);
+            $stockData=$data;
+            unset($stockData['operation_type']);
 
-            $obj = $this->stockService->createData($data);
-            $obj->operation()->create([
+            $obj = $this->stockService->createData($stockData);
+            $this->operationService->model->create([
                 'stock_id' => $obj->id,
                 'type' => $data['operation_type'],
             ]);
@@ -160,5 +164,39 @@ class InvestorService extends BaseService
         unset($data['operation']);
         return $data;
     }
+    public function getAvailableStock($request): JsonResponse
+    {
+        $investorId = $request->get('investor_id');
+        $branchId = $request->get('branch_id');
+        $categoryId = $request->get('category_id');
+
+        // استعلام العمليات مع العلاقة
+        $addOperations = $this->operationService->model->where('type', 1)
+            ->with(['stock' => function ($query) use ($investorId, $branchId, $categoryId) {
+                $query->where('investor_id', $investorId)
+                    ->where('branch_id', $branchId)
+                    ->where('category_id', $categoryId);
+            }]);
+
+        $sellOperations = $this->operationService->model->where('type', 0)
+            ->with(['stock' => function ($query) use ($investorId, $branchId, $categoryId) {
+                $query->where('investor_id', $investorId)
+                    ->where('branch_id', $branchId)
+                    ->where('category_id', $categoryId);
+            }]);
+
+
+         $addStock = $this->stockService->model->whereIn('id', $addOperations->pluck('stock_id'));
+        $sellStock = $this->stockService->model->whereIn('id', $sellOperations->pluck('stock_id'));
+
+        // حساب القيم المجمعة
+        return response()->json([
+            'status' => 200,
+            'available' => (int)($addStock->sum('quantity') - $sellStock->sum('quantity')),
+            'total_price' => $addStock->sum('total_price_add') - $sellStock->sum('total_price_add'),
+            'total_price_commission' =>$addStock->sum('total_price_add') - ($addStock->sum('vendor_commission') + $addStock->sum('investor_commission') + $addStock->sum('sell_diff')) - $sellStock->sum('total_price_add') - ($sellStock->sum('vendor_commission') + $sellStock->sum('investor_commission') + $sellStock->sum('sell_diff')),
+        ]);
+    }
+
 
 }

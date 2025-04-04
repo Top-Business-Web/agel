@@ -68,4 +68,9 @@ class InvestorController extends Controller
         return $this->objService->storeStock($data);
 
     }
+
+    public function getAvailableStock(Request $request)
+    {
+        return $this->objService->getAvailableStock($request);
+    }
 }
