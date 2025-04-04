@@ -160,6 +160,12 @@ class VendorService extends BaseService
         ]);
     }
 
+    public function myProfile()
+    {
+        $vendor = auth()->guard('vendor')->user();
+        return view($this->folder . '/profile', compact('vendor'));
+    }//end fun
+
     public function update($data): JsonResponse
     {
         try {

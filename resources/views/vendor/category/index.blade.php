@@ -3,29 +3,33 @@
 @section('title')
     {{ config()->get('app.name') }}
 @endsection
-@section('page_name')
-    الفروع
-@endsection
+
 @section('content')
+
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"> الفروع</h3>
                     <h3 class="card-title"></h3>
                     <div class="">
-                        <button class="btn btn-secondary btn-icon text-white addBtn">
+                        @can('create_branch')
+                            <button class="btn btn-secondary btn-icon text-white addBtn">
                             <span>
                                 <i class="fe fe-plus"></i>
                             </span> إضافة فرع جديد
-                        </button>
-                        <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
-                            <span><i class="fe fe-trash"></i></span> حذف المحدد
-                        </button>
+                            </button>
+                        @endcan
+                        @can('delete_category')
+                            <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
+                                <span><i class="fe fe-trash"></i></span> حذف المحدد
+                            </button>
+                        @endcan
+                        @can('delete_category')
 
-                        <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
-                            <span><i class="fe fe-trending-up"></i></span> تحديث المحدد
-                        </button>
+                            <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
+                                <span><i class="fe fe-trending-up"></i></span> تحديث المحدد
+                            </button>
+                        @endcan
                     </div>
 
                 </div>
@@ -153,6 +157,10 @@
 
         <!-- delete selected  Modal -->
     </div>
+
+
+
+
     @include('vendor/layouts/myAjaxHelper')
 @endsection
 @section('ajaxCalls')

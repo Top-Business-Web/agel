@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InvestorRequest as ObjRequest;
+use App\Http\Requests\Vendor\StoreStockRequest;
 use App\Models\Investor as ObjModel;
 use App\Services\Vendor\InvestorService as ObjService;
 use Illuminate\Http\Request;
@@ -50,5 +51,26 @@ class InvestorController extends Controller
 
     public function deleteSelected(Request $request){
         return $this->objService->deleteSelected($request);
+    }
+
+
+    public function addStockForm($id)
+    {
+        return$this->objService->addStockForm($id);
+
+    }
+
+    public function storeStock(storeStockRequest $request)
+    {
+
+
+        $data = $request->validated();
+        return $this->objService->storeStock($data);
+
+    }
+
+    public function getAvailableStock(Request $request)
+    {
+        return $this->objService->getAvailableStock($request);
     }
 }

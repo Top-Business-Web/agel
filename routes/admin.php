@@ -128,10 +128,7 @@ Route::group(
 );
 
 
-Route::resourceWithDeleteSelected('plan_subscriptions', \App\Http\Controllers\Admin\PlanSubscriptionController::class);
-Route::resourceWithDeleteSelected('stocks', \App\Http\Controllers\Admin\StockController::class);
 
 
-Route::resourceWithDeleteSelected('stocks', \App\Http\Controllers\Admin\StockController::class);
 
 Route::resourceWithDeleteSelected('operations', \App\Http\Controllers\Admin\OperationController::class);

@@ -64,6 +64,10 @@
     background-color: #3cb9c7;
     border-color: #3cb9c7;
 }
+input:focus{
+    border: none;
+    outline: none;
+}
     </style>
 </head>
 <body class="d-flex align-items-center" style="background-image: linear-gradient(rgba(33,33,34,0.4), rgba(33,33,34,0.8)),url('{{ asset('bg.jpg') }}'); background-size: cover;
@@ -71,12 +75,13 @@
 <div class="container-fluid">
 
        <div class="row">
-        <div class="col-lg-3"></div>
-        <div class="col-lg-6">
+        <div class="col-lg-3 col-12"></div>
+        <div class="col-lg-6 col-12">
         <div  class="signup-container" style="background-color: white; width: 100%;" >
         <div class="d-flex justify-content-center w-100">
     <img src="{{ asset('logo 1.png') }}" style="height: 90px;">
-    </div>        <form class="signup-form" action="{{route('admin.login')}}" method="POST" id="LoginForm">
+    </div>
+      <form class="signup-form" action="{{route('admin.login')}}" method="POST" id="LoginForm">
             @csrf
             @method('POST')
             <div class="gap-2">
@@ -92,14 +97,16 @@
                                id="verificationTypePhone">
 
                         <label class="form-check-label fs-4" for="verificationTypePhone">التسجيل برقم الجوال</label>
+
                     </div>
                 </div>
             </div>
-            <label class="inp">
-                <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField" style="background-color: rgb(232, 240, 254);">
+            <label class="inp d-flex">
+            <span class="input-group-text" id="validationTooltipUsernamePrepend" style="border-radius: 0 2rem 2rem 0; background-color: #e8f0ff; border: none; font-size: 20px;">+966</span>
+                <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField" style="background-color: rgb(232, 240, 254); border-radius: 2rem 0 0 2rem;">
                 <span class="label" id="placeHolder">البريد الالكتروني</span>
                 <span class="input-icon">
-                    <i class="fa-solid fa-envelope"></i> <!-- Default icon -->
+                    <i class="fa-solid fa-envelope"></i>
                 </span>
             </label>
             <label class="inp">
@@ -114,7 +121,7 @@
         </form>
         </div>
         </div>
-        <div class="col-lg-3"></div>
+        <div class="col-lg-3 col-12"></div>
        </div>
 
 
@@ -128,7 +135,10 @@
         const inputField = document.getElementById("inputField");
         const placeHolder = document.getElementById("placeHolder");
         const inputIcon = document.querySelector('.input-icon i');
+        const phonePrefix = document.getElementById("validationTooltipUsernamePrepend");
 
+        // إخفاء كود الدولة افتراضيًا
+        phonePrefix.style.display = "none";
         // جعل البريد الإلكتروني الخيار الافتراضي عند تحميل الصفحة
         emailRadio.checked = true;
         inputField.type = 'email';
@@ -144,10 +154,14 @@
                     inputField.type = 'email';
                     placeHolder.textContent = 'البريد الالكتروني';
                     inputIcon.className = 'fa-solid fa-envelope';
+                    phonePrefix.style.display = "none"; // إخفاء كود الدولة
+
                 } else if (event.target.value === 'phone') {
                     inputField.type = 'number';
                     placeHolder.textContent = 'رقم الجوال';
                     inputIcon.className = 'fa-solid fa-phone';
+                    phonePrefix.style.display = "block"; // إظهار كود الدولة
+
                 }
             });
         });

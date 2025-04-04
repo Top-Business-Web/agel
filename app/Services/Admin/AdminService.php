@@ -92,6 +92,7 @@ class AdminService extends BaseService
                 'message' => "المفتاح 'permissions' غير موجود في البيانات المرسلة.",
             ]);
         }
+        $data['status'] = 1;
         $data['password'] = Hash::make($data['password']);
 
         $data['user_name'] = $this->generateUsername($data['name']);

@@ -5,6 +5,7 @@ namespace App\Services\Vendor;
 use App\Models\Client as ObjModel;
 use App\Models\VendorBranch;
 use App\Services\BaseService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
@@ -13,7 +14,7 @@ class ClientService extends BaseService
     protected string $folder = 'vendor/client';
     protected string $route = 'clients';
 
-    public function __construct(ObjModel $objModel ,protected BranchService $branchService, protected VendorBranch $vendorBranch)
+    public function __construct(ObjModel $objModel, protected BranchService $branchService, protected VendorBranch $vendorBranch)
     {
         parent::__construct($objModel);
     }
@@ -31,15 +32,22 @@ class ClientService extends BaseService
                     return $this->statusDatatable($obj);
                 })
                 ->addColumn('action', function ($obj) {
-                    $buttons = '
+                    $buttons = '';
+                    if (Auth::guard('vendor')->user()->can("update_client")) {
+                        $buttons .= '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
                             <i class="fa fa-edit"></i>
                         </button>
+                    ';
+                    }
+                    if (Auth::guard('vendor')->user()->can("delete_client")) {
+                        $buttons .= '
                         <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                             data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
                             <i class="fas fa-trash"></i>
                         </button>
                     ';
+                    }
                     return $buttons;
                 })->editColumn('phone', function ($obj) {
                     $phone = str_replace('+', '', $obj->phone);
@@ -63,14 +71,14 @@ class ClientService extends BaseService
         $branches = [];
         if ($auth->parent_id == null) {
             $branches = $this->branchService->model->whereIn('vendor_id', [$auth->parent_id, $auth->id])
-                ->where('name','!=','الفرع الرئيسي')
-                ->where('is_main', '!=',1)
+                ->where('name', '!=', 'الفرع الرئيسي')
+                ->where('is_main', '!=', 1)
                 ->get();
         } else {
             $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
             $branches = $this->branchService->model->whereIn('id', $branchIds)
-                ->where('name','!=','الفرع الرئيسي')
-                ->where('is_main', '!=',1)
+                ->where('name', '!=', 'الفرع الرئيسي')
+                ->where('is_main', '!=', 1)
                 ->get();
         }
         return view("{$this->folder}/parts/create", [
@@ -83,7 +91,7 @@ class ClientService extends BaseService
     {
 
         try {
-            $data['phone']='+966'.$data['phone'];
+            $data['phone'] = '+966' . $data['phone'];
             $this->createData($data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception $e) {
@@ -98,14 +106,14 @@ class ClientService extends BaseService
         $branches = [];
         if ($auth->parent_id == null) {
             $branches = $this->branchService->model->whereIn('vendor_id', [$auth->parent_id, $auth->id])
-                ->where('name','!=','الفرع الرئيسي')
-                ->where('is_main', '!=',1)
+                ->where('name', '!=', 'الفرع الرئيسي')
+                ->where('is_main', '!=', 1)
                 ->get();
         } else {
             $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
             $branches = $this->branchService->model->whereIn('id', $branchIds)
-                ->where('name','!=','الفرع الرئيسي')
-                ->where('is_main', '!=',1)
+                ->where('name', '!=', 'الفرع الرئيسي')
+                ->where('is_main', '!=', 1)
                 ->get();
         }
         return view("{$this->folder}/parts/edit", [

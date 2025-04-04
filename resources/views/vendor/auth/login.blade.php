@@ -67,6 +67,10 @@
     background-color: #3cb9c7;
     border-color: #3cb9c7;
 }
+input:focus{
+    border: none;
+    outline: none;
+}
     </style>
 
 </head>
@@ -98,9 +102,9 @@
                         <label class="form-check-label fs-4" for="verificationTypePhone">التسجيل برقم الجوال</label>
                     </div>
                 </div>
-            <label class="inp">
-
-                <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField" style="background-color: rgb(232, 240, 254);">
+            <label class="inp d-flex">
+            <span class="input-group-text" id="validationTooltipUsernamePrepend" style="border-radius: 0 2rem 2rem 0; background-color: #e8f0ff; border: none; font-size: 20px;">+966</span>
+                <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField" style="background-color: rgb(232, 240, 254); border-radius: 2rem 0 0 2rem;">
                 <span class="label" id="placeHolder">البريد الالكتروني</span> <!-- Default placeholder -->
                 <span class="input-icon">
         <i class="fa-solid fa-envelope"></i> <!-- Default icon -->
@@ -129,7 +133,6 @@
 </div>
 </div>
 </body>
-@include('vendor.auth.js')
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const emailRadio = document.getElementById("verificationTypeEmail");
@@ -137,6 +140,10 @@
         const inputField = document.getElementById("inputField");
         const placeHolder = document.getElementById("placeHolder");
         const inputIcon = document.querySelector('.input-icon i');
+        const phonePrefix = document.getElementById("validationTooltipUsernamePrepend");
+
+        phonePrefix.style.display = "none";
+
 
         // جعل البريد الإلكتروني الخيار الافتراضي عند تحميل الصفحة
         emailRadio.checked = true;
@@ -153,13 +160,16 @@
                     inputField.type = 'email';
                     placeHolder.textContent = 'البريد الالكتروني';
                     inputIcon.className = 'fa-solid fa-envelope';
+                    phonePrefix.style.display = "none"; // إخفاء كود الدولة
                 } else if (event.target.value === 'phone') {
                     inputField.type = 'number';
                     placeHolder.textContent = 'رقم الجوال';
                     inputIcon.className = 'fa-solid fa-phone';
+                    phonePrefix.style.display = "block"; // إظهار كود الدولة
                 }
             });
         });
     });
 </script>
+@include('vendor.auth.js')
 </html>
