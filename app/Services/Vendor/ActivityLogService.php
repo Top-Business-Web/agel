@@ -2,9 +2,8 @@
 
 namespace App\Services\Vendor;
 
-use App\Models\Admin;
+use App\Models\Admin as ObjModel;
 use App\Services\BaseService;
-use Spatie\Activitylog\Models\Activity as ObjModel;
 use Yajra\DataTables\DataTables;
 use App\Models\Vendor as VendorObj;
 
@@ -13,7 +12,7 @@ class ActivityLogService extends BaseService
     protected string $folder = 'vendor/activity_log';
     protected string $route = 'vendor.activity_logs';
 
-    public function __construct(protected ObjModel $objModel,protected VendorObj $vendorObj,protected Admin $adminObj)
+    public function __construct(protected ObjModel $objModel,protected VendorObj $vendorObj)
     {
         parent::__construct($objModel);
     }
