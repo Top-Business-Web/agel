@@ -219,7 +219,7 @@
 
                 if (data.status === 200) {
                     // toastr.success('من فضلك قم بتفعيل حسابك');
-                    sessionStorage.setItem('toastrMessage', 'من فضلك قم بتفعيل حسابك');
+                    // sessionStorage.setItem('toastrMessage', 'من فضلك قم بتفعيل حسابك');
 
                     window.location.href = '{{ route('vendor.otp.verify', ['email' => '__EMAIL__','type'=>'register','resetPassword'=>1]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
 

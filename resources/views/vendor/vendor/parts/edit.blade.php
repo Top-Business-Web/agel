@@ -103,9 +103,15 @@
             </div>
 
             <div class="col-lg-9 col-12 d-flex flex-wrap justify-content-between mb-5">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="selectAllPermissions">
-                    <label class="form-check-label" for="selectAllPermissions">اختيار الكل</label>
+                <div class="row form-check w-100">
+                    <div class="col-4">
+                        <input class="form-check-input" type="checkbox" id="selectAllPermissions">
+                        <label class="form-check-label" for="selectAllPermissions">اختيار الكل</label>
+                    </div>
+                    <div class="col-4">
+                        <input class="form-check-input" type="checkbox" id="selectAllPermissions1">
+                        <label class="form-check-label" for="selectAllPermissions1">مدير المكتب</label>
+                    </div>
                 </div>
                 @foreach ($permissions->groupBy('parent_name') as $parent => $group)
             </div>
@@ -146,6 +152,16 @@
 
     // Select All Permissions
     document.getElementById('selectAllPermissions').addEventListener('change', function () {
+        document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+
+        document.querySelectorAll('.parent-select-all').forEach(groupCheckbox => {
+            groupCheckbox.checked = this.checked;
+        });
+    });
+//مدير المكتب
+    document.getElementById('selectAllPermissions1').addEventListener('change', function () {
         document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
             checkbox.checked = this.checked;
         });

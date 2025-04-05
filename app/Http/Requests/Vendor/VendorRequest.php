@@ -78,4 +78,35 @@ class VendorRequest extends FormRequest
             'branch_ids' => 'required|array',
         ];
     }
+
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'The name field is required.',
+            'email.required' => 'The email field is required.',
+            'email.email' => 'The email must be a valid email address.',
+            'email.unique' => 'The email has already been taken.',
+            'phone.required' => 'The phone field is required.',
+            'phone.regex' => 'The phone number must be in the format +966XXXXXXXXX.',
+            'phone.unique' => 'The phone number has already been taken.',
+            'city_id.required' => 'The city field is required.',
+            'city_id.exists' => 'The selected city is invalid.',
+            'national_id.required' => 'The national ID field is required.',
+            'national_id.numeric' => 'The national ID must be a number.',
+            'national_id.digits' => 'The national ID must be 10 digits.',
+            'national_id.unique' => 'The national ID has already been taken.',
+            'password.required' => 'The password field is required.',
+            'password.min' => 'The password must be at least 6 characters.',
+            'password.confirmed' => 'The password confirmation does not match.',
+            'image.image' => 'The image must be an image file.',
+            'image.mimes' => 'The image must be a file of type: jpg, jpeg, png, gif.',
+            'image.max' => 'The image may not be greater than 2048 kilobytes.',
+            'permissions.required' => 'The permissions field is required.',
+            'permissions.array' => 'The permissions must be an array.',
+            'branch_ids.required' => 'The branch IDs field is required.',
+            'branch_ids.array' => 'The branch IDs must be an array.',
+        ];
+
+    }
 }

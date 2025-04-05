@@ -95,6 +95,15 @@ class VendorService extends BaseService
 
     public function store($data): JsonResponse
     {
+        foreach ($data['branch_ids'] as $branch) {
+            $branchName=$this->branchService->model->where('id', $branch)->first()->name;
+            if ($branchName == 'الفرع الرئيسي' && count($data['branch_ids']) > 1) {
+                return response()->json([
+                    'status' => 405,
+                    'message' => "لا يمكن إضافة فرع رئيسي مع أفرع أخر",
+                ]);
+            }
+        }
         $allData = $data;
         unset($data['permissions'], $data['branch_ids']);
         if (isset($data['image'])) {

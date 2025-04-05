@@ -28,14 +28,13 @@
                 <div class="form-group">
                     <label for="branch_id" class="form-control-label">اسم الفرع التابع له</label>
                     <select class="form-control" name="branch_ids[]" id="branch_id" multiple>
-                        <option value=""  disabled>اختر الفرع</option>
+                        <option value="" disabled>اختر الفرع</option>
                         @foreach ($branches as $branch)
                             <option value="{{$branch->id }}">{{$branch->name}}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
-
 
 
             <div class="col-6">
@@ -90,9 +89,15 @@
                 </div>
             </div>
             <div class="col-lg-9 col-12 d-flex flex-wrap justify-content-between mb-5">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="selectAllPermissions">
-                    <label class="form-check-label" for="selectAllPermissions">اختيار الكل</label>
+                <div class="row form-check w-100">
+                    <div class="col-4">
+                        <input class="form-check-input" type="checkbox" id="selectAllPermissions">
+                        <label class="form-check-label" for="selectAllPermissions">اختيار الكل</label>
+                    </div>
+                    <div class="col-4">
+                        <input class="form-check-input" type="checkbox" id="selectAllPermissions1">
+                        <label class="form-check-label" for="selectAllPermissions1">مدير المكتب</label>
+                    </div>
                 </div>
                 @foreach ($permissions->groupBy('parent_name') as $parent => $group)
             </div>
@@ -105,7 +110,8 @@
 
                 @foreach($group as $permission)
                     <div class="form-check">
-                        <input class="form-check-input permission-checkbox" type="checkbox" name="permissions[]" value="{{ $permission->id }}" data-group="{{ $parent }}">
+                        <input class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
+                               value="{{ $permission->id }}" data-group="{{ $parent }}">
                         <label class="form-check-label" for="flexCheckDefault{{$loop->iteration}}">
                             {{getKey()[$loop->iteration-1]}}
                         </label>
@@ -145,17 +151,17 @@
         });
     });
 
-        document.getElementById('selectAllPermissions').addEventListener('change', function () {
+    document.getElementById('selectAllPermissions1').addEventListener('change', function () {
         document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
             checkbox.checked = this.checked;
         });
 
         document.querySelectorAll('.parent-select-all').forEach(groupCheckbox => {
-        groupCheckbox.checked = this.checked;
-    });
+            groupCheckbox.checked = this.checked;
+        });
     });
 
-        document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
+    document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', function () {
             let group = this.dataset.group;
             let secondPermission = document.querySelectorAll(`.permission-checkbox[data-group='${group}']`)[0];
@@ -166,6 +172,5 @@
     });
 
 
-
-
 </script>
+

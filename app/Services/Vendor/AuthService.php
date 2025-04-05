@@ -136,11 +136,32 @@ class AuthService extends BaseService
         $validate = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:vendors,email',
-            'phone' => 'required|regex:/^\+9665\d{8}$/|unique:vendors,phone',
+            'phone' => 'required|regex:/^\+966\d{9}$/|unique:vendors,phone',
             'password' => 'required|min:6|confirmed',
             'city_id' => 'required|exists:cities,id',
             'commercial_number' => 'required|digits:10|numeric|unique:vendors,commercial_number',
             'national_id' => 'required|numeric|digits:10|unique:vendors,national_id',
+        ], [
+            'name.required' => 'يرجى إدخال الاسم',
+            'email.required' => 'يرجى إدخال البريد الإلكتروني',
+            'email.email' => 'يرجى إدخال بريد إلكتروني صحيح',
+            'email.unique' => 'البريد الإلكتروني مستخدم بالفعل',
+            'phone.required' => 'يرجى إدخال رقم الهاتف',
+            'phone.regex' => 'يرجى إدخال رقم هاتف صحيح',
+            'phone.unique' => 'رقم الهاتف مستخدم بالفعل',
+            'password.required' => 'يرجى إدخال كلمة المرور',
+            'password.min' => 'يجب أن تكون كلمة المرور مكونة من 6 أحرف على الأقل',
+            'password.confirmed' => 'تأكيد كلمة المرور غير متطابق',
+            'city_id.required' => 'يرجى اختيار المدينة',
+            'city_id.exists' => 'المدينة المختارة غير موجودة',
+            'commercial_number.required' => 'يرجى إدخال الرقم التجاري',
+            'commercial_number.digits' => 'يجب أن يكون الرقم التجاري مكونًا من 10 أرقام',
+            'commercial_number.numeric' => 'يجب أن يكون الرقم التجاري رقمًا',
+            'commercial_number.unique' => 'الرقم التجاري مستخدم بالفعل',
+            'national_id.required' => 'يرجى إدخال رقم الهوية',
+            'national_id.numeric' => 'يجب أن يكون رقم الهوية رقمًا',
+            'national_id.digits' => 'يجب أن يكون رقم الهوية مكونًا من 10 أرقام',
+            'national_id.unique' => 'رقم الهوية مستخدم بالفعل',
         ]);
 
 
@@ -183,7 +204,6 @@ class AuthService extends BaseService
                 'otp' => $otp,
                 'otp_expire_at' => now()->addMinutes(5)
             ]);
-
             Mail::to($vendor->email)->send(new Otp($vendor->name, $otp));
             return response()->json([
                 'status' => 200,
