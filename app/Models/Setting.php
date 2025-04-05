@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Setting extends BaseModel
 {
-    use SoftDeletes , HasFactory;
+    use HasFactory;
     protected $fillable = [
         'key',
-        'value'
+        'value',
+        'guard',
+        'vendor_id',
     ];
     protected $casts = [];
 
