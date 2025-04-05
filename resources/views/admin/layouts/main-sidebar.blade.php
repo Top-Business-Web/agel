@@ -88,26 +88,26 @@
         @endcanany
         <!-- setting Management Section -->
         @canany(['read_activity_log', 'delete_activity_log'])
-        <li class="slide {{ arrRouteActive(['admin.activity_logs.index']) }}">
-            <a class="side-menu__item {{ arrRouteActive(['admin.activity_logs.index'], 'active') }}"
-               data-toggle="slide" href="#">
-                <i class="fas fa-cog side-menu__icon"></i> <!-- Settings Icon -->
-                <span class="side-menu__label">إعدادات النظام</span>
-                <i class="angle fa fa-angle-right"></i>
-            </a>
-            <ul class="slide-menu">
+            <li class="slide {{ arrRouteActive(['admin.activity_logs.index']) }}">
+                <a class="side-menu__item {{ arrRouteActive(['admin.activity_logs.index'], 'active') }}"
+                   data-toggle="slide" href="#">
+                    <i class="fas fa-cog side-menu__icon"></i> <!-- Settings Icon -->
+                    <span class="side-menu__label">إعدادات النظام</span>
+                    <i class="angle fa fa-angle-right"></i>
+                </a>
+                <ul class="slide-menu">
 
-                <!-- سجل النظام -->
-                <li class="{{ routeActive('admin.activity_logs.index') }}">
-                    <a class="slide-item {{ routeActive('admin.activity_logs.index') }}"
-                       href="{{ route('admin.activity_logs.index') }}">
-                        <i class="fas fa-heartbeat side-menu__icon"></i> <!-- Activity Icon -->
-                        سجل النظام
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <!-- setting Management Section -->
+                    <!-- سجل النظام -->
+                    <li class="{{ routeActive('admin.activity_logs.index') }}">
+                        <a class="slide-item {{ routeActive('admin.activity_logs.index') }}"
+                           href="{{ route('admin.activity_logs.index') }}">
+                            <i class="fas fa-heartbeat side-menu__icon"></i> <!-- Activity Icon -->
+                            سجل النظام
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- setting Management Section -->
         @endcanany
         <li class="slide">
             <a class="side-menu__item {{ Route::currentRouteName() == 'admin.logout' ? 'active' : '' }}"

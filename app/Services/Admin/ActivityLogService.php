@@ -15,15 +15,14 @@ class ActivityLogService extends BaseService
     protected string $route = 'admin.activity_logs';
     protected AdminObj $adminObj;
 
-    public function __construct(protected ObjModel $objModel,AdminObj $adminObj)
+    public function __construct(protected ObjModel $objModel, AdminObj $adminObj)
     {
-        $this->adminObj=$adminObj;
+        $this->adminObj = $adminObj;
         parent::__construct($objModel);
     }
 
 
-
-    public function index( $request)
+    public function index($request)
     {
         if ($request->ajax()) {
             $objs = $this->getDataTable();
@@ -42,11 +41,10 @@ class ActivityLogService extends BaseService
                     Carbon::setLocale('ar');
                     return $obj->created_at->translatedFormat('j F Y الساعة g:i A');
                 })
-
                 ->addColumn('delete', function ($obj) {
                     $buttons = '';
-
-                    $buttons .= '
+                    if (auth('admin')->user()->can('delete_activity_log')) {
+                        $buttons .= '
 
                         <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                             data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
@@ -55,6 +53,7 @@ class ActivityLogService extends BaseService
 
 
                     ';
+                    }
                     return $buttons;
 
                 })->rawColumns(['delete'])

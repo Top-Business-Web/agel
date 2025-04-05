@@ -15,21 +15,29 @@ class PlanSubscriptionService extends BaseService
     {
         parent::__construct($objModel);
     }
+
     public function index($request)
     {
         if ($request->ajax()) {
             $obj = $this->getDataTable();
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
-                    $buttons = '
+                    $buttons = '';
+                    if (auth('admin')->user()->can('update_plan_subscription')) {
+                        $buttons = '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
                             <i class="fa fa-edit"></i>
                         </button>
+                    ';
+                    }
+                    if (auth('admin')->user()->can('delete_plan_subscription')) {
+                        $buttons = '
                         <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                             data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
                             <i class="fas fa-trash"></i>
                         </button>
                     ';
+                    }
                     return $buttons;
                 })->editColumn('status', function ($obj) {
                     return $this->statusDatatable($obj);
@@ -57,7 +65,7 @@ class PlanSubscriptionService extends BaseService
     {
         return view("{$this->folder}/parts/create", [
             'storeRoute' => route("{$this->route}.store"),
-            'plans' => $this->planService->model->where('id','!=',1)->get(),
+            'plans' => $this->planService->model->where('id', '!=', 1)->get(),
             'vendors' => $this->vendorService->model->where('parent_id', null)->get(),
         ]);
 
@@ -88,7 +96,7 @@ class PlanSubscriptionService extends BaseService
     {
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
-            'plans' => $this->planService->model->where('id','!=',1)->get(),
+            'plans' => $this->planService->model->where('id', '!=', 1)->get(),
             'vendors' => $this->vendorService->model->where('parent_id', null)->get(),
             'updateRoute' => route("{$this->route}.update", $obj->id),
         ]);
@@ -114,7 +122,6 @@ class PlanSubscriptionService extends BaseService
             return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
         }
     }
-
 
 
 }
