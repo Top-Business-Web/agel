@@ -2,9 +2,9 @@
 
 namespace App\Services\Admin;
 
-use App\Models\Category as ObjModel;
+use App\Models\Stock as ObjModel;
 use App\Services\BaseService;
-use Illuminate\Support\Facades\Auth;
+use App\Services\Vendor\CategoryService;
 use Yajra\DataTables\DataTables;
 
 class StockService extends BaseService
@@ -12,8 +12,9 @@ class StockService extends BaseService
     protected string $folder = 'vendor/stock';
     protected string $route = 'stocks';
 
-    public function __construct(ObjModel $objModel)
-    {
+    public function __construct(ObjModel $objModel,
+                                protected CategoryService $categoryService,
+    ) {
         parent::__construct($objModel);
     }
 
@@ -22,7 +23,7 @@ class StockService extends BaseService
         if ($request->ajax()) {
             $user = auth('vendor')->user();
             $parentId = $user->parent_id ?? $user->id;
-            $obj = $this->model->where('vendor_id', $parentId)->whereHas('stocks')->get();
+            $obj = $this->categoryService->model->where('vendor_id', $parentId)->whereHas('stocks')->get();
 
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {

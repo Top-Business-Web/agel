@@ -17,7 +17,7 @@
 
                         <label for="region_id" class="form-control-label">عنوان الفرع</label>
                         <select class="form-control" name="region_id" id="region_id">
-                            <option value="">اختر عنوان الفرع</option>
+                            <option value="" selected disabled>اختر عنوان الفرع</option>
                             @foreach ($regions as $region)
                                 <option value="{{ $region->id }}">{{ $region->name }}-{{ $region->area->name }}
                                     -{{ $region->area->city->name }}</option>
