@@ -27,7 +27,8 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="branch_id" class="form-control-label">اسم الفرع التابع له</label>
-                    <select class="form-control" name="branch_ids[]" id="branch_id" multiple>
+                    <select class="form-control" name="branch_ids[]" id="branch_id" multiple
+                            onchange="officeManager({{$branches}},this)">
                         <option value="" disabled>اختر الفرع</option>
                         @foreach ($branches as $branch)
                             <option value="{{$branch->id }}">{{$branch->name}}</option>
@@ -171,6 +172,36 @@
         });
     });
 
+
+    function officeManager(branches, selectElement) {
+        // Get the selected options
+        let selectedOptions = Array.from(selectElement.selectedOptions).map(option => option.value);
+        if (selectedOptions.includes('{{ $branch->id }}')) {
+            console.log('ma');
+        }
+
+        @endforeach
+        // Perform your desired action with the selected options
+        console.log('Selected branches:', selectedOptions);
+        console.log('branches:', branches[0].id);
+
+
+        // Example: You can make an AJAX request to update the selected branches
+        $.ajax({
+            type: 'POST',
+            url: '/your-update-url',
+            data: {
+                "_token": "{{ csrf_token() }}",
+                'branch_ids': selectedOptions,
+            },
+            success: function (response) {
+                console.log('Branches updated successfully:', response);
+            },
+            error: function (error) {
+                console.error('Error updating branches:', error);
+            }
+        });
+    }
 
 </script>
 
