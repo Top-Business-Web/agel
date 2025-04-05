@@ -13,12 +13,14 @@ class PlanVendorController extends Controller
     {
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        return '9000';
         $plan= $this->objService->getAll();
-        dd($plan);
-        return $this->objService->index($request);
+//        return view('vendor.plan', [
+//            'bladeName' => "المكاتب",
+//            'route' => $this->objService->getRoute(),
+//            'plan' => $plan,
+//        ]);
     }
 
     public function create()
@@ -26,10 +28,11 @@ class PlanVendorController extends Controller
         return $this->objService->create();
     }
 
-    public function store(ObjRequest $data)
+//    public function store(ObjRequest $data)
+    public function store()
     {
-        $data = $data->validated();
-        return $this->objService->store($data);
+//        $data = $data->validated();
+//        return $this->objService->store($data);
     }
 
     public function edit(ObjModel $client)
@@ -37,10 +40,11 @@ class PlanVendorController extends Controller
         return $this->objService->edit($client);
     }
 
-    public function update(ObjRequest $request, $id)
+//    public function update(ObjRequest $request, $id)
+    public function update($id)
     {
-        $data = $request->validated();
-        return $this->objService->update($data, $id);
+//        $data = $request->validated();
+//        return $this->objService->update($data, $id);
     }
 
     public function destroy($id)
