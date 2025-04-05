@@ -9,6 +9,7 @@ use App\Http\Controllers\Vendor\ClientController;
 use App\Http\Controllers\Vendor\HomeController;
 use App\Http\Controllers\Vendor\BranchController;
 use App\Http\Controllers\Vendor\InvestorController;
+use App\Http\Controllers\Vendor\PlanVendorController;
 use App\Http\Controllers\Vendor\RoleController;
 use App\Http\Controllers\Vendor\SettingController;
 use App\Http\Controllers\Vendor\VendorController;
@@ -100,6 +101,8 @@ Route::group(
 
                 #============================ Stocks ==================================
                 Route::resourceWithDeleteSelected('stocks', StockController::class);
+               #============================ plans ==================================
+               Route::get('VendorPlanIndex', [PlanVendorController::class, 'index'])->name('vendorPlanIndex');
 
 
             });
