@@ -1,10 +1,8 @@
 @extends('vendor.layouts.master')
 
 @section('title')
-    <!-- {{ config()->get('app.name') }} -->
 @endsection
 @section('page_name')
-    <!-- {{ $bladeName }} -->
 @endsection
 @section('content')
 
@@ -46,7 +44,6 @@
 
                                 <th class="min-w-50px rounded-end">اسم الصنف</th>
                                 <th class="min-w-50px rounded-end">الكميه</th>
-                                <th class="min-w-50px rounded-end">ألإجراءات</th>
                             </tr>
                             </thead>
                         </table>
@@ -168,8 +165,6 @@
             {data: 'stocks', name: 'stocks'},
 
 
-
-            {data: 'action', name: 'action', orderable: false, searchable: false},
         ]
         showData('{{route($route.'.index')}}', columns);
 

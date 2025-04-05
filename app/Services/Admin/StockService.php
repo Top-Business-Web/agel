@@ -2,9 +2,13 @@
 
 namespace App\Services\Admin;
 
+use App\Models\Investor;
 use App\Models\Stock as ObjModel;
+use App\Models\VendorBranch;
 use App\Services\BaseService;
+use App\Services\Vendor\BranchService;
 use App\Services\Vendor\CategoryService;
+use App\Services\Vendor\InvestorService;
 use Yajra\DataTables\DataTables;
 
 class StockService extends BaseService
@@ -12,9 +16,14 @@ class StockService extends BaseService
     protected string $folder = 'vendor/stock';
     protected string $route = 'stocks';
 
-    public function __construct(ObjModel $objModel,
+    public function __construct(ObjModel                  $objModel,
                                 protected CategoryService $categoryService,
-    ) {
+                                protected BranchService   $branchService,
+                                protected VendorBranch    $vendorBranch,
+                                protected Investor        $investor
+
+    )
+    {
         parent::__construct($objModel);
     }
 
@@ -26,27 +35,7 @@ class StockService extends BaseService
             $obj = $this->categoryService->model->where('vendor_id', $parentId)->whereHas('stocks')->get();
 
             return DataTables::of($obj)
-                ->addColumn('action', function ($obj) {
-                    $buttons = '';
-                    if (auth('vendor')->user()->can('update_vendor')) {
-                        $buttons .= '
-                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
-                            <i class="fa fa-edit"></i>
-                        </button>
-
-                    ';
-                    }
-                    if (auth('vendor')->user()->can('delete_vendor')) {
-                        $buttons .= '
-
-                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    ';
-                    }
-                    return $buttons;
-                })->editColumn('stocks', function ($obj) {
+                ->editColumn('stocks', function ($obj) {
 
 
                     return $obj->stocks->flatMap(function ($stock) {
@@ -59,7 +48,6 @@ class StockService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
-                'bladeName' => "",
                 'route' => $this->route,
             ]);
         }
@@ -67,8 +55,20 @@ class StockService extends BaseService
 
     public function create()
     {
+
+        $auth = auth('vendor')->user();
+        $branches = [];
+        if ($auth->parent_id == null) {
+            $branches = $this->branchService->model->apply()->whereIn('vendor_id', [$auth->parent_id, $auth->id])->where('name', "!=", 'الفرع الرئيسي')->get();
+        } else {
+            $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
+            $branches = $this->branchService->model->apply()->whereIn('id', $branchIds)->where('name', "!=", 'الفرع الرئيسي')->get();
+        }
         return view("{$this->folder}/parts/create", [
             'storeRoute' => route("{$this->route}.store"),
+            'investors' => $this->investor->whereIn('branch_id', $branches->pluck('id'))->get(),
+            'categories' => $this->categoryService->model->where('vendor_id', $auth->parent_id ?? $auth->id)->get(),
+            'branches' => $branches,
         ]);
     }
 

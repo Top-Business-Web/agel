@@ -84,7 +84,14 @@ class InvestorService extends BaseService
 
     public function create()
     {
-        $branches = $this->branchService->getAll();
+        $auth = auth('vendor')->user();
+        $branches = [];
+        if ($auth->parent_id == null) {
+            $branches = $this->branchService->model->apply()->whereIn('vendor_id', [$auth->parent_id, $auth->id])->where('name', "!=", 'الفرع الرئيسي')->get();
+        } else {
+            $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
+            $branches = $this->branchService->model->apply()->whereIn('id', $branchIds)->where('name', "!=", 'الفرع الرئيسي')->get();
+        }
         return view("{$this->folder}/parts/create", [
             'storeRoute' => route("{$this->route}.store"),
             'branches' => $branches,
@@ -143,7 +150,7 @@ class InvestorService extends BaseService
         return view("{$this->folder}/parts/add_stock", [
             'storeRoute' => route("vendor.investors.storeStock"),
             'investorId' => $id,
-            'categories' => $this->categoryService->model->apply()->get(),
+            'categories' => $this->categoryService->model->where('vendor_id', $auth->parent_id ?? $auth->id)->apply()->get(),
             'branches' => $branches,
         ]);
 
