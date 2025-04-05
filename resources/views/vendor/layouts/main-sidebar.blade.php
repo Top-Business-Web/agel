@@ -49,6 +49,16 @@
                 </a>
             </li>
         @endcanany
+
+        <li class="{{ routeActive('vendorPlanIndex') }}">
+                <a class="slide-item {{ routeActive('vendorPlanIndex') }}" style="margin-right:8px;"
+                   href="{{ route('vendorPlanIndex') }}">
+                    <i class="fa fa-star side-menu__icon"></i> <!-- stocks Icon -->
+                    الخطط
+                </a>
+            </li>
+
+
         <!-- إدارة المستخدمين -->
         @canany(['read_vendor','create_vendor', 'update_vendor', 'delete_vendor','read_investor','create_investor', 'update_investor', 'delete_investor','read_client','create_client', 'update_client', 'delete_client'])
             <li class="slide {{ arrRouteActive(['users.index', 'vendor.vendors.index']) }}">

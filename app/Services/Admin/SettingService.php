@@ -32,22 +32,11 @@ class SettingService extends BaseService
 
     public function update(array $data)
     {
-
-        
         try {
             // Handle file uploads
             $files = ['logo', 'fav_icon', 'loader'];
             foreach ($files as $file) {
                 if (isset($data[$file])) {
-                    // Delete the old file if it exists
-                    $oldSetting = $this->settingObj->where('key', $file)->first();
-                    if ($oldSetting) {
-                        $oldFilePath = public_path('storage/settings/' . $oldSetting->value);
-                        if (file_exists($oldFilePath)) {
-                            unlink($oldFilePath);
-                        }
-                    }
-
                     $filePath = $data[$file]->store('public/settings');
                     $this->storeOrUpdateSetting($file, basename($filePath));
                 }
@@ -66,8 +55,7 @@ class SettingService extends BaseService
 
                     if (!empty($phone)) {
                         $this->model->updateOrCreate([
-                            'key' => 'phone' . $index,
-                        ], [
+                            'key' => 'phone'.$index,
                             'value' => $phone
                         ]);
                     }
@@ -78,11 +66,11 @@ class SettingService extends BaseService
 
 
             return response()->json(['status' => 200, 'message' => 'تمت العملية بنجاح']);
-            return response()->json(['status' => 200, 'message' => 'Operation completed successfully']);
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => 500,
                 'message' => 'حدث خطأ أثناء العملية',
-                'message' => 'An error occurred during the operation',
+                'error' => $e->getMessage()
             ]);
         }
     }
