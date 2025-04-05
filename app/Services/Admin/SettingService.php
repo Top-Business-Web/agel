@@ -96,12 +96,23 @@ class SettingService extends BaseService
 
     public function update(array $data)
     {
+
+        
         try {
             // Handle file uploads
             $files = ['logo', 'fav_icon', 'loader'];
             foreach ($files as $file) {
                 if (isset($data[$file])) {
-                    $filePath = $data[$file]->store('public/settings');
+                    // Delete the old file if it exists
+                    $oldSetting = $this->settingObj->where('key', $file)->first();
+                    if ($oldSetting) {
+                        $oldFilePath = public_path('storage/settings/' . $oldSetting->value);
+                        if (file_exists($oldFilePath)) {
+                            unlink($oldFilePath);
+                        }
+                    }
+
+                    $filePath = $git data[$file]->store('public/settings');
                     $this->storeOrUpdateSetting($file, basename($filePath));
                 }
             }
@@ -120,7 +131,7 @@ class SettingService extends BaseService
     
                 foreach ($data['phones'] as $phone) {
                     if (!empty($phone)) {
-                        $this->settingObj->updateOrCreate([
+                        $this->settingObj->updateOrCreate(['key' => 'phone',],[
                             'key' => 'phone',
                             'value' => $phone
                         ]);

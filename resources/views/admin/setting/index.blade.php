@@ -54,7 +54,7 @@
                     <label for="phone" class="form-control-label">{{ __('Phone Number') }}</label>
                     <div class="input-group">
                         <span class="input-group-text">+966</span>
-                        <input type="number" class="form-control" name="phones[]" maxlength="11" 
+                        <input type="number" class="form-control" name="phones[]" 
                             value="{{ $phone->value ?? '' }}" required>
                     </div>
                 </div>
