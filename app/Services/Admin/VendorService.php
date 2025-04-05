@@ -37,14 +37,14 @@ class VendorService extends BaseService
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
                     $buttons = '';
-                    if (Auth::guard('vendor')->user()->can('update_vendor')){
+                    if (Auth::guard('admin')->user()->can('update_vendor')) {
                         $buttons .= '
                             <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
                             <i class="fa fa-edit"></i>
                             </button>
                        ';
-                }
-                    if (Auth::guard('vendor')->user()->can('delete_vendor')) {
+                    }
+                    if (Auth::guard('admin')->user()->can('delete_vendor')) {
                         $buttons .= '
 
                         <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
@@ -129,7 +129,7 @@ class VendorService extends BaseService
             // Create primary branch for the vendor with default settings
             $branch = Branch::create([
                 'vendor_id' => $obj->id,
-                'region_id' => $data['region_id']??null,
+                'region_id' => $data['region_id'] ?? null,
                 'status' => 1,
                 'is_main' => 1,
                 'name' => 'الفرع الرئيسي'
@@ -152,10 +152,9 @@ class VendorService extends BaseService
     }
 
 
-
     public function edit($id)
     {
-        $obj=$this->getById($id);
+        $obj = $this->getById($id);
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
@@ -186,7 +185,7 @@ class VendorService extends BaseService
 
             if (isset($data['password'])) {
                 $data['password'] = Hash::make($data['password']);
-            }else{
+            } else {
                 unset($data['password']);
             }
 
@@ -199,7 +198,6 @@ class VendorService extends BaseService
                 $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();
                 $obj->syncPermissions($permissions);
             }
-
 
 
             return $this->responseMsg();

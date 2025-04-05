@@ -6,6 +6,7 @@ use App\Models\Plan as ObjModel;
 use App\Models\Plan;
 use App\Models\PlanDetail;
 use App\Services\BaseService;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class PlanService extends BaseService
@@ -25,22 +26,32 @@ class PlanService extends BaseService
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
                     if ($obj->id == 1) {
-                        return 'لا يمكن اتخاذ اي أجراء ';}
-                    $buttons = '
+                        return 'لا يمكن اتخاذ اي أجراء ';
+                    }
+                    $buttons = '';
+                    if (auth('admin')->user()->can('update_plan')) {
 
+                        $buttons .= '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
                             <i class="fa fa-edit"></i>
                         </button>
+
+                    ';
+                    }
+                    if (auth('admin')->user()->can('delete_plan')) {
+
+                        $buttons .= '
                         <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                             data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
                             <i class="fas fa-trash"></i>
                         </button>
                     ';
+                    }
                     return $buttons;
                 })->editColumn('image', function ($obj) {
                     return $this->imageDataTable($obj->image);
                 })->editColumn('status', function ($obj) {
-                    return$obj->id == 1 ? 'غير متاح' : $this->statusDatatable($obj);
+                    return $obj->id == 1 ? 'غير متاح' : $this->statusDatatable($obj);
                 })->editColumn('description', function ($obj) {
                     return strlen($obj->description) > 50 ? substr($obj->description, 0, 50) . '...' : $obj->description;
                 })->editColumn('discount', function ($obj) {
@@ -72,50 +83,50 @@ class PlanService extends BaseService
         ]);
     }
 
-   public function store($request)
-{
-    try {
-        $validatedData = $request->validated();
+    public function store($request)
+    {
+        try {
+            $validatedData = $request->validated();
 
-        if ($request->hasFile('image')) {
-            $validatedData['image'] = $this->handleFile($request->file('image'), 'Plan');
+            if ($request->hasFile('image')) {
+                $validatedData['image'] = $this->handleFile($request->file('image'), 'Plan');
+            }
+
+            $plan = Plan::create([
+                'name' => $validatedData['name'],
+                'price' => $validatedData['price'],
+                'period' => $validatedData['period'],
+                'discount' => $validatedData['discount'] ?? null,
+                'description' => $validatedData['description'] ?? null,
+                'image' => $validatedData['image'] ?? null,
+            ]);
+
+            $this->createPlanDetails($plan, $validatedData['plans']);
+
+            return response()->json([
+                'status' => 200,
+                'message' => "تمت العملية بنجاح"
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => "حدث خطأ أثناء الحفظ",
+                'error' => $e->getMessage()
+            ]);
         }
-
-        $plan = Plan::create([
-            'name' => $validatedData['name'],
-            'price' => $validatedData['price'],
-            'period' => $validatedData['period'],
-            'discount' => $validatedData['discount'] ?? null,
-            'description' => $validatedData['description'] ?? null,
-            'image' => $validatedData['image'] ?? null,
-        ]);
-
-        $this->createPlanDetails($plan, $validatedData['plans']);
-
-        return response()->json([
-            'status' => 200,
-            'message' => "تمت العملية بنجاح"
-        ]);
-    } catch (\Exception $e) {
-        return response()->json([
-            'status' => 500,
-            'message' => "حدث خطأ أثناء الحفظ",
-            'error' => $e->getMessage()
-        ]);
     }
-}
 
-private function createPlanDetails(Plan $plan, array $planDetails): void
-{
-    foreach ($planDetails as $detail) {
-        PlanDetail::create([
-            'plan_id' => $plan->id,
-            'key' => $detail['key'],
-            'value' => isset($detail['is_unlimited']) && $detail['is_unlimited'] == 1 ? null : $detail['value'],
-            'is_unlimited' => isset($detail['is_unlimited']) && $detail['is_unlimited'] == 1 ? 1 : 0,
-        ]);
+    private function createPlanDetails(Plan $plan, array $planDetails): void
+    {
+        foreach ($planDetails as $detail) {
+            PlanDetail::create([
+                'plan_id' => $plan->id,
+                'key' => $detail['key'],
+                'value' => isset($detail['is_unlimited']) && $detail['is_unlimited'] == 1 ? null : $detail['value'],
+                'is_unlimited' => isset($detail['is_unlimited']) && $detail['is_unlimited'] == 1 ? 1 : 0,
+            ]);
+        }
     }
-}
 
 
     public function edit($id)
@@ -126,7 +137,7 @@ private function createPlanDetails(Plan $plan, array $planDetails): void
         ]);
     }
 
-public function update($request, $id)
+    public function update($request, $id)
     {
         $plan = Plan::find($id);
 
@@ -233,4 +244,5 @@ public function update($request, $id)
             'message' => "حدث خطأ",
             'error' => $e->getMessage()
         ]);
-    }}
+    }
+}
