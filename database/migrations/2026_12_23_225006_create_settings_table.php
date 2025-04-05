@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
             $table->string('key');
-            $table->longText('value')->nullable();
+            $table->text('value');
+            $table->enum('guard', ['admin', 'vendor'])->default('admin');
+            $table->foreignId('vendor_id')->nullable()->constrained('vendors')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
