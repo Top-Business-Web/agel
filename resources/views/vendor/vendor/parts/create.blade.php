@@ -95,10 +95,10 @@
                         <input class="form-check-input" type="checkbox" id="selectAllPermissions">
                         <label class="form-check-label" for="selectAllPermissions">اختيار الكل</label>
                     </div>
-                    
-  //                  <div class="col-4 office-manager-container" style="display: none">
- //                       <input class="form-check-input office-manager-check" type="checkbox" id="selectAllPermissions1">
-//                        <label class="form-check-label " for="selectAllPermissions1">مدير المكتب</label>
+
+{{--                   <div class="col-4 office-manager-container" style="display: none">--}}
+{{--                        <input class="form-check-input office-manager-check" type="checkbox" id="selectAllPermissions1">--}}
+{{--                        <label class="form-check-label " for="selectAllPermissions1">مدير المكتب</label>--}}
 
                     <div class="col-4" id="officeManagerCheckbox" style="display: none;">
                         <input class="form-check-input" type="checkbox" id="selectAllPermissions1" checked>
