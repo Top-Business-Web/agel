@@ -150,7 +150,7 @@ class InvestorService extends BaseService
         return view("{$this->folder}/parts/add_stock", [
             'storeRoute' => route("vendor.investors.storeStock"),
             'investorId' => $id,
-            'categories' => $this->categoryService->model->where('vendor_id', $auth->parent_id ?? $auth->id)->apply()->get(),
+            'categories' => $this->categoryService->model->where('vendor_id', $auth->parent_id ?? $auth->id)->get(),
             'branches' => $branches,
         ]);
 

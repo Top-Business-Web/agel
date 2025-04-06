@@ -105,90 +105,90 @@
             </div>
         </div>
 
-        <div class="footer" style="display:flex;flex-wrap:wrap;" id="addFooter">
-            <div class="text">
+        <div class="footer" id="addFooter"
+             style="padding: 10px; display: flex; justify-content: space-between; margin: 20px 0;">
+            <div class="text" style="display: flex; flex-direction: column;">
                 <span>الكميه = </span>
-                <span id="quantity_display">0</span>
+                <span id="quantity_display" style="text-align: center">0</span>
             </div>
-            <div class="text">
+            <div class="text" style="display: flex; flex-direction: column;">
                 <span>السعر = </span>
-                <span id="price_display">0</span>
+                <span id="price_display" style="text-align: center">0</span>
             </div>
 
 
-            <div class="text">
+            <div class="text" style="display: flex; flex-direction: column;">
                 <span> العمولات = </span>
-                <span id="commission_display">0</span>
+                <span id="commission_display" style="text-align: center">0</span>
             </div>
 
-            <div class="text">
+            <div class="text" style="display: flex; flex-direction: column;">
                 <span>فروقات اعاده البيع = </span>
-                <span id="sell_diff_display">0</span>
+                <span id="sell_diff_display" style="text-align: center">0</span>
             </div>
 
-            <div class="text">
+            <div class="text" style="display: flex; flex-direction: column;">
                 <span>الإجمالي = </span>
-                <span id="total_display">0</span>
+                <span id="total_display" style="text-align: center">0</span>
             </div>
             <br>
 
-            <div class="text">
+            <div class="text" style="display: flex; flex-direction: column;">
                 <span>سعر الوحده = </span>
-                <span id="division_result">0</span>
+                <span id="division_result" style="text-align: center">0</span>
             </div>
         </div>
+        <div class="footer" id="subFooter" style="padding: 10px;">
+            <div style="padding: 10px; display: flex; justify-content: space-between; margin: 20px 0;">
+                <div class="text" style="display: flex; flex-direction: column;">
+                    <span>الكميه = </span>
+                    <span id="available_quantity" style="text-align: center">0</span>
+                </div>
+                <div class="text" style="display: flex; flex-direction: column;">
+                    <span>السعر الاجمالي = </span>
+                    <span id="total_price" style="text-align: center">0</span>
+                </div>
 
-        <div class="footer" id="subFooter">
-            <div class="text">
-                <span>الكميه = </span>
-                <span id="available_quantity">0</span>
+                <div class="text" style="display: flex; flex-direction: column;">
+                    <span> السعر ناقص العموله = </span>
+                    <span id="total_price_commission" style="text-align: center">0</span>
+                </div>
             </div>
-            <div class="text">
-                <span>السعر الاجمالي = </span>
-                <span id="total_price">0</span>
-            </div>
+            <hr>
+            <div style="padding: 10px; display: flex; justify-content: space-evenly; margin: 20px 0;">
 
-            <div class="text">
-                <span> السعر ناقص العموله = </span>
-                <span id="total_price_commission">0</span>
-            </div>
-
-
-            <div class="text">
-                <span>الكميه السابقه = </span>
-                <span id="previous_quantity">0</span>
-            </div>
-            <br>
-            <div class="text">
-                <span>السعر الاجمالي = </span>
-                <span id="total_price_of_previous_quantity">0</span>
-            </div>
-            <br>
-
-            <div class="text">
-                <span>الكميه المنقصه = </span>
-                <span id="sub_quantity">0</span>
-            </div>
-            <br>
-            <div class="text">
-                <span>السعر الاجمالي = </span>
-                <span id="total_price_of_sub_quantity">0</span>
-            </div>
-
-            <br>
-
-            <div class="text">
-                <span>المتبقي  = </span>
-                <span id="final_quantity">0</span>
-            </div>
-            <br>
-            <div class="text">
-                <span> الاجمالي = </span>
-                <span id="final_price">0</span>
-            </div>
-            <br>
+                <div class="text" style="display: flex; flex-direction: column;">
+                    <span>الكميه السابقه = </span>
+                    <span id="previous_quantity" style="text-align: center">0</span>
+                </div>
+                <div class="text" style="display: flex; flex-direction: column;">
+                    <span>السعر الاجمالي = </span>
+                    <span id="total_price_of_previous_quantity" style="text-align: center">0</span>
+                </div>
 
 
+            </div>
+            <div style="padding: 10px; display: flex; justify-content: space-evenly; margin: 20px 0;">
+                <div class="text" style="display: flex; flex-direction: column;">
+                    <span>الكميه المنقصه = </span>
+                    <span id="sub_quantity" style="text-align: center">0</span>
+                </div>
+                <div class="text" style="display: flex; flex-direction: column;">
+                    <span>السعر الاجمالي = </span>
+                    <span id="total_price_of_sub_quantity" style="text-align: center">0</span>
+                </div>
+            </div>
+            <div style="padding: 10px; display: flex; justify-content: space-evenly; margin: 20px 0;">
+
+                <div class="text" style="display: flex; flex-direction: column;">
+                    <span>المتبقي  = </span>
+                    <span id="final_quantity" style="text-align: center">0</span>
+                </div>
+                <div class="text" style="display: flex; flex-direction: column;">
+                    <span> الاجمالي = </span>
+                    <span id="final_price" style="text-align: center">0</span>
+                </div>
+            </div>
         </div>
 
         <div class="modal-footer">
