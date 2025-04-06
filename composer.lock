@@ -2237,6 +2237,23 @@
         },
         {
             "name": "lcobucci/clock",
+<<<<<<< HEAD
+            "version": "3.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lcobucci/clock.git",
+                "reference": "db3713a61addfffd615b79bf0bc22f0ccc61b86b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lcobucci/clock/zipball/db3713a61addfffd615b79bf0bc22f0ccc61b86b",
+                "reference": "db3713a61addfffd615b79bf0bc22f0ccc61b86b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+                "psr/clock": "^1.0"
+=======
             "version": "2.3.0",
             "source": {
                 "type": "git",
@@ -2252,11 +2269,22 @@
             "require": {
                 "php": "~8.1.0 || ~8.2.0",
                 "stella-maris/clock": "^0.1.7"
+>>>>>>> 949c773009f06e2de666d4a5501cbe1d304b9737
             },
             "provide": {
                 "psr/clock-implementation": "1.0"
             },
             "require-dev": {
+<<<<<<< HEAD
+                "infection/infection": "^0.29",
+                "lcobucci/coding-standard": "^11.1.0",
+                "phpstan/extension-installer": "^1.3.1",
+                "phpstan/phpstan": "^1.10.25",
+                "phpstan/phpstan-deprecation-rules": "^1.1.3",
+                "phpstan/phpstan-phpunit": "^1.3.13",
+                "phpstan/phpstan-strict-rules": "^1.5.1",
+                "phpunit/phpunit": "^11.3.6"
+=======
                 "infection/infection": "^0.26",
                 "lcobucci/coding-standard": "^9.0",
                 "phpstan/extension-installer": "^1.2",
@@ -2265,6 +2293,7 @@
                 "phpstan/phpstan-phpunit": "^1.3.2",
                 "phpstan/phpstan-strict-rules": "^1.4.4",
                 "phpunit/phpunit": "^9.5.27"
+>>>>>>> 949c773009f06e2de666d4a5501cbe1d304b9737
             },
             "type": "library",
             "autoload": {
@@ -2285,7 +2314,11 @@
             "description": "Yet another clock abstraction",
             "support": {
                 "issues": "https://github.com/lcobucci/clock/issues",
+<<<<<<< HEAD
+                "source": "https://github.com/lcobucci/clock/tree/3.3.1"
+=======
                 "source": "https://github.com/lcobucci/clock/tree/2.3.0"
+>>>>>>> 949c773009f06e2de666d4a5501cbe1d304b9737
             },
             "funding": [
                 {
@@ -2297,6 +2330,47 @@
                     "type": "patreon"
                 }
             ],
+<<<<<<< HEAD
+            "time": "2024-09-24T20:45:14+00:00"
+        },
+        {
+            "name": "lcobucci/jwt",
+            "version": "4.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lcobucci/jwt.git",
+                "reference": "4d7de2fe0d51a96418c0d04004986e410e87f6b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/4d7de2fe0d51a96418c0d04004986e410e87f6b4",
+                "reference": "4d7de2fe0d51a96418c0d04004986e410e87f6b4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-hash": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "ext-openssl": "*",
+                "ext-sodium": "*",
+                "lcobucci/clock": "^2.0 || ^3.0",
+                "php": "^7.4 || ^8.0"
+            },
+            "require-dev": {
+                "infection/infection": "^0.21",
+                "lcobucci/coding-standard": "^6.0",
+                "mikey179/vfsstream": "^1.6.7",
+                "phpbench/phpbench": "^1.2",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan": "^1.4",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpstan/phpstan-strict-rules": "^1.0",
+                "phpunit/php-invoker": "^3.1",
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+=======
             "time": "2022-12-19T14:38:11+00:00"
         },
         {
@@ -2338,6 +2412,7 @@
                     "dev-master": "4.0-dev"
                 }
             },
+>>>>>>> 949c773009f06e2de666d4a5501cbe1d304b9737
             "autoload": {
                 "psr-4": {
                     "Lcobucci\\JWT\\": "src"
@@ -2361,7 +2436,11 @@
             ],
             "support": {
                 "issues": "https://github.com/lcobucci/jwt/issues",
+<<<<<<< HEAD
+                "source": "https://github.com/lcobucci/jwt/tree/4.3.0"
+=======
                 "source": "https://github.com/lcobucci/jwt/tree/4.0.4"
+>>>>>>> 949c773009f06e2de666d4a5501cbe1d304b9737
             },
             "funding": [
                 {
@@ -2373,7 +2452,11 @@
                     "type": "patreon"
                 }
             ],
+<<<<<<< HEAD
+            "time": "2023-01-02T13:28:00+00:00"
+=======
             "time": "2021-09-28T19:18:28+00:00"
+>>>>>>> 949c773009f06e2de666d4a5501cbe1d304b9737
         },
         {
             "name": "league/commonmark",
@@ -5301,6 +5384,8 @@
             "time": "2020-11-03T10:36:20+00:00"
         },
         {
+<<<<<<< HEAD
+=======
             "name": "stella-maris/clock",
             "version": "0.1.7",
             "source": {
@@ -5348,6 +5433,7 @@
             "time": "2022-11-25T16:15:06+00:00"
         },
         {
+>>>>>>> 949c773009f06e2de666d4a5501cbe1d304b9737
             "name": "stichoza/google-translate-php",
             "version": "v5.2.0",
             "source": {
