@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('phone')->unique();
-            $table->string('national_id')->unique();
+            $table->string('phone');
+            $table->string('national_id');
             $table->boolean('status')->default(1);
             $table->foreignId('branch_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();

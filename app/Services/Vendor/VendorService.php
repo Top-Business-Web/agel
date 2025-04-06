@@ -57,6 +57,9 @@ class VendorService extends BaseService
                 })->editcolumn('image', function ($obj) {
 
                     return $this->imageDataTable($obj->image);
+                })->editColumn('phone', function ($obj) {
+                    $phone = str_replace('+', '', $obj->phone);
+                    return $phone;
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -92,6 +95,15 @@ class VendorService extends BaseService
 
     public function store($data): JsonResponse
     {
+        foreach ($data['branch_ids'] as $branch) {
+            $branchName=$this->branchService->model->where('id', $branch)->first()->name;
+            if ($branchName == 'الفرع الرئيسي' && count($data['branch_ids']) > 1) {
+                return response()->json([
+                    'status' => 405,
+                    'message' => "لا يمكن إضافة فرع رئيسي مع أفرع أخر",
+                ]);
+            }
+        }
         $allData = $data;
         unset($data['permissions'], $data['branch_ids']);
         if (isset($data['image'])) {
@@ -99,7 +111,6 @@ class VendorService extends BaseService
         }
 
         $data['username'] = $this->generateUsername($data['name']);
-        $data['phone'] = '+966' . $data['phone'];
         if (isset(auth()->user()->parent_id)) {
             $data['parent_id'] = auth()->user()->parent_id;
         } else {
@@ -150,13 +161,19 @@ class VendorService extends BaseService
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $id),
-            'regions' => $this->region->get(),
+            'cities' => $this->cityService->getAll(),
             'branches' => $branches,
 
             'permissions' => Permission::where('guard_name', 'vendor')
                 ->get(),
         ]);
     }
+
+    public function myProfile()
+    {
+        $vendor = auth()->guard('vendor')->user();
+        return view($this->folder . '/profile', compact('vendor'));
+    }//end fun
 
     public function update($data): JsonResponse
     {
@@ -173,7 +190,7 @@ class VendorService extends BaseService
                 }
             }
 
-            $data['phone'] = '+966' . $data['phone'];
+//            $data['phone'] = '+966' . $data['phone'];
             if (isset(auth()->user()->parent_id)) {
                 $data['parent_id'] = auth()->user()->parent_id;
             } else {

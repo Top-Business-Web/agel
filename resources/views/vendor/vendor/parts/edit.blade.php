@@ -103,9 +103,15 @@
             </div>
 
             <div class="col-lg-9 col-12 d-flex flex-wrap justify-content-between mb-5">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="selectAllPermissions">
-                    <label class="form-check-label" for="selectAllPermissions">اختيار الكل</label>
+                <div class="row form-check w-100">
+                    <div class="col-4">
+                        <input class="form-check-input" type="checkbox" id="selectAllPermissions">
+                        <label class="form-check-label" for="selectAllPermissions">اختيار الكل</label>
+                    </div>
+                    <div class="col-4 office-manager-container" style="display: none">
+                        <input class="form-check-input office-manager-check" type="checkbox" id="selectAllPermissions1">
+                        <label class="form-check-label " for="selectAllPermissions1">مدير المكتب</label>
+                    </div>
                 </div>
                 @foreach ($permissions->groupBy('parent_name') as $parent => $group)
             </div>
@@ -142,9 +148,11 @@
 <!-- Scripts -->
 <script>
     $('.dropify').dropify();
-    $('select').select2({dropdownParent: $('#editOrCreate .modal-content')});
+    $('select').select2({
+        dropdownParent: $('#editOrCreate .modal-content')
 
-    // Select All Permissions
+    });
+
     document.getElementById('selectAllPermissions').addEventListener('change', function () {
         document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
             checkbox.checked = this.checked;
@@ -155,7 +163,16 @@
         });
     });
 
-    // Ensure dependent checkboxes are checked
+    document.getElementById('selectAllPermissions1').addEventListener('change', function () {
+        document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+
+        document.querySelectorAll('.parent-select-all').forEach(groupCheckbox => {
+            groupCheckbox.checked = this.checked;
+        });
+    });
+
     document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
         checkbox.addEventListener('change', function () {
             let group = this.dataset.group;
@@ -165,4 +182,34 @@
             }
         });
     });
+
+
+    function officeManager(branches, selectElement) {
+        // Get the selected options
+        // let selectedOptions = Array.from(selectElement.selectedOptions).map(option => option.value);
+        // console.log(branches.find(branch => branch.name === 'الفرع الرئيسي').id, selectedOptions.includes(branches.find(branch => branch.name === 'الفرع الرئيسي').id));
+        if (branches.find(branch => branch.name === 'الفرع الرئيسي').id == selectElement.value) {
+            document.querySelector('.office-manager-container').style.display = 'block';
+            document.querySelector('.office-manager-check').checked = true;
+            document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
+                checkbox.checked = this.checked=true;
+            });
+
+            document.querySelectorAll('.parent-select-all').forEach(groupCheckbox => {
+                groupCheckbox.checked = this.checked=true;
+            });
+        } else {
+            document.querySelector('.office-manager-container').style.display = 'none';
+            document.querySelector('.office-manager-check').checked = false;
+            document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
+                checkbox.checked = this.checked=false;
+            });
+
+            document.querySelectorAll('.parent-select-all').forEach(groupCheckbox => {
+                groupCheckbox.checked = this.checked=false;
+            });
+        }
+
+    }
+
 </script>

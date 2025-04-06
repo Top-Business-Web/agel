@@ -33,15 +33,6 @@ class AuthService extends BaseService
             return view('admin.auth.login');
 
         }
-//        if ($key == 'login') {
-//
-//            return view('admin.auth.login');
-//        }
-//        } else {
-////            $cites = City::select('id', 'name')->where('status', 1)->get();
-//            $regions = $this->region->get();
-//            return view('admin.auth.register', compact('regions'));
-//        }
     }
 
     public function login($request): JsonResponse
@@ -59,22 +50,21 @@ class AuthService extends BaseService
         );
 
         if ($request->verificationType == 'phone') {
-            $admin = Admin::where('phone', $data['input'])->first();
+            $admin = Admin::where('phone', '+966'.$data['input'])->first();
 
             if (!$admin) {
                 return response()->json([
-                    'status' => 206,
+                    'status' => 203,
 //                    'email' => $admin->email
-                ], 206);
+                ], 200);
             }
             if ($admin->status == 0) {
                 return response()->json([
                     'status' => 207,
-//                    'email' => $admin->email
                 ], 207);
             }
             $credentials = [
-                'phone' => $data['input'],
+                'phone' => '+966'.$data['input'],
                 'password' => $data['password'],
             ];
             if (Auth::guard('admin')->attempt($credentials)) {
@@ -86,7 +76,7 @@ class AuthService extends BaseService
                 return response()->json([
                     'status' => 205,
                     'email' => $admin->email
-                ], 205);
+                ], 200);
             }
         } elseif ($request->verificationType == 'email') {
             $admin = Admin::where('email', $data['input'])->first();
@@ -98,7 +88,7 @@ class AuthService extends BaseService
                 return response()->json([
                     'status' => 206,
 //                    'email' => $admin->email
-                ], 206);
+                ], 200);
             }
             if ($admin->status == 0) {
                 return response()->json(207);
@@ -122,13 +112,13 @@ class AuthService extends BaseService
                 return response()->json([
                     'status' => 208,
                     'email' => $admin->email
-                ], 208);
+                ], 200);
             }
         }
 
         return response()->json([
             'status' => 205,
-        ], 205);
+        ], 200);
     }
 
 
@@ -229,8 +219,8 @@ class AuthService extends BaseService
     {
 
 //        if ($resetPassword == 2) {
-////            return view('vendor.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
-////            return view('vendor.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
+////            return view('admin.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
+////            return view('admin.auth.reset-password', ['email' => $email, 'type' => $type, 'resetPassword' => $resetPassword]);
 //        }
         if ($resetPassword == null) {
             $resetPassword = 1;
@@ -254,7 +244,7 @@ class AuthService extends BaseService
             ]);
             if ($request->isReset == 2) {
 //                dd('sl/kd/fjl');
-//                return  redirect()->route('vendor.newPasswordForm',['email' => $request->email]);
+//                return  redirect()->route('admin.newPasswordForm',['email' => $request->email]);
 //                return redirect('', ['email' => $request->email]);
 
 

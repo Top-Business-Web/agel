@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\StockController;
+use App\Http\Controllers\Vendor\CategoryController;
 use App\Http\Controllers\Vendor\ActivityLogController;
 use App\Http\Controllers\Vendor\AuthController;
 
@@ -7,6 +9,7 @@ use App\Http\Controllers\Vendor\ClientController;
 use App\Http\Controllers\Vendor\HomeController;
 use App\Http\Controllers\Vendor\BranchController;
 use App\Http\Controllers\Vendor\InvestorController;
+use App\Http\Controllers\Vendor\PlanController;
 use App\Http\Controllers\Vendor\RoleController;
 use App\Http\Controllers\Vendor\SettingController;
 use App\Http\Controllers\Vendor\VendorController;
@@ -38,6 +41,8 @@ Route::group(
         Route::get('/register', [AuthController::class, 'registerForm'])->name('vendor.register');
 
         Route::group(['prefix' => 'vendor'], function () {
+
+
             Route::POST('/login', [AuthController::class, 'login'])->name('vendor.login');
             Route::POST('/register', [AuthController::class, 'register'])->name('vendor.register');
             Route::get('/verify-otp/{email}/{type}/{resetPassword}', [AuthController::class, 'showOtpForm'])->name('vendor.otp.verify');
@@ -47,15 +52,20 @@ Route::group(
             Route::get('/new-password/{email}', [AuthController::class, 'newPasswordForm'])->name('vendor.newPasswordForm');
             Route::POST('/reset-password/{email}', [AuthController::class, 'ResetPassword'])->name('vendor.resetPassword');
 
+            Route::get('my_profile', [VendorController::class, 'myProfile'])->name('myProfile');
 
             Route::group(['middleware' => 'auth:vendor'], function () {
+
 
                 #============================ Home ====================================
                 Route::get('homeVendor', [HomeController::class, 'index'])->name('vendorHome');
                 #============================ branches ==================================
                 Route::resourceWithDeleteSelected('branches', BranchController::class);
+                #============================ categories ==================================
+                Route::resourceWithDeleteSelected('categories', CategoryController::class);
                 #============================ vendors ====================================
-                //                    Route::resourceWithDeleteSelected('vendors', VendorController::class);
+
+
                 Route::get('vendors/index', [VendorController::class, 'index'])->name('vendor.vendors.index');
                 Route::get('vendors/create', [VendorController::class, 'create'])->name('vendor.vendors.create');
                 Route::post('vendors', [VendorController::class, 'store'])->name('vendor.vendors.store');
@@ -64,11 +74,13 @@ Route::group(
                 Route::get('vendors/{id}/edit', [VendorController::class, 'edit'])->name('vendor.vendors.edit');
                 Route::post('vendors/delete-selected', [VendorController::class, 'deleteSelected'])->name('vendor.vendors.deleteSelected');
                 Route::post('vendors/update-column-selected', [VendorController::class, 'updateColumnSelected'])->name('vendor.vendors.updateColumnSelected');
+
+
                 #============================ logout ====================================
                 Route::get('logout', [AuthController::class, 'logout'])->name('vendor.logout');
                 #============================ roles and permissions ====================================
                 Route::resourceWithDeleteSelected('roles', RoleController::class, [
-                    'as' => 'vendor'  // Prefix "vendor." to all route names
+                    'as' => 'vendor'
                 ]);
                 Route::post('roles/delete-selected', [RoleController::class, 'deleteSelected'])->name('vendor.roles.deleteSelected');
 
@@ -83,9 +95,25 @@ Route::group(
                 #============================ investors ====================================
 
                 Route::resourceWithDeleteSelected('investors', InvestorController::class);
-                Route::post('investors/{investor}', [InvestorController::class, 'update'])->name('vendor.investors.update');
+                Route::get('investors/add-stock/{id}', [InvestorController::class, 'addStockForm'])->name('vendor.investors.addStock');
+                Route::post('investors/store-stock', [InvestorController::class, 'storeStock'])->name('vendor.investors.storeStock');
+                Route::get('/getAvailableStock', [InvestorController::class, 'getAvailableStock'])->name('vendor.investors.getAvailableStock');
+
                 #============================ client ====================================
                 Route::resourceWithDeleteSelected('clients', ClientController::class);
+
+                #============================ Stocks ==================================
+                Route::resourceWithDeleteSelected('stocks', StockController::class);
+
+                Route::group(['prefix' => 'stocks'], function () {
+                    Route::get('get-stocks', [StockController::class, 'getStocks'])->name('vendor.stocks.getStocks');
+                    Route::post('update-stocks', [StockController::class, 'updateStocks'])->name('vendor.stocks.updateStocks');
+                });
+               #============================ plans ==================================
+
+               Route::resourceWithDeleteSelected('plans', PlanController::class, [
+                'as' => 'vendor'
+            ]);
 
             });
         });

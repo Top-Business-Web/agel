@@ -14,6 +14,12 @@ class VendorRequest extends FormRequest
 
     public function rules()
     {
+        if ($this->has('phone')) {
+            $this->merge([
+                'phone' => '+966' . ltrim($this->phone, '0')
+            ]);
+        }
+
         if ($this->isMethod('put')) {
             return $this->update();
         } else {
@@ -27,14 +33,17 @@ class VendorRequest extends FormRequest
 
             'name' => 'required',
             'email' => 'required|email|unique:vendors,email',
-            'phone'=>   ['required', Rule::unique('vendors', 'phone')->where(function ($query) {
-                return $query->where('phone', '+966' . $this->phone);
-            })],
+            'phone' => [
+                'required',
+                'string',
+                'regex:/^\+966\d{9}$/',
+                'unique:vendors,phone'
+            ],
             'city_id' => 'required|exists:cities,id',
             'national_id' => 'required|numeric|unique:vendors,national_id|digits:10',
             'password' => 'required|min:6|confirmed',
             'image' => 'nullable|image',
-            "permissions"=>'required|array',
+            "permissions" => 'required|array',
             'commercial_number' => 'required|digits:10|numeric|unique:vendors,commercial_number',
         ];
     }
@@ -43,19 +52,20 @@ class VendorRequest extends FormRequest
     {
         return [
 
-            'phone'=>   ['required', Rule::unique('vendors', 'phone')->where(function ($query) {
-                return $query->where('phone', '+966' . $this->phone);
-            })->ignore($this->id)],
-
-
-          'id' => 'required|exists:vendors,id',
+            'phone' => [
+                'required',
+                'string',
+                'regex:/^\+966\d{9}$/',
+                Rule::unique('vendors', 'phone')->ignore($this->id)
+            ],
+            'id' => 'required|exists:vendors,id',
             'name' => 'nullable',
             'email' => 'nullable|email|unique:vendors,email,' . $this->id,
             'national_id' => 'nullable|numeric|digits:10|unique:vendors,national_id,' . $this->id,
             'city_id' => 'required|exists:cities,id',
             'password' => 'nullable|min:6|confirmed',
             'image' => 'nullable|image',
-            "permissions"=>'required|array',
+            "permissions" => 'required|array',
             'commercial_number' => 'nullable|numeric|unique:vendors,commercial_number,' . $this->id,
 
         ];

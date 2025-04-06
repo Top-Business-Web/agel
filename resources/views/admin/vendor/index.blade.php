@@ -1,12 +1,13 @@
 @extends('admin/layouts/master')
 
 @section('title')
-    {{ config()->get('app.name') }} | {{ $bladeName }}
+{{ config()->get('app.name') }} | المكاتب
 @endsection
 @section('page_name')
-    {{ $bladeName }}
+    <!-- {{ $bladeName }} -->
 @endsection
-{{--@section('page_name') {{ $title }} @endsection--}}
+ <!-- {{--@section('page_name') {{ $title }} -->
+  @endsection--}} -->
 
 @section('content')
 
@@ -219,9 +220,9 @@
                 success: function (data) {
                     if (data.status === 200) {
                         if (val !== 0) {
-                            toastr.success('Success', "نشط");
+                            toastr.success('', "نشط");
                         } else {
-                            toastr.warning('Success', "غير نشط ");
+                            toastr.warning('', "غير نشط ");
                         }
                     } else {
                         toastr.error('Error', "حدث خطأ ما");

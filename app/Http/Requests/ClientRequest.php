@@ -13,6 +13,7 @@ class ClientRequest extends FormRequest
 
     public function rules()
     {
+
         if ($this->isMethod('put')) {
             return $this->update();
         } else {
@@ -24,9 +25,8 @@ class ClientRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'phone' => 'required',
-            'national_id' => 'required',
-//            'status' => 'required|boolean',
+            'phone' => 'required|numeric|digits:9',
+            'national_id' => 'required|numeric|digits:10',
             'branch_id' => 'required|exists:branches,id',
         ];
     }
@@ -35,9 +35,8 @@ class ClientRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'phone' => 'required',
+            'phone' => 'required|numeric|digits:9',
             'national_id' => 'required',
-//            'status' => 'required|boolean',
             'branch_id' => 'required|exists:branches,id',
         ];
     }

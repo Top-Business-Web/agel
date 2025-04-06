@@ -46,12 +46,12 @@ class ClientController extends Controller
         return $this->objService->delete($id);
     }
 
-    public function updateColumnSelected(\Request $request)
+    public function updateColumnSelected(Request $request)
     {
         return $this->objService->updateColumnSelected($request, 'status');
     }
 
-    public function deleteSelected(\Request $request)
+    public function deleteSelected(Request $request)
     {
         return $this->objService->deleteSelected($request);
     }

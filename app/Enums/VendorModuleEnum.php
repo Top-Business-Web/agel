@@ -5,6 +5,8 @@ namespace App\Enums;
 enum VendorModuleEnum: string
 {
 case BRANCH='branch';
+case CATEGORY='category';
+case STOCK='stock';
 case VENDOR='vendor';
 case CLIENT='client';
 case INVESTOR='investor';

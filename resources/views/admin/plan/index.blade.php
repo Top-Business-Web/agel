@@ -1,10 +1,10 @@
 @extends('admin/layouts/master')
 
 @section('title')
-    {{ config()->get('app.name') }} | {{ $bladeName }}
+{{ config()->get('app.name') }} | الخطة
 @endsection
 @section('page_name')
-    {{ $bladeName }}
+    <!-- {{ $bladeName }} -->
 @endsection
 @section('content')
     <div class="row">
@@ -156,15 +156,18 @@
 @endsection
 @section('ajaxCalls')
     <script>
-        var columns = [{
-                data: 'checkbox',
-                name: 'checkbox',
-                orderable: false,
-                searchable: false,
-                render: function(data, type, row) {
-                    return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
+        var columns = [   {
+            data: 'checkbox',
+            name: 'checkbox',
+            orderable: false,
+            searchable: false,
+            render: function(data, type, row) {
+                if (row.id == 1) {
+                    return '';
                 }
-            },
+                return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
+            }
+        },
             {
                 data: 'id',
                 name: 'id'
@@ -242,9 +245,9 @@
                 success: function(data) {
                     if (data.status === 200) {
                         if (val !== 0) {
-                            toastr.success('Success', "نشط");
+                            toastr.success('', "نشط");
                         } else {
-                            toastr.warning('Success', "غير نشط ");
+                            toastr.warning('', "غير نشط ");
                         }
                     } else {
                         toastr.error('Error', "حدث خطأ ما");

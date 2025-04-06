@@ -52,5 +52,3 @@ jobs:
             cd domains/scriptech.ebharbook.com/public_html/agel
             php artisan optimize:clear
             php artisan mi:f --seed --force
-            php artisan storage:link
-

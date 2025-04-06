@@ -65,7 +65,11 @@
                 }
                 if (data.status === 205 ) {
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
-                    toastr.error('حدث خطأ أثناء محاولة تسجيل الدخول بهذا الحساب');
+                    toastr.error(' حدث خطأ أثناء محاولة تسجيل الدخول بهذا الحساب من فضلك تأكد من كلمة المرور ثم أعد المحاوله');
+                }
+                if (data.status === 203 ) {
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
+                    toastr.error('رقم الجوال هذا غير مسجل بالنظام');
                 }
                 if (data.status === 206 ) {
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
@@ -77,7 +81,7 @@
                 }
                 if (data.status === 208 ) {
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
-                    toastr.error('حدث خطأ أثناء محاولة تسجيل الدخول بهذا الحساب الرجاء التأكد من كلمة المرور و إعادة المحاوله');
+                    toastr.error('خطاء في كلمة المرور الرجاء التأكد من كلمة المرور و إعادة المحاوله');
                 }
                 if (data.status === 200 ) {
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);

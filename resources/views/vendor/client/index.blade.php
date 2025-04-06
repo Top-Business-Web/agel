@@ -1,11 +1,9 @@
 @extends('vendor/layouts/master')
 
 @section('title')
-    {{ config()->get('app.name') }} | {{ $bladeName }}
+    {{ config()->get('app.name') }}
 @endsection
-@section('page_name')
-    {{ $bladeName }}
-@endsection
+
 @section('content')
     <div class="row">
         <div class="col-md-12 col-lg-12">
@@ -13,18 +11,23 @@
                 <div class="card-header">
                     <h3 class="card-title"></h3>
                     <div class="">
-                        <button class="btn btn-secondary btn-icon text-white addBtn">
+                        @can('create_client')
+                            <button class="btn btn-secondary btn-icon text-white addBtn">
                             <span>
                                 <i class="fe fe-plus"></i>
-                            </span> {{ $bladeName . ' ' . 'إضافة' }}
-                        </button>
-                        <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
-                            <span><i class="fe fe-trash"></i></span> حذف المحدد
-                        </button>
-
-                        <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
-                            <span><i class="fe fe-trending-up"></i></span> تعديل حالة المحدد
-                        </button>
+                            </span> إضافة
+                            </button>
+                        @endcan
+                        @can('delete_client')
+                            <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
+                                <span><i class="fe fe-trash"></i></span> حذف المحدد
+                            </button>
+                        @endcan
+                        @can('update_client')
+                            <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
+                                <span><i class="fe fe-trending-up"></i></span> تعديل حالة المحدد
+                            </button>
+                        @endcan
                     </div>
                 </div>
                 <div class="card-body">
@@ -32,18 +35,18 @@
                         <!--begin::Table-->
                         <table class="table table-bordered text-nowrap w-100" id="dataTable">
                             <thead>
-                                <tr class="fw-bolder text-muted bg-light">
-                                    <th class="min-w-25px">
-                                        <input type="checkbox" id="select-all">
-                                    </th>
-                                    <th class="min-w-25px">#</th>
-                                    <th class="min-w-25px">الإسم</th>
-                                    <th class="min-w-25px">رقم الهاتف</th>
-                                    <th class="min-w-25px">رقم الهويه</th>
-                                    <th class="min-w-25px">الحاله</th>
-                                    <th class="min-w-25px">الفرع</th>
-                                    <th class="min-w-50px rounded-end">العمليات</th>
-                                </tr>
+                            <tr class="fw-bolder text-muted bg-light">
+                                <th class="min-w-25px">
+                                    <input type="checkbox" id="select-all">
+                                </th>
+                                <th class="min-w-25px">#</th>
+                                <th class="min-w-25px">الإسم</th>
+                                <th class="min-w-25px">رقم الهاتف</th>
+                                <th class="min-w-25px">رقم الهويه</th>
+                                <th class="min-w-25px">الحاله</th>
+                                <th class="min-w-25px">الفرع</th>
+                                <th class="min-w-50px rounded-end">العمليات</th>
+                            </tr>
                             </thead>
                         </table>
                     </div>
@@ -53,7 +56,7 @@
 
         <!--Delete MODAL -->
         <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+             aria-hidden="true">
             <div class="modal-dialog " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -65,14 +68,9 @@
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
                         <p>هل انت متاكد من حذف هذا العنصر <span id="title"
-                                class="text-danger"></span>?</p>
+                                                                class="text-danger"></span>?</p>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
-                            إلغاء
-                        <p>هل تريد حذف هذا العنصر؟ <span id="title"
-                                                                                        class="text-danger"></span>?</p>
-                    </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
                             اغلاق
@@ -104,7 +102,7 @@
 
         <!-- delete selected  Modal -->
         <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog"
-            aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+             aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -129,7 +127,7 @@
 
         <!-- update cols selected  Modal -->
         <div class="modal fade" id="updateConfirmModal" tabindex="-1" role="dialog"
-            aria-labelledby="updateConfirmModalLabel" aria-hidden="true">
+             aria-labelledby="updateConfirmModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -140,7 +138,6 @@
                     </div>
                     <div class="modal-body">
                         <p>هل انت متاكد من تعديل هذه السجلات</p>
-                        <p>هل أنت متأكد من أنك تريد تعديل حالة العناصر المحددة</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
@@ -157,14 +154,14 @@
 @section('ajaxCalls')
     <script>
         var columns = [{
-                data: 'checkbox',
-                name: 'checkbox',
-                orderable: false,
-                searchable: false,
-                render: function(data, type, row) {
-                    return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
-                }
-            },
+            data: 'checkbox',
+            name: 'checkbox',
+            orderable: false,
+            searchable: false,
+            render: function (data, type, row) {
+                return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
+            }
+        },
             {
                 data: 'id',
                 name: 'id'
@@ -215,14 +212,12 @@
 
     <script>
         // for status
-        $(document).on('click', '.statusBtn', function() {
+        $(document).on('click', '.statusBtn', function () {
             let id = $(this).data('id');
 
             var val = $(this).is(':checked') ? 1 : 0;
 
             let ids = [id];
-
-
 
 
             $.ajax({
@@ -232,27 +227,20 @@
                     "_token": "{{ csrf_token() }}",
                     'ids': ids,
                 },
-                success: function(data) {
+                success: function (data) {
                     if (data.status === 200) {
                         if (val !== 0) {
-                            toastr.success('Success', "نشط");
+                            toastr.success('', "نشط");
                         } else {
-                            toastr.warning('Success', "غير نشط");
+                            toastr.warning('', "غير نشط");
                         }
                     } else {
                         toastr.error('Error', "هناك خطأ ما");
                     }
                 },
-                error: function() {
+                error: function () {
                     toastr.error('Error', "هناك خطأ ما");
-                            toastr.warning('Success', "غير نشط ");
-                        }
-                    } else {
-                        toastr.error('Error', "حدث خطأ ما");
-                    }
-                },
-                error: function() {
-                    toastr.error('Error', "حدث خطأ ما");
+                    toastr.warning('', "غير نشط ");
                 }
             });
         });

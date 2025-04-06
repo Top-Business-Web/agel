@@ -1,11 +1,9 @@
 @extends('vendor/layouts/master')
 
 @section('title')
-    {{ config()->get('app.name') }} | {{ $bladeName }}
+    {{ config()->get('app.name') }}
 @endsection
-@section('page_name')
-    {{ $bladeName }}
-@endsection
+
 @section('content')
 
     <div class="row">
@@ -14,17 +12,24 @@
                 <div class="card-header">
                     <h3 class="card-title"></h3>
                     <div class="">
-                        <button class="btn btn-secondary btn-icon text-white addBtn">
-        <span>
-            <i class="fe fe-plus"></i>
-        </span> إضافة  موظف
-                        </button>
-                        <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
-                            <span><i class="fe fe-trash"></i></span> حذف المحدد
-                        </button>
-                        <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
-                            <span><i class="fe fe-trending-up"></i></span> تحديث المحدد
-                        </button>
+                        @can('create_vendor')
+                            <button class="btn btn-secondary btn-icon text-white addBtn">
+                                <span>
+                                    <i class="fe fe-plus"></i>
+                                </span> إضافة موظف
+                            </button>
+                        @endcan
+                        @can('delete_vendor')
+                            <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
+                                <span><i class="fe fe-trash"></i></span> حذف المحدد
+                            </button>
+                        @endcan
+                        @can('update_vendor')
+                            <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
+                                <span><i class="fe fe-trending-up"></i></span> تحديث المحدد
+                            </button>
+                        @endcan
+
                     </div>
 
                 </div>
@@ -115,15 +120,16 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">إلغاء</button>
+                                data-bs-dismiss="modal">إلغاء
+                        </button>
                         <button type="button" class="btn btn-danger"
-                                id="confirm-delete-btn">حذف</button>
+                                id="confirm-delete-btn">حذف
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
         <!-- نهاية نافذة تأكيد الحذف -->
-
 
 
         <!-- تحديث العناصر المحددة - نافذة تأكيد -->
@@ -142,7 +148,8 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">إلغاء</button>
+                                data-bs-dismiss="modal">إلغاء
+                        </button>
                         <button type="button" class="btn btn-send" id="confirm-update-btn">تحديث</button>
                     </div>
                 </div>
@@ -151,7 +158,7 @@
         <!-- نهاية نافذة تأكيد التحديث -->
 
     </div>
-    @include('admin/layouts/myAjaxHelper')
+    @include('vendor/layouts/myAjaxHelper')
 @endsection
 @section('ajaxCalls')
     <script>
@@ -211,9 +218,9 @@
                 success: function (data) {
                     if (data.status === 200) {
                         if (val !== 0) {
-                            toastr.success('Success', "نشط");
+                            toastr.success('', "نشط");
                         } else {
-                            toastr.warning('Success', "غير نشط ");
+                            toastr.warning('', "غير نشط ");
                         }
                     } else {
                         toastr.error('Error', "حدث خطأ ما");
@@ -227,7 +234,54 @@
 
 
     </script>
+{{--    <script>--}}
+{{--        $(document).on('submit', 'Form#addForm', function (e) {--}}
+{{--            e.preventDefault();--}}
+{{--            var formData = new FormData(this);--}}
+{{--            var url = $('#addForm').attr('action');--}}
+{{--            $.ajax({--}}
+{{--                url: url,--}}
+{{--                type: 'POST',--}}
+{{--                data: formData,--}}
+{{--                beforeSend: function () {--}}
+{{--                    $('#addButton').html('<span class="spinner-border spinner-border-sm mr-2" ' +--}}
+{{--                        ' ></span> <span style="margin-left: 4px;">أنتظر قليلًا...</span>').attr('disabled', true);--}}
+{{--                },--}}
+{{--                success: function (data) {--}}
+{{--                    if (data.status == 200) {--}}
+{{--                        $('#dataTable').DataTable().ajax.reload();--}}
+{{--                        toastr.success('تمت العملية بنجاح');--}}
+{{--                    } else if(data.status == 405){--}}
+{{--                        toastr.error(data.mymessage);--}}
+{{--                    }--}}
+{{--                    else--}}
+{{--                        toastr.error('حدث خطأ ما');--}}
+{{--                    $('#addButton').html(`اضافه`).attr('disabled', false);--}}
+{{--                    // $('#editOrCreate').modal('hide')--}}
+{{--                },--}}
+{{--                error: function (data) {--}}
+{{--                    if (data.status === 500) {--}}
+{{--                        toastr.error('');--}}
+{{--                    } else if (data.status === 422) {--}}
+{{--                        var errors = $.parseJSON(data.responseText);--}}
+{{--                        $.each(errors, function (key, value) {--}}
+{{--                            if ($.isPlainObject(value)) {--}}
+{{--                                $.each(value, function (key, value) {--}}
+{{--                                    toastr.error(value, 'خطأ');--}}
+{{--                                });--}}
+{{--                            }--}}
+{{--                        });--}}
+{{--                    } else--}}
+{{--                        toastr.error('حدث خطأ ما');--}}
+{{--                    $('#addButton').html(`اضافة`).attr('disabled', false);--}}
+{{--                },//end error method--}}
 
+{{--                cache: false,--}}
+{{--                contentType: false,--}}
+{{--                processData: false--}}
+{{--            });--}}
+{{--        });--}}
+{{--    </script>--}}
 @endsection
 
 

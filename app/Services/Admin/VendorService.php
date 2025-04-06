@@ -15,6 +15,7 @@ use App\Models\Vendor as ObjModel;
 use App\Models\VendorBranch;
 use App\Services\BaseService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\DataTables;
@@ -36,12 +37,14 @@ class VendorService extends BaseService
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
                     $buttons = '';
-                    $buttons .= '
+                    if (Auth::guard('admin')->user()->can('update_vendor')) {
+                        $buttons .= '
                             <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
                             <i class="fa fa-edit"></i>
                             </button>
                        ';
-
+                    }
+                    if (Auth::guard('admin')->user()->can('delete_vendor')) {
                         $buttons .= '
 
                         <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
@@ -51,7 +54,7 @@ class VendorService extends BaseService
 
 
                     ';
-
+                    }
                     return $buttons;
                 })
                 ->editcolumn('status', function ($obj) {
@@ -59,6 +62,9 @@ class VendorService extends BaseService
                     return $this->statusDatatable($obj);
                 })->editColumn('image', function ($obj) {
                     return $this->imageDataTable($obj->image);
+                })->editColumn('phone', function ($obj) {
+                    $phone = str_replace('+', '', $obj->phone);
+                    return $phone;
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -103,7 +109,6 @@ class VendorService extends BaseService
         }
 
         $data['username'] = $this->generateUsername($data['name']);
-        $data['phone'] = '+966' . $data['phone'];
         //check if phone is unique
         $phone = $this->model->where('phone', $data['phone'])->first();
         if ($phone) {
@@ -124,7 +129,7 @@ class VendorService extends BaseService
             // Create primary branch for the vendor with default settings
             $branch = Branch::create([
                 'vendor_id' => $obj->id,
-                'region_id' => $data['region_id']??null,
+                'region_id' => $data['region_id'] ?? null,
                 'status' => 1,
                 'is_main' => 1,
                 'name' => 'الفرع الرئيسي'
@@ -147,10 +152,9 @@ class VendorService extends BaseService
     }
 
 
-
     public function edit($id)
     {
-        $obj=$this->getById($id);
+        $obj = $this->getById($id);
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
@@ -176,12 +180,12 @@ class VendorService extends BaseService
                 }
             }
 
-            $data['phone'] = '+966' . $data['phone'];
+//            $data['phone'] = '+966' . $data['phone'];
 
 
             if (isset($data['password'])) {
                 $data['password'] = Hash::make($data['password']);
-            }else{
+            } else {
                 unset($data['password']);
             }
 
@@ -194,7 +198,6 @@ class VendorService extends BaseService
                 $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();
                 $obj->syncPermissions($permissions);
             }
-
 
 
             return $this->responseMsg();

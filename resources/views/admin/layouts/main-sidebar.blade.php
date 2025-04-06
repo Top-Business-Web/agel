@@ -64,24 +64,7 @@
                     <i class="angle fa fa-angle-right"></i>
                 </a>
                 <ul class="slide-menu">
-{{--                    @canany(['create_country', 'read_country', 'update_country', 'delete_country'])--}}
-{{--                        <!-- countries -->--}}
-{{--                        <li class="{{ routeActive('countries.index') }}">--}}
-{{--                            <a class="slide-item {{ routeActive('countries.index') }}"--}}
-{{--                               href="{{ route('countries.index') }}">--}}
-{{--                                <i class="fa fa-globe side-menu__icon"></i> <!-- Country Icon -->--}}
-{{--                                الدولة--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                    @endcanany--}}
-{{--                    @canany(['create_city', 'read_city', 'update_city', 'delete_city'])--}}
-{{--                        <li class="{{ routeActive('cities.index') }}">--}}
-{{--                            <a class="slide-item {{ routeActive('cities.index') }}" href="{{ route('cities.index') }}">--}}
-{{--                                <i class="fa fa-building side-menu__icon"></i> <!-- City Icon -->--}}
-{{--                                المدينة--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                    @endcanany--}}
+
                     @canany(['create_plan', 'read_plan', 'update_plan', 'delete_plan'])
                         <li class="{{ routeActive('Plans.index') }}">
                             <a class="slide-item {{ routeActive('Plans.index') }}" href="{{ route('Plans.index') }}">
@@ -103,36 +86,40 @@
             </li>
             <!-- Main locations Management Section -->
         @endcanany
+
         <!-- setting Management Section -->
-{{--        @canany(['read_activity_log', 'delete_activity_log'])--}}
-{{--        <li class="slide {{ arrRouteActive(['admin.roles.index', 'admin.activity_logs.index']) }}">--}}
-{{--            <a class="side-menu__item {{ arrRouteActive(['admin.roles.index', 'admin.activity_logs.index'], 'active') }}"--}}
-{{--               data-toggle="slide" href="#">--}}
-{{--                <i class="fas fa-cog side-menu__icon"></i> <!-- Settings Icon -->--}}
-{{--                <span class="side-menu__label">إعدادات النظام</span>--}}
-{{--                <i class="angle fa fa-angle-right"></i>--}}
-{{--            </a>--}}
-{{--            <ul class="slide-menu">--}}
-                <!-- الأدوار والصلاحيات -->
-{{--                <li class="{{ routeActive('admin.roles.index') }}">--}}
-{{--                    <a class="slide-item {{ routeActive('admin.roles.index') }}"--}}
-{{--                       href="{{ route('admin.roles.index') }}">--}}
-{{--                        <i class="fas fa-user-shield side-menu__icon"></i>--}}
-{{--                        الأدوار و الصلاحيات--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-                <!-- سجل النظام -->
-{{--                <li class="{{ routeActive('admin.activity_logs.index') }}">--}}
-{{--                    <a class="slide-item {{ routeActive('admin.activity_logs.index') }}"--}}
-{{--                       href="{{ route('admin.activity_logs.index') }}">--}}
-{{--                        <i class="fas fa-heartbeat side-menu__icon"></i> <!-- Activity Icon -->--}}
-{{--                        سجل النظام--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--            </ul>--}}
-{{--        </li>--}}
-{{--        <!-- setting Management Section -->--}}
-{{--        @endcanany--}}
+        @canany(['read_activity_log', 'delete_activity_log'])
+            <li class="slide {{ arrRouteActive(['admin.activity_logs.index']) }}">
+                <a class="side-menu__item {{ arrRouteActive(['admin.activity_logs.index'], 'active') }}"
+                   data-toggle="slide" href="#">
+                    <i class="fas fa-cog side-menu__icon"></i> <!-- Settings Icon -->
+                    <span class="side-menu__label">إعدادات النظام</span>
+                    <i class="angle fa fa-angle-right"></i>
+                </a>
+                <ul class="slide-menu">
+
+                    <!-- سجل النظام -->
+                    <li class="{{ routeActive('admin.activity_logs.index') }}">
+                        <a class="slide-item {{ routeActive('admin.activity_logs.index') }}"
+                           href="{{ route('admin.activity_logs.index') }}">
+                            <i class="fas fa-heartbeat side-menu__icon"></i> <!-- Activity Icon -->
+                            سجل النظام
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- setting Management Section -->
+        @endcanany
+
+        <li class="slide">
+            <a class="side-menu__item {{ Route::currentRouteName() == 'admin.setting' ? 'active' : '' }}"
+               href="{{ route('admin.setting') }}">
+                <i class="fas fa-cogs side-menu__icon"></i>
+                <span class="side-menu__label"> الاعدادات</span>
+            </a>
+        </li>
+
+
         <li class="slide">
             <a class="side-menu__item {{ Route::currentRouteName() == 'admin.logout' ? 'active' : '' }}"
                href="{{ route('admin.logout') }}">

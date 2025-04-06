@@ -1,10 +1,10 @@
 @extends('admin/layouts/master')
 
 @section('title')
-    {{ config()->get('app.name') }} | {{ $bladeName }}
+    <!-- {{ config()->get('app.name') }} -->
 @endsection
 @section('page_name')
-    {{ $bladeName }}
+    <!-- {{ $bladeName }} -->
 @endsection
 @section('content')
 
@@ -12,13 +12,6 @@
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"> الفئات</h3>
-                    <div class="">
-                        <button class="btn btn-secondary btn-icon text-white addBtn">
-                            <span>
-                                <i class="fe fe-plus"></i>
-                            </span> اضافة جديد
-
                     <h3 class="card-title"></h3>
                     <div class="">
                         <button class="btn btn-secondary btn-icon text-white addBtn">
@@ -33,6 +26,7 @@
                         <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
                             <span><i class="fe fe-trending-up"></i></span> تحديث المحدد
                         </button>
+
                     </div>
                 </div>
                 <div class="card-body">
@@ -40,16 +34,6 @@
                         <!--begin::Table-->
                         <table class="table table-bordered text-nowrap w-100" id="dataTable">
                             <thead>
-                                <tr class="fw-bolder text-muted bg-light">
-                                    <th class="min-w-25px">
-                                        <input type="checkbox" id="select-all">
-                                    </th>
-                                    <th class="min-w-25px">#</th>
-                                    <th class="min-w-25px">اسم الفئة</th>
-                                    <th class="min-w-25px">الحاله</th>
-                                    <th class="min-w-50px rounded-end">{{ trns('actions') }}</th>
-                                </tr>
-
                             <tr class="fw-bolder text-muted bg-light">
                                 <th class="min-w-25px">
                                     <input type="checkbox" id="select-all">
@@ -66,11 +50,6 @@
 
         <!--Delete MODAL -->
         <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog " role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{ trns('delete') }}</h5>
              aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -82,15 +61,6 @@
                     </div>
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
-
-                        <p>{{ trns('are_you_sure_you_want_to_delete_this_obj') }} <span id="title"
-                                class="text-danger"></span>?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
-                            {{ trns('close') }}
-                        </button>
-                        <button type="button" class="btn btn-danger" id="delete_btn">{{ trns('delete') }} !</button>
                         <p>هل أنت متأكد أنك تريد حذف <span id="title" class="text-danger"></span>؟</p>
                     </div>
                     <div class="modal-footer">
@@ -103,14 +73,13 @@
             </div>
         </div>
         <!-- MODAL CLOSED -->
+
+
         <!-- Create Or Edit Modal -->
         <div class="modal fade" id="editOrCreate" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
- HEAD
-                        <h5 class="modal-title" id="example-Modal3">{{ trns('object_details') }}</h5>
-
                         <h5 class="modal-title" id="example-Modal3">التفاصيل</h5>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -124,13 +93,6 @@
         </div>
         <!-- Create Or Edit Modal -->
 
-        <!-- delete selected  Modal -->
-        <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog"
-            aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteConfirmModalLabel">{{ trns('confirm_deletion') }}</h5>
         <!-- delete selected Modal -->
         <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog"
              aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
@@ -143,13 +105,6 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>{{ trns('are_you_sure_you_want_to_delete_selected_items') }}</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ trns('cancel') }}</button>
-                        <button type="button" class="btn btn-danger"
-                            id="confirm-delete-btn">{{ trns('delete') }}</button>
                         <p>هل أنت متأكد أنك تريد حذف العناصر المحددة؟</p>
                     </div>
                     <div class="modal-footer">
@@ -159,17 +114,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- delete selected  Modal -->
-
-
-        <!-- update cols selected  Modal -->
-        <div class="modal fade" id="updateConfirmModal" tabindex="-1" role="dialog"
-            aria-labelledby="updateConfirmModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteConfirmModalLabel">{{ trns('confirm_change') }}</h5>
         <!-- delete selected Modal -->
 
 
@@ -186,19 +130,15 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <p>{{ trns('are_you_sure_you_want_to_update_selected_items') }}</p>
+                        <p>هل أنت متأكد أنك تريد تحديث العناصر المحددة؟</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">{{ trns('cancel') }}</button>
-                        <button type="button" class="btn btn-send"
-                            id="confirm-update-btn">{{ trns('update') }}</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                        <button type="button" class="btn btn-send" id="confirm-update-btn">تحديث</button>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- delete selected  Modal -->
         <!-- update selected Modal -->
 
     </div>
@@ -206,52 +146,12 @@
 @endsection
 @section('ajaxCalls')
     <script>
-        var columns = [{
         var columns = [
             {
                 data: 'checkbox',
                 name: 'checkbox',
                 orderable: false,
                 searchable: false,
-                render: function(data, type, row) {
-                    return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
-                }
-            },
-            {
-                data: 'id',
-                name: 'id'
-            },
-            {
-                data: 'name',
-                name: 'name'
-            },
-            {
-                data: 'status',
-                name: 'status'
-            },
-            {
-                data: 'action',
-                name: 'action',
-                orderable: false,
-                searchable: false
-            },
-        ]
-        showData('{{ route($route . '.index') }}', columns);
-
-        // Delete Using Ajax
-        deleteScript('{{ route($route . '.destroy', ':id') }}');
-        deleteSelected('{{ route($route . '.deleteSelected') }}');
-
-        updateColumnSelected('{{ route($route . '.updateColumnSelected') }}');
-
-
-        // Add Using Ajax
-        showAddModal('{{ route($route . '.create') }}');
-        addScript();
-        // Add Using Ajax
-        showEditModal('{{ route($route . '.edit', ':id') }}');
-        editScript();
-
                 render: function (data, type, row) {
                     return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
                 }
@@ -298,24 +198,25 @@
                 success: function(data) {
                     if (data.status === 200) {
                         if (val !== 0) {
-                            toastr.success('Success', "{{ trns('active') }}");
+                            toastr.success('', "نشط");
                         } else {
-                            toastr.warning('Success', "{{ trns('inactive') }}");
+                            toastr.warning('', "غير نشط ");
                         }
                     } else {
-                        toastr.error('Error', "{{ trns('something_went_wrong') }}");
+                        toastr.error('Error', "حدث خطأ ما");
                     }
                 },
                 error: function() {
-                    toastr.error('Error', "{{ trns('something_went_wrong') }}");
+                    toastr.error('Error', "حدث خطأ ما");
                 }
             });
         });
+
+
+
     </script>
+
+
 @endsection
-
-
-
-
 
 

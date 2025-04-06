@@ -35,6 +35,10 @@
                 if (data.status === 204) {
                     window.location.href = '{{route('vendorHome')}}';
                 }
+                if (data.status === 301) {
+                    toastr.error('هذا المستخدم يجب تفعيله أولا ثم بإمكانك تسجيل الدخول');
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
+                }
                 if (data.status === 205) {
                     toastr.error('من فضلك تأكد من رقم الجوال و أعد المحاوله');
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
@@ -215,7 +219,7 @@
 
                 if (data.status === 200) {
                     // toastr.success('من فضلك قم بتفعيل حسابك');
-                    sessionStorage.setItem('toastrMessage', 'من فضلك قم بتفعيل حسابك');
+                    // sessionStorage.setItem('toastrMessage', 'من فضلك قم بتفعيل حسابك');
 
                     window.location.href = '{{ route('vendor.otp.verify', ['email' => '__EMAIL__','type'=>'register','resetPassword'=>1]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
 

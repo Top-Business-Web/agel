@@ -5,6 +5,7 @@ namespace App\Services\Admin;
 use App\Enums\RoleEnum;
 use App\Models\Admin as ObjModel;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Permission;
@@ -29,29 +30,36 @@ class AdminService extends BaseService
             return DataTables::of($admins)
                 ->addColumn('action', function ($admins) {
                     $buttons = '';
-                    if ($admins->id != 1 || auth()->guard('admin')->user()->id == 1) {
-                        $buttons .= '
+                    if (auth('admin')->user()->can('update_admin')) {
+
+                        if ($admins->id != 1 || auth()->guard('admin')->user()->id == 1) {
+                            $buttons .= '
                             <button type="button" data-id="' . $admins->id . '" class="btn btn-pill btn-info-light editBtn">
                             <i class="fa fa-edit"></i>
                             </button>
                        ';
+                        }
                     }
+                    if (auth('admin')->user()->can('delete_admin')) {
 
-                    if (auth()->guard('admin')->user()->id != $admins->id && $admins->id != 1) {
-                        $buttons .= '<button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
+                        if (auth()->guard('admin')->user()->id != $admins->id && $admins->id != 1) {
+                            $buttons .= '<button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                         data-bs-target="#delete_modal" data-id="' . $admins->id . '" data-title="' . $admins->name . '">
                         <i class="fas fa-trash"></i>
                         </button>';
+                        }
                     }
-
                     return $buttons;
                 })
-
+                ->editColumn('phone', function ($admins) {
+                    $phone = str_replace('+', '', $admins->phone);
+                    return $phone;
+                })
                 ->addIndexColumn()
                 ->escapeColumns([])
                 ->make(true);
         } else {
-            return view($this->folder . '/index',[
+            return view($this->folder . '/index', [
 
                 'route' => $this->route,
                 'title' => "المشرفين"
@@ -59,25 +67,28 @@ class AdminService extends BaseService
         }
     }
 
-    public function myProfile()
+    public
+    function myProfile()
     {
         $admin = auth()->guard('admin')->user();
         return view($this->folder . '/profile', compact('admin'));
     }//end fun
 
 
-    public function create()
+    public
+    function create()
     {
         $code = $this->generateCode();
         $roles = Role::all();
-        return view($this->folder . '/parts/create',[
+        return view($this->folder . '/parts/create', [
             'permissions' => Permission::where('guard_name', 'admin')
                 ->get(),
             'code' => $code,
         ]);
     }
 
-    public function store($data): \Illuminate\Http\JsonResponse
+    public
+    function store($data): \Illuminate\Http\JsonResponse
     {
 
         $allData = $data;
@@ -90,10 +101,10 @@ class AdminService extends BaseService
                 'message' => "المفتاح 'permissions' غير موجود في البيانات المرسلة.",
             ]);
         }
+        $data['status'] = 1;
         $data['password'] = Hash::make($data['password']);
-        $data['phone'] = '+966' . $data['phone'];
 
-        $data['user_name']=$this->generateUsername($data['name']);
+        $data['user_name'] = $this->generateUsername($data['name']);
         $permissions = Permission::whereIn('id', $allData['permissions'])->pluck('name')->toArray();
         $obj = $this->model->create($data);
         $obj->syncPermissions($permissions);
@@ -104,16 +115,18 @@ class AdminService extends BaseService
         }
     }
 
-    public function edit($admin)
+    public
+    function edit($admin)
     {
-        return view($this->folder . '/parts/edit',[
+        return view($this->folder . '/parts/edit', [
             'permissions' => Permission::where('guard_name', 'admin')
                 ->get(),
             'admin' => $admin
         ]);
     }
 
-    public function update($data): JsonResponse
+    public
+    function update($data): JsonResponse
     {
         try {
             $allData = $data;
@@ -129,7 +142,7 @@ class AdminService extends BaseService
 
             if (isset($data['password'])) {
                 $data['password'] = Hash::make($data['password']);
-            }else{
+            } else {
                 unset($data['password']);
             }
 
@@ -144,7 +157,6 @@ class AdminService extends BaseService
             }
 
 
-
             return $this->responseMsg();
         } catch (\Exception $e) {
             return response()->json([
@@ -155,7 +167,8 @@ class AdminService extends BaseService
         }
     }
 
-    protected function generateCode(): string
+    protected
+    function generateCode(): string
     {
         do {
             $code = Str::random(11);
