@@ -11,62 +11,19 @@ use Yajra\DataTables\DataTables;
 class PlanService extends BaseService
 {
     protected string $folder = 'vendor/client';
-    protected string $route = 'clients';
+    protected string $route = 'plans';
 
     public function __construct(ObjModel $objModel)
     {
         parent::__construct($objModel);
     }
 //
-//    public function index($request)
-//    {
-//        return 12;
-//        $plan= $this->objService->getAll();
-//        dd($plan);
-//
-//        if ($request->ajax()) {
-//            $obj = $this->getDataTable();
-//            return DataTables::of($obj)
-//                ->editColumn('branch_id', function ($obj) {
-//                    return $obj->branch->name;
-//                })
-//                ->editcolumn('status', function ($obj) {
-//
-//                    return $this->statusDatatable($obj);
-//                })
-//                ->addColumn('action', function ($obj) {
-//                    $buttons = '';
-//                    if (Auth::guard('vendor')->user()->can("update_client")) {
-//                        $buttons .= '
-//                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
-//                            <i class="fa fa-edit"></i>
-//                        </button>
-//                    ';
-//                    }
-//                    if (Auth::guard('vendor')->user()->can("delete_client")) {
-//                        $buttons .= '
-//                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-//                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
-//                            <i class="fas fa-trash"></i>
-//                        </button>
-//                    ';
-//                    }
-//                    return $buttons;
-//                })->editColumn('phone', function ($obj) {
-//                    $phone = str_replace('+', '', $obj->phone);
-//                    return $phone;
-//                })
-//                ->addIndexColumn()
-//                ->escapeColumns([])
-//                ->make(true);
-//        } else {
-//            return view($this->folder . '/index', [
-//                'createRoute' => route($this->route . '.create'),
-//                'bladeName' => "العملاء",
-//                'route' => $this->route,
-//            ]);
-//        }
-//    }
+   public function index($request)
+   {
+
+    return view('vendor.plans.index');
+       return 2222;
+   }
 //
 //    public function create()
 //    {

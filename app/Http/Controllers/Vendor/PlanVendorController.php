@@ -13,19 +13,14 @@ class PlanVendorController extends Controller
     {
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $plan= $this->objService->getAll();
-//        return view('vendor.plan', [
-//            'bladeName' => "المكاتب",
-//            'route' => $this->objService->getRoute(),
-//            'plan' => $plan,
-//        ]);
+        return $this->objService->index($request);
     }
 
     public function create()
     {
-        return $this->objService->create();
+        // return $this->objService->create();
     }
 
 //    public function store(ObjRequest $data)
