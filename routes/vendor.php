@@ -9,6 +9,7 @@ use App\Http\Controllers\Vendor\ClientController;
 use App\Http\Controllers\Vendor\HomeController;
 use App\Http\Controllers\Vendor\BranchController;
 use App\Http\Controllers\Vendor\InvestorController;
+use App\Http\Controllers\Vendor\PlanVendorController;
 use App\Http\Controllers\Vendor\RoleController;
 use App\Http\Controllers\Vendor\SettingController;
 use App\Http\Controllers\Vendor\VendorController;
@@ -40,6 +41,8 @@ Route::group(
         Route::get('/register', [AuthController::class, 'registerForm'])->name('vendor.register');
 
         Route::group(['prefix' => 'vendor'], function () {
+
+
             Route::POST('/login', [AuthController::class, 'login'])->name('vendor.login');
             Route::POST('/register', [AuthController::class, 'register'])->name('vendor.register');
             Route::get('/verify-otp/{email}/{type}/{resetPassword}', [AuthController::class, 'showOtpForm'])->name('vendor.otp.verify');
@@ -52,6 +55,7 @@ Route::group(
             Route::get('my_profile', [VendorController::class, 'myProfile'])->name('myProfile');
 
             Route::group(['middleware' => 'auth:vendor'], function () {
+
 
                 #============================ Home ====================================
                 Route::get('homeVendor', [HomeController::class, 'index'])->name('vendorHome');
@@ -100,6 +104,8 @@ Route::group(
 
                 #============================ Stocks ==================================
                 Route::resourceWithDeleteSelected('stocks', StockController::class);
+               #============================ plans ==================================
+                Route::get('vendorPlanIndex', [PlanVendorController::class, 'index'])->name('vendorPlanIndex');
 
 
             });

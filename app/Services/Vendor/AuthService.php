@@ -97,7 +97,6 @@ class AuthService extends BaseService
 //            dd($credentials,$vendor);
 
             if (Auth::guard('vendor')->validate($credentials)) {
-//                dd('dsfsdf');
                 $otp = rand(1000, 9999);
                 $vendor->update([
                     'otp' => $otp,

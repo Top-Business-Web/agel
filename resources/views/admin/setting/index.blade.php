@@ -39,6 +39,29 @@
                             @endphp
 
                             <!-- Phones Section -->
+      <!-- Phones Section -->
+<div id="plans_container">
+    @foreach($settings->where('key', 'phone') as $phone)
+        <div class="row phone-row border p-3 mb-2" id="phoneRow-{{ $loop->index }}">
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="phone" class="form-control-label">{{ __('Phone Number') }}</label>
+                    <div class="input-group">
+                        <span class="input-group-text">+966</span>
+                        <input type="number" class="form-control" name="phones[]" 
+                            value="{{ $phone->value ?? '' }}" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-2 d-flex align-items-center">
+                <button type="button" class="btn btn-danger remove-phone" data-id="{{ $loop->index }}">
+                    <i class="fe fe-trash"></i> {{ __('Delete') }}
+                </button>
+            </div>
+        </div>
+    @endforeach
+</div>
                             <div id="plans_container">
                                 @foreach($phones as $phone)
                                     <div class="row phone-row border p-3 mb-2" id="phoneRow-{{ $loop->index }}">
