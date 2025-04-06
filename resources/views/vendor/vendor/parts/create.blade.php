@@ -95,6 +95,11 @@
                         <input class="form-check-input" type="checkbox" id="selectAllPermissions">
                         <label class="form-check-label" for="selectAllPermissions">اختيار الكل</label>
                     </div>
+                    
+  //                  <div class="col-4 office-manager-container" style="display: none">
+ //                       <input class="form-check-input office-manager-check" type="checkbox" id="selectAllPermissions1">
+//                        <label class="form-check-label " for="selectAllPermissions1">مدير المكتب</label>
+
                     <div class="col-4" id="officeManagerCheckbox" style="display: none;">
                         <input class="form-check-input" type="checkbox" id="selectAllPermissions1" checked>
                         <label class="form-check-label" for="selectAllPermissions1">مدير المكتب</label>
@@ -175,6 +180,34 @@
 
 
     function officeManager(branches, selectElement) {
+//        // Get the selected options
+//        // let selectedOptions = Array.from(selectElement.selectedOptions).map(option => option.value);
+//        // console.log(branches.find(branch => branch.name === 'الفرع الرئيسي').id, selectedOptions.includes(branches.find(branch => branch.name === 'الفرع الرئيسي').id));
+//        if (branches.find(branch => branch.name === 'الفرع الرئيسي').id == selectElement.value) {
+//            document.querySelector('.office-manager-container').style.display = 'block';
+//            document.querySelector('.office-manager-check').checked = true;
+//            document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
+//                checkbox.checked = this.checked=true;
+//            });
+
+//            document.querySelectorAll('.parent-select-all').forEach(groupCheckbox => {
+//                groupCheckbox.checked = this.checked=true;
+//            });
+//        } else {
+//            document.querySelector('.office-manager-container').style.display = 'none';
+//            document.querySelector('.office-manager-check').checked = false;
+//            document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
+//                checkbox.checked = this.checked=false;
+//            });
+
+   //         document.querySelectorAll('.parent-select-all').forEach(groupCheckbox => {
+  //              groupCheckbox.checked = this.checked=false;
+ //           });
+//        }
+
+
+
+
     let selectedOptions = Array.from(selectElement.selectedOptions).map(option => option.value);
 
     // ابحث عن الفرع الرئيسي
