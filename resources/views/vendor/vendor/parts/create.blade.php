@@ -17,7 +17,7 @@
                     <select class="form-control" name="city_id" id="region_id">
                         <option value="" selected disabled>اسم المدينه</option>
                         @foreach ($cities as $city)
-                            <option value="{{$city->id }}">{{$city->name}}</option>
+                        <option value="{{$city->id }}">{{$city->name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -28,10 +28,10 @@
                 <div class="form-group">
                     <label for="branch_id" class="form-control-label">اسم الفرع التابع له</label>
                     <select class="form-control" name="branch_ids[]" id="branch_id" multiple
-                            onchange="officeManager({{$branches}},this)">
+                    onchange="officeManager({{ $branches->toJson() }}, this)">
                         <option value="" disabled>اختر الفرع</option>
                         @foreach ($branches as $branch)
-                            <option value="{{$branch->id }}">{{$branch->name}}</option>
+                        <option value="{{$branch->id }}">{{$branch->name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -95,10 +95,11 @@
                         <input class="form-check-input" type="checkbox" id="selectAllPermissions">
                         <label class="form-check-label" for="selectAllPermissions">اختيار الكل</label>
                     </div>
-                    <div class="col-4">
-                        <input class="form-check-input" type="checkbox" id="selectAllPermissions1">
+                    <div class="col-4" id="officeManagerCheckbox" style="display: none;">
+                        <input class="form-check-input" type="checkbox" id="selectAllPermissions1" checked>
                         <label class="form-check-label" for="selectAllPermissions1">مدير المكتب</label>
                     </div>
+
                 </div>
                 @foreach ($permissions->groupBy('parent_name') as $parent => $group)
             </div>
@@ -110,13 +111,13 @@
             <div class="col-lg-9 col-12 d-flex flex-wrap justify-content-between mb-5">
 
                 @foreach($group as $permission)
-                    <div class="form-check">
-                        <input class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                               value="{{ $permission->id }}" data-group="{{ $parent }}">
-                        <label class="form-check-label" for="flexCheckDefault{{$loop->iteration}}">
-                            {{getKey()[$loop->iteration-1]}}
-                        </label>
-                    </div>
+                <div class="form-check">
+                    <input class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
+                        value="{{ $permission->id }}" data-group="{{ $parent }}">
+                    <label class="form-check-label" for="flexCheckDefault{{$loop->iteration}}">
+                        {{getKey()[$loop->iteration-1]}}
+                    </label>
+                </div>
                 @endforeach
 
                 @endforeach
@@ -142,7 +143,7 @@
 
     });
 
-    document.getElementById('selectAllPermissions').addEventListener('change', function () {
+    document.getElementById('selectAllPermissions').addEventListener('change', function() {
         document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
             checkbox.checked = this.checked;
         });
@@ -152,7 +153,7 @@
         });
     });
 
-    document.getElementById('selectAllPermissions1').addEventListener('change', function () {
+    document.getElementById('selectAllPermissions1').addEventListener('change', function() {
         document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
             checkbox.checked = this.checked;
         });
@@ -163,7 +164,7 @@
     });
 
     document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
-        checkbox.addEventListener('change', function () {
+        checkbox.addEventListener('change', function() {
             let group = this.dataset.group;
             let secondPermission = document.querySelectorAll(`.permission-checkbox[data-group='${group}']`)[0];
             if (this.checked && secondPermission) {
@@ -174,34 +175,43 @@
 
 
     function officeManager(branches, selectElement) {
-        // Get the selected options
-        let selectedOptions = Array.from(selectElement.selectedOptions).map(option => option.value);
-        if (selectedOptions.includes('{{ $branch->id }}')) {
-            console.log('ma');
-        }
+    let selectedOptions = Array.from(selectElement.selectedOptions).map(option => option.value);
 
-        @endforeach
-        // Perform your desired action with the selected options
-        console.log('Selected branches:', selectedOptions);
-        console.log('branches:', branches[0].id);
+    // ابحث عن الفرع الرئيسي
+    let mainBranch = branches.find(branch => branch.name === 'الفرع الرئيسي');
 
+    if (mainBranch && selectedOptions.includes(mainBranch.id.toString())) {
+        // إظهار زر مدير المكتب وتحديده
+        document.getElementById('officeManagerCheckbox').style.display = 'block';
+        document.getElementById('selectAllPermissions1').checked = true;
 
-        // Example: You can make an AJAX request to update the selected branches
-        $.ajax({
-            type: 'POST',
-            url: '/your-update-url',
-            data: {
-                "_token": "{{ csrf_token() }}",
-                'branch_ids': selectedOptions,
-            },
-            success: function (response) {
-                console.log('Branches updated successfully:', response);
-            },
-            error: function (error) {
-                console.error('Error updating branches:', error);
+        // تحديد كل الصلاحيات
+        document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
+            checkbox.checked = true;
+        });
+
+        // تعطيل باقي الفروع
+        Array.from(selectElement.options).forEach(option => {
+            if (option.value !== mainBranch.id.toString()) {
+                option.disabled = true;
             }
         });
+
+    } else {
+        // إخفاء الزر وإلغاء تحديده
+        document.getElementById('officeManagerCheckbox').style.display = 'none';
+        document.getElementById('selectAllPermissions1').checked = false;
+
+        // إزالة تحديد الصلاحيات
+        document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+
+        // إعادة تمكين الفروع
+        Array.from(selectElement.options).forEach(option => {
+            option.disabled = false;
+        });
     }
+}
 
 </script>
-
