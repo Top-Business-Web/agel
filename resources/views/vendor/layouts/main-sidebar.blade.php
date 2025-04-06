@@ -50,9 +50,9 @@
             </li>
         @endcanany
 
-        <li class="{{ routeActive('vendorPlanIndex') }}">
-                <a class="slide-item {{ routeActive('vendorPlanIndex') }}" style="margin-right:8px;"
-                   href="{{ route('vendorPlanIndex') }}">
+        <li class="{{ routeActive('vendor.plans.index') }}">
+                <a class="slide-item {{ routeActive('vendor.plans.index') }}" style="margin-right:8px;"
+                   href="{{ route('vendor.plans.index') }}">
                     <i class="fa fa-star side-menu__icon"></i> <!-- stocks Icon -->
                     الخطط
                 </a>
