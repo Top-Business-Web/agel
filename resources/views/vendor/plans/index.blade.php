@@ -1,10 +1,8 @@
 @extends('vendor/layouts/master')
 
 @section('title')
-    {{ config()->get('app.name') }}
 @endsection
 @section('page_name')
-    الفروع
 @endsection
 @section('content')
 
@@ -215,7 +213,7 @@
         font-size: 50px;
       }
     </style>
-    
+
 <section class="pricing pricing-1" id="pricing-1">
       <div class="container">
         <form>
@@ -359,87 +357,5 @@
     @include('vendor/layouts/myAjaxHelper')
 @endsection
 @section('ajaxCalls')
-    <script>
-        var columns = [{
-            data: 'checkbox',
-            name: 'checkbox',
-            orderable: false,
-            searchable: false,
-            render: function (data, type, row) {
-                return <input type="checkbox" class="delete-checkbox" value="${row.id}">;
-            }
-        },
-            {
-                data: 'id',
-                name: 'id'
-            },
-            {
-                data: 'name',
-                name: 'name'
-            },
-
-            {
-                data: 'status',
-                name: 'status'
-            },
-            {
-                data: 'action',
-                name: 'action',
-                orderable: false,
-                searchable: false
-            },
-        ]
-        showData('{{ route($route . '.index') }}', columns);
-
-        // Delete Using Ajax
-        deleteScript('{{ route($route . '.destroy', ':id') }}');
-        deleteSelected('{{ route($route . '.deleteSelected') }}');
-
-        updateColumnSelected('{{ route($route . '.updateColumnSelected') }}');
-
-
-        // Add Using Ajax
-        showAddModal('{{ route($route . '.create') }}');
-        addScript();
-        // Add Using Ajax
-        showEditModal('{{ route($route . '.edit', ':id') }}');
-        editScript();
-    </script>
-
-    <script>
-        // for status
-        $(document).on('click', '.statusBtn', function () {
-            let id = $(this).data('id');
-
-            var val = $(this).is(':checked') ? 1 : 0;
-
-            let ids = [id];
-
-
-            $.ajax({
-                    type: 'POST',
-                    url: '{{ route($route . '.updateColumnSelected') }}',
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        'ids': ids,
-                    },
-                    success: function (data) {
-                        if (data.status === 200) {
-                            if (val !== 0) {
-                                toastr.success('', "نشط");
-                            } else {
-                                toastr.warning('', "غير نشط");
-                            }
-                        } else {
-                            toastr.error('Error', "هناك خطأ ما");
-                        }
-                    },
-                    error: function () {
-                        toastr.error('Error', "هناك خطأ ما");
-                        toastr.warning('', "غير نشط ");
-                    }
-                }
-            );
-        });
-    </script>
+   
 @endsection

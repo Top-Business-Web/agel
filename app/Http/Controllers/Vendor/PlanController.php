@@ -7,7 +7,7 @@ use App\Models\Plan as ObjModel;
 use App\Services\Vendor\PlanService as ObjService;
 use Illuminate\Http\Request;
 
-class PlanVendorController extends Controller
+class PlanController extends Controller
 {
     public function __construct(protected ObjService $objService)
     {
@@ -15,12 +15,7 @@ class PlanVendorController extends Controller
 
     public function index()
     {
-        $plan= $this->objService->getAll();
-//        return view('vendor.plan', [
-//            'bladeName' => "المكاتب",
-//            'route' => $this->objService->getRoute(),
-//            'plan' => $plan,
-//        ]);
+        return $this->objService->index();
     }
 
     public function create()

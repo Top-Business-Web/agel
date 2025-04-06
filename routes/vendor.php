@@ -9,7 +9,7 @@ use App\Http\Controllers\Vendor\ClientController;
 use App\Http\Controllers\Vendor\HomeController;
 use App\Http\Controllers\Vendor\BranchController;
 use App\Http\Controllers\Vendor\InvestorController;
-use App\Http\Controllers\Vendor\PlanVendorController;
+use App\Http\Controllers\Vendor\PlanController;
 use App\Http\Controllers\Vendor\RoleController;
 use App\Http\Controllers\Vendor\SettingController;
 use App\Http\Controllers\Vendor\VendorController;
@@ -104,9 +104,16 @@ Route::group(
 
                 #============================ Stocks ==================================
                 Route::resourceWithDeleteSelected('stocks', StockController::class);
-               #============================ plans ==================================
-                Route::get('vendorPlanIndex', [PlanVendorController::class, 'index'])->name('vendorPlanIndex');
 
+                Route::group(['prefix' => 'stocks'], function () {
+                    Route::get('get-stocks', [StockController::class, 'getStocks'])->name('vendor.stocks.getStocks');
+                    Route::post('update-stocks', [StockController::class, 'updateStocks'])->name('vendor.stocks.updateStocks');
+                });
+               #============================ plans ==================================
+
+               Route::resourceWithDeleteSelected('plans', PlanController::class, [
+                'as' => 'vendor'
+            ]);
 
             });
         });
