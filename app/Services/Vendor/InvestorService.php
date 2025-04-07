@@ -114,8 +114,15 @@ class InvestorService extends BaseService
 
     public function edit($obj)
     {
-        $branches = $this->branchService->getAll();
-        return view("{$this->folder}/parts/edit", [
+        $auth = auth('vendor')->user();
+        $branches = [];
+        if ($auth->parent_id == null) {
+            $branches = $this->branchService->model->apply()->whereIn('vendor_id', [$auth->parent_id, $auth->id])->where('name', "!=", 'الفرع الرئيسي')->get();
+        } else {
+            $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
+            $branches = $this->branchService->model->apply()->whereIn('id', $branchIds)->where('name', "!=", 'الفرع الرئيسي')->get();
+        }
+                return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
             'branches' => $branches,

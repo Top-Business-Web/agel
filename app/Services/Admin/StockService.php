@@ -3,27 +3,30 @@
 namespace App\Services\Admin;
 
 use App\Models\Investor;
-use App\Models\Stock as ObjModel;
 use App\Models\VendorBranch;
 use App\Services\BaseService;
+use Yajra\DataTables\DataTables;
+use App\Models\Stock as ObjModel;
+use Illuminate\Http\JsonResponse;
 use App\Services\Vendor\BranchService;
+use App\Services\Admin\OperationService;
 use App\Services\Vendor\CategoryService;
 use App\Services\Vendor\InvestorService;
-use Yajra\DataTables\DataTables;
 
 class StockService extends BaseService
 {
     protected string $folder = 'vendor/stock';
     protected string $route = 'stocks';
 
-    public function __construct(ObjModel                  $objModel,
-                                protected CategoryService $categoryService,
-                                protected BranchService   $branchService,
-                                protected VendorBranch    $vendorBranch,
-                                protected Investor        $investor
+    public function __construct(
+        ObjModel                  $objModel,
+        protected CategoryService $categoryService,
+        protected BranchService   $branchService,
+        protected VendorBranch    $vendorBranch,
+        protected Investor        $investor,
+        protected OperationService $operationService
 
-    )
-    {
+    ) {
         parent::__construct($objModel);
     }
 
@@ -72,20 +75,38 @@ class StockService extends BaseService
         ]);
     }
 
-    public function store($data): \Illuminate\Http\JsonResponse
+    public function store($data): JsonResponse
     {
-        if (isset($data['image'])) {
-            $data['image'] = $this->handleFile($data['image'], 'Stock');
-        }
-
         try {
-            $this->createData($data);
+            $data['vendor_id'] = auth('vendor')->user()->parent_id ?? auth('vendor')->user()->id;
+            $data = $this->prepareStockData($data);
+            $stockData = $data;
+            unset($stockData['operation_type']);
+
+            $obj = $this->createData($stockData);
+            $this->operationService->model->create([
+                'stock_id' => $obj->id,
+                'type' => $data['operation_type'],
+            ]);
+
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception $e) {
-            return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
-
+            return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
         }
     }
+
+    private function prepareStockData($data)
+    {
+        if ($data['operation'] == 1) {
+            $data['price'] = ($data['total_price_add'] - ($data['vendor_commission'] + $data['investor_commission'] + $data['sell_diff'])) / $data['quantity'];
+            $data['operation_type'] = 1;
+        } else {
+            $data['operation_type'] = 0;
+        }
+        unset($data['operation']);
+        return $data;
+    }
+
 
     public function edit($obj)
     {
@@ -110,10 +131,8 @@ class StockService extends BaseService
         try {
             $oldObj->update($data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
-
         } catch (\Exception $e) {
             return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
-
         }
     }
 }

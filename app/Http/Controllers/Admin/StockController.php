@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StockRequest as ObjRequest;
+use App\Http\Requests\Vendor\StoreStockRequest as ObjRequest;
 use App\Models\Stock as ObjModel;
 use App\Services\Admin\StockService as ObjService;
 use Illuminate\Http\Request;

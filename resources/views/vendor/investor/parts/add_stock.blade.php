@@ -20,7 +20,7 @@
                     <select class="form-control" name="category_id" id="category_id">
                         <option value="" selected disabled>اختر الصنف</option>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -33,7 +33,7 @@
                     <select class="form-control" name="branch_id" id="branch_id">
                         <option value="" selected disabled>اختر الفرع</option>
                         @foreach ($branches as $branch)
-                            <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                        <option value="{{ $branch->id }}">{{ $branch->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -80,8 +80,7 @@
                     <label for="investor_commission" class="form-control-label">أجمالي العمولة للمستثمر
                     </label>
                     <input type="number" min="1" class="form-control" name="investor_commission"
-                           id="investor_commission"
-                    >
+                        id="investor_commission">
                 </div>
             </div>
 
@@ -96,51 +95,51 @@
         </div>
 
         <div class="footer" id="addFooter"
-             style="padding: 10px; display: flex; justify-content: space-between; margin: 20px 0;">
+            style="padding: 10px; display: flex; justify-content: space-between; margin: 20px 0;">
             <div class="text" style="display: flex; flex-direction: column;">
-                <span>الكميه = </span>
+                <span>الكميه  </span>
                 <span id="quantity_display" style="text-align: center">0</span>
             </div>
             <div class="text" style="display: flex; flex-direction: column;">
-                <span>السعر = </span>
+                <span>السعر الاجمالي  </span>
                 <span id="price_display" style="text-align: center">0</span>
             </div>
 
 
             <div class="text" style="display: flex; flex-direction: column;">
-                <span> العمولات = </span>
+                <span> العمولات  </span>
                 <span id="commission_display" style="text-align: center">0</span>
             </div>
 
             <div class="text" style="display: flex; flex-direction: column;">
-                <span>فروقات اعاده البيع = </span>
+                <span>فروقات اعاده البيع </span>
                 <span id="sell_diff_display" style="text-align: center">0</span>
             </div>
 
             <div class="text" style="display: flex; flex-direction: column;">
-                <span>الإجمالي = </span>
+                <span>صافي السعر  </span>
                 <span id="total_display" style="text-align: center">0</span>
             </div>
             <br>
 
             <div class="text" style="display: flex; flex-direction: column;">
-                <span>سعر الوحده = </span>
+                <span>سعر الوحده  </span>
                 <span id="division_result" style="text-align: center">0</span>
             </div>
         </div>
         <div class="footer" id="subFooter" style="padding: 10px;">
             <div style="padding: 10px; display: flex; justify-content: space-between; margin: 20px 0;">
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span>الكميه = </span>
+                    <span>الكميه  </span>
                     <span id="available_quantity" style="text-align: center">0</span>
                 </div>
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span>السعر الاجمالي = </span>
+                    <span>السعر الاجمالي  </span>
                     <span id="total_price" style="text-align: center">0</span>
                 </div>
 
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span> السعر ناقص العموله = </span>
+                    <span> السعر ناقص العموله  </span>
                     <span id="total_price_commission" style="text-align: center">0</span>
                 </div>
             </div>
@@ -148,11 +147,11 @@
             <div style="padding: 10px; display: flex; justify-content: space-evenly; margin: 20px 0;">
 
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span>الكميه السابقه = </span>
+                    <span>الكميه السابقه  </span>
                     <span id="previous_quantity" style="text-align: center">0</span>
                 </div>
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span>السعر الاجمالي = </span>
+                    <span>السعر الاجمالي  </span>
                     <span id="total_price_of_previous_quantity" style="text-align: center">0</span>
                 </div>
 
@@ -160,37 +159,36 @@
             </div>
             <div style="padding: 10px; display: flex; justify-content: space-evenly; margin: 20px 0;">
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span>الكميه المنقصه = </span>
+                    <span>الكميه المنقصه  </span>
                     <span id="sub_quantity" style="text-align: center">0</span>
                 </div>
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span>السعر الاجمالي = </span>
+                    <span>السعر المتبقي  </span>
                     <span id="total_price_of_sub_quantity" style="text-align: center">0</span>
                 </div>
             </div>
             <div style="padding: 10px; display: flex; justify-content: space-evenly; margin: 20px 0;">
 
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span>المتبقي  = </span>
+                    <span>المتبقي </span>
                     <span id="final_quantity" style="text-align: center">0</span>
                 </div>
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span> الاجمالي = </span>
+                    <span> الاجمالي  </span>
                     <span id="final_price" style="text-align: center">0</span>
                 </div>
             </div>
         </div>
 
 
-</div>
 
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">أغلاق</button>
-    <button type="submit" class="btn btn-primary" id="addButtonStock">حفظ
-    </button>
-</div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">أغلاق</button>
+            <button type="submit" class="btn btn-primary" id="addButtonStock">حفظ
+            </button>
+        </div>
 
-</form>
+    </form>
 </div>
 
 
@@ -202,13 +200,13 @@
     });
 </script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         function toggleFields() {
             var operation = $("#operation").val();
             $(".form-group").closest('.col-6').fadeOut(200);
             $("#operation").closest('.col-6').fadeIn(300);
 
-            setTimeout(function () {
+            setTimeout(function() {
                 if (operation === "1") { // إضافة
                     $("#category_id").closest('.col-6').fadeIn(300);
                     $("#branch_id").closest('.col-6').fadeIn(300);
@@ -234,41 +232,7 @@
             $(".footer").hide();
         }
 
-        // function updateTotals() {
-        //     let quantity = parseFloat($("#quantity").val()) || 0;
-        //     let totalPrice = parseFloat($("#total_price_add").val()) || 0;
-        //     let vendorCommission = parseFloat($("#vendor_commission").val()) || 0;
-        //     let investorCommission = parseFloat($("#investor_commission").val()) || 0;
-        //     let sellDiff = parseFloat($("#sell_diff").val()) || 0;
-        //
-        //     let totalCommission = vendorCommission + investorCommission;
-        //     let grandTotal = totalPrice - totalCommission - sellDiff;
-        //
-        //     let divisionResult = (quantity !== 0) ? (grandTotal / quantity).toFixed(2) : 0;
-        //
-        //     $("#quantity_display").text(quantity);
-        //     $("#price_display").text(totalPrice);
-        //     $("#commission_display").text(totalCommission);
-        //     $("#sell_diff_display").text(sellDiff);
-        //     $("#total_display").text(grandTotal);
-        //     $("#division_result").text(divisionResult);
-        //
-        //     // For subtraction operation
-        //     let totalPriceSub = parseFloat($("#total_price_sub").val()) || 0;
-        //     let finalQuantity = parseFloat($("#available_quantity").text()) - quantity || 0;
-        //     let finalPrice = parseFloat($("#total_price").text()) - totalPriceSub || 0;
-        //
-        //     $("#sub_quantity").text(quantity);
-        //     $("#total_price_of_sub_quantity").text(totalPriceSub);
-        //     $("#previous_quantity").text(parseFloat($("#available_quantity").text()) || 0);
-        //     $("#total_price_of_previous_quantity").text(parseFloat($("#total_price").text()) || 0);
-        //     $("#final_quantity").text(finalQuantity);
-        //     $("#final_price").text(finalPrice);
-        //
-        //
-        //
-        //
-        // }
+
 
         function updateTotals() {
             let quantity = parseFloat($("#quantity").val()) || 0;
@@ -303,7 +267,7 @@
             // For subtraction operation
             let totalPriceSub = parseFloat($("#total_price_sub").val()) || 0;
             let finalQuantity = parseFloat($("#available_quantity").text()) - quantity || 0;
-            let finalPrice = totalPriceSub - parseFloat($("#total_price").text()) || 0;
+            let finalPrice =  parseFloat($("#total_price").text())-totalPriceSub  || 0;
 
             $("#sub_quantity").text(quantity);
             $("#total_price_of_sub_quantity").text(totalPriceSub);
@@ -324,7 +288,7 @@
 
 
     // add script
-    $(document).one('submit', '#addFormStock', function (e) {
+    $(document).on('submit', '#addFormStock', function(e) {
         e.preventDefault();
         var formData = new FormData(this);
         var url = $('#addFormStock').attr('action');
@@ -332,41 +296,34 @@
             url: url,
             type: 'POST',
             data: formData,
-            beforeSend: function () {
-                $('#addButtonStock').html('<span class="spinner-border spinner-border-sm mr-2" ' +
-                    ' ></span> <span style="margin-left: 4px;">أنتظر قليلًا...</span>').attr('disabled', true);
+            processData: false,
+            contentType: false,
+            beforeSend: function() {
+                $('#addButtonStock').html('<span class="spinner-border spinner-border-sm mr-2"></span> <span style="margin-left: 4px;">أنتظر قليلًا...</span>').attr('disabled', true);
             },
-            success: function (data) {
-                if (data.status == 200) {
+            success: function(response) {
+                if (response.status === 200) {
                     $('#dataTable').DataTable().ajax.reload();
                     toastr.success('تمت العملية بنجاح');
-                } else if (data.status == 405) {
-                    toastr.error(data.mymessage);
-                } else
-                    toastr.error('حدث خطأ ما');
-                $('#addButtonStock').html(`اضافه`).attr('disabled', false);
-                $('#addStock').modal('hide')
+                    $('#addStock').modal('hide');
+                } else if (response.status === 405) {
+                    toastr.error(response.mymessage);
+                } else {
+                    toastr.error('حدث خطأ ما');
+                }
+                $('#addButtonStock').html('حفظ').attr('disabled', false);
             },
-            error: function (data) {
-                if (data.status === 500) {
-                    toastr.error('');
-                } else if (data.status === 422) {
-                    var errors = $.parseJSON(data.responseText);
-                    $.each(errors, function (key, value) {
-                        if ($.isPlainObject(value)) {
-                            $.each(value, function (key, value) {
-                                toastr.error(value, 'خطأ');
-                            });
-                        }
+            error: function(xhr) {
+                if (xhr.status === 422) {
+                    var errors = xhr.responseJSON.errors;
+                    $.each(errors, function(key, value) {
+                        toastr.error(value[0], 'خطأ');
                     });
-                } else
-                    toastr.error('حدث خطأ ما');
-                $('#addButtonStock').html(`اضافة`).attr('disabled', false);
-            },//end error method
-
-            cache: false,
-            contentType: false,
-            processData: false
+                } else {
+                    toastr.error('حدث خطأ ما');
+                }
+                $('#addButtonStock').html('حفظ').attr('disabled', false);
+            }
         });
     });
 
@@ -385,7 +342,7 @@
                     branch_id: branchId,
                     investor_id: investorId
                 },
-                success: function (response) {
+                success: function(response) {
                     if (response.status === 200) {
                         console.log(response);
                         $("#available_quantity").text(response.available);
@@ -397,7 +354,7 @@
                         toastr.error("حدث خطأ أثناء جلب البيانات");
                     }
                 },
-                error: function () {
+                error: function() {
                     toastr.error("تعذر جلب البيانات، تحقق من الاتصال بالسيرفر");
                 }
             });
@@ -406,18 +363,11 @@
 
     // تشغيل الفانكشن عند تغيير نوع العملية أو الصنف أو الفرع
     $("#category_id, #branch_id").change(fetchAvailableStock);
-    $("#operation").change(function () {
+    $("#operation").change(function() {
         if ($(this).val() === "0") {
             fetchAvailableStock();
         } else {
             $("#quantity_display, #add_display, #sell_display").text(0);
         }
     });
-
-
 </script>
-
-
-
-
-

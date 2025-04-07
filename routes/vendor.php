@@ -109,12 +109,11 @@ Route::group(
                     Route::get('get-stocks', [StockController::class, 'getStocks'])->name('vendor.stocks.getStocks');
                     Route::post('update-stocks', [StockController::class, 'updateStocks'])->name('vendor.stocks.updateStocks');
                 });
-               #============================ plans ==================================
+                #============================ plans ==================================
 
-               Route::resourceWithDeleteSelected('plans', PlanController::class, [
-                'as' => 'vendor'
-            ]);
-
+                Route::resourceWithDeleteSelected('plans', PlanController::class, [
+                    'as' => 'vendor'
+                ]);
             });
         });
 
