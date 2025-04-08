@@ -78,7 +78,7 @@
                     </a>
                     <div
                         class="dropdown-menu dropdown-menu-{{ lang() == 'ar' ? 'left' : 'right' }} dropdown-menu-arrow">
-                        <a class="dropdown-item" href="{{route('myProfile')}}">
+                        <a class="dropdown-item" href="{{route('vendor.myProfile')}}">
                             <i class="dropdown-icon mdi mdi-account-outline"></i> الملف الشخصي
                         </a>
                         <a class="dropdown-item" href="{{route('vendor.logout')}}">

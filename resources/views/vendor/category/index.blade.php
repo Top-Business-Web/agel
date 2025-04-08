@@ -16,7 +16,7 @@
                             <button class="btn btn-secondary btn-icon text-white addBtn">
                             <span>
                                 <i class="fe fe-plus"></i>
-                            </span> إضافة فرع جديد
+                            </span> إضافة  
                             </button>
                         @endcan
                         @can('delete_category')
