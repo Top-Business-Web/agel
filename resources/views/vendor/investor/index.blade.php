@@ -76,7 +76,7 @@
             </div>
         </div>
         <!-- MODAL CLOSED -->
-         
+
         <!-- add stock Modal -->
         <div class="modal fade" id="addStock" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -141,7 +141,7 @@
 
 
     </div>
-    @include('admin.layouts.myAjaxHelper')
+    @include('vendor.layouts.myAjaxHelper')
 @endsection
 @section('ajaxCalls')
     <script>
@@ -196,6 +196,8 @@
         // Add Using Ajax
         showEditModal('{{ route($route . '.edit', ':id') }}');
         editScript();
+
+        checkVendorKeyLimit('.addBtn', 'Investor');
 
 
         $(document).on('click', '.addStock', function () {

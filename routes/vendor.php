@@ -120,6 +120,15 @@ Route::group(
         #=======================================================================
         #============================ ROOT =====================================
         #=======================================================================
+
+
+        // web.php
+        Route::get('/check-vendor-limit/{key}', function ($key) {
+            return response()->json([
+                'allowed' => checkVendorPlanLimit($key),
+            ]);
+        });
+
         Route::get('/clear', function () {
 
             Artisan::call('cache:clear');
