@@ -23,7 +23,7 @@ class VendorSeeder extends Seeder
             'national_id' => '0000000000',
             'commercial_number' => '12312144564645',
            'plan_id' => 1,
-
+ 
             'city_id'=> 1,
             'role_id' => 6,
             'status' => 1,
