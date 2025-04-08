@@ -3,8 +3,10 @@
 use App\Models\Branch;
 use App\Models\Investor;
 use App\Models\Plan;
+use App\Models\PlanSubscription;
 use App\Models\Vendor;
 use App\Models\Setting;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Config;
@@ -16,56 +18,53 @@ if (!function_exists('get_file')) {
             return asset($image);
         } else {
             return asset('assets/uploads/empty.png');
-     }
-}
-
-
-if (!function_exists('getKey')) {
-    function getKey(): array
-    {
-        $arr = [
-            'عرض',
-            'إنشاء',
-            'تحديث',
-            'حذف',
-        ];
-        return $arr;
-    }
-}
-
-
-if(!function_exists('getCreated')){
-
-    function getCreated($key){
-        $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
-        $vendors=Vendor::where('parent_id',$parentId)->get();
-       $vendors[] = Vendor::where('id',$parentId)->first();
-       $vendorIds=$vendors->pluck('id');
-
-
-
-        if($key=='Employee'){
-            $created=Vendor::where('parent_id',$parentId)->count();
-            return $created;
-         }  elseif($key=='Branch'){
-            $created=Branch::whereIn('vendor_id', $vendorIds)->count();
-            return $created;
         }
-        elseif($key=='Investor'){
-                $created=Investor::whereIn('Branch_id',Branch::whereIn('vendor_id',$vendorIds)->pluck('id'))->count();
+    }
+
+
+    if (!function_exists('getKey')) {
+        function getKey(): array
+        {
+            $arr = [
+                'عرض',
+                'إنشاء',
+                'تحديث',
+                'حذف',
+            ];
+            return $arr;
+        }
+    }
+
+
+    if (!function_exists('getCreated')) {
+
+        function getCreated($key)
+        {
+            $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
+            $vendors = Vendor::where('parent_id', $parentId)->get();
+            $vendors[] = Vendor::where('id', $parentId)->first();
+            $vendorIds = $vendors->pluck('id');
+
+
+            if ($key == 'Employee') {
+                $created = Vendor::where('parent_id', $parentId)->count();
                 return $created;
-            }elseif($key=='Order'){
+            } elseif ($key == 'Branch') {
+                $created = Branch::whereIn('vendor_id', $vendorIds)->count();
+                return $created;
+            } elseif ($key == 'Investor') {
+                $created = Investor::whereIn('Branch_id', Branch::whereIn('vendor_id', $vendorIds)->pluck('id'))->count();
+                return $created;
+            } elseif ($key == 'Order') {
                 // $created=Order::whereIn('Branch_id',$vendorIds))->count();
                 // return $created;  commented untill created order database
 
             }
         }
-     }
+    }
 
 
 }
-
-
 
 
 // check if vendor still in plan limit and plan is not expired
@@ -78,8 +77,12 @@ if (!function_exists('checkVendorPlanLimit')) {
         $parent = Vendor::where('id', $parentId)->first();
 
         $plan = Plan::where('id', $parent->plan_id)->first();
-
-        if ($plan) {
+        $planSubscription = PlanSubscription::where('vendor_id', $parentId)
+            ->where('plan_id', $parent->plan_id)
+            ->where('to', '>', Carbon::now())
+            ->where('status', 1)
+            ->exists();
+        if ($plan && $planSubscription) {
             $planDetails = $plan->details;
             if ($key == 'Investor') {
                 if ($planDetails->where('key', 'Investor')->first()->value > getCreated('Investor')) {
@@ -87,15 +90,13 @@ if (!function_exists('checkVendorPlanLimit')) {
                 } else {
                     return false;
                 }
-            }
-            elseif ($key == 'Employee') {
+            } elseif ($key == 'Employee') {
                 if ($planDetails->where('key', 'Employee')->first()->value > getCreated('Employee')) {
                     return true;
                 } else {
                     return false;
                 }
-            }
-            elseif ($key == 'Branch') {
+            } elseif ($key == 'Branch') {
                 if ($planDetails->where('key', 'Branch')->first()->value > getCreated('Branch')) {
                     return true;
                 } else {
@@ -113,7 +114,6 @@ if (!function_exists('checkVendorPlanLimit')) {
         return false;
     }
 }
-
 
 
 if (!function_exists('getAuthSetting')) {

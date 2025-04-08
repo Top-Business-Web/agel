@@ -55,9 +55,16 @@ class PlanService extends BaseService
 //
     public function store($data): \Illuminate\Http\JsonResponse
     {
-//        dd($data->all());
         $vendor = auth('vendor')->user();
         $data['vendor_id'] = $vendor->parent_id == null ? $vendor->id : $vendor->parent_id;
+        if ($vendor->plan_id != null) {
+            $oldPlan = $this->model->where('vendor_id', $data['vendor_id'])->where('status', 1)->first();
+            if ($oldPlan) {
+//                $oldPlan->update(['status' => 0]);
+                return response()->json(['status' => 500, 'message' => "لا يمكن الإشتراك في خطة جديدة قبل إنهاء الخطة السابقة"]);
+            }
+        }
+//        dd($data->all());
         $data['status'] = 0;
 
         $data['from'] = date('Y-m-d');
@@ -76,6 +83,9 @@ class PlanService extends BaseService
                 'to' => $data['to'],
                 'payment_receipt' => $data['payment_receipt'] ,
             ]);
+
+            $vendor['plan_id'] = $data['plan_id'];
+            $vendor->save();
             return response()->json(['status' => 200, 'message' => "تم الإشتراك في الخطة بنجاح"]);
         } catch (\Exception $e) {
             return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
