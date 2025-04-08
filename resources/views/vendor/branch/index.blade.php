@@ -15,7 +15,7 @@
                             <button class="btn btn-secondary btn-icon text-white addBtn">
                             <span>
                                 <i class="fe fe-plus"></i>
-                            </span> إضافة فرع جديد
+                            </span> إضافة  
                             </button>
                         @endcan
                         @can('delete_branch')
@@ -146,12 +146,7 @@
                     <div class="modal-body">
                         <p>هل انت متاكد من تعديل هذه السجلات</p>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">الغاء</button>
-                        <button type="button" class="btn btn-send" id="confirm-update-btn">تعديل</button>
 
-                        <p>هل أنت متأكد أنك تريد حذف هذا العنصر؟ <span id="title"></span></p>
-                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary"
                                 data-bs-dismiss="modal">أغلاق

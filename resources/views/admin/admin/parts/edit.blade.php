@@ -1,6 +1,6 @@
 <div class="modal-body">
-    <form id="updateForm" method="POST" enctype="multipart/form-data" action="{{route('admins.update',$admin->id)}}" >
-    @csrf
+    <form id="updateForm" method="POST" enctype="multipart/form-data" action="{{route('admins.update',$admin->id)}}">
+        @csrf
         @method('PUT')
         <input type="hidden" value="{{$admin->id}}" name="id">
         <div class="row">
@@ -16,7 +16,7 @@
                     <label for="phone" class="form-control-label">رقم الهاتف</label>
                     <div class="input-group">
                         <span class="input-group-text">+966</span>
-                        <input type="number" class="form-control" name="phone"  value="{{ substr($admin->phone, 4) }}" maxlength="11">
+                        <input type="number" class="form-control" name="phone" value="{{ substr($admin->phone, 4) }}" maxlength="11">
                     </div>
                 </div>
             </div>
@@ -50,8 +50,11 @@
 
             <div class="col-lg-9 col-12 d-flex flex-wrap justify-content-between mb-5">
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="selectAllPermissions">
-                    <label class="form-check-label" for="selectAllPermissions">اختيار الكل</label>
+
+                    <input class="form-check-input" type="checkbox" id="selectAllPermissions" name="selectAllPermissions">
+                    <label class="form-check-label" for="selectAllPermissions" id="selectAllLabel">اختيار الكل</label>
+
+
                 </div>
                 @foreach ($permissions->groupBy('parent_name') as $parent => $group)
             </div>
@@ -64,14 +67,14 @@
 
             <div class="col-lg-9 col-12 d-flex flex-wrap justify-content-between mb-5">
                 @foreach($group as $permission)
-                    <div class="form-check">
-                        <input class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
-                               value="{{ $permission->id }}" data-group="{{ $parent }}"
-                            {{ in_array($permission->id, $admin->permissions->pluck('id')->toArray()) ? 'checked' : '' }}>
-                        <label class="form-check-label">
-                            {{ getKey()[$loop->iteration-1] }}
-                        </label>
-                    </div>
+                <div class="form-check">
+                    <input class="form-check-input permission-checkbox" type="checkbox" name="permissions[]"
+                        value="{{ $permission->id }}" data-group="{{ $parent }}"
+                        {{ in_array($permission->id, $admin->permissions->pluck('id')->toArray()) ? 'checked' : '' }}>
+                    <label class="form-check-label">
+                        {{ getKey()[$loop->iteration-1] }}
+                    </label>
+                </div>
                 @endforeach
                 @endforeach
             </div>
@@ -85,10 +88,12 @@
 </div>
 <script>
     $('.dropify').dropify();
-    $('select').select2({dropdownParent: $('#editOrCreate .modal-content')});
+    $('select').select2({
+        dropdownParent: $('#editOrCreate .modal-content')
+    });
 
     // Select All Permissions
-    document.getElementById('selectAllPermissions').addEventListener('change', function () {
+    document.getElementById('selectAllPermissions').addEventListener('change', function() {
         document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
             checkbox.checked = this.checked;
         });
@@ -100,7 +105,7 @@
 
     // Ensure dependent checkboxes are checked
     document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
-        checkbox.addEventListener('change', function () {
+        checkbox.addEventListener('change', function() {
             let group = this.dataset.group;
             let secondPermission = document.querySelectorAll(`.permission-checkbox[data-group='${group}']`)[1];
             if (this.checked && secondPermission) {
@@ -108,5 +113,23 @@
             }
         });
     });
+
+
+   
 </script>
 
+<script>
+    function checkSelectAllStatus() {
+        const allPermissions = document.querySelectorAll('.permission-checkbox');
+        const selectAll = document.getElementById('selectAllPermissions');
+        const allChecked = Array.from(allPermissions).every(checkbox => checkbox.checked);
+        selectAll.checked = allChecked;
+    }
+
+    // بعد تحميل الصفحة شغّلها بعد تأخير بسيط
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(() => {
+            checkSelectAllStatus();
+        }, 200);
+    });
+</script>
