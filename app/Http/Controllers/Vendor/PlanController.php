@@ -24,10 +24,10 @@ class PlanController extends Controller
     }
 
 //    public function store(ObjRequest $data)
-    public function store()
+    public function store(Request $data)
     {
 //        $data = $data->validated();
-//        return $this->objService->store($data);
+        return $this->objService->store($data);
     }
 
     public function edit(ObjModel $client)
