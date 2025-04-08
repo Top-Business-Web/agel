@@ -353,3 +353,34 @@
     }
 
 </script>
+<script>
+    function checkVendorKeyLimit(btnSelector, key) {
+        setInterval(() => {
+            $.ajax({
+                url: `/check-vendor-limit/${key}`,
+                type: 'GET',
+                success: function (data) {
+                    console.log(data);
+                    let btn = $(btnSelector);
+                    if (!btn.length) return;
+
+                    if (!data.allowed) {
+                        btn.prop('disabled', true);
+                        btn.text('تم الوصول للحد الأقصى');
+                        btn.removeClass('btn-secondary').addClass('btn-danger');
+                    } else {
+                        console.log(data);
+
+                        btn.prop('disabled', false);
+                        btn.html(`<span><i class="fe fe-plus"></i></span> إضافة`);
+                        btn.removeClass('btn-danger').addClass('btn-secondary');
+                    }
+                },
+                error: function () {
+                    console.error("خطأ أثناء التحقق من الباقة");
+                }
+            });
+        }, 1000);
+    }
+</script>
+
