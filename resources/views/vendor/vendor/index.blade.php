@@ -196,6 +196,9 @@
         // Add Using Ajax
         showEditModal('{{route($route.'.edit',':id')}}');
         editScript();
+
+                checkVendorKeyLimit('.addBtn', 'Vendor');
+
     </script>
 
     <script>
