@@ -1,20 +1,21 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\StockController;
-use App\Http\Controllers\Vendor\CategoryController;
-use App\Http\Controllers\Vendor\ActivityLogController;
-use App\Http\Controllers\Vendor\AuthController;
 
-use App\Http\Controllers\Vendor\ClientController;
+use App\Http\Controllers\Vendor\AuthController;
 use App\Http\Controllers\Vendor\HomeController;
-use App\Http\Controllers\Vendor\BranchController;
-use App\Http\Controllers\Vendor\InvestorController;
 use App\Http\Controllers\Vendor\PlanController;
 use App\Http\Controllers\Vendor\RoleController;
-use App\Http\Controllers\Vendor\SettingController;
+use App\Http\Controllers\Vendor\BranchController;
+use App\Http\Controllers\Vendor\ClientController;
 use App\Http\Controllers\Vendor\VendorController;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Vendor\SettingController;
+use App\Http\Controllers\Vendor\CategoryController;
+use App\Http\Controllers\Vendor\InvestorController;
+use App\Http\Controllers\Vendor\ActivityLogController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
@@ -114,6 +115,10 @@ Route::group(
                 Route::resourceWithDeleteSelected('plans', PlanController::class, [
                     'as' => 'vendor'
                 ]);
+
+                #============================ orders ==================================
+                Route::resourceWithDeleteSelected('orders', OrderController::class);
+
             });
         });
 

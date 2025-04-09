@@ -72,7 +72,7 @@ if (!function_exists('checkVendorPlanLimit')) {
 
     function checkVendorPlanLimit($key)
     {
-        $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
+        $parentId = auth('vendor')->user()->parent_id == null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
 
         $parent = Vendor::where('id', $parentId)->first();
 
