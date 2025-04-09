@@ -77,12 +77,8 @@ if (!function_exists('checkVendorPlanLimit')) {
         $parent = Vendor::where('id', $parentId)->first();
 
         $plan = Plan::where('id', $parent->plan_id)->first();
-        $planSubscription = PlanSubscription::where('vendor_id', $parentId)
-            ->where('plan_id', $parent->plan_id)
-            ->where('to', '>', Carbon::now())
-            ->where('status', 1)
-            ->exists();
-        if ($plan && $planSubscription) {
+      
+        if ($plan) {
             $planDetails = $plan->details;
             if ($key == 'Investor') {
                 if ($planDetails->where('key', 'Investor')->first()->value > getCreated('Investor')) {
