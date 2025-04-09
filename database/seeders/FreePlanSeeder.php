@@ -29,17 +29,12 @@ class FreePlanSeeder extends Seeder
 
         PlanDetail::create([
             'plan_id' => $freePlan->id,
-            'key' => 'Employee',
+            'key' => 'Vendor',
             'value' => 10
 
         ]);
 
-        PlanDetail::create([
-            'plan_id' => $freePlan->id,
-            'key' => 'Branch',
-            'value' => 10
 
-        ]);
 
         PlanDetail::create([
             'plan_id' => $freePlan->id,

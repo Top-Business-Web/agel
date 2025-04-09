@@ -1,8 +1,8 @@
 @extends('vendor/layouts/master')
-@section('title') {{isset($setting) ? $setting->title : ''}} | Profile @endsection
+@section('title') {{isset($setting) ? $setting->title : ''}} |  الملف الشخصي @endsection
 
 @section('page_name')
-    My Profile
+    الملف الشخصي
 @endsection
 @section('content')
     <div class="row">
@@ -42,7 +42,7 @@
                         <div class="card-body">
                             <div id="profile-log-switch">
                                 <div class="media-heading">
-                                    <h5><strong>Personal Information</strong></h5>
+                                    <h5><strong>معلومات المستخدم</strong></h5>
                                 </div>
                                 <div class="table-responsive ">
                                     <table class="table row table-borderless">
