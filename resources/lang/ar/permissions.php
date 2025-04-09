@@ -17,6 +17,9 @@ return [
     'SETTING' => 'الإعدادات',
 
     'ACTIVITY_LOG' => 'سجل النشاط',
+    'CATEGORY' => 'التصنيفات',
+    'STOCK' => 'المخزون',
+
 
 
     //admin

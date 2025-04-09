@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             AreaSeeder::class,
             RegionSeeder::class
         ]);
+        // $this->call(PlanSeeder::class);
+        $this->call(FreePlanSeeder::class);
 
         $this->call(BranchSeeder::class);
         $this->call(InvestorSeeder::class);
@@ -28,6 +30,5 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(AdminSeeder::class);
         $this->call(VendorSeeder::class);
-        $this->call(FreePlanSeeder::class);
     }
 }

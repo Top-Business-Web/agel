@@ -10,6 +10,7 @@ case STOCK='stock';
 case VENDOR='vendor';
 case CLIENT='client';
 case INVESTOR='investor';
+case ORDER='order';
 case SETTING='setting';
 case ACTIVITY_LOG='activity_log';
     public function lang(): string

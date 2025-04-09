@@ -34,10 +34,10 @@ class AdminService extends BaseService
 
                         if ($admins->id != 1 || auth()->guard('admin')->user()->id == 1) {
                             $buttons .= '
-                            <button type="button" data-id="' . $admins->id . '" class="btn btn-pill btn-info-light editBtn">
+                            <button type="button" data-id="' . $admins->id . '" class="btn btn-pill btn-info-light editBtn" onclick="setTimeout(checkSelectAllStatus, 200)">
                             <i class="fa fa-edit"></i>
                             </button>
-                       ';
+                            ';
                         }
                     }
                     if (auth('admin')->user()->can('delete_admin')) {

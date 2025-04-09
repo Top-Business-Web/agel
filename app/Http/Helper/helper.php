@@ -46,7 +46,7 @@ if (!function_exists('get_file')) {
             $vendorIds = $vendors->pluck('id');
 
 
-            if ($key == 'Employee') {
+            if ($key == 'Vendor') {
                 $created = Vendor::where('parent_id', $parentId)->count();
                 return $created;
             } elseif ($key == 'Branch') {
@@ -72,7 +72,7 @@ if (!function_exists('checkVendorPlanLimit')) {
 
     function checkVendorPlanLimit($key)
     {
-        $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
+        $parentId = auth('vendor')->user()->parent_id == null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
 
         $parent = Vendor::where('id', $parentId)->first();
 
@@ -90,8 +90,8 @@ if (!function_exists('checkVendorPlanLimit')) {
                 } else {
                     return false;
                 }
-            } elseif ($key == 'Employee') {
-                if ($planDetails->where('key', 'Employee')->first()->value > getCreated('Employee')) {
+            } elseif ($key == 'Vendor') {
+                if ($planDetails->where('key', 'Vendor')->first()->value > getCreated('Vendor')) {
                     return true;
                 } else {
                     return false;

@@ -2,7 +2,7 @@
 @section('title') {{isset($setting) ? $setting->title : ''}} | Profile @endsection
 
 @section('page_name')
-    My Profile
+    الملف الشخصي
 @endsection
 @section('content')
     <div class="row">

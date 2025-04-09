@@ -114,13 +114,13 @@
                     </div>
                 </div>
 
-                <div class="col-2 d-flex align-items-center">
+                {{-- <div class="col-2 d-flex align-items-center">
                     <div class="form-group">
                         <label class="form-control-label">غير محدود</label>
                         <input type="hidden" name="plans[${planCount}][is_unlimited]" value="0">
                         <input type="checkbox" class="unlimited-checkbox" name="plans[${planCount}][is_unlimited]" value="1">
                     </div>
-                </div>
+                </div> --}}
 
                 <div class="col-2 d-flex align-items-center">
                     <button type="button" class="btn btn-danger remove-plan">

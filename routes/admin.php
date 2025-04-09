@@ -1,17 +1,18 @@
 <?php
 
-use App\Http\Controllers\Admin\ActivityLogController;
-use App\Http\Controllers\Admin\AdminController;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CityController;
-use App\Http\Controllers\Admin\CountryController;
-use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\PlanController;
-use App\Http\Controllers\Admin\PlanSubscriptionController;
 use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\VendorController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CountryController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\ActivityLogController;
+use App\Http\Controllers\Admin\PlanSubscriptionController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
@@ -131,4 +132,5 @@ Route::group(
 
 
 
-Route::resourceWithDeleteSelected('operations', \App\Http\Controllers\Admin\OperationController::class);
+// Route::resourceWithDeleteSelected('operations', \App\Http\Controllers\Admin\OperationController::class);
+
