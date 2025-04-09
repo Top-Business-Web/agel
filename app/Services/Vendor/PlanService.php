@@ -84,8 +84,8 @@ class PlanService extends BaseService
                 'payment_receipt' => $data['payment_receipt'] ,
             ]);
 
-            $vendor['plan_id'] = $data['plan_id'];
-            $vendor->save();
+            // $vendor['plan_id'] = $data['plan_id'];
+            // $vendor->save();   it will be pending until accept or reject
             return response()->json(['status' => 200, 'message' => "تم الإشتراك في الخطة بنجاح"]);
         } catch (\Exception $e) {
             return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
