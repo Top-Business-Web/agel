@@ -21,27 +21,61 @@ class PlanSubscriptionService extends BaseService
         if ($request->ajax()) {
             $obj = $this->getDataTable();
             return DataTables::of($obj)
+                ->editColumn('start_date', function ($obj) {
+                    return $obj->start_date;
+                })->editColumn('end_date', function ($obj) {
+                    return $obj->end_date;
+                })->addColumn('status', function ($obj) {
+                    $buttonClass = 'btn btn-lg btn-pill text-center w-100';
+                    if ($obj->plan_id == 1) {
+                        return '<button class="' . $buttonClass . ' btn-primary" disabled>الخطه المجانيه</button>';
+                    }elseif ($obj->status == 2) {
+                        return '<button class="' . $buttonClass . ' btn-danger" disabled>مرفوض</button>';
+                    }
+                    if ($obj->status == 1) {
+                        return '<button class="' . $buttonClass . ' btn-success" disabled>مفعل</button>';
+                    }elseif ($obj->status == 0) {
+                        return '<button class="' . $buttonClass . ' btn-danger" disabled>غير مفعل</button>';
+                    }elseif ($obj->status == 2) {
+                        return '<button class="' . $buttonClass . ' btn-danger" disabled>مرفوض</button>';
+                    }
+                    return '<button class="' . $buttonClass . ' btn-danger" disabled>غير مفعل</button>';
+                })
                 ->addColumn('action', function ($obj) {
                     $buttons = '';
-                    if (auth('admin')->user()->can('update_plan_subscription')) {
-                        $buttons = '
-                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                    ';
+//                    if (auth('admin')->user()->can('update_plan_subscription')) {
+//                        $buttons = '
+//                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
+//                            <i class="fa fa-edit"></i>
+//                        </button>
+//                    ';
+//                    }
+//                    if (auth('admin')->user()->can('delete_plan_subscription')) {
+//                        $buttons = '
+//                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
+//                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
+//                            <i class="fas fa-trash"></i>
+//                        </button>
+//                    ';
+//                    }
+                    if ($obj->plan_id != 1 && $obj->status == 0){
+                        $buttons .= '
+                        <button id="activateBtn" type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-success-light activateBtn" data-bs-toggle="modal" data-bs-target="#acceptActivateModal" data-id="' . $obj->id . '" data-title="' . $obj->name . '" data-vendor-name="'.$obj->getVendorNameAttribute().'">
+                            <i class="fa fa-check"></i> تفعيل
+                        </button>';
+                        $buttons .= '
+                        <button id="rejectBtn" type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-danger-light deactivateBtn" data-bs-toggle="modal" data-bs-target="#rejectActivateModal" data-id="' . $obj->id . '" data-title="' . $obj->name . '" data-vendor-name="'.$obj->getVendorNameAttribute().'">
+                            <i class="fa fa-times"></i> رفض
+                        </button>';
+                    }else{
                     }
-                    if (auth('admin')->user()->can('delete_plan_subscription')) {
-                        $buttons = '
-                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    ';
-                    }
+
                     return $buttons;
-                })->editColumn('status', function ($obj) {
-                    return $this->statusDatatable($obj);
-                })->editColumn('vendor_id', function ($obj) {
+                })
+//                ->editColumn('status', function ($obj) {
+//                    return $this->statusDatatable($obj);
+//                })
+                ->editColumn('vendor_id', function ($obj) {
                     return $obj->vendor->name;
                 })->editColumn('plan_id', function ($obj) {
                     return $obj->plan->name;
@@ -55,7 +89,7 @@ class PlanSubscriptionService extends BaseService
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
                 'bladeName' => "الإشتراكات",
-
+                'planSubscription' => $this->model->all(),
                 'route' => $this->route,
             ]);
         }
@@ -120,6 +154,36 @@ class PlanSubscriptionService extends BaseService
 
         } catch (\Exception $e) {
             return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
+        }
+    }
+
+    public function rejectSubscription($id): \Illuminate\Http\JsonResponse
+    {
+        try {
+
+            $this->model->where('id', $id)->update(['status' => 2]);
+            return response()->json(['status' => 200, 'message' => "تم رفض الإشتراك"]);
+
+        } catch (\Exception $e) {
+            return $this->responseMsgError();
+        }
+    }
+
+    public function activateSubscription($id): \Illuminate\Http\JsonResponse
+    {
+
+        try {
+
+            $planSubscription=$this->model->where('id', $id)->first();
+            $planSubscription->update([
+                'status' => 1,
+                'from'=> now(),
+                'to'=> now()->addDays($planSubscription->plan->period),
+            ]);
+            $this->vendorService->model->where('id', $planSubscription->vendor_id)->update(['plan_id' => $planSubscription->plan_id]);
+            return response()->json(['status' => 200, 'message' => "تم تفعيل الإشتراك بنجاح"]);
+        } catch (\Exception $e) {
+            return $this->responseMsgError();
         }
     }
 

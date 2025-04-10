@@ -51,9 +51,6 @@ Route::group(
             Route::POST('/reset-password/{email}', [AuthController::class, 'ResetPassword'])->name('admin.resetPassword');
 
 
-
-
-
             Route::group(['middleware' => 'auth:admin'], function () {
                 Route::get('/', function () {
                     return view('admin/index');
@@ -71,15 +68,15 @@ Route::group(
 
                 #============================ vendors ====================================
 //                    Route::resourceWithDeleteSelected('vendors', VendorController::class);
-                    Route::get('vendors/index', [VendorController::class, 'index'])->name('admin.vendors.index');
-                    Route::get('vendors/create', [VendorController::class, 'create'])->name('admin.vendors.create');
-                    Route::post('vendors', [VendorController::class, 'store'])->name('admin.vendors.store');
-                    Route::put('vendors/update', [VendorController::class, 'update'])->name('admin.vendors.update');
-                    Route::delete('vendors/{id}', [VendorController::class, 'destroy'])->name('admin.vendors.destroy');
-                    Route::get('vendors/{id}/edit', [VendorController::class, 'edit'])->name('admin.vendors.edit');
-                    Route::post('vendors/delete-selected', [VendorController::class, 'deleteSelected'])->name('admin.vendors.deleteSelected');
-                    Route::post('vendors/update-column-selected', [VendorController::class, 'updateColumnSelected'])->name('admin.vendors.updateColumnSelected');
-                    Route::get('getToDate', [PlanSubscriptionController::class, 'getToDate'])->name('getToDate');
+                Route::get('vendors/index', [VendorController::class, 'index'])->name('admin.vendors.index');
+                Route::get('vendors/create', [VendorController::class, 'create'])->name('admin.vendors.create');
+                Route::post('vendors', [VendorController::class, 'store'])->name('admin.vendors.store');
+                Route::put('vendors/update', [VendorController::class, 'update'])->name('admin.vendors.update');
+                Route::delete('vendors/{id}', [VendorController::class, 'destroy'])->name('admin.vendors.destroy');
+                Route::get('vendors/{id}/edit', [VendorController::class, 'edit'])->name('admin.vendors.edit');
+                Route::post('vendors/delete-selected', [VendorController::class, 'deleteSelected'])->name('admin.vendors.deleteSelected');
+                Route::post('vendors/update-column-selected', [VendorController::class, 'updateColumnSelected'])->name('admin.vendors.updateColumnSelected');
+                Route::get('getToDate', [PlanSubscriptionController::class, 'getToDate'])->name('getToDate');
 
                 #============================ Admin ====================================
                 Route::resourceWithDeleteSelected('admins', AdminController::class);
@@ -91,18 +88,18 @@ Route::group(
                 Route::resourceWithDeleteSelected('Plans', PlanController::class);
                 #============================ planSubscription ==================================
                 Route::resourceWithDeleteSelected('planSubscription', PlanSubscriptionController::class);
-                 #============================ settings ==================================
-                 Route::resourceWithDeleteSelected('planSubscription', PlanSubscriptionController::class);
-
-                 Route::get('settings', [SettingController::class,'index'])->name('settings.index');
-
+                #============================ settings ==================================
+                Route::resourceWithDeleteSelected('planSubscription', PlanSubscriptionController::class);
+                Route::post('subscriptions/reject/{id}', [PlanSubscriptionController::class, 'rejectSubscription'])->name('subscriptions.reject');
+                Route::post('subscriptions/activate/{id}', [PlanSubscriptionController::class, 'activateSubscription'])->name('subscriptions.activate');
+                Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
 
 
                 Route::get('my_profile', [AdminController::class, 'myProfile'])->name('myProfile');
                 Route::get('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
                 Route::get('setting', [SettingController::class, 'index'])->name('admin.setting');
-                Route::put('settings',action: [SettingController::class,'update'])->name('settings.update');
+                Route::put('settings', action: [SettingController::class, 'update'])->name('settings.update');
 
 
                 Route::POST('setting/store', [SettingController::class, 'store'])->name('setting.store');

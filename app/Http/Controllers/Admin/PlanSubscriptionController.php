@@ -61,14 +61,24 @@ class PlanSubscriptionController extends Controller
 
         if ($plan) {
             $from = $request->from ;
-            
+
             $fromDate = $request->from ? Carbon::parse($request->from) : Carbon::now();
-        
+
         $toDate = $fromDate->addDays($plan->period)->format('Y-m-d');
-    
+
             return response()->json(['status' => 200, 'data' => $toDate]);
         }
-    
+
         return response()->json(['status' => 400, 'message' => 'الخطة غير متاحة']);
+    }
+
+    public function rejectSubscription($id): \Illuminate\Http\JsonResponse
+    {
+        return $this->objService->rejectSubscription($id);
+
+    }
+    public function activateSubscription($id): \Illuminate\Http\JsonResponse
+    {
+        return $this->objService->activateSubscription($id);
     }
 }
