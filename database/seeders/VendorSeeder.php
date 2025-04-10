@@ -39,6 +39,7 @@ class VendorSeeder extends Seeder
         $b1 = Branch::create([
             'name' => 'الفرع الرئيسي',
             'is_main' => true,
+            'vendor_id' => $vendor->id
 
         ]);
 
@@ -67,6 +68,7 @@ class VendorSeeder extends Seeder
         $b2 = Branch::create([
             'name' => 'الفرع الرئيسي',
             'is_main' => true,
+            'vendor_id' => $ahmed->id
 
         ]);
 
@@ -95,12 +97,13 @@ class VendorSeeder extends Seeder
         $b3 = Branch::create([
             'name' => 'الفرع الرئيسي',
             'is_main' => true,
+            'vendor_id' => $mohamed->id
 
         ]);
 
         VendorBranch::create([
             'vendor_id' => $mohamed->id,
-            'branch_id' => $b3->id
+            'branch_id' => $b3->id,
         ]);
 
 
