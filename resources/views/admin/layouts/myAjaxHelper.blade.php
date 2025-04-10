@@ -174,8 +174,11 @@
                     } else if (data.status == 405) {
                         toastr.error(data.mymessage);
                     } else if (data.status == 250) {
-                        toastr.error('هذا المشترك مشترك بالفعل');
-                    } else {
+                        toastr.error('هذا المستخدم مشترك بالفعل في خطه');
+                    }else if (data.status == 251) {
+                        toastr.error('هذا المستخدم قدم طلب على خطه معينه الرجاء تحديث حالتها أولاً');
+                    }
+                    else {
                         toastr.error('حدث خطأ ما');
                     }
                     $('#addButton').html('إضافة').attr('disabled', false);
