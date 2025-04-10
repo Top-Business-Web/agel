@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('vendor_id')->constrained('vendors')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('plan_id')->constrained('plans')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('status')->default(0)->comment('0 => pending, 1 => active, 2 => rejected, 3 => expired');
+            $table->string('status')->default(0)->comment('0 => pending, 1 => active, 2 => rejected');
             $table->date('from')->nullable();
             $table->date('to')->nullable();
             $table->string('payment_receipt')->nullable();

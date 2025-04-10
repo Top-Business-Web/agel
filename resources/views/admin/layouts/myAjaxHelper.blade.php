@@ -26,7 +26,8 @@
             order: [
                 [0, "DESC"]
             ],
-            columnDefs: [{
+            columnDefs: [
+                {
                 targets: 0,
                 checkboxes: true,
                 render: function() {

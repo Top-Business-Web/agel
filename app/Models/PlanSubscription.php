@@ -16,4 +16,8 @@ class PlanSubscription extends BaseModel
     {
         return $this->belongsTo(Plan::class);
     }
+    public function getVendorNameAttribute()
+    {
+        return $this->vendor ? $this->vendor->name : '';
+    }
 }
