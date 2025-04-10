@@ -2,17 +2,25 @@
 
 namespace App\Services\Vendor;
 
-use App\Models\Order as ObjModel;
+use App\Models\Investor;
+use App\Models\VendorBranch;
 use App\Services\BaseService;
 use Yajra\DataTables\DataTables;
+use App\Models\Order as ObjModel;
+use App\Models\Vendor;
 
 class OrderService extends BaseService
 {
     protected string $folder = 'vendor/order';
     protected string $route = 'orders';
 
-    public function __construct(ObjModel $objModel)
-    {
+    public function __construct(
+        ObjModel $objModel,
+        protected CategoryService $categoryService,
+        protected BranchService $branchService,
+        protected VendorBranch $vendorBranch,
+        protected Investor $investor
+    ) {
         parent::__construct($objModel);
     }
 
@@ -47,8 +55,28 @@ class OrderService extends BaseService
 
     public function create()
     {
+        $auth = auth('vendor')->user();
+        $branches = [];
+        if ($auth->parent_id == null) {
+            $branches = $this->branchService->model->apply()->whereIn('vendor_id', [$auth->parent_id, $auth->id])->where('name', "!=", 'الفرع الرئيسي')->get();
+        } else {
+            $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
+            $branches = $this->branchService->model->apply()->whereIn('id', $branchIds)->where('name', "!=", 'الفرع الرئيسي')->get();
+        }
+
         return view("{$this->folder}/parts/create", [
             'storeRoute' => route("{$this->route}.store"),
+            'categories' => $this->categoryService->model->where('vendor_id', $auth->parent_id ?? $auth->id)->get(),
+            'investors' => $this->investor->whereIn('branch_id', $branches->pluck('id'))->get(),
+            'categories' => $this->categoryService->model->where('vendor_id', $auth->parent_id ?? $auth->id)->get(),
+            'branches' => $branches,
+            'profit_ratio'=> auth('vendor')->user()->parent_id == null ? auth('vendor')->user()->profit_ratio
+             :Vendor::where('id', auth('vendor')->user()->parent_id)->first()->profit_ratio,
+             
+             'is_profit_ratio_static'=> auth('vendor')->user()->parent_id == null ? auth('vendor')->user()->is_profit_ratio_static
+             :Vendor::where('id', auth('vendor')->user()->parent_id)->first()->is_profit_ratio_static
+
+
         ]);
     }
 
@@ -62,8 +90,7 @@ class OrderService extends BaseService
             $this->createData($data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception $e) {
-return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
-
+            return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
         }
     }
 
@@ -90,10 +117,8 @@ return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', '�
         try {
             $oldObj->update($data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
-
         } catch (\Exception $e) {
-return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
-
+            return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
         }
     }
 }

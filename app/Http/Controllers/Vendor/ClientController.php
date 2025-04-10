@@ -55,4 +55,8 @@ class ClientController extends Controller
     {
         return $this->objService->deleteSelected($request);
     }
+
+    public function getUserByNationalId(Request $request){
+        return $this->objService->getUserByNationalId($request);
+    }
 }

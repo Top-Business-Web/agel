@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
-use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Vendor\OrderController;
 use App\Http\Controllers\Admin\StockController;
 
 use App\Http\Controllers\Vendor\AuthController;
@@ -102,14 +102,16 @@ Route::group(
 
                 #============================ client ====================================
                 Route::resourceWithDeleteSelected('clients', ClientController::class);
+                Route::get('/get-user-by-national-id', [ClientController::class, 'getUserByNationalId'])->name('vendor.clients.getUserByNationalId'); //using for order
+
 
                 #============================ Stocks ==================================
                 Route::resourceWithDeleteSelected('stocks', StockController::class);
 
-                Route::group(['prefix' => 'stocks'], function () {
-                    Route::get('get-stocks', [StockController::class, 'getStocks'])->name('vendor.stocks.getStocks');
-                    Route::post('update-stocks', [StockController::class, 'updateStocks'])->name('vendor.stocks.updateStocks');
-                });
+                // Route::group(['prefix' => 'stocks'], function () {
+                //     Route::get('get-stocks', [StockController::class, 'getStocks'])->name('vendor.stocks.getStocks');
+                //     Route::post('update-stocks', [StockController::class, 'updateStocks'])->name('vendor.stocks.updateStocks');
+                // });
                 #============================ plans ==================================
 
                 Route::resourceWithDeleteSelected('plans', PlanController::class, [
@@ -118,6 +120,8 @@ Route::group(
 
                 #============================ orders ==================================
                 Route::resourceWithDeleteSelected('orders', OrderController::class);
+
+
 
             });
         });

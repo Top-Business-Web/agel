@@ -1,4 +1,4 @@
-@extends('Vendor/layouts/master')
+@extends('vendor/layouts/master')
 
 @section('title')
     {{ config()->get('app.name') }}
@@ -142,7 +142,7 @@
         <!-- update selected Modal -->
 
     </div>
-    @include('Vendor/layouts/myAjaxHelper')
+    @include('vendor/layouts/myAjaxHelper')
 @endsection
 @section('ajaxCalls')
     <script>
@@ -175,7 +175,7 @@
         showEditModal('{{route($route.'.edit',':id')}}');
         editScript();
 
-                checkVendorKeyLimit('.addBtn', 'Order');
+                {{-- checkVendorKeyLimit('.addBtn', 'Order'); --}}
 
     </script>
 

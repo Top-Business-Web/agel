@@ -19,12 +19,8 @@ class DatabaseSeeder extends Seeder
             AreaSeeder::class,
             RegionSeeder::class
         ]);
-        // $this->call(PlanSeeder::class);
         $this->call(FreePlanSeeder::class);
 
-        $this->call(BranchSeeder::class);
-        $this->call(InvestorSeeder::class);
-        $this->call(ClientSeeder::class);
 
         $this->call(RoleSeeder::class);
         $this->call(PermissionSeeder::class);

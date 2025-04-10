@@ -2,12 +2,14 @@
 
 namespace App\Services\Vendor;
 
-use App\Models\Client as ObjModel;
+use App\Models\Branch;
+use App\Models\Vendor;
+use Illuminate\Support\Str;
 use App\Models\VendorBranch;
 use App\Services\BaseService;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
+use App\Models\Client as ObjModel;
+use Illuminate\Support\Facades\Auth;
 
 class ClientService extends BaseService
 {
@@ -138,7 +140,36 @@ class ClientService extends BaseService
         try {
             $oldObj->update($data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
+        }
+    }
 
+
+    public function getUserByNationalId($data)
+    {
+        try {
+            $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
+            $vendors = Vendor::where('parent_id', $parentId)->get();
+            $vendors[] = Vendor::where('id', $parentId)->first();
+            $vendorIds = $vendors->pluck('id');
+
+            $obj = $this->model->where('national_id', $data['national_id'])
+            ->whereIn('Branch_id', Branch::whereIn('vendor_id', $vendorIds)->pluck('id'))->first();
+
+
+
+            if ($obj) {
+                return response()->json([
+                    'exists' => true,
+                    'user' => [
+                        'name' =>  $obj->name,
+                        'phone' =>  $obj->phone,
+                    ]
+                ]);
+            }
+
+            return response()->json(['exists' => false]);
         } catch (\Exception $e) {
             return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
         }
