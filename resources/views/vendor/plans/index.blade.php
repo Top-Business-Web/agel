@@ -58,7 +58,7 @@
                                     <div class="pricing-price">
 
                                         <p>
-                                            <span class="currency">${{$plan->price}}</span>
+                                            <span class="currency">{{$plan->price}} ريال سعودي</span>
                                             <span class="time"> شهرياً</span>
                                         </p>
                                     </div>
@@ -107,21 +107,31 @@
                                         </ul>
                                     </div>
                                 </div>
-
-                                @if($planSubscription->first()->plan_id == $plan->id)
-                                    <button type="button"
-                                            class="mt-4 btn btn-primary subscribe-btn"
-                                            data-plan-id="{{ $plan->id }}"
-                                            disabled>
-                                        الخطه الخاصة بك
-                                    </button>
-                                @elseif($planSubscription->first()->plan_id != $plan->id&&$planSubscription->first()->plan_id == 1 && $plan->id != 1)
-                                    <button type="button"
-                                            class="mt-4 btn btn-primary subscribe-btn"
-                                            data-plan-id="{{ $plan->id }}"
-                                    >
-                                        ترقيه
-                                    </button>
+                                @if($planSubscription== null)
+                                    @if($plan->id==1)
+                                        <button type="button"
+                                                class="mt-4 btn btn-primary subscribe-btn"
+                                                data-plan-id="{{ $plan->id }}"
+                                                disabled>
+                                            الخطه الخاصة بك
+                                        </button>
+                                    @else
+                                        <button type="button"
+                                                class="mt-4 btn btn-primary subscribe-btn"
+                                                data-plan-id="{{ $plan->id }}"
+                                        >
+                                            ترقيه
+                                        </button>
+                                    @endif
+                                @else
+                                    @if($planSubscription->plan_id == $plan->id)
+                                        <button type="button"
+                                                class="mt-4 btn btn-primary subscribe-btn"
+                                                data-plan-id="{{ $plan->id }}"
+                                                disabled>
+                                            الخطه الخاصة بك
+                                        </button>
+                                    @endif
                                 @endif
 
                             </div>
