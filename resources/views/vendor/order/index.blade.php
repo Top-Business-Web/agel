@@ -7,7 +7,6 @@
     {{ $bladeName }}
 @endsection
 @section('content')
-
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">
@@ -15,9 +14,9 @@
                     <h3 class="card-title"></h3>
                     <div class="">
                         <button class="btn btn-secondary btn-icon text-white addBtn">
-									<span>
-										<i class="fe fe-plus"></i>
-									</span> أضافه
+                            <span>
+                                <i class="fe fe-plus"></i>
+                            </span> أضافه
                         </button>
                         <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
                             <span><i class="fe fe-trash"></i></span> حذف المحدد
@@ -34,13 +33,13 @@
                         <!--begin::Table-->
                         <table class="table table-bordered text-nowrap w-100" id="dataTable">
                             <thead>
-                            <tr class="fw-bolder text-muted bg-light">
-                                <th class="min-w-25px">
-                                    <input type="checkbox" id="select-all">
-                                </th>
-                                <th class="min-w-25px">#</th>
-                                <th class="min-w-50px rounded-end">ألإجراءات </th>
-                            </tr>
+                                <tr class="fw-bolder text-muted bg-light">
+                                    <th class="min-w-25px">
+                                        <input type="checkbox" id="select-all">
+                                    </th>
+                                    <th class="min-w-25px">#</th>
+                                    <th class="min-w-50px rounded-end">ألإجراءات </th>
+                                </tr>
                             </thead>
                         </table>
                     </div>
@@ -50,7 +49,7 @@
 
         <!--Delete MODAL -->
         <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
+            aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -95,7 +94,7 @@
 
         <!-- delete selected Modal -->
         <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog"
-             aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+            aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -120,7 +119,7 @@
 
         <!-- update cols selected Modal -->
         <div class="modal fade" id="updateConfirmModal" tabindex="-1" role="dialog"
-             aria-labelledby="updateConfirmModalLabel" aria-hidden="true">
+            aria-labelledby="updateConfirmModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -146,40 +145,46 @@
 @endsection
 @section('ajaxCalls')
     <script>
-        var columns = [
-            {
+        var columns = [{
                 data: 'checkbox',
                 name: 'checkbox',
                 orderable: false,
                 searchable: false,
-                render: function (data, type, row) {
+                render: function(data, type, row) {
                     return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
                 }
             },
-            {data: 'id', name: 'id'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
+            {
+                data: 'id',
+                name: 'id'
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            },
         ]
-        showData('{{route($route.'.index')}}', columns);
+        showData('{{ route($route . '.index') }}', columns);
 
         // Delete Using Ajax
-        deleteScript('{{route($route.'.destroy',':id')}}');
-        deleteSelected('{{route($route.'.deleteSelected')}}');
+        deleteScript('{{ route($route . '.destroy', ':id') }}');
+        deleteSelected('{{ route($route . '.deleteSelected') }}');
 
-        updateColumnSelected('{{route($route.'.updateColumnSelected')}}');
+        updateColumnSelected('{{ route($route . '.updateColumnSelected') }}');
 
 
         // Add Using Ajax
-        showAddModal('{{route($route.'.create')}}');
+        showAddModal('{{ route($route . '.create') }}');
         addScript();
         // Add Using Ajax
-        showEditModal('{{route($route.'.edit',':id')}}');
+        showEditModal('{{ route($route . '.edit', ':id') }}');
         editScript();
 
-                {{-- checkVendorKeyLimit('.addBtn', 'Order'); --}}
-
+        checkVendorKeyLimit('.addBtn', 'Order');
     </script>
 
-       <script>
+    <script>
         // for status
         $(document).on('click', '.statusBtn', function() {
             let id = $(this).data('id');
@@ -214,12 +219,5 @@
                 }
             });
         });
-
-
-
     </script>
-
-
 @endsection
-
-
