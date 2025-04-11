@@ -28,6 +28,7 @@ class PlanService extends BaseService
             'route' => $this->route,
             'plans' => $this->plan->all(),
             'planDetails' => $this->planDetail,
+            'planSubscription' => $this->model->where('status',1)->where('vendor_id', auth('vendor')->user()->parent_id == null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id)->get(),
         ]);
     }
 
@@ -86,7 +87,7 @@ class PlanService extends BaseService
 
             // $vendor['plan_id'] = $data['plan_id'];
             // $vendor->save();   it will be pending until accept or reject
-            return response()->json(['status' => 200, 'message' => "تم الإشتراك في الخطة بنجاح"]);
+            return response()->json(['status' => 200, 'message' => "تم تقديم الطلب بنجاح"]);
         } catch (\Exception $e) {
             return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
         }

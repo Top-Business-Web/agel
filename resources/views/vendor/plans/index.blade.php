@@ -1,26 +1,33 @@
 @extends('vendor/layouts/master')
 
 @section('title')
-    Subscription Plans
+    الإشتراكات
 @endsection
 
-@section('page_name')
-    Plans
-@endsection
+
 
 @section('content')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <style>
         /* Your existing CSS styles */
-        p { color: black; }
-        .pricing .price-table { display: flex; flex-direction: column; }
+        p {
+            color: black;
+        }
+
+        .pricing .price-table {
+            display: flex;
+            flex-direction: column;
+        }
 
         @media screen and (max-width: 991.98px) {
-            .pricing .price-table { max-width: 370px; margin: 0 auto; }
+            .pricing .price-table {
+                max-width: 370px;
+                margin: 0 auto;
+            }
         }
 
         .pricing .price-table .pricing-panel {
@@ -44,11 +51,12 @@
                     <div class="col-12 col-lg-4 mb-4">
                         <div class="price-table">
                             <div class="pricing-panel">
+                                <div class="pricing-heading">
+                                    <h4 class="pricing-title" style="color: #0a0c0d">{{$plan->name}}</h4>
+                                </div>
                                 <div class="pricing-body">
-                                    <div class="pricing-heading">
-                                        <h4 class="pricing-title">{{$plan->name}}</h4>
-                                    </div>
                                     <div class="pricing-price">
+
                                         <p>
                                             <span class="currency">${{$plan->price}}</span>
                                             <span class="time"> شهرياً</span>
@@ -58,20 +66,64 @@
                                         <p>{{ $plan->description }}</p>
                                         <ul class="advantages-list list-unstyled">
                                             @foreach($planDetails->where('plan_id',$plan->id)->get() as $planDetail)
-                                                    @if($planDetail->is_unlimited == 1)
-                                                        <li style="color: #0a0c0d">يمكنك إضافة عدد غير محدود من {{$planDetail->key}}</li>
-                                                    @else
-                                                        <li style="color: #0a0c0d">يمكنك إضافة عدد {{$planDetail->value}} من {{ $planDetail->key }}</li>
-                                                    @endif
+                                                @if($planDetail->is_unlimited == 1)
+                                                    <li style="color: #0a0c0d">يمكنك إضافة عدد غير محدود
+                                                        من
+
+                                                        @if($planDetail->key=='Branch')
+                                                            الأفرع
+                                                        @elseif($planDetail->key=='Investor')
+                                                            المستثمرين
+                                                        @elseif($planDetail->key=='Category')
+                                                            التصنيفات
+                                                        @elseif($planDetail->key=='Order')
+                                                            الطلبات
+                                                        @elseif($planDetail->key=='Vendor')
+                                                            الموظفين
+                                                        @else
+                                                            {{ $planDetail->key }}
+                                                        @endif
+                                                    </li>
+                                                @else
+                                                    <li style="color: #0a0c0d">يمكنك إضافة عدد {{$planDetail->value}}
+                                                        من
+
+                                                        @if($planDetail->key=='Branch')
+                                                            الأفرع
+                                                        @elseif($planDetail->key=='Investor')
+                                                            المستثمرين
+                                                        @elseif($planDetail->key=='Category')
+                                                            التصنيفات
+                                                        @elseif($planDetail->key=='Order')
+                                                            الطلبات
+                                                        @elseif($planDetail->key=='Vendor')
+                                                            الموظفين
+                                                        @else
+                                                            {{ $planDetail->key }}
+                                                        @endif
+                                                    </li>
+                                                @endif
                                             @endforeach
                                         </ul>
                                     </div>
                                 </div>
-                                <button type="button"
-                                        class="mt-4 btn btn-primary subscribe-btn"
-                                        data-plan-id="{{ $plan->id }}">
-                                    إشتراك
-                                </button>
+
+                                @if($planSubscription->first()->plan_id == $plan->id)
+                                    <button type="button"
+                                            class="mt-4 btn btn-primary subscribe-btn"
+                                            data-plan-id="{{ $plan->id }}"
+                                            disabled>
+                                        الخطه الخاصة بك
+                                    </button>
+                                @elseif($planSubscription->first()->plan_id != $plan->id&&$planSubscription->first()->plan_id == 1 && $plan->id != 1)
+                                    <button type="button"
+                                            class="mt-4 btn btn-primary subscribe-btn"
+                                            data-plan-id="{{ $plan->id }}"
+                                    >
+                                        ترقيه
+                                    </button>
+                                @endif
+
                             </div>
                         </div>
                     </div>
@@ -81,14 +133,15 @@
     </section>
 
     <!-- Modal -->
-    <div class="modal fade" id="subscriptionModal" tabindex="-1" aria-labelledby="subscriptionModalLabel" aria-hidden="true">
+    <div class="modal fade" id="subscriptionModal" tabindex="-1" aria-labelledby="subscriptionModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <form id="subscriptionForm" enctype="multipart/form-data" method="POST">
                 @csrf
                 <input type="hidden" name="plan_id" id="selectedPlanId">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="subscriptionModalLabel">إتمام الاشتراك</h5>
+                        <h5 class="modal-title" id="subscriptionModalLabel">إرسال</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -114,9 +167,9 @@
 
 @section('ajaxCalls')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             // When subscribe button is clicked
-            $('.subscribe-btn').click(function() {
+            $('.subscribe-btn').click(function () {
                 const planId = $(this).data('plan-id');
                 $('#selectedPlanId').val(planId);
                 $('#subscriptionForm').attr('action', "{{ route('vendor.plans.store') }}");
@@ -124,7 +177,7 @@
             });
 
             // Form submission
-            $('#subscriptionForm').submit(function(e) {
+            $('#subscriptionForm').submit(function (e) {
                 e.preventDefault();
 
                 const formData = new FormData(this);
@@ -136,20 +189,20 @@
                     data: formData,
                     processData: false,
                     contentType: false,
-                    beforeSend: function() {
+                    beforeSend: function () {
                         $('button[type="submit"]').prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> جاري التحميل...');
                     },
-                    success: function(response) {
+                    success: function (response) {
                         $('#subscriptionModal').modal('hide');
                         toastr.success(response.message);
                         // Optional: redirect after success
                         // window.location.reload();
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         let errorMessage = 'حدث خطأ، يرجى المحاولة مرة أخرى';
                         if (xhr.responseJSON && xhr.responseJSON.errors) {
                             errorMessage = '';
-                            $.each(xhr.responseJSON.errors, function(key, value) {
+                            $.each(xhr.responseJSON.errors, function (key, value) {
                                 errorMessage += value + '<br>';
                             });
                         } else if (xhr.responseJSON && xhr.responseJSON.message) {
@@ -157,8 +210,10 @@
                         }
                         toastr.error(errorMessage);
                     },
-                    complete: function() {
+                    complete: function () {
                         $('button[type="submit"]').prop('disabled', false).html('حفظ وتقديم');
+                        $('#payment_receipt').val(''); // Clear the input field
+
                     }
                 });
             });
