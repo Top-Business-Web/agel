@@ -28,7 +28,7 @@ class PlanService extends BaseService
             'route' => $this->route,
             'plans' => $this->plan->all(),
             'planDetails' => $this->planDetail,
-            'planSubscription' => $this->model->where('status',1)->where('vendor_id', auth('vendor')->user()->parent_id == null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id)->get(),
+            'planSubscription' => $this->model->where('status',1)->where('vendor_id', auth('vendor')->user()->parent_id == null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id)->where('plan_id','!=',1)->first(),
         ]);
     }
 
