@@ -25,39 +25,10 @@ class PlanSubscriptionService extends BaseService
                     return $obj->start_date;
                 })->editColumn('end_date', function ($obj) {
                     return $obj->end_date;
-                })->addColumn('status', function ($obj) {
-                    $buttonClass = 'btn btn-lg btn-pill text-center w-100';
-                    if ($obj->plan_id == 1) {
-                        return '<button class="' . $buttonClass . ' btn-primary" disabled>الخطه المجانيه</button>';
-                    } elseif ($obj->status == 2) {
-                        return '<button class="' . $buttonClass . ' btn-danger" disabled>مرفوض</button>';
-                    }
-                    if ($obj->status == 1) {
-                        return '<button class="' . $buttonClass . ' btn-success" disabled>مفعل</button>';
-                    } elseif ($obj->status == 0) {
-                        return '<button class="' . $buttonClass . ' btn-danger" disabled>غير مفعل</button>';
-                    } elseif ($obj->status == 2) {
-                        return '<button class="' . $buttonClass . ' btn-danger" disabled>مرفوض</button>';
-                    }
-                    return '<button class="' . $buttonClass . ' btn-danger" disabled>غير مفعل</button>';
                 })
                 ->addColumn('action', function ($obj) {
                     $buttons = '';
-//                    if (auth('admin')->user()->can('update_plan_subscription')) {
-//                        $buttons = '
-//                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
-//                            <i class="fa fa-edit"></i>
-//                        </button>
-//                    ';
-//                    }
-//                    if (auth('admin')->user()->can('delete_plan_subscription')) {
-//                        $buttons = '
-//                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-//                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
-//                            <i class="fas fa-trash"></i>
-//                        </button>
-//                    ';
-//                    }
+
                     if ($obj->plan_id != 1 && $obj->status == 0) {
                         $buttons .= '
                         <button id="activateBtn" type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-success-light activateBtn" data-bs-toggle="modal" data-bs-target="#acceptActivateModal" data-id="' . $obj->id . '" data-title="' . $obj->name . '" data-vendor-name="' . $obj->getVendorNameAttribute() . '">
@@ -68,13 +39,17 @@ class PlanSubscriptionService extends BaseService
                             <i class="fa fa-times"></i> رفض
                         </button>';
                     } else {
+                        $buttonClass = 'btn btn-lg btn-pill text-center w-70';
+
+                        if ($obj->status == 2) {
+                            return '<button class="' . $buttonClass . ' btn-danger" disabled>مرفوض</button>';
+                        }
+                        return '<button class="' . $buttonClass . ' btn-success" disabled> مفعل</button>';
                     }
 
                     return $buttons;
                 })
-//                ->editColumn('status', function ($obj) {
-//                    return $this->statusDatatable($obj);
-//                })
+
                 ->editColumn('vendor_id', function ($obj) {
                     return $obj->vendor->name;
                 })->editColumn('plan_id', function ($obj) {

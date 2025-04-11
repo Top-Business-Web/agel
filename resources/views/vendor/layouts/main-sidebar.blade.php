@@ -50,9 +50,10 @@
             </li>
         @endcanany
 
-{{--        @canany(['create_plans', 'update_plans', 'delete_plans','read_plans'])--}}
+        {{-- @canany(['create_plans', 'update_plans', 'delete_plans','read_plans']) --}}
 
-            <li class="{{ routeActive('vendor.plans.index') }}">
+
+        <li class="{{ routeActive('vendor.plans.index') }}">
                 <a class="slide-item {{ routeActive('vendor.plans.index') }}" style="margin-right:8px;"
                    href="{{ route('vendor.plans.index') }}">
                     <i class="fa fa-star side-menu__icon"></i> <!-- plans Icon -->
@@ -60,9 +61,9 @@
                 </a>
             </li>
 
-{{--        @endcanany--}}
+        {{-- @endcanany --}}
 
-        @canany(['create_order', 'update_order', 'delete_order','read_order'])
+          @canany(['create_order', 'update_order', 'delete_order','read_order'])
             <li class="{{ routeActive('order.index') }}">
                 <a class="slide-item {{ routeActive('orders.index') }}" style="margin-right:8px;"
                    href="{{ route('orders.index') }}">

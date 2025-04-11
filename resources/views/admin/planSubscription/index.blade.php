@@ -13,11 +13,11 @@
                 <div class="card-header">
                     <h3 class="card-title"></h3>
                     <div class="">
-                        <button class="btn btn-secondary btn-icon text-white addBtn">
+                        {{-- <button class="btn btn-secondary btn-icon text-white addBtn">
                             <span>
                                 <i class="fe fe-plus"></i>
                             </span> أضافه
-                        </button>
+                        </button> --}}
                         {{--                        <button class="btn btn-danger btn-icon text-white" id="bulk-delete">--}}
                         {{--                            <span><i class="fe fe-trash"></i></span> حذف المحدد--}}
                         {{--                        </button>--}}
@@ -39,7 +39,6 @@
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-25px">المكاتب</th>
                                 <th class="min-w-25px">الخطة</th>
-                                <th class="min-w-25px">الحاله</th>
                                 <th class="min-w-25px">من</th>
                                 <th class="min-w-25px">الى</th>
                                 <th class="min-w-25px">ايصال الدفع</th>
@@ -212,10 +211,7 @@
                 data: 'plan_id',
                 name: 'plan_id'
             },
-            {
-                data: 'status',
-                name: 'status'
-            },
+
             {
                 data: 'from',
                 name: 'from'
