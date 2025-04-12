@@ -24,6 +24,16 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="phnational_idone" class="form-control-label">رقم الهويه</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" name="national_id" maxlength="10">
+                    </div>
+                </div>
+            </div>
+
             <div class="col-6">
                 <div class="form-group">
                     <label for="branch_id" class="form-control-label">الفرع</label>

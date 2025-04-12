@@ -13,9 +13,9 @@
                     <div class="">
                         @can('create_investor')
                             <button class="btn btn-secondary btn-icon text-white addBtn">
-                            <span>
-                                <i class="fe fe-plus"></i>
-                            </span> إضافة
+                                <span>
+                                    <i class="fe fe-plus"></i>
+                                </span> إضافة
                             </button>
                         @endcan
                         @can('delete_investor')
@@ -32,17 +32,19 @@
                         <!--begin::Table-->
                         <table class="table table-bordered text-nowrap w-100" id="dataTable">
                             <thead>
-                            <tr class="fw-bolder text-muted bg-light">
-                                <th class="min-w-25px">
-                                    <input type="checkbox" id="select-all">
-                                </th>
-                                <th class="min-w-25px">#</th>
-                                <th class="min-w-25px">الإسم</th>
-                                <th class="min-w-25px">البريد الإلكتروني</th>
-                                <th class="min-w-25px">رقم الهاتف</th>
-                                <th class="min-w-25px">الفرع</th>
-                                <th class="min-w-50px rounded-end">العمليات</th>
-                            </tr>
+                                <tr class="fw-bolder text-muted bg-light">
+                                    <th class="min-w-25px">
+                                        <input type="checkbox" id="select-all">
+                                    </th>
+                                    <th class="min-w-25px">#</th>
+                                    <th class="min-w-25px">الإسم</th>
+                                    <th class="min-w-25px">البريد الإلكتروني</th>
+                                    <th class="min-w-25px">رقم الهاتف</th>
+                                    <th class="min-w-25px">الفرع</th>
+                                    <th class="min-w-25px">رقم الهوية</th>
+
+                                    <th class="min-w-50px rounded-end">العمليات</th>
+                                </tr>
                             </thead>
                         </table>
                     </div>
@@ -52,7 +54,7 @@
 
         <!--Delete MODAL -->
         <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
+            aria-hidden="true">
             <div class="modal-dialog " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -115,7 +117,7 @@
 
         <!-- delete selected  Modal -->
         <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog"
-             aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+            aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -146,14 +148,14 @@
 @section('ajaxCalls')
     <script>
         var columns = [{
-            data: 'checkbox',
-            name: 'checkbox',
-            orderable: false,
-            searchable: false,
-            render: function (data, type, row) {
-                return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
-            }
-        },
+                data: 'checkbox',
+                name: 'checkbox',
+                orderable: false,
+                searchable: false,
+                render: function(data, type, row) {
+                    return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
+                }
+            },
             {
                 data: 'id',
                 name: 'id'
@@ -173,6 +175,10 @@
             {
                 data: 'branch_id',
                 name: 'branch_id'
+            },
+            {
+                data: 'national_id',
+                name: 'national_id'
             },
             {
                 data: 'action',
@@ -200,16 +206,13 @@
         checkVendorKeyLimit('.addBtn', 'Investor');
 
 
-        $(document).on('click', '.addStock', function () {
+        $(document).on('click', '.addStock', function() {
             let id = $(this).data('id');
             $('#modal-body').html(loader)
             $('#addStock').modal('show')
-            setTimeout(function () {
+            setTimeout(function() {
                 $('#modal-body1').load('{{ route('vendor.investors.addStock', ':id') }}'.replace(':id', id))
             }, 250)
         });
-
-
     </script>
-
 @endsection

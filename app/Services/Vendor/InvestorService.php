@@ -4,7 +4,7 @@ namespace App\Services\Vendor;
 
 use App\Models\Investor as ObjModel;
 use App\Models\VendorBranch;
-use App\Services\Admin\OperationService;
+use App\Services\Vendor\OperationService;
 use App\Services\Vendor\StockService;
 use App\Services\BaseService;
 use Illuminate\Http\JsonResponse;

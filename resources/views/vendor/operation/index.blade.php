@@ -1,4 +1,4 @@
-@extends('admin/layouts/master')
+@extends('vendor/layouts/master')
 
 @section('title')
     <!-- {{ config()->get('app.name') }} -->
@@ -142,7 +142,7 @@
         <!-- update selected Modal -->
 
     </div>
-    @include('admin/layouts/myAjaxHelper')
+    @include('vendor /layouts/myAjaxHelper')
 @endsection
 @section('ajaxCalls')
     <script>

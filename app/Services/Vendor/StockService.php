@@ -9,7 +9,7 @@ use Yajra\DataTables\DataTables;
 use App\Models\Stock as ObjModel;
 use Illuminate\Http\JsonResponse;
 use App\Services\Vendor\BranchService;
-use App\Services\Admin\OperationService;
+use App\Services\Vendor\OperationService;
 use App\Services\Vendor\CategoryService;
 use App\Services\Vendor\InvestorService;
 
@@ -33,23 +33,31 @@ class StockService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $user = auth('vendor')->user();
-            $parentId = $user->parent_id ?? $user->id;
-            $obj = $this->categoryService->model->where('vendor_id', $parentId)->whereHas('stocks')->get();
 
-            return DataTables::of($obj)
-                ->editColumn('stocks', function ($obj) {
+            $objs = $this->model->whereIn('vendor_id', [auth('vendor')->user()->parent_id, auth('vendor')->user()->id])
+                ->with(['branch', 'category', 'investor', 'operations'])->get();
 
-
-                    $add= $obj->stocks->flatMap(function ($stock) {
-                        return $stock->operations->where('type', 1);
-                    })->sum('stock.quantity');
-
-                    $remove= $obj->stocks->flatMap(function ($stock) {
-                        return $stock->operations->where('type', 0);
-                    })->sum('stock.quantity');
-                    $total = $add - $remove;
-                    return $total;
+            return DataTables::of($objs)
+                ->addColumn('operation', function ($obj) {
+                    return $obj->operations->where('stock_id', $obj->id)->first()->type == 1 ? "اضافه" : "انقاص";
+                })
+                ->addColumn('total_price', function ($obj) {
+                    $price = $obj->operations->where('stock_id', $obj->id)->first()->type == 1 ? $obj->total_price_add : $obj->total_price_sub;
+                    return $price;
+                })
+                ->addColumn('investor_national_id', function ($obj) {
+                    return $obj->investor_id ? $obj->investor->national_id : "";
+                }) ->editColumn('investor_id', function ($obj) {
+                    return $obj->investor_id ? $obj->investor->name : "";
+                })
+                ->editColumn('branch_id', function ($obj) {
+                    return $obj->branch_id ? $obj->branch->name : "";
+                })
+                ->editColumn('created_at', function ($obj) {
+                    return $obj->created_at->translatedFormat('j F Y الساعة g:i A');
+                })
+                ->editColumn('category_id', function ($obj) {
+                    return $obj->category_id ? $obj->category->name : "";
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Admin;
+namespace App\Services\Vendor;
 
 use App\Models\Operation as ObjModel;
 use App\Services\BaseService;
@@ -8,7 +8,7 @@ use Yajra\DataTables\DataTables;
 
 class OperationService extends BaseService
 {
-    protected string $folder = 'admin/operation';
+    protected string $folder = 'vendor/operation';
     protected string $route = 'operations';
 
     public function __construct(ObjModel $objModel)
