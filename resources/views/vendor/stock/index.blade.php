@@ -1,15 +1,26 @@
 @extends('vendor.layouts.master')
 
 @section('title')
+    أجل
+
 @endsection
 @section('page_name')
-    أجل
 @endsection
 @section('content')
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
+                    <div class="form-group">
+                        <label for="investorFilter">اختر المستثمر</label>
+                        <select id="investorFilter" class="form-control">
+                            <option value="">الكل</option>
+                            @foreach ($investors as $investor)
+                                <option value="{{ $investor->id }}">{{ $investor->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <h3 class="card-title"></h3>
                     <div class="">
                         @can('create_stock')
@@ -84,63 +95,68 @@
 @endsection
 @section('ajaxCalls')
     <script>
-        var columns = [{
-                data: 'checkbox',
-                name: 'checkbox',
-                orderable: false,
-                searchable: false,
-                render: function(data, type, row) {
-                    return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
+        let dataTable = $('#dataTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '{{ route($route . '.index') }}',
+                data: function(d) {
+                    d.investor_id = $('#investorFilter').val();
                 }
             },
-            {
-                data: 'id',
-                name: 'id'
-            },
-            {
-                data: 'investor_id',
-                name: 'investor_id'
-            },
-            {
-                data: 'investor_national_id',
-                name: 'investor_national_id'
-            },
-            {
-                data: 'branch_id',
-                name: 'branch_id'
-            },
-            {
-                data: 'quantity',
-                name: 'quantity'
-            },
+            columns: [{
+                    data: 'checkbox',
+                    name: 'checkbox',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row) {
+                        return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
+                    }
+                },
+                {
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'investor_id',
+                    name: 'investor_id'
+                },
+                {
+                    data: 'investor_national_id',
+                    name: 'investor_national_id'
+                },
+                {
+                    data: 'branch_id',
+                    name: 'branch_id'
+                },
+                {
+                    data: 'quantity',
+                    name: 'quantity'
+                },
+                {
+                    data: 'operation',
+                    name: 'operation'
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at'
+                },
+                {
+                    data: 'category_id',
+                    name: 'category_id'
+                },
+                {
+                    data: 'total_price',
+                    name: 'total_price'
+                },
+            ]
+        });
 
-            {
-                data: 'operation',
-                name: 'operation'
-            },
-            {
-                data: 'created_at',
-                name: 'created_at'
-            },
-
-            {
-                data: 'category_id',
-                name: 'category_id'
-            },
-
-
-
-            {
-                data: 'total_price',
-                name: 'total_price'
-            },
-
-
-
-
-        ]
-        showData('{{ route($route . '.index') }}', columns);
+        $('#investorFilter').on('change', function() {
+            dataTable.ajax.reload();
+        });
     </script>
+
     <script>
         $(document).on('click', '.addBtn', function() {
             let id = $(this).data('id');
