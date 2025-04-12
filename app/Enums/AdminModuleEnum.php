@@ -12,6 +12,9 @@ enum AdminModuleEnum: string
     case PLAN = 'plan';
     case PLAN_SUBSCRIPTION = 'plan_subscription';
     case INVESTOR = 'investor';
+    case CATEGORY = 'category';
+    case ORDER = 'order';
+    case CLIENT = 'client';
     case VENDOR = 'vendor';
     case SETTING= 'setting';
     case ACTIVITY_LOG = 'activity_log';
@@ -22,6 +25,9 @@ enum AdminModuleEnum: string
             self::PLAN => ' الخطط',
             self::PLAN_SUBSCRIPTION => ' الاشتراكات',
             self::INVESTOR => ' المستثمرين',
+            self::CATEGORY => ' الفئات',
+            self::ORDER => ' الطلبات',
+            self::CLIENT => ' العملاء',
             self::VENDOR => ' المكاتب',
             self::SETTING => 'إعدادات النظام',
             self::ACTIVITY_LOG => 'سجل النظام',

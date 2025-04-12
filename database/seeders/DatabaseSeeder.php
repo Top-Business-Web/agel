@@ -21,10 +21,14 @@ class DatabaseSeeder extends Seeder
         ]);
         $this->call(FreePlanSeeder::class);
 
-
         $this->call(RoleSeeder::class);
         $this->call(PermissionSeeder::class);
         $this->call(AdminSeeder::class);
         $this->call(VendorSeeder::class);
+
+        $this->call(BranchSeeder::class);
+        $this->call(VendorBranchSeeder::class);
+        $this->call(InvestorSeeder::class);
+        $this->call(ClientSeeder::class);
     }
 }

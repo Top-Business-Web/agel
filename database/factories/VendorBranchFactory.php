@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
-class BranchFactory extends Factory
+class VendorBranchFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,13 +17,8 @@ class BranchFactory extends Factory
         $faker = \Faker\Factory::create('ar_SA');
 
         return [
-            'name' => $faker->streetName(),
-            'region_id' => $this->faker->numberBetween(1,10),
-            'status' => $this->faker->boolean,
-            'is_main' => $this->faker->boolean(20),
-            'vendor_id' => $this->faker->NumberBetween(1,10),
+            'vendor_id' => \App\Models\Vendor::factory(),
+            'branch_id' => \App\Models\Branch::factory(),
         ];
     }
-
-
 }
