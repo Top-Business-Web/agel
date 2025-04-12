@@ -220,6 +220,8 @@ class InvestorService extends BaseService
         $addStock = $this->stockService->model->whereIn('id', $addOperations->pluck('stock_id'));
         $sellStock = $this->stockService->model->whereIn('id', $sellOperations->pluck('stock_id'));
 
+        // dd($addStock->sum('quantity') , $sellStock->sum('quantity'));
+
         // حساب القيم المجمعة
         return response()->json([
             'status' => 200,

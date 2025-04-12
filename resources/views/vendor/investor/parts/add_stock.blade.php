@@ -362,8 +362,8 @@
     }
 
     // تشغيل الفانكشن عند تغيير نوع العملية أو الصنف أو الفرع
-    $("#category_id, #branch_id").change(fetchAvailableStock);
-    $("#operation").change(function() {
+    $("#category_id, #branch_id").off("change").on("change", fetchAvailableStock);
+    $("#operation").off("change").on("change", function() {
         if ($(this).val() === "0") {
             fetchAvailableStock();
         } else {
