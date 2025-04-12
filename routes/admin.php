@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\InvestorController;
+use App\Http\Controllers\Admin\OrderController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Admin\AuthController;
@@ -94,6 +98,11 @@ Route::group(
                 Route::post('subscriptions/activate/{id}', [PlanSubscriptionController::class, 'activateSubscription'])->name('subscriptions.activate');
                 Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
 
+
+                Route::get('investors', [InvestorController::class, 'index'])->name('admin.investors.index');
+                Route::get('clients', [ClientController::class, 'index'])->name('admin.clients.index');
+                Route::get('orders', [OrderController::class, 'index'])->name('admin.orders.index');
+                Route::get('categories', [CategoryController::class, 'index'])->name('admin.categories.index');
 
                 Route::get('my_profile', [AdminController::class, 'myProfile'])->name('myProfile');
                 Route::get('logout', [AuthController::class, 'logout'])->name('admin.logout');

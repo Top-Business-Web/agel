@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\AutoFillable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -12,8 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class Vendor extends Authenticatable implements JWTSubject
 {
-    use AutoFillable;
-    use HasRoles;
+    use AutoFillable , HasFactory ,HasRoles;
 
 
     protected $fillable = [];

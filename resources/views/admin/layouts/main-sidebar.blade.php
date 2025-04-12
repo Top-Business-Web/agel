@@ -110,7 +110,59 @@
             </li>
             <!-- setting Management Section -->
         @endcanany
-
+        {{--        @can(['create_vendor', 'read_vendor', 'update_vendor', 'delete_vendor','create_admin', 'read_admin', 'update_admin', 'delete_admin'])--}}
+        <!-- Main users Management Section -->
+        {{--            <li class="slide {{ arrRouteActive(['users.index', 'admins.index', 'admin.vendors.index']) }}">--}}
+        {{--                <a class="side-menu__item {{ arrRouteActive(['users.index', 'admins.index', 'vendors.index'], 'active') }}"--}}
+        {{--                   data-toggle="slide" href="#">--}}
+        {{--                    <i class="fa fa-user-cog side-menu__icon"></i> <!-- User Management Icon -->--}}
+        {{--                    <span class="side-menu__label">إدارة المستخدمين</span>--}}
+        {{--                    <i class="angle fa fa-angle-right"></i>--}}
+        {{--                </a>--}}
+        {{--                <ul class="slide-menu">--}}
+        @can(['read_investor'])
+            <!-- admins -->
+            <li class="{{ routeActive('admin.investors.index') }}">
+                <a class="slide-item {{ routeActive('admin.investors.index') }}" href="{{ route('admin.investors.index') }}">
+                    <i class="fas fa-user-tie side-menu__icon"></i> <!-- Admin Icon -->
+                    المستثمرين
+                </a>
+            </li>
+        @endcan
+        @can(['read_client'])
+            <!-- vendors -->
+            <li class="{{ routeActive('admin.clients.index') }}">
+                <a class="slide-item {{ routeActive('admin.clients.index') }}"
+                   href="{{ route('admin.clients.index') }}">
+                    <i class="fas fa-store side-menu__icon"></i> <!-- Vendor Icon -->
+                    العملاء
+                </a>
+            </li>
+        @endcan
+        @can(['read_order'])
+            <!-- vendors -->
+            <li class="{{ routeActive('admin.orders.index') }}">
+                <a class="slide-item {{ routeActive('admin.orders.index') }}"
+                   href="{{ route('admin.orders.index') }}">
+                    <i class="fas fa-store side-menu__icon"></i> <!-- Vendor Icon -->
+                    الطلبات
+                </a>
+            </li>
+        @endcan
+        @can(['read_category'])
+            <!-- vendors -->
+            <li class="{{ routeActive('admin.categories.index') }}">
+                <a class="slide-item {{ routeActive('admin.categories.index') }}"
+                   href="{{ route('admin.categories.index') }}">
+                    <i class="fas fa-store side-menu__icon"></i> <!-- Vendor Icon -->
+                    الأصناف
+                </a>
+            </li>
+        @endcan
+        {{--                </ul>--}}
+        {{--            </li>--}}
+        <!-- Main users Management Section -->
+        {{--        @endcanany--}}
         <li class="slide">
             <a class="side-menu__item {{ Route::currentRouteName() == 'admin.setting' ? 'active' : '' }}"
                href="{{ route('admin.setting') }}">

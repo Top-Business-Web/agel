@@ -15,4 +15,13 @@ class Investor extends BaseModel
         return $this->belongsTo(Branch::class, 'branch_id');
     }
 
+    public function vendor()
+    {
+        return Vendor::where('branch_id', $this->branch_id)->first();
+    }
+    public function office()
+    {
+        return Vendor::where('id',$this->vendor()->parent_id==null?$this->vendor()->id:$this->vendor()->parent_id)->first();
+    }
+
 }

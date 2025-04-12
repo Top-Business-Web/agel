@@ -112,5 +112,8 @@ class VendorSeeder extends Seeder
        $vendor->syncPermissions($permissions);
        $ahmed->syncPermissions($permissions);
        $mohamed->syncPermissions($permissions);
+
+        Vendor::factory()->count(10)->create();
+
     }
 }
