@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Admin;
+use App\Models\Branch;
 use App\Models\Setting;
 use App\Models\Vendor;
 use App\Observers\ActivityObserver;
@@ -36,8 +37,22 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Admin::observe(ActivityObserver::class);
-        Vendor::observe(ActivityObserver::class);
+        \App\Models\Admin::observe(ActivityObserver::class);
+        \App\Models\Vendor::observe(ActivityObserver::class);
+        \App\Models\Stock::observe(ActivityObserver::class);
+        \App\Models\Branch::observe(ActivityObserver::class);
+        \App\Models\Category::observe(ActivityObserver::class);
+        \App\Models\Client::observe(ActivityObserver::class);
+        \App\Models\Investor::observe(ActivityObserver::class);
+        \App\Models\Order::observe(ActivityObserver::class);
+        \App\Models\OrderInstallment::observe(ActivityObserver::class);
+        \App\Models\Plan::observe(ActivityObserver::class);
+        \App\Models\PlanDetail::observe(ActivityObserver::class);
+        \App\Models\PlanSubscription::observe(ActivityObserver::class);
+        \App\Models\VendorBranch::observe(ActivityObserver::class);
+
+
+
         App::setLocale('ar');
         LaravelLocalization::setLocale('ar');
 
