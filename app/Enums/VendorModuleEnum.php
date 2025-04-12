@@ -13,6 +13,7 @@ case INVESTOR='investor';
 case ORDER='order';
 case SETTING='setting';
 case ACTIVITY_LOG='activity_log';
+case PLANS='plans';
     public function lang(): string
 {
     return $this->value;
