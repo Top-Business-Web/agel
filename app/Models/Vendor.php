@@ -3,17 +3,18 @@
 namespace App\Models;
 
 use App\Traits\AutoFillable;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Tymon\JWTAuth\Contracts\JWTSubject;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
 class Vendor extends Authenticatable implements JWTSubject
 {
     use AutoFillable;
-    use HasRoles;
+    use HasApiTokens, HasFactory, Notifiable,HasRoles;
 
 
     protected $fillable = [];

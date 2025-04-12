@@ -12,6 +12,7 @@ class BaseModel extends Model
 
 
 
+
     protected static function booted()
     {
         static::addGlobalScope('status', function ($builder) {
