@@ -29,7 +29,9 @@ class ActivityObserver
         if (!$user) return;
 
         $tableName = $this->getTableNameInArabic($model->getTable());
-        $entityName = method_exists($model, 'name') ;
+
+        // جلب اسم الكيان إن وُجد
+        $entityName = $model->name ?? $model->title ?? '';
 
         $message = "قام {$user->name} بـ{$action} {$entityName} في جدول {$tableName}.";
 
@@ -40,6 +42,7 @@ class ActivityObserver
             'ip_address'    => request()->ip(),
         ]);
     }
+
 
 
 

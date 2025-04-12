@@ -20,7 +20,7 @@
                     <select class="form-control" name="category_id" id="category_id">
                         <option value="" selected disabled>اختر الصنف</option>
                         @foreach ($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -33,7 +33,7 @@
                     <select class="form-control" name="branch_id" id="branch_id">
                         <option value="" selected disabled>اختر الفرع</option>
                         @foreach ($branches as $branch)
-                        <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                            <option value="{{ $branch->id }}">{{ $branch->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -55,7 +55,8 @@
                     <label for="total_price_add" class="form-control-label">
                         السعر
                     </label>
-                    <input type="number" min="1" class="form-control" name="total_price_add" id="total_price_add">
+                    <input type="number" min="1" class="form-control" name="total_price_add"
+                        id="total_price_add">
                 </div>
             </div>
 
@@ -64,7 +65,8 @@
                     <label for="total_price_sub" class="form-control-label">
                         السعر
                     </label>
-                    <input type="number" min="1" class="form-control" name="total_price_sub" id="total_price_sub">
+                    <input type="number" min="1" class="form-control" name="total_price_sub"
+                        id="total_price_sub">
                 </div>
             </div>
 
@@ -72,7 +74,8 @@
                 <div class="form-group">
                     <label for="vendor_commission" class="form-control-label">أجمالي العمولة للمكتب
                     </label>
-                    <input type="number" min="1" class="form-control" name="vendor_commission" id="vendor_commission">
+                    <input type="number" min="1" class="form-control" name="vendor_commission"
+                        id="vendor_commission">
                 </div>
             </div>
             <div class="col-6">
@@ -97,17 +100,17 @@
         <div class="footer" id="addFooter"
             style="padding: 10px; display: flex; justify-content: space-between; margin: 20px 0;">
             <div class="text" style="display: flex; flex-direction: column;">
-                <span>الكميه  </span>
+                <span>الكميه </span>
                 <span id="quantity_display" style="text-align: center">0</span>
             </div>
             <div class="text" style="display: flex; flex-direction: column;">
-                <span>السعر الاجمالي  </span>
+                <span>السعر الاجمالي </span>
                 <span id="price_display" style="text-align: center">0</span>
             </div>
 
 
             <div class="text" style="display: flex; flex-direction: column;">
-                <span> العمولات  </span>
+                <span> العمولات </span>
                 <span id="commission_display" style="text-align: center">0</span>
             </div>
 
@@ -117,29 +120,29 @@
             </div>
 
             <div class="text" style="display: flex; flex-direction: column;">
-                <span>صافي السعر  </span>
+                <span>صافي السعر </span>
                 <span id="total_display" style="text-align: center">0</span>
             </div>
             <br>
 
             <div class="text" style="display: flex; flex-direction: column;">
-                <span>سعر الوحده  </span>
+                <span>سعر الوحده </span>
                 <span id="division_result" style="text-align: center">0</span>
             </div>
         </div>
         <div class="footer" id="subFooter" style="padding: 10px;">
             <div style="padding: 10px; display: flex; justify-content: space-between; margin: 20px 0;">
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span>الكميه  </span>
+                    <span>الكميه </span>
                     <span id="available_quantity" style="text-align: center">0</span>
                 </div>
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span>السعر الاجمالي  </span>
+                    <span>السعر الاجمالي </span>
                     <span id="total_price" style="text-align: center">0</span>
                 </div>
 
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span> السعر ناقص العموله  </span>
+                    <span> السعر ناقص العموله </span>
                     <span id="total_price_commission" style="text-align: center">0</span>
                 </div>
             </div>
@@ -147,11 +150,11 @@
             <div style="padding: 10px; display: flex; justify-content: space-evenly; margin: 20px 0;">
 
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span>الكميه السابقه  </span>
+                    <span>الكميه السابقه </span>
                     <span id="previous_quantity" style="text-align: center">0</span>
                 </div>
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span>السعر الاجمالي  </span>
+                    <span>السعر الاجمالي </span>
                     <span id="total_price_of_previous_quantity" style="text-align: center">0</span>
                 </div>
 
@@ -159,11 +162,11 @@
             </div>
             <div style="padding: 10px; display: flex; justify-content: space-evenly; margin: 20px 0;">
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span>الكميه المنقصه  </span>
+                    <span>الكميه المنقصه </span>
                     <span id="sub_quantity" style="text-align: center">0</span>
                 </div>
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span>السعر المتبقي  </span>
+                    <span>السعر المتبقي </span>
                     <span id="total_price_of_sub_quantity" style="text-align: center">0</span>
                 </div>
             </div>
@@ -174,7 +177,7 @@
                     <span id="final_quantity" style="text-align: center">0</span>
                 </div>
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span> الاجمالي  </span>
+                    <span> الاجمالي </span>
                     <span id="final_price" style="text-align: center">0</span>
                 </div>
             </div>
@@ -267,7 +270,7 @@
             // For subtraction operation
             let totalPriceSub = parseFloat($("#total_price_sub").val()) || 0;
             let finalQuantity = parseFloat($("#available_quantity").text()) - quantity || 0;
-            let finalPrice =  parseFloat($("#total_price").text())-totalPriceSub  || 0;
+            let finalPrice = parseFloat($("#total_price").text()) - totalPriceSub || 0;
 
             $("#sub_quantity").text(quantity);
             $("#total_price_of_sub_quantity").text(totalPriceSub);
@@ -288,7 +291,7 @@
 
 
     // add script
-    $(document).on('submit', '#addFormStock', function(e) {
+    $(document).off('submit', '#addFormStock').on('submit', '#addFormStock', function(e) {
         e.preventDefault();
         var formData = new FormData(this);
         var url = $('#addFormStock').attr('action');
@@ -299,7 +302,9 @@
             processData: false,
             contentType: false,
             beforeSend: function() {
-                $('#addButtonStock').html('<span class="spinner-border spinner-border-sm mr-2"></span> <span style="margin-left: 4px;">أنتظر قليلًا...</span>').attr('disabled', true);
+                $('#addButtonStock').html(
+                    '<span class="spinner-border spinner-border-sm mr-2"></span> <span style="margin-left: 4px;">أنتظر قليلًا...</span>'
+                    ).attr('disabled', true);
             },
             success: function(response) {
                 if (response.status === 200) {

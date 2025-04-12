@@ -44,6 +44,18 @@ class CategoryService extends BaseService
                     return $buttons;
                 })->editColumn('status', function ($obj) {
                     return $this->statusDatatable($obj);
+                })->editColumn('name', function ($obj) {
+
+
+                    $add = $obj->stocks->flatMap(function ($stock) {
+                        return $stock->operations->where('type', 1);
+                    })->sum('stock.quantity');
+
+                    $remove = $obj->stocks->flatMap(function ($stock) {
+                        return $stock->operations->where('type', 0);
+                    })->sum('stock.quantity');
+                    $total = $add - $remove;
+                    return $obj->name . '  ('. $total . ')';
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])

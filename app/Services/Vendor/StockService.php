@@ -9,9 +9,8 @@ use Yajra\DataTables\DataTables;
 use App\Models\Stock as ObjModel;
 use Illuminate\Http\JsonResponse;
 use App\Services\Vendor\BranchService;
-use App\Services\Admin\OperationService;
+use App\Services\Vendor\OperationService;
 use App\Services\Vendor\CategoryService;
-use App\Services\Vendor\InvestorService;
 
 class StockService extends BaseService
 {
@@ -24,7 +23,8 @@ class StockService extends BaseService
         protected BranchService   $branchService,
         protected VendorBranch    $vendorBranch,
         protected Investor        $investor,
-        protected OperationService $operationService
+        protected OperationService $operationService,
+        protected VendorService $vendorService
 
     ) {
         parent::__construct($objModel);
@@ -33,31 +33,50 @@ class StockService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $user = auth('vendor')->user();
-            $parentId = $user->parent_id ?? $user->id;
-            $obj = $this->categoryService->model->where('vendor_id', $parentId)->whereHas('stocks')->get();
 
-            return DataTables::of($obj)
-                ->editColumn('stocks', function ($obj) {
+            $objs = $this->model
+            ->whereIn('vendor_id', [auth('vendor')->user()->parent_id, auth('vendor')->user()->id]);
 
+        if ($request->filled('investor_id')) {
+            $objs = $objs->where('investor_id', $request->investor_id);
+        }
 
-                    $add= $obj->stocks->flatMap(function ($stock) {
-                        return $stock->operations->where('type', 1);
-                    })->sum('stock.quantity');
+        $objs = $objs->with(['branch', 'category', 'investor', 'operations'])->get();
 
-                    $remove= $obj->stocks->flatMap(function ($stock) {
-                        return $stock->operations->where('type', 0);
-                    })->sum('stock.quantity');
-                    $total = $add - $remove;
-                    return $total;
+            return DataTables::of($objs)
+                ->addColumn('operation', function ($obj) {
+                    return $obj->operations->where('stock_id', $obj->id)->first()->type == 1 ? "اضافه" : "انقاص";
+                })
+                ->addColumn('total_price', function ($obj) {
+                    $price = $obj->operations->where('stock_id', $obj->id)->first()->type == 1 ? $obj->total_price_add : $obj->total_price_sub;
+                    return $price;
+                })
+                ->addColumn('investor_national_id', function ($obj) {
+                    return $obj->investor_id ? $obj->investor->national_id : "";
+                }) ->editColumn('investor_id', function ($obj) {
+                    return $obj->investor_id ? $obj->investor->name : "";
+                })
+                ->editColumn('branch_id', function ($obj) {
+                    return $obj->branch_id ? $obj->branch->name : "";
+                })
+                ->editColumn('created_at', function ($obj) {
+                    return $obj->created_at->translatedFormat('j F Y الساعة g:i A');
+                })
+                ->editColumn('category_id', function ($obj) {
+                    return $obj->category_id ? $obj->category->name : "";
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
                 ->make(true);
         } else {
+            $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
+            $vendors = $this->vendorService->model->where('parent_id', $parentId)->get();
+            $vendors[] =  $this->vendorService->model->where('id', $parentId)->first();
+            $vendorIds = $vendors->pluck('id');
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
                 'route' => $this->route,
+                'investors' => $this->investor->whereIn('Branch_id', $this->branchService->model->whereIn('vendor_id', $vendorIds)->pluck('id'))->get(),
             ]);
         }
     }

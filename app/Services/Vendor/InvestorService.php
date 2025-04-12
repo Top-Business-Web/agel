@@ -4,7 +4,7 @@ namespace App\Services\Vendor;
 
 use App\Models\Investor as ObjModel;
 use App\Models\VendorBranch;
-use App\Services\Admin\OperationService;
+use App\Services\Vendor\OperationService;
 use App\Services\Vendor\StockService;
 use App\Services\BaseService;
 use Illuminate\Http\JsonResponse;
@@ -21,7 +21,8 @@ class InvestorService extends BaseService
                                 protected CategoryService  $categoryService,
                                 protected VendorBranch     $vendorBranch,
                                 protected StockService     $stockService,
-                                protected OperationService $operationService
+                                protected OperationService $operationService,
+                                protected VendorService $vendorService
     )
     {
         parent::__construct($objModel);
@@ -30,7 +31,11 @@ class InvestorService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $obj = $this->getDataTable();
+            $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
+            $vendors = $this->vendorService->model->where('parent_id', $parentId)->get();
+            $vendors[] =  $this->vendorService->model->where('id', $parentId)->first();
+            $vendorIds = $vendors->pluck('id');
+            $obj = $this->model->whereIn('Branch_id', $this->branchService->model->whereIn('vendor_id', $vendorIds)->pluck('id'));
             return DataTables::of($obj)
                 ->editColumn('branch_id', function ($obj) {
                     return $obj->branch->name;

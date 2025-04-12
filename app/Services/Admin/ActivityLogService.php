@@ -25,7 +25,7 @@ class ActivityLogService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $objs = $this->getDataTable();
+            $objs = $this->model->where('userable_type', get_class($this->adminObj))->get();
 
             return DataTables::of($objs)
                 ->addColumn('user', function ($obj) {

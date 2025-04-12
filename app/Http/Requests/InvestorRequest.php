@@ -29,6 +29,7 @@ class InvestorRequest extends FormRequest
             'email' => 'required|email',
             'phone' => 'required|numeric|digits:9',
             'branch_id' => 'required:exists:branches,id',
+            'national_id' => 'required|numeric|digits:10'
         ];
     }
 
@@ -39,6 +40,8 @@ class InvestorRequest extends FormRequest
             'email' => 'required|email',
             'phone' => 'required|numeric|digits:9',
             'branch_id' => 'required:exists:branches,id',
+            'national_id' => 'required|numeric|digits:10'
+
         ];
     }
 }

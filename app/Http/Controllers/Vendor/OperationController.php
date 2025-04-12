@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OperationRequest as ObjRequest;
 use App\Models\Operation as ObjModel;
-use App\Services\Admin\OperationService as ObjService;
+use App\Services\Vendor\OperationService as ObjService;
 use Illuminate\Http\Request;
 
 class OperationController extends Controller
