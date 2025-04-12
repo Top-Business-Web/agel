@@ -50,7 +50,7 @@ if (!function_exists('get_file')) {
                 $created = Vendor::where('parent_id', $parentId)->count();
                 return $created;
             } elseif ($key == 'Branch') {
-                $created = Branch::whereIn('vendor_id', $vendorIds)->count();
+                $created = Branch::whereIn('vendor_id', $vendorIds)->where('name', '!=', 'الفرع الرئيسي')->count();
                 return $created;
             } elseif ($key == 'Investor') {
                 $created = Investor::whereIn('Branch_id', Branch::whereIn('vendor_id', $vendorIds)->pluck('id'))->count();
@@ -77,7 +77,7 @@ if (!function_exists('checkVendorPlanLimit')) {
         $parent = Vendor::where('id', $parentId)->first();
 
         $plan = Plan::where('id', $parent->plan_id)->first();
-      
+
         if ($plan) {
             $planDetails = $plan->details;
             if ($key == 'Investor') {

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Vendor\StoreStockRequest as ObjRequest;
 use App\Models\Stock as ObjModel;
-use App\Services\Admin\StockService as ObjService;
+use App\Services\Vendor\StockService as ObjService;
 use Illuminate\Http\Request;
 
 class StockController extends Controller
@@ -43,12 +43,12 @@ class StockController extends Controller
     {
         return $this->objService->delete($id);
     }
-        public function updateColumnSelected(\Request $request)
+        public function updateColumnSelected(Request $request)
     {
         return $this->objService->updateColumnSelected($request,'status');
     }
 
-    public function deleteSelected(\Request $request){
+    public function deleteSelected(Request $request){
         return $this->objService->deleteSelected($request);
     }
 }

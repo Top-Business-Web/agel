@@ -97,7 +97,7 @@ class VendorService extends BaseService
     {
         foreach ($data['branch_ids'] as $branch) {
             $branchName=$this->branchService->model->where('id', $branch)->first()->name;
-            if ($branchName == 'الفرع الرئيسي' && count($data['branch_ids']) > 1) {
+            if ($branchName == 'الفرع الرئيسي' && count($data['branch_ids']) > 1) {
                 return response()->json([
                     'status' => 405,
                     'message' => "لا يمكن إضافة فرع رئيسي مع أفرع أخر",

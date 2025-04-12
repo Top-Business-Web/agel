@@ -73,13 +73,13 @@ class ClientService extends BaseService
         $branches = [];
         if ($auth->parent_id == null) {
             $branches = $this->branchService->model->whereIn('vendor_id', [$auth->parent_id, $auth->id])
-                ->where('name', '!=', 'الفرع الرئيسي')
+                ->where('name', '!=', 'الفرع الرئيسي')
                 ->where('is_main', '!=', 1)
                 ->get();
         } else {
             $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
             $branches = $this->branchService->model->whereIn('id', $branchIds)
-                ->where('name', '!=', 'الفرع الرئيسي')
+                ->where('name', '!=', 'الفرع الرئيسي')
                 ->where('is_main', '!=', 1)
                 ->get();
         }
@@ -108,13 +108,13 @@ class ClientService extends BaseService
         $branches = [];
         if ($auth->parent_id == null) {
             $branches = $this->branchService->model->whereIn('vendor_id', [$auth->parent_id, $auth->id])
-                ->where('name', '!=', 'الفرع الرئيسي')
+                ->where('name', '!=', 'الفرع الرئيسي')
                 ->where('is_main', '!=', 1)
                 ->get();
         } else {
             $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
             $branches = $this->branchService->model->whereIn('id', $branchIds)
-                ->where('name', '!=', 'الفرع الرئيسي')
+                ->where('name', '!=', 'الفرع الرئيسي')
                 ->where('is_main', '!=', 1)
                 ->get();
         }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Admin;
+namespace App\Services\Vendor;
 
 use App\Models\Investor;
 use App\Models\VendorBranch;
@@ -41,9 +41,15 @@ class StockService extends BaseService
                 ->editColumn('stocks', function ($obj) {
 
 
-                    return $obj->stocks->flatMap(function ($stock) {
+                    $add= $obj->stocks->flatMap(function ($stock) {
                         return $stock->operations->where('type', 1);
                     })->sum('stock.quantity');
+
+                    $remove= $obj->stocks->flatMap(function ($stock) {
+                        return $stock->operations->where('type', 0);
+                    })->sum('stock.quantity');
+                    $total = $add - $remove;
+                    return $total;
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -62,10 +68,10 @@ class StockService extends BaseService
         $auth = auth('vendor')->user();
         $branches = [];
         if ($auth->parent_id == null) {
-            $branches = $this->branchService->model->apply()->whereIn('vendor_id', [$auth->parent_id, $auth->id])->where('name', "!=", 'الفرع الرئيسي')->get();
+            $branches = $this->branchService->model->apply()->whereIn('vendor_id', [$auth->parent_id, $auth->id])->where('name', "!=", 'الفرع الرئيسي')->get();
         } else {
             $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
-            $branches = $this->branchService->model->apply()->whereIn('id', $branchIds)->where('name', "!=", 'الفرع الرئيسي')->get();
+            $branches = $this->branchService->model->apply()->whereIn('id', $branchIds)->where('name', "!=", 'الفرع الرئيسي')->get();
         }
         return view("{$this->folder}/parts/create", [
             'storeRoute' => route("{$this->route}.store"),

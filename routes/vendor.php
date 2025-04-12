@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Vendor\OrderController;
-use App\Http\Controllers\Admin\StockController;
+use App\Http\Controllers\Vendor\StockController;
 
 use App\Http\Controllers\Vendor\AuthController;
 use App\Http\Controllers\Vendor\HomeController;

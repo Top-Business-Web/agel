@@ -7,6 +7,7 @@ use App\Models\Branch;
 use App\Models\Vendor;
 use App\Models\VendorBranch;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class VendorSeeder extends Seeder
@@ -107,10 +108,9 @@ class VendorSeeder extends Seeder
         ]);
 
 
-        Role::where('name', '=', RoleEnum::PARTNER_ADMIN->label())->first();
-
-        $vendor->assignRole([6]);
-        $ahmed->assignRole([6]);
-        $mohamed->assignRole([6]);
+       $permissions=Permission::where('guard_name','vendor')->get();
+       $vendor->syncPermissions($permissions);
+       $ahmed->syncPermissions($permissions);
+       $mohamed->syncPermissions($permissions);
     }
 }

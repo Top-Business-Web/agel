@@ -187,8 +187,8 @@
     function officeManager(branches, selectElement) {
         // Get the selected options
         // let selectedOptions = Array.from(selectElement.selectedOptions).map(option => option.value);
-        // console.log(branches.find(branch => branch.name === 'الفرع الرئيسي').id, selectedOptions.includes(branches.find(branch => branch.name === 'الفرع الرئيسي').id));
-        if (branches.find(branch => branch.name === 'الفرع الرئيسي').id == selectElement.value) {
+        // console.log(branches.find(branch => branch.name === 'الفرع الرئيسي').id, selectedOptions.includes(branches.find(branch => branch.name === 'الفرع الرئيسي').id));
+        if (branches.find(branch => branch.name === 'الفرع الرئيسي').id == selectElement.value) {
             document.querySelector('.office-manager-container').style.display = 'block';
             document.querySelector('.office-manager-check').checked = true;
             document.querySelectorAll('.permission-checkbox').forEach(checkbox => {

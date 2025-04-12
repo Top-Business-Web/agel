@@ -58,10 +58,10 @@ class OrderService extends BaseService
         $auth = auth('vendor')->user();
         $branches = [];
         if ($auth->parent_id == null) {
-            $branches = $this->branchService->model->apply()->whereIn('vendor_id', [$auth->parent_id, $auth->id])->where('name', "!=", 'الفرع الرئيسي')->get();
+            $branches = $this->branchService->model->apply()->whereIn('vendor_id', [$auth->parent_id, $auth->id])->where('name', "!=", 'الفرع الرئيسي')->get();
         } else {
             $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
-            $branches = $this->branchService->model->apply()->whereIn('id', $branchIds)->where('name', "!=", 'الفرع الرئيسي')->get();
+            $branches = $this->branchService->model->apply()->whereIn('id', $branchIds)->where('name', "!=", 'الفرع الرئيسي')->get();
         }
 
         return view("{$this->folder}/parts/create", [
@@ -72,7 +72,7 @@ class OrderService extends BaseService
             'branches' => $branches,
             'profit_ratio'=> auth('vendor')->user()->parent_id == null ? auth('vendor')->user()->profit_ratio
              :Vendor::where('id', auth('vendor')->user()->parent_id)->first()->profit_ratio,
-             
+
              'is_profit_ratio_static'=> auth('vendor')->user()->parent_id == null ? auth('vendor')->user()->is_profit_ratio_static
              :Vendor::where('id', auth('vendor')->user()->parent_id)->first()->is_profit_ratio_static
 

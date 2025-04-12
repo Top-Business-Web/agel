@@ -187,7 +187,7 @@ class AuthService extends BaseService
             'region_id' => $vendor->region_id ?? null,
             'status' => 1,
             'is_main' => 1,
-            'name' => 'الفرع الرئيسي'
+            'name' => 'الفرع الرئيسي'
         ]);
 
 // Associate vendor with the created branch

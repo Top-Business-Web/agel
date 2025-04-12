@@ -182,8 +182,8 @@
     function officeManager(branches, selectElement) {
 //        // Get the selected options
 //        // let selectedOptions = Array.from(selectElement.selectedOptions).map(option => option.value);
-//        // console.log(branches.find(branch => branch.name === 'الفرع الرئيسي').id, selectedOptions.includes(branches.find(branch => branch.name === 'الفرع الرئيسي').id));
-//        if (branches.find(branch => branch.name === 'الفرع الرئيسي').id == selectElement.value) {
+//        // console.log(branches.find(branch => branch.name === 'الفرع الرئيسي').id, selectedOptions.includes(branches.find(branch => branch.name === 'الفرع الرئيسي').id));
+//        if (branches.find(branch => branch.name === 'الفرع الرئيسي').id == selectElement.value) {
 //            document.querySelector('.office-manager-container').style.display = 'block';
 //            document.querySelector('.office-manager-check').checked = true;
 //            document.querySelectorAll('.permission-checkbox').forEach(checkbox => {
@@ -210,8 +210,8 @@
 
     let selectedOptions = Array.from(selectElement.selectedOptions).map(option => option.value);
 
-    // ابحث عن الفرع الرئيسي
-    let mainBranch = branches.find(branch => branch.name === 'الفرع الرئيسي');
+    // ابحث عن الفرع الرئيسي
+    let mainBranch = branches.find(branch => branch.name === 'الفرع الرئيسي');
 
     if (mainBranch && selectedOptions.includes(mainBranch.id.toString())) {
         // إظهار زر مدير المكتب وتحديده

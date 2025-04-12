@@ -2,11 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Enums\RoleEnum;
 use App\Models\Admin;
-use Illuminate\Database\Seeder;
+use App\Enums\RoleEnum;
 use Illuminate\Support\Str;
+use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class AdminSeeder extends Seeder
 {
@@ -35,7 +36,7 @@ class AdminSeeder extends Seeder
             'code' => Str::random(11),
             'email' => 'ahmedesmaelgamal@gmail.com',
             'role_id' => 1,
-            'status' => 1,  
+            'status' => 1,
 
             'password' => bcrypt('admin'),
         ]);
@@ -52,9 +53,10 @@ class AdminSeeder extends Seeder
             'password' => bcrypt('admin'),
         ]);
 
-        $admin->assignRole([1]);
-        $ahmed->assignRole([1]);
-        $mohamed->assignRole([1]);
+        $permissions=Permission::where('guard_name','admin')->get();
+       $admin->syncPermissions($permissions);
+       $ahmed->syncPermissions($permissions);
+       $mohamed->syncPermissions($permissions);
     }
 
 }
