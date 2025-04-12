@@ -11,7 +11,6 @@ use Illuminate\Http\JsonResponse;
 use App\Services\Vendor\BranchService;
 use App\Services\Vendor\OperationService;
 use App\Services\Vendor\CategoryService;
-use App\Services\Vendor\InvestorService;
 
 class StockService extends BaseService
 {
@@ -24,7 +23,8 @@ class StockService extends BaseService
         protected BranchService   $branchService,
         protected VendorBranch    $vendorBranch,
         protected Investor        $investor,
-        protected OperationService $operationService
+        protected OperationService $operationService,
+        protected VendorService $vendorService
 
     ) {
         parent::__construct($objModel);
@@ -34,8 +34,14 @@ class StockService extends BaseService
     {
         if ($request->ajax()) {
 
-            $objs = $this->model->whereIn('vendor_id', [auth('vendor')->user()->parent_id, auth('vendor')->user()->id])
-                ->with(['branch', 'category', 'investor', 'operations'])->get();
+            $objs = $this->model
+            ->whereIn('vendor_id', [auth('vendor')->user()->parent_id, auth('vendor')->user()->id]);
+
+        if ($request->filled('investor_id')) {
+            $objs = $objs->where('investor_id', $request->investor_id);
+        }
+
+        $objs = $objs->with(['branch', 'category', 'investor', 'operations'])->get();
 
             return DataTables::of($objs)
                 ->addColumn('operation', function ($obj) {
@@ -63,9 +69,14 @@ class StockService extends BaseService
                 ->escapeColumns([])
                 ->make(true);
         } else {
+            $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
+            $vendors = $this->vendorService->model->where('parent_id', $parentId)->get();
+            $vendors[] =  $this->vendorService->model->where('id', $parentId)->first();
+            $vendorIds = $vendors->pluck('id');
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
                 'route' => $this->route,
+                'investors' => $this->investor->whereIn('Branch_id', $this->branchService->model->whereIn('vendor_id', $vendorIds)->pluck('id'))->get(),
             ]);
         }
     }
