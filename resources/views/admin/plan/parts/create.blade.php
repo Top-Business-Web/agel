@@ -95,7 +95,7 @@
                 <option value="Vendor">الموظفين</option>
                 <option value="Branch">الفروع</option>
                 <option value="Investor">المستثمرين</option>
-                <option value="Order">العمليات</option>
+                <option value="Order">الطلبات</option>
             </select>`;
 
             let newPlan = `

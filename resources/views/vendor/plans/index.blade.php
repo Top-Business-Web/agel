@@ -150,14 +150,25 @@
                 @csrf
                 <input type="hidden" name="plan_id" id="selectedPlanId">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="subscriptionModalLabel">إرسال</h5>
+                    <div class="modal-header" >
+{{--                        <h5 class="modal-title col" id="subscriptionModalLabel"></h5>--}}
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row">
 
                             <div class="col-12">
+                                <div class="form-group">
+                                    <label for="payment_receipt" class="form-control-label">يمكنك الدفع عن طريق الأرقام الآتيه :
+                                        @foreach($phones as $phone)
+                                            <span style="color: #0a0c0d"> {{$phone->value}}</span>
+                                            @if(!$loop->last)
+                                                ,
+                                            @endif
+
+                                        @endforeach
+                                    </label>
+                                </div>
                                 <div class="form-group">
                                     <label for="payment_receipt" class="form-control-label">صورة إيصال الدفع</label>
                                     <input type="file" class="dropify" name="payment_receipt" id="payment_receipt">
@@ -167,7 +178,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
-                        <button type="submit" class="btn btn-primary">حفظ وتقديم</button>
+                        <button type="submit" class="btn btn-primary" id="submitButton" disabled>إرسال</button>
                     </div>
                 </div>
             </form>
@@ -178,6 +189,12 @@
 @section('ajaxCalls')
     <script>
         $(document).ready(function () {
+            // Enable the submit button when an image is selected
+            $('#payment_receipt').on('change', function () {
+                const isFileSelected = $(this).val() !== '';
+                $('#submitButton').prop('disabled', !isFileSelected);
+            });
+
             // When subscribe button is clicked
             $('.subscribe-btn').click(function () {
                 const planId = $(this).data('plan-id');
@@ -205,8 +222,8 @@
                     success: function (response) {
                         $('#subscriptionModal').modal('hide');
                         toastr.success(response.message);
-                        // Optional: redirect after success
-                        // window.location.reload();
+                        // window.location.reload()
+
                     },
                     error: function (xhr) {
                         let errorMessage = 'حدث خطأ، يرجى المحاولة مرة أخرى';
@@ -223,7 +240,6 @@
                     complete: function () {
                         $('button[type="submit"]').prop('disabled', false).html('حفظ وتقديم');
                         $('#payment_receipt').val(''); // Clear the input field
-
                     }
                 });
             });
