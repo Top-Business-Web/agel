@@ -3,6 +3,7 @@
 @section('title')
 @endsection
 @section('page_name')
+    أجل
 @endsection
 @section('content')
     <div class="row">
