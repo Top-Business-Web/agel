@@ -43,12 +43,8 @@
                                 </th>
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-50px rounded-end">الإسم</th>
-                                <th class="min-w-50px rounded-end">البريد الإلكتروني</th>
-                                <th class="min-w-50px rounded-end">رقم الجوال</th>
-                                <th class="min-w-50px rounded-end">رقم الهوية</th>
-                                <th class="min-w-50px rounded-end">الحالة</th>
-                                <th class="min-w-50px rounded-end">الصورة</th>
-                                <th class="min-w-50px rounded-end">العمليات</th>
+                                <th class="min-w-50px rounded-end">الحاله</th>
+                                <th class="min-w-50px rounded-end">المكتب</th>
                             </tr>
                             </thead>
                         </table>
@@ -173,15 +169,12 @@
             },
             {data: 'id', name: 'id'},
             {data: 'name', name: 'name'},
-            {data: 'email', name: 'email'},
-            {data: 'phone', name: 'phone'},
-            {data: 'national_id', name: 'national_id'},
             {data: 'status', name: 'status'},
-            {data: 'image', name: 'image'},
+            {data: 'vendor', name: 'vendor'},
 
-            {
-                data: 'action', name: 'action', orderable: false, searchable: false
-            },
+            // {
+            //     data: 'action', name: 'action', orderable: false, searchable: false
+            // },
         ]
         showData('{{route($route.'.index')}}', columns);
 

@@ -43,6 +43,7 @@
                                 </th>
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-50px rounded-end">الإسم</th>
+                                <th class="min-w-50px rounded-end">رقم الهويه</th>
                                 <th class="min-w-50px rounded-end">الفرع</th>
                                 <th class="min-w-50px rounded-end">الموظف</th>
                                 <th class="min-w-50px rounded-end">المكتب</th>
@@ -170,6 +171,7 @@
             },
             {data: 'id', name: 'id'},
             {data: 'name', name: 'name'},
+            {data: 'national_id', name: 'national_id'},
             {data: 'branch', name: 'branch'},
             {data: 'vendor', name: 'vendor'},
             {data: 'office', name: 'office'},

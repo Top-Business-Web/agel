@@ -20,6 +20,7 @@ class InvestorFactory extends Factory
             'name' => $faker->name(),
             'email' => $this->faker->unique()->safeEmail(),
             'phone' => $this->faker->phoneNumber(),
+            'national_id' => $this->faker->unique()->numerify('###########'),
             'branch_id' => $this->faker->numberBetween(1, 10)
         ];
     }

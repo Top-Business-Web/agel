@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Investor extends BaseModel
 {
     use HasFactory;
+
     protected $fillable = [];
     protected $casts = [];
 
@@ -19,9 +20,10 @@ class Investor extends BaseModel
     {
         return Vendor::where('branch_id', $this->branch_id)->first();
     }
+
     public function office()
     {
-        return Vendor::where('id',$this->vendor()->parent_id==null?$this->vendor()->id:$this->vendor()->parent_id)->first();
+        return Vendor::where('id', $this->vendor()->parent_id == null ? $this->vendor()->id : $this->vendor()->parent_id)->first();
     }
 
 }

@@ -12,4 +12,9 @@ class Category extends BaseModel
         return $this->hasMany(Stock::class);
     }
 
+    public function office()
+    {
+        $vendor=Vendor::where('id', $this->vendor_id)->first();
+        return $vendor->parent_id == null ? $vendor->id : $vendor->parent_id;
+    }
 }

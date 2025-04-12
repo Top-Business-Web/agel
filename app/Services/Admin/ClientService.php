@@ -35,26 +35,28 @@ class ClientService extends BaseService
         if ($request->ajax()) {
             $obj = $this->model->all();
             return DataTables::of($obj)
-
                 ->addColumn('branch', function ($obj) {
-                    return $obj->branch->name;
+
+                    return  $obj->branch?$obj->branch->name:"غير مرتبط بفرع";
                 })
                 ->addColumn('office', function ($obj) {
-                    return $obj->office()->name;
+                    if ($obj->vendor()==null) {
+                        return "غير مرتبط بمكتب";
+                    }
+                    return $obj->office()?$obj->office()->name:"غير مرتبط بمكتب";
                 })
                 ->addColumn('name', function ($obj) {
-                    return $obj->name;
+                    return  $obj->name;
                 })
                 ->addColumn('vendor', function ($obj) {
-                    return $obj->vendor()->name;
+                    return  $obj->vendor()?$obj->vendor()->name:"غير مرتبط بموظف";
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
                 ->make(true);
         } else {
             return view($this->folder . '/index', [
-//                'createRoute' => route($this->route . '.create'),
-                'bladeName' => "المكاتب",
+                'bladeName' => "العملاء",
                 'route' => $this->route,
             ]);
         }

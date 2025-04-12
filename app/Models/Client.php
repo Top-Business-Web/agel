@@ -21,6 +21,7 @@ class Client extends BaseModel
 
     public function vendor()
     {
+
         return Vendor::where('branch_id', $this->branch_id)->first();
     }
     public function office()
