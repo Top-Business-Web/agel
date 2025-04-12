@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\City;
 use App\Models\Investor;
+use App\Models\VendorBranch;
 use Illuminate\Database\Seeder;
 
 class VendorBranchSeeder extends Seeder
@@ -15,6 +16,6 @@ class VendorBranchSeeder extends Seeder
      */
     public function run()
     {
-        Investor::factory()->count(10)->create();
+        VendorBranch::factory()->count(10)->create();
     }
 }

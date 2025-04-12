@@ -25,7 +25,7 @@ class InvestorService extends BaseService
     protected string $folder = 'admin/investor';
     protected string $route = 'admin.investors';
 
-    public function __construct(ObjModel $objModel, protected CityService $cityService, protected Region $region)
+    public function __construct(ObjModel $objModel)
     {
         parent::__construct($objModel);
     }
@@ -37,55 +37,28 @@ class InvestorService extends BaseService
             $obj = $this->model->all();
             return DataTables::of($obj)
                 ->addColumn('branch', function ($obj) {
-                    return $obj->branch->name;
+                    return  $obj->branch?$obj->branch->name:"غير مرتبط بفرع";
                 })
                 ->addColumn('office', function ($obj) {
-                    return $obj->office()->name;
+                    if ($obj->vendor()==null) {
+                        return "غير مرتبط بمكتب";
+                    }
+                    return $obj->office()?$obj->office()->name:"غير مرتبط بمكتب";
                 })
                 ->addColumn('name', function ($obj) {
-                    return $obj->name;
+                    return  $obj->name;
                 })
                 ->addColumn('vendor', function ($obj) {
-                    return $obj->vendor()->name;
+
+                    return  $obj->vendor()?$obj->vendor()->name:"غير مرتبط بموظف";
                 })
-//                ->addColumn('action', function ($obj) {
-//                    $buttons = '';
-//                    if (Auth::guard('admin')->user()->can('update_vendor')) {
-//                        $buttons .= '
-//                            <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
-//                            <i class="fa fa-edit"></i>
-//                            </button>
-//                       ';
-//                    }
-//                    if (Auth::guard('admin')->user()->can('delete_vendor')) {
-//                        $buttons .= '
-//
-//                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-//                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
-//                            <i class="fas fa-trash"></i>
-//                        </button>
-//
-//
-//                    ';
-//                    }
-//                    return $buttons;
-//                })
-//                ->editcolumn('status', function ($obj) {
-//
-//                    return $this->statusDatatable($obj);
-//                })->editColumn('image', function ($obj) {
-//                    return $this->imageDataTable($obj->image);
-//                })->editColumn('phone', function ($obj) {
-//                    $phone = str_replace('+', '', $obj->phone);
-//                    return $phone;
-//                })
+
                 ->addIndexColumn()
                 ->escapeColumns([])
                 ->make(true);
         } else {
             return view($this->folder . '/index', [
-//                'createRoute' => route($this->route . '.create'),
-                'bladeName' => "المكاتب",
+                'bladeName' => "المستثمرين",
                 'route' => $this->route,
             ]);
         }
