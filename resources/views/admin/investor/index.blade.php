@@ -15,6 +15,24 @@
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
+                    <div class="form-group row">
+                        <label for="branchFilter" class="col">اختر الفرع</label>
+                        <select id="branchFilter" class="form-control col">
+                            <option value="">الكل</option>
+                            @foreach ($branches as $branch)
+                                <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group row">
+                        <label for="officeFilter" class="col">اختر المكتب</label>
+                        <select id="officeFilter" class="form-control col">
+                            <option value="">الكل</option>
+                            @foreach ($offices as $office)
+                                <option value="{{ $office->id }}">{{ $office->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <h3></h3>
                     <h3 class="card-title"></h3>
                     <div class="">
@@ -38,14 +56,15 @@
                         <table class="table table-bordered text-nowrap w-100" id="dataTable">
                             <thead>
                             <tr class="fw-bolder text-muted bg-light">
-                                <th class="min-w-25px">
-                                    <input type="checkbox" id="select-all">
-                                </th>
+{{--                                <th class="min-w-25px">--}}
+{{--                                    <input type="checkbox" id="select-all">--}}
+{{--                                </th>--}}
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-50px rounded-end">الإسم</th>
                                 <th class="min-w-50px rounded-end">رقم الهويه</th>
+                                <th class="min-w-50px rounded-end">رقم الهاتف</th>
                                 <th class="min-w-50px rounded-end">الفرع</th>
-                                <th class="min-w-50px rounded-end">الموظف</th>
+{{--                                <th class="min-w-50px rounded-end">الموظف</th>--}}
                                 <th class="min-w-50px rounded-end">المكتب</th>
                             </tr>
                             </thead>
@@ -160,80 +179,42 @@
 @section('ajaxCalls')
     <script>
         var columns = [
-            {
-                data: 'checkbox',
-                name: 'checkbox',
-                orderable: false,
-                searchable: false,
-                render: function (data, type, row) {
-                    return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
-                }
-            },
             {data: 'id', name: 'id'},
             {data: 'name', name: 'name'},
             {data: 'national_id', name: 'national_id'},
+            {data: 'phone', name: 'phone'},
             {data: 'branch', name: 'branch'},
-            {data: 'vendor', name: 'vendor'},
             {data: 'office', name: 'office'},
-
-            // {
-            //     data: 'action', name: 'action', orderable: false, searchable: false
-            // },
         ]
-        showData('{{route($route.'.index')}}', columns);
 
-        {{--// Delete Using Ajax--}}
-        {{--deleteScript('{{route($route.'.destroy',':id')}}');--}}
-        {{--deleteSelected('{{route($route.'.deleteSelected')}}');--}}
+        // Initialize the DataTable
+        var dataTable = $('#dataTable').DataTable({
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: '{{route($route.'.index')}}',
+                data: function (d) {
+                    d.branch_id = $('#branchFilter').val();
+                    d.office_id = $('#officeFilter').val();
+                }
+            },
+            columns: columns,
+            order: [[0, 'desc']]
+        });
 
-        {{--updateColumnSelected('{{route($route.'.updateColumnSelected')}}');--}}
+        // Handle branch filter change
+        $('#branchFilter').on('change', function() {
+            // Reset office filter when branch changes
+            $('#officeFilter').val('');
+            dataTable.ajax.reload();
+        });
 
+        // Handle office filter change
+        $('#officeFilter').on('change', function() {
+            dataTable.ajax.reload();
+        });
 
-        {{--// Add Using Ajax--}}
-        {{--showAddModal('{{route($route.'.create')}}');--}}
-        {{--addScript();--}}
-        {{--// Add Using Ajax--}}
-        {{--showEditModal('{{route($route.'.edit',':id')}}');--}}
-        {{--editScript();--}}
     </script>
-
-{{--    <script>--}}
-{{--        // for status--}}
-{{--        $(document).on('click', '.statusBtn', function () {--}}
-{{--            let id = $(this).data('id');--}}
-
-{{--            var val = $(this).is(':checked') ? 1 : 0;--}}
-
-{{--            let ids = [id];--}}
-
-
-{{--            $.ajax({--}}
-{{--                type: 'POST',--}}
-{{--                url: '{{ route($route . '.updateColumnSelected') }}',--}}
-{{--                data: {--}}
-{{--                    "_token": "{{ csrf_token() }}",--}}
-{{--                    'ids': ids,--}}
-{{--                },--}}
-{{--                success: function (data) {--}}
-{{--                    if (data.status === 200) {--}}
-{{--                        if (val !== 0) {--}}
-{{--                            toastr.success('', "نشط");--}}
-{{--                        } else {--}}
-{{--                            toastr.warning('', "غير نشط ");--}}
-{{--                        }--}}
-{{--                    } else {--}}
-{{--                        toastr.error('Error', "حدث خطأ ما");--}}
-{{--                    }--}}
-{{--                },--}}
-{{--                error: function () {--}}
-{{--                    toastr.error('Error', "حدث خطأ ما");--}}
-{{--                }--}}
-{{--            });--}}
-{{--        });--}}
-
-
-{{--    </script>--}}
-
 @endsection
 
 
