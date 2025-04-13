@@ -19,7 +19,8 @@ class OrderService extends BaseService
         protected CategoryService $categoryService,
         protected BranchService $branchService,
         protected VendorBranch $vendorBranch,
-        protected Investor $investor
+        protected Investor $investor,
+        protected StockService $stockService
     ) {
         parent::__construct($objModel);
     }
@@ -78,6 +79,24 @@ class OrderService extends BaseService
 
 
         ]);
+    }
+
+
+    public function calculatePrices($request){
+
+        $stock=$this->stockService->model
+        ->where('investor_id', $request->investor_id)
+        ->where('branch_id', $request->branch_id)
+        ->where('category_id', $request->category_id)
+        ->whereHas('operations', function ($query) {
+            $query->where('type', 1);
+        })
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+          
+
+
     }
 
     public function store($data): \Illuminate\Http\JsonResponse

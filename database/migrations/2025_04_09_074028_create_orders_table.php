@@ -23,6 +23,9 @@ return new class extends Migration
 
             $table->integer('quantity');
             $table->double('required_to_pay');
+            $table->double('expected_price');
+            $table->double('Total_expected_commission');
+            $table->double('sell_diff');
             $table->double('delivered_price_to_client')->comment('دا بيقي ال required_to_pay  ونسبه الربح');
             $table->date('date');
             $table->tinyInteger('status')->default(0)->comment('0 = pending, 1 = active, 2 = rejected, 3 = expired'); // not sure
