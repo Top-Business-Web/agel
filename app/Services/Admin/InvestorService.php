@@ -2,22 +2,10 @@
 
 namespace App\Services\Admin;
 
-//use App\Models\Module;
-
-namespace App\Services\Admin;
-
-use App\Http\Middleware\Custom\vendor;
-use App\Models\Branch;
-use App\Models\Region;
 use App\Models\Investor as ObjModel;
 
-//use App\Models\VendorModule;
-use App\Models\VendorBranch;
 use App\Services\BaseService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Permission;
+
 use Yajra\DataTables\DataTables;
 
 class InvestorService extends BaseService
@@ -32,7 +20,6 @@ class InvestorService extends BaseService
 
     public function index($request)
     {
-//            dd($this->model->where('id',4)->first()->branch);
         if ($request->ajax()) {
             $obj = $this->model->all();
             return DataTables::of($obj)
@@ -40,17 +27,14 @@ class InvestorService extends BaseService
                     return  $obj->branch?$obj->branch->name:"غير مرتبط بفرع";
                 })
                 ->addColumn('office', function ($obj) {
-                    if ($obj->vendor()==null) {
-                        return "غير مرتبط بمكتب";
-                    }
-                    return $obj->office()?$obj->office()->name:"غير مرتبط بمكتب";
-                })
-                ->addColumn('name', function ($obj) {
-                    return  $obj->name;
-                })
-                ->addColumn('vendor', function ($obj) {
 
-                    return  $obj->vendor()?$obj->vendor()->name:"غير مرتبط بموظف";
+                    return $obj->branch?($obj->branch->vendor->parent_id==null? $obj->branch->vendor->name:$obj->branch->vendor->parent->name):"غير مرتبط بمكتب";
+                })
+
+                ->addColumn('vendor', function ($obj) {
+                    return $obj->branch?$obj->branch->vendor->name:"غير مرتبط بموظف";
+
+
                 })
 
                 ->addIndexColumn()

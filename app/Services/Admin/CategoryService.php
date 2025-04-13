@@ -2,23 +2,12 @@
 
 namespace App\Services\Admin;
 
-//use App\Models\Module;
-
-namespace App\Services\Admin;
-
-use App\Http\Middleware\Custom\vendor;
-use App\Models\Branch;
-use App\Models\Region;
-use App\Models\Category as ObjModel;
-
-//use App\Models\VendorModule;
-use App\Models\VendorBranch;
 use App\Services\BaseService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Permission;
+
 use Yajra\DataTables\DataTables;
+
+use App\Models\Category as ObjModel;
+use App\Models\Vendor;
 
 class CategoryService extends BaseService
 {
@@ -33,25 +22,21 @@ class CategoryService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $obj = $this->model->where('parent_id', null);
+            $obj = $this->getDataTable();
             return DataTables::of($obj)
 
-                ->editcolumn('status', function ($obj) {
-
-                    return $obj->status;
-                })
+         
                 ->addColumn('name', function ($obj) {
                     return $obj->name;
                 })
-                ->addColumn('office', function ($obj) {
-                    return $this->vendor->where('id',$obj->office())->first()->name ?? "غير مرتبط بمكتب";
+                ->addColumn('vendor', function ($obj) {
+                    return $this->vendor->parent_id == null ? $obj->vendor->name : $obj->vendor->parent->name;
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
                 ->make(true);
         } else {
             return view($this->folder . '/index', [
-//                'createRoute' => route($this->route . '.create'),
                 'bladeName' => "الأصناف",
                 'route' => $this->route,
             ]);

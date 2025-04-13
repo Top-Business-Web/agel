@@ -15,4 +15,10 @@ class Branch extends BaseModel
     {
         return $this->belongsTo(Region::class);
     }
+
+
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
 }
