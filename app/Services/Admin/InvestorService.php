@@ -6,7 +6,8 @@ namespace App\Services\Admin;
 
 namespace App\Services\Admin;
 
-use App\Http\Middleware\Custom\vendor;
+use App\Models\Investor;
+use App\Models\vendor;
 use App\Models\Branch;
 use App\Models\Region;
 use App\Models\Investor as ObjModel;
@@ -15,6 +16,7 @@ use App\Models\Investor as ObjModel;
 use App\Models\VendorBranch;
 use App\Services\BaseService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
@@ -25,44 +27,55 @@ class InvestorService extends BaseService
     protected string $folder = 'admin/investor';
     protected string $route = 'admin.investors';
 
-    public function __construct(ObjModel $objModel)
+    public function __construct(ObjModel $objModel, protected Vendor $vendor,protected Branch $branch)
     {
         parent::__construct($objModel);
     }
 
-    public function index($request)
+    public function index(Request $request)
     {
-//            dd($this->model->where('id',4)->first()->branch);
+        $query = $this->model->query();
+
+        // Apply filters
+        if ($request->branch_id) {
+            $query->where('branch_id', $request->branch_id);
+        }
+
+        if ($request->office_id) {
+            $query->where('branch_id', $request->office_id);
+        }
+
         if ($request->ajax()) {
-            $obj = $this->model->all();
-            return DataTables::of($obj)
+            return DataTables::of($query)
                 ->addColumn('branch', function ($obj) {
-                    return  $obj->branch?$obj->branch->name:"غير مرتبط بفرع";
+//                    return $obj->branch ? $obj->branch()->name : "غير مرتبط بفرع";
                 })
                 ->addColumn('office', function ($obj) {
-                    if ($obj->vendor()==null) {
-                        return "غير مرتبط بمكتب";
-                    }
-                    return $obj->office()?$obj->office()->name:"غير مرتبط بمكتب";
+//                    return $obj->office() ? $obj->office()->name : "غير مرتبط بمكتب";
                 })
                 ->addColumn('name', function ($obj) {
-                    return  $obj->name;
+                    return $obj->name;
                 })
                 ->addColumn('vendor', function ($obj) {
-
-                    return  $obj->vendor()?$obj->vendor()->name:"غير مرتبط بموظف";
+                    return $obj->vendor() ? $obj->vendor()->name : "غير مرتبط بموظف";
                 })
-
+                ->addColumn('national_id', function ($obj) {
+                    return $obj->national_id;
+                })
+                ->addColumn('phone', function ($obj) {
+                    return $obj->phone;
+                })
                 ->addIndexColumn()
                 ->escapeColumns([])
                 ->make(true);
-        } else {
-            return view($this->folder . '/index', [
-                'bladeName' => "المستثمرين",
-                'route' => $this->route,
-            ]);
         }
-    }
 
+        return view($this->folder . '/index', [
+            'bladeName' => "المستثمرين",
+            'branches' => Branch::all(),
+            'offices' => $this->vendor->where('parent_id', null)->get(),
+            'route' => $this->route,
+        ]);
+    }
 
 }

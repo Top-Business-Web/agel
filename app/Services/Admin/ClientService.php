@@ -6,7 +6,7 @@ namespace App\Services\Admin;
 
 namespace App\Services\Admin;
 
-use App\Http\Middleware\Custom\vendor;
+use App\Models\vendor;
 use App\Models\Branch;
 use App\Models\Region;
 use App\Models\Client as ObjModel;
@@ -25,16 +25,26 @@ class ClientService extends BaseService
     protected string $folder = 'admin/client';
     protected string $route = 'admin.clients';
 
-    public function __construct(ObjModel $objModel, protected CityService $cityService, protected Region $region)
+    public function __construct(ObjModel $objModel, protected CityService $cityService, protected Region $region,protected Vendor $vendor)
     {
         parent::__construct($objModel);
     }
 
     public function index($request)
     {
+
+        $query = $this->model->query();
+
+        // Apply filters
+        if ($request->branch_id) {
+            $query->where('branch_id', $request->branch_id);
+        }
+
+        if ($request->office_id) {
+            $query->where('branch_id', $request->office_id);
+        }
         if ($request->ajax()) {
-            $obj = $this->model->all();
-            return DataTables::of($obj)
+            return DataTables::of($query)
                 ->addColumn('branch', function ($obj) {
 
                     return  $obj->branch?$obj->branch->name:"غير مرتبط بفرع";
@@ -57,6 +67,8 @@ class ClientService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 'bladeName' => "العملاء",
+                'branches' => Branch::all(),
+                'offices' => $this->vendor->where('parent_id', null)->get(),
                 'route' => $this->route,
             ]);
         }
