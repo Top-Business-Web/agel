@@ -44,6 +44,32 @@
                 </div>
             </div>
 
+              <div class="col-6">
+                <div class="form-group">
+                    <label for="investor_id" class="form-control-label">المستثمر</label>
+                    <select class="form-control" name="investor_id" id="investor_id">
+                        <option value="" selected disabled>اختر المستثمر</option>
+                        @foreach ($investors as $investor)
+                            <option value="{{ $investor->id }}">{{ $investor->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+             <div class="col-6">
+                <div class="form-group">
+                    <label for="branch_id" class="form-control-label">الفرع</label>
+                    <select class="form-control" name="branch_id" id="branch_id">
+                        <option value="" selected disabled>اختر الفرع</option>
+                        @foreach ($branches as $branch)
+                            <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+
+
 
             <div class="col-6">
                 <div class="form-group">
@@ -60,7 +86,7 @@
                     <label for="expected_price" class="form-control-label">
                         سعر اعاده البيع المتوقع
                     </label>
-                    <input type="number" min="1" class="form-control" readonly id="expected_price">
+                    <input type="number" min="1" class="form-control" name="expected_price" readonly id="expected_price">
                 </div>
             </div>
 
@@ -69,7 +95,7 @@
                     <label for="Total_expected_commission" class="form-control-label">
                         اجمالي العموله المتوقعه
                     </label>
-                    <input type="number" min="1" class="form-control" readonly id="Total_expected_commission">
+                    <input type="number" min="1" class="form-control" name="Total_expected_commission" readonly id="Total_expected_commission">
                 </div>
             </div>
             <div class="col-6">
@@ -180,3 +206,40 @@
         });
     });
 </script>
+
+<script>
+    function fetchCalculatedFields() {
+        let categoryId = $('#category_id').val();
+        let investorId = $('#investor_id').val();
+        let quantity = $('#quantity').val();
+        let branchId = $('#branch_id').val();
+
+        // تأكد من أن كل القيم موجودة قبل تنفيذ الطلب
+        if (categoryId && investorId && quantity) {
+            $.ajax({
+                url: '{{ route("vendor.orders.calculatePrices") }}',
+                method: 'GET',
+                data: {
+                    category_id: categoryId,
+                    investor_id: investorId,
+                    quantity: quantity,
+                    branch_id: branchId
+                },
+                success: function(response) {
+                    $('#expected_price').val(response.expected_price);
+                    $('#Total_expected_commission').val(response.total_commission);
+                    $('#sell_diff').val(response.sell_diff);
+                    $('#delivered_price_to_client').val(response.delivered_price);
+                },
+                error: function() {
+                    toastr.error('حدث خطأ أثناء الحساب');
+                }
+            });
+        }
+    }
+
+    $(document).ready(function() {
+        $('#category_id, #investor_id, #quantity').on('change input', fetchCalculatedFields);
+    });
+</script>
+

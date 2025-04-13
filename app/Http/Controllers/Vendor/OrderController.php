@@ -51,4 +51,8 @@ class OrderController extends Controller
     public function deleteSelected(Request $request){
         return $this->objService->deleteSelected($request);
     }
+
+    public function calculatePrices(Request $request){
+        return $this->objService->calculatePrices($request);
+    }
 }

@@ -10,16 +10,16 @@ use App\Models\Investor;
 use App\Models\vendor;
 use App\Models\Branch;
 use App\Models\Region;
+
 use App\Models\Investor as ObjModel;
 
-//use App\Models\VendorModule;
-use App\Models\VendorBranch;
 use App\Services\BaseService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
+
 use Yajra\DataTables\DataTables;
 
 class InvestorService extends BaseService
@@ -45,6 +45,7 @@ class InvestorService extends BaseService
             $query->where('branch_id', $request->office_id);
         }
 
+
         if ($request->ajax()) {
             return DataTables::of($query)
                 ->addColumn('branch', function ($obj) {
@@ -55,7 +56,10 @@ class InvestorService extends BaseService
                 })
                 ->addColumn('name', function ($obj) {
                     return $obj->name;
+
+//                    return $obj->branch?($obj->branch->vendor->parent_id==null? $obj->branch->vendor->name:$obj->branch->vendor->parent->name):"غير مرتبط بمكتب";
                 })
+
                 ->addColumn('vendor', function ($obj) {
                     return $obj->vendor() ? $obj->vendor()->name : "غير مرتبط بموظف";
                 })
@@ -64,6 +68,7 @@ class InvestorService extends BaseService
                 })
                 ->addColumn('phone', function ($obj) {
                     return $obj->phone;
+
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])

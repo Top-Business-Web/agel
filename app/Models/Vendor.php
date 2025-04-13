@@ -34,6 +34,12 @@ class Vendor extends Authenticatable implements JWTSubject
     }
 
 
+    public function parent()
+    {
+        return $this->belongsTo(Vendor::class, 'parent_id');
+    }
+
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

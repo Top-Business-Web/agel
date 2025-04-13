@@ -3,6 +3,7 @@
 namespace App\Services\Vendor;
 
 use App\Models\Investor as ObjModel;
+use App\Models\StockDetail;
 use App\Models\VendorBranch;
 use App\Services\Vendor\OperationService;
 use App\Services\Vendor\StockService;
@@ -16,15 +17,16 @@ class InvestorService extends BaseService
     protected string $folder = 'vendor/investor';
     protected string $route = 'investors';
 
-    public function __construct(ObjModel                   $objModel,
-                                protected BranchService    $branchService,
-                                protected CategoryService  $categoryService,
-                                protected VendorBranch     $vendorBranch,
-                                protected StockService     $stockService,
-                                protected OperationService $operationService,
-                                protected VendorService $vendorService
-    )
-    {
+    public function __construct(
+        ObjModel                   $objModel,
+        protected BranchService    $branchService,
+        protected CategoryService  $categoryService,
+        protected VendorBranch     $vendorBranch,
+        protected StockService     $stockService,
+        protected OperationService $operationService,
+        protected VendorService $vendorService,
+        protected StockDetail $stockDetail
+    ) {
         parent::__construct($objModel);
     }
 
@@ -127,7 +129,7 @@ class InvestorService extends BaseService
             $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
             $branches = $this->branchService->model->apply()->whereIn('id', $branchIds)->where('name', "!=", 'الفرع الرئيسي')->get();
         }
-                return view("{$this->folder}/parts/edit", [
+        return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
             'branches' => $branches,
@@ -142,7 +144,6 @@ class InvestorService extends BaseService
             $data['phone'] = '+966' . $data['phone'];
             $this->updateData($id, $data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
-
         } catch (\Exception $e) {
             return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
         }
@@ -165,7 +166,6 @@ class InvestorService extends BaseService
             'categories' => $this->categoryService->model->where('vendor_id', $auth->parent_id ?? $auth->id)->get(),
             'branches' => $branches,
         ]);
-
     }
 
     public function storeStock($data): JsonResponse
@@ -182,6 +182,43 @@ class InvestorService extends BaseService
                 'type' => $data['operation_type'],
             ]);
 
+
+            // check if operation type is 1
+            if ($data['operation_type'] == 1) {
+
+
+                // store in stock details
+                for ($i = 0; $i < $data['quantity']; $i++) {
+                    $this->stockDetail->create([
+                        'stock_id' => $obj->id,
+                        'quantity' => 1,
+                        'price' => $data['price'] / $data['quantity'],
+                        'vendor_commission' => $data['vendor_commission'] / $data['quantity'],
+                        'investor_commission' => $data['investor_commission'] / $data['quantity'],
+                        'sell_diff' => $data['sell_diff'] / $data['quantity'],
+
+
+                    ]);
+                }
+            }else{
+                $stockDetails = $this->stockDetail->whereHas('stock', function ($query) use ($data) {
+                    $query->where('branch_id', $data['branch_id'])
+                          ->where('category_id', $data['category_id'])
+                          ->where('investor_id', $data['investor_id']);
+                })
+                ->orderBy('created_at', 'asc')
+                ->where('is_sold', 0)
+                ->OrderBy('id', 'asc')
+                ->take($data['quantity'])
+                ->get();
+
+                foreach ($stockDetails as $stockDetail) {
+                    $stockDetail->is_sold = 1;
+                    $stockDetail->save();
+                }
+            }
+
+
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception $e) {
             return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
@@ -191,7 +228,7 @@ class InvestorService extends BaseService
     private function prepareStockData($data)
     {
         if ($data['operation'] == 1) {
-            $data['price'] = ($data['total_price_add'] - ($data['vendor_commission'] + $data['investor_commission'] + $data['sell_diff'])) / $data['quantity'];
+            $data['price'] = ($data['total_price_add'] - ($data['vendor_commission'] + $data['investor_commission'] + $data['sell_diff']));
             $data['operation_type'] = 1;
         } else {
             $data['operation_type'] = 0;
@@ -235,6 +272,4 @@ class InvestorService extends BaseService
             'total_price_commission' => $addStock->sum('total_price_add') - ($addStock->sum('vendor_commission') + $addStock->sum('investor_commission') + $addStock->sum('sell_diff')) - $sellStock->sum('total_price_add') - ($sellStock->sum('vendor_commission') + $sellStock->sum('investor_commission') + $sellStock->sum('sell_diff')),
         ]);
     }
-
-
 }

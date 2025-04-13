@@ -12,118 +12,61 @@
         </li>
         <li class="slide">
             <a class="side-menu__item {{ Route::currentRouteName() == 'adminHome' ? 'active' : '' }}"
-               href="{{ route('adminHome') }}">
+                href="{{ route('adminHome') }}">
                 <i class="fa fa-home side-menu__icon"></i>
                 <span class="side-menu__label">الرئيسيه</span>
             </a>
         </li>
-        @can(['create_vendor', 'read_vendor', 'update_vendor', 'delete_vendor','create_admin', 'read_admin', 'update_admin', 'delete_admin'])
-            <!-- Main users Management Section -->
-            <li class="slide {{ arrRouteActive(['users.index', 'admins.index', 'admin.vendors.index']) }}">
-                <a class="side-menu__item {{ arrRouteActive(['users.index', 'admins.index', 'vendors.index'], 'active') }}"
-                   data-toggle="slide" href="#">
-                    <i class="fa fa-user-cog side-menu__icon"></i> <!-- User Management Icon -->
-                    <span class="side-menu__label">إدارة المستخدمين</span>
-                    <i class="angle fa fa-angle-right"></i>
+
+        @canany(['create_admin', 'read_admin', 'update_admin', 'delete_admin'])
+            <!-- admins -->
+            <li class="{{ routeActive('admins.index') }}">
+                <a class="slide-item {{ routeActive('admins.index') }}"style="margin-right:8px;"
+                    href="{{ route('admins.index') }}">
+                    <i class="fa fa-user-shield side-menu__icon"></i> <!-- المشرفين Icon -->
+                     المشرفين
                 </a>
-                <ul class="slide-menu">
-                    @canany(['create_admin', 'read_admin', 'update_admin', 'delete_admin'])
-                        <!-- admins -->
-                        <li class="{{ routeActive('admins.index') }}">
-                            <a class="slide-item {{ routeActive('admins.index') }}" href="{{ route('admins.index') }}">
-                                <i class="fas fa-user-tie side-menu__icon"></i> <!-- Admin Icon -->
-                                المشرفين
-                            </a>
-                        </li>
-                    @endcan
-                    @canany(['create_vendor', 'read_vendor', 'update_vendor', 'delete_vendor'])
-                        <!-- vendors -->
-                        <li class="{{ routeActive('admin.vendors.index') }}">
-                            <a class="slide-item {{ routeActive('admin.vendors.index') }}"
-                               href="{{ route('admin.vendors.index') }}">
-                                <i class="fas fa-store side-menu__icon"></i> <!-- Vendor Icon -->
-                                المكاتب
-                            </a>
-                        </li>
-                    @endcan
-                </ul>
             </li>
-            <!-- Main users Management Section -->
-        @endcanany
-        <!-- Main locations Management Section -->
-
-        <!-- Main locations Management Section -->
-
-        @canany(['create_country', 'read_country', 'update_country', 'delete_country','create_city', 'read_city', 'update_city', 'delete_city','create_plan', 'read_plan', 'update_plan', 'delete_plan','create_plan_subscription', 'read_plan_subscription', 'update_plan_subscription', 'delete_plan_subscription'])
-            <li
-                class="slide {{ arrRouteActive(['countries.index', 'cities.index', 'Plans.index', 'planSubscription.index']) }}">
-                <a class="side-menu__item {{ arrRouteActive(['countries.index', 'cities.index'], 'active') }}"
-                   data-toggle="slide" href="#">
-                    <i class="fas fa-map-marker-alt side-menu__icon"></i> <!-- Location Icon -->
-                    <span class="side-menu__label">إدارة الخطط</span>
-                    <i class="angle fa fa-angle-right"></i>
-                </a>
-                <ul class="slide-menu">
-
-                    @canany(['create_plan', 'read_plan', 'update_plan', 'delete_plan'])
-                        <li class="{{ routeActive('Plans.index') }}">
-                            <a class="slide-item {{ routeActive('Plans.index') }}" href="{{ route('Plans.index') }}">
-                                <i class="fas fa-clipboard-list side-menu__icon"></i> <!-- Plan Icon -->
-                                الخطة
-                            </a>
-                        </li>
-                    @endcanany
-                    @canany(['create_plan', 'read_plan', 'update_plan', 'delete_plan','create_plan_subscription', 'read_plan_subscription', 'update_plan_subscription', 'delete_plan_subscription'])
-                        <li class="{{ routeActive('planSubscription.index') }}">
-                            <a class="slide-item {{ routeActive('planSubscription.index') }}"
-                               href="{{ route('planSubscription.index') }}">
-                                <i class="fas fa-clipboard-list side-menu__icon"></i> <!-- Plan Icon -->
-                                الاشتراكات
-                            </a>
-                        </li>
-                    @endcanany
-                </ul>
-            </li>
-            <!-- Main locations Management Section -->
         @endcanany
 
-        <!-- setting Management Section -->
-        @canany(['read_activity_log', 'delete_activity_log'])
-            <li class="slide {{ arrRouteActive(['admin.activity_logs.index']) }}">
-                <a class="side-menu__item {{ arrRouteActive(['admin.activity_logs.index'], 'active') }}"
-                   data-toggle="slide" href="#">
-                    <i class="fas fa-cog side-menu__icon"></i> <!-- Settings Icon -->
-                    <span class="side-menu__label">إعدادات النظام</span>
-                    <i class="angle fa fa-angle-right"></i>
+        @canany(['create_vendor', 'read_vendor', 'update_vendor', 'delete_vendor'])
+            <!-- vendors -->
+            <li class="{{ routeActive('admin.vendors.index') }}">
+                <a class="slide-item {{ routeActive('admin.vendors.index') }}"style="margin-right:8px;"
+                    href="{{ route('admin.vendors.index') }}">
+                    <i class="fa fa-building side-menu__icon"></i> <!-- المكاتب Icon -->
+                    المكاتب
                 </a>
-                <ul class="slide-menu">
-
-                    <!-- سجل النظام -->
-                    <li class="{{ routeActive('admin.activity_logs.index') }}">
-                        <a class="slide-item {{ routeActive('admin.activity_logs.index') }}"
-                           href="{{ route('admin.activity_logs.index') }}">
-                            <i class="fas fa-heartbeat side-menu__icon"></i> <!-- Activity Icon -->
-                            سجل النظام
-                        </a>
-                    </li>
-                </ul>
             </li>
-            <!-- setting Management Section -->
         @endcanany
-        {{--        @can(['create_vendor', 'read_vendor', 'update_vendor', 'delete_vendor','create_admin', 'read_admin', 'update_admin', 'delete_admin'])--}}
-        <!-- Main users Management Section -->
-        {{--            <li class="slide {{ arrRouteActive(['users.index', 'admins.index', 'admin.vendors.index']) }}">--}}
-        {{--                <a class="side-menu__item {{ arrRouteActive(['users.index', 'admins.index', 'vendors.index'], 'active') }}"--}}
-        {{--                   data-toggle="slide" href="#">--}}
-        {{--                    <i class="fa fa-user-cog side-menu__icon"></i> <!-- User Management Icon -->--}}
-        {{--                    <span class="side-menu__label">إدارة المستخدمين</span>--}}
-        {{--                    <i class="angle fa fa-angle-right"></i>--}}
-        {{--                </a>--}}
-        {{--                <ul class="slide-menu">--}}
+
+        @canany(['create_plan', 'read_plan', 'update_plan', 'delete_plan'])
+            <li class="{{ routeActive('Plans.index') }}">
+                <a class="slide-item {{ routeActive('Plans.index') }}"style="margin-right:8px;"
+                    href="{{ route('Plans.index') }}">
+                    <i class="fa fa-th-large side-menu__icon"></i> <!-- الخطط Icon -->
+                    الخطط
+                </a>
+            </li>
+        @endcanany
+
+        @canany(['create_plan', 'read_plan', 'update_plan', 'delete_plan', 'create_plan_subscription',
+            'read_plan_subscription', 'update_plan_subscription', 'delete_plan_subscription'])
+            <li class="{{ routeActive('planSubscription.index') }}">
+                <a class="slide-item {{ routeActive('planSubscription.index') }}"style="margin-right:8px;"
+                    href="{{ route('planSubscription.index') }}">
+                    <i class="fa fa-credit-card side-menu__icon"></i> <!-- الاشتراكات Icon -->
+                    الاشتراكات
+                </a>
+            </li>
+        @endcanany
+
+
         @can(['read_investor'])
             <!-- admins -->
             <li class="{{ routeActive('admin.investors.index') }}">
-                <a class="slide-item {{ routeActive('admin.investors.index') }}" href="{{ route('admin.investors.index') }}">
+                <a class="slide-item {{ routeActive('admin.investors.index') }}"style="margin-right:8px;"
+                    href="{{ route('admin.investors.index') }}">
                     <i class="fas fa-user-tie side-menu__icon"></i> <!-- Admin Icon -->
                     المستثمرين
                 </a>
@@ -132,9 +75,9 @@
         @can(['read_client'])
             <!-- vendors -->
             <li class="{{ routeActive('admin.clients.index') }}">
-                <a class="slide-item {{ routeActive('admin.clients.index') }}"
-                   href="{{ route('admin.clients.index') }}">
-                    <i class="fas fa-store side-menu__icon"></i> <!-- Vendor Icon -->
+                <a class="slide-item {{ routeActive('admin.clients.index') }}"style="margin-right:8px;"
+                    href="{{ route('admin.clients.index') }}">
+                    <i class="fa fa-address-book side-menu__icon"></i> <!-- العملاء Icon -->
                     العملاء
                 </a>
             </li>
@@ -142,41 +85,47 @@
         @can(['read_order'])
             <!-- vendors -->
             <li class="{{ routeActive('admin.orders.index') }}">
-                <a class="slide-item {{ routeActive('admin.orders.index') }}"
-                   href="{{ route('admin.orders.index') }}">
-                    <i class="fas fa-store side-menu__icon"></i> <!-- Vendor Icon -->
+                <a class="slide-item {{ routeActive('admin.orders.index') }}"style="margin-right:8px;"
+                    href="{{ route('admin.orders.index') }}">
+                    <i class="fa fa-box side-menu__icon"></i> <!-- الطلبات Icon -->
                     الطلبات
                 </a>
             </li>
         @endcan
         @can(['read_category'])
-            <!-- vendors -->
             <li class="{{ routeActive('admin.categories.index') }}">
-                <a class="slide-item {{ routeActive('admin.categories.index') }}"
-                   href="{{ route('admin.categories.index') }}">
-                    <i class="fas fa-store side-menu__icon"></i> <!-- Vendor Icon -->
-                    الأصناف
+                <a class="slide-item {{ routeActive('admin.categories.index') }}"style="margin-right:8px;"
+                    href="{{ route('admin.categories.index') }}">
+                    <i class="fa fa-list-ul side-menu__icon"></i> <!-- الأصناف Icon -->
+                     الأصناف
                 </a>
             </li>
         @endcan
-        {{--                </ul>--}}
-        {{--            </li>--}}
-        <!-- Main users Management Section -->
-        {{--        @endcanany--}}
+          @canany(['read_activity_log', 'delete_activity_log'])
+            <!-- سجل النظام -->
+            <li class="{{ routeActive('admin.activity_logs.index') }}">
+                <a class="slide-item {{ routeActive('admin.activity_logs.index') }}"style="margin-right:8px;"
+                    href="{{ route('admin.activity_logs.index') }}">
+                    <i class="fa fa-history side-menu__icon"></i> <!-- سجل النظام Icon -->
+                    سجل النظام
+                </a>
+            </li>
+        @endcanany
+
         <li class="slide">
             <a class="side-menu__item {{ Route::currentRouteName() == 'admin.setting' ? 'active' : '' }}"
-               href="{{ route('admin.setting') }}">
-                <i class="fas fa-cogs side-menu__icon"></i>
-                <span class="side-menu__label"> الاعدادات</span>
+                href="{{ route('admin.setting') }}">
+                <i class="fa fa-cog side-menu__icon"></i> <!-- الإعدادات Icon --> <span class="side-menu__label">
+                    الاعدادات</span>
             </a>
         </li>
 
 
         <li class="slide">
             <a class="side-menu__item {{ Route::currentRouteName() == 'admin.logout' ? 'active' : '' }}"
-               href="{{ route('admin.logout') }}">
-                <i class="fa fa-lock side-menu__icon"></i>
-                <span class="side-menu__label">تسجيل خروج</span>
+                href="{{ route('admin.logout') }}">
+                <i class="fa fa-sign-out-alt side-menu__icon"></i> <!-- تسجيل خروج Icon --> <span
+                    class="side-menu__label">تسجيل خروج</span>
             </a>
         </li>
     </ul>

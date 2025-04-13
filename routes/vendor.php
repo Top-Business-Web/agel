@@ -108,10 +108,7 @@ Route::group(
                 #============================ Stocks ==================================
                 Route::resourceWithDeleteSelected('stocks', StockController::class);
 
-                // Route::group(['prefix' => 'stocks'], function () {
-                //     Route::get('get-stocks', [StockController::class, 'getStocks'])->name('vendor.stocks.getStocks');
-                //     Route::post('update-stocks', [StockController::class, 'updateStocks'])->name('vendor.stocks.updateStocks');
-                // });
+
                 #============================ plans ==================================
 
                 Route::resourceWithDeleteSelected('plans', PlanController::class, [
@@ -120,6 +117,8 @@ Route::group(
 
                 #============================ orders ==================================
                 Route::resourceWithDeleteSelected('orders', OrderController::class);
+                Route::get('/get-prices', [OrderController::class, 'calculatePrices'])->name('vendor.orders.calculatePrices'); //using for order
+
 
 
 
