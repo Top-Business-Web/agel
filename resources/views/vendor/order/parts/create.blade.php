@@ -229,7 +229,7 @@
                     $('#expected_price').val(response.expected_price);
                     $('#Total_expected_commission').val(response.total_commission);
                     $('#sell_diff').val(response.sell_diff);
-                    $('#delivered_price_to_client').val(response.delivered_price);
+                    $('#delivered_price_to_client').val(response.expected_price);
                 },
                 error: function() {
                     toastr.error('حدث خطأ أثناء الحساب');

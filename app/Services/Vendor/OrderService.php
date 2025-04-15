@@ -7,6 +7,7 @@ use App\Models\VendorBranch;
 use App\Services\BaseService;
 use Yajra\DataTables\DataTables;
 use App\Models\Order as ObjModel;
+use App\Models\StockDetail;
 use App\Models\Vendor;
 
 class OrderService extends BaseService
@@ -20,7 +21,8 @@ class OrderService extends BaseService
         protected BranchService $branchService,
         protected VendorBranch $vendorBranch,
         protected Investor $investor,
-        protected StockService $stockService
+        protected StockService $stockService,
+        protected StockDetail $stockDetail,
     ) {
         parent::__construct($objModel);
     }
@@ -94,7 +96,38 @@ class OrderService extends BaseService
         ->orderBy('created_at', 'desc')
         ->get();
 
-          
+        $stockDetails=$this->stockDetail
+        ->whereIn('stock_id', $stock->pluck('id'))
+        ->where('is_sold',0)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+        // sum stock details quantity to be == request quantity
+        $quantity=$request->quantity;
+        $expected_price=0;
+        $Total_expected_commission=0;
+        $sell_diff=0;
+        foreach ($stockDetails as $stockDetail){
+            $quantity-=$stockDetail->quantity;
+            $expected_price+=$stockDetail->price;
+            $Total_expected_commission+=$stockDetail->vendor_commission+$stockDetail->investor_commission;
+            $sell_diff+=$stockDetail->sell_diff;
+            // save stock detail in array
+            if ($quantity==0){
+                break;
+            }
+        }
+
+        return response()->json(['status' => 200,[
+            'expected_price'=>$expected_price,
+            'Total_expected_commission'=>$Total_expected_commission,
+            'sell_diff'=>$sell_diff,
+
+            ]]);
+
+
+
+
 
 
     }

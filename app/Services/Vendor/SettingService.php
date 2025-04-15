@@ -106,7 +106,7 @@ class SettingService extends BaseService
             $obj->update([
                 'name' => $settingData['name'],
                 'phone' => $settingData['phone'],
-                'image' => $settingData['image'],
+                'image' => $settingData['image']??null,
                 'email' => $settingData['email'],
                 'city_id' =>$settingData['city_id'],
                 'profit_ratio' => $settingData['profit_ratio'],

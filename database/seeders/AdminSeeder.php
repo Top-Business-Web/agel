@@ -23,7 +23,7 @@ class AdminSeeder extends Seeder
             'user_name' => 'admin',
             'phone' => '+966123456789',
             'code' => Str::random(11),
-            'email' => 'admin@admin.com',
+            'email' => 'S-ali07@hotmail.com',
             'role_id' => 1,
             'status' => 1,
             'password' => bcrypt('admin'),

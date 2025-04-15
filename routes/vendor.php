@@ -18,7 +18,6 @@ use App\Http\Controllers\Vendor\InvestorController;
 use App\Http\Controllers\Vendor\ActivityLogController;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-
 /*
 |--------------------------------------------------------------------------
 | Vendor Routes
@@ -32,18 +31,14 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 Route::group(
     [
-
         'prefix' => LaravelLocalization::setLocale(),
-        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
+        'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath'],
     ],
     function () {
-
         Route::get('/partner', [AuthController::class, 'index'])->name('vendor.login');
         Route::get('/register', [AuthController::class, 'registerForm'])->name('vendor.register');
 
         Route::group(['prefix' => 'vendor'], function () {
-
-
             Route::POST('/login', [AuthController::class, 'login'])->name('vendor.login');
             Route::POST('/register', [AuthController::class, 'register'])->name('vendor.register');
             Route::get('/verify-otp/{email}/{type}/{resetPassword}', [AuthController::class, 'showOtpForm'])->name('vendor.otp.verify');
@@ -56,8 +51,6 @@ Route::group(
             Route::get('my_profile', [VendorController::class, 'myProfile'])->name('vendor.myProfile');
 
             Route::group(['middleware' => 'auth:vendor'], function () {
-
-
                 #============================ Home ====================================
                 Route::get('homeVendor', [HomeController::class, 'index'])->name('vendorHome');
                 #============================ branches ==================================
@@ -65,7 +58,6 @@ Route::group(
                 #============================ categories ==================================
                 Route::resourceWithDeleteSelected('categories', CategoryController::class);
                 #============================ vendors ====================================
-
 
                 Route::get('vendors/index', [VendorController::class, 'index'])->name('vendor.vendors.index');
                 Route::get('vendors/create', [VendorController::class, 'create'])->name('vendor.vendors.create');
@@ -76,12 +68,11 @@ Route::group(
                 Route::post('vendors/delete-selected', [VendorController::class, 'deleteSelected'])->name('vendor.vendors.deleteSelected');
                 Route::post('vendors/update-column-selected', [VendorController::class, 'updateColumnSelected'])->name('vendor.vendors.updateColumnSelected');
 
-
                 #============================ logout ====================================
                 Route::get('logout', [AuthController::class, 'logout'])->name('vendor.logout');
                 #============================ roles and permissions ====================================
                 Route::resourceWithDeleteSelected('roles', RoleController::class, [
-                    'as' => 'vendor'
+                    'as' => 'vendor',
                 ]);
                 Route::post('roles/delete-selected', [RoleController::class, 'deleteSelected'])->name('vendor.roles.deleteSelected');
 
@@ -104,31 +95,24 @@ Route::group(
                 Route::resourceWithDeleteSelected('clients', ClientController::class);
                 Route::get('/get-user-by-national-id', [ClientController::class, 'getUserByNationalId'])->name('vendor.clients.getUserByNationalId'); //using for order
 
-
                 #============================ Stocks ==================================
                 Route::resourceWithDeleteSelected('stocks', StockController::class);
-
 
                 #============================ plans ==================================
 
                 Route::resourceWithDeleteSelected('plans', PlanController::class, [
-                    'as' => 'vendor'
+                    'as' => 'vendor',
                 ]);
 
                 #============================ orders ==================================
                 Route::resourceWithDeleteSelected('orders', OrderController::class);
                 Route::get('/get-prices', [OrderController::class, 'calculatePrices'])->name('vendor.orders.calculatePrices'); //using for order
-
-
-
-
             });
         });
 
         #=======================================================================
         #============================ ROOT =====================================
         #=======================================================================
-
 
         Route::get('/check-vendor-limit/{key}', function ($key) {
             return response()->json([
@@ -137,12 +121,11 @@ Route::group(
         });
 
         Route::get('/clear', function () {
-
             Artisan::call('cache:clear');
             Artisan::call('key:generate');
             Artisan::call('config:clear');
             Artisan::call('optimize:clear');
             return response()->json(['status' => 'success', 'code' => 1000000000]);
         });
-    }
+    },
 );
