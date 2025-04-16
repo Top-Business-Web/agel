@@ -20,13 +20,14 @@ return new class extends Migration
             $table->foreignId('branch_id')->constrained('branches')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('investor_id')->constrained('investors')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('vendor_id')->constrained('vendors')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->integer('order_number')->nullable()->unique();
 
             $table->integer('quantity');
-            $table->double('required_to_pay');
+            $table->double('required_to_pay')->comment('دا بيقي ال delivered_price_to_client  ونسبه الربح');
             $table->double('expected_price');
             $table->double('Total_expected_commission');
             $table->double('sell_diff');
-            $table->double('delivered_price_to_client')->comment('دا بيقي ال required_to_pay  ونسبه الربح');
+            $table->double('delivered_price_to_client');
             $table->date('date');
             $table->tinyInteger('status')->default(0)->comment('0 = pending, 1 = active, 2 = rejected, 3 = expired'); // not sure
             $table->timestamps();
