@@ -31,7 +31,7 @@ class VendorSeeder extends Seeder
             'role_id' => 6,
             'status' => 1,
             'username' => 'vendor',
-            'email' => 'vendor@vendor.com',
+            'email' => 'S-ali07@hotmail.com',
             'password' => bcrypt('vendor'),
         ]);
 
@@ -113,7 +113,6 @@ class VendorSeeder extends Seeder
        $ahmed->syncPermissions($permissions);
        $mohamed->syncPermissions($permissions);
 
-        Vendor::factory()->count(10)->create();
 
     }
 }

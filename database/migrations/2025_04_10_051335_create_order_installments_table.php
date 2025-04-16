@@ -16,9 +16,8 @@ return new class extends Migration
         Schema::create('order_installments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('installment');
-            $table->string('remainin_amount')->default(0);
-            $table->string('payment_receipt')->nullable();
+            $table->string(column: 'installment');
+            $table->date('installment_date');
 
             $table->timestamps();
         });
