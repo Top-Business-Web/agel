@@ -30,5 +30,7 @@ class DatabaseSeeder extends Seeder
         $this->call(VendorBranchSeeder::class);
         $this->call(InvestorSeeder::class);
         $this->call(ClientSeeder::class);
+        $this->call(UnsurpassedSeeder::class);
+
     }
 }
