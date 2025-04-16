@@ -40,6 +40,7 @@
                                     <th class="min-w-50px rounded-end">تاريخ السداد</th>
                                     <th class="min-w-50px rounded-end"> اسم المستثمر</th>
                                     <th class="min-w-50px rounded-end"> رقم الطلب</th>
+                                    <th class="min-w-50px rounded-end">  حاله الطلب</th>
                                     <th class="min-w-50px rounded-end"> المبلغ الطلوب سداده </th>
                                     <th class="min-w-50px rounded-end">ألإجراءات </th>
                                 </tr>
@@ -120,7 +121,7 @@
 
 
 
-    
+
     </div>
     @include('vendor/layouts/myAjaxHelper')
 @endsection
@@ -166,6 +167,10 @@
             {
                 data: 'order_number',
                 name: 'order_number'
+            },
+            {
+                data: 'status',
+                name: 'status'
             },
 
 
