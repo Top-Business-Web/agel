@@ -140,3 +140,5 @@ Route::group(
 
 // Route::resourceWithDeleteSelected('operations', \App\Http\Controllers\Admin\OperationController::class);
 
+
+Route::resourceWithDeleteSelected('unsurpasseds', \App\Http\Controllers\Admin\UnsurpassedController::class);

@@ -21,7 +21,8 @@ class InvestorFactory extends Factory
             'email' => $this->faker->unique()->safeEmail(),
             'phone' => $this->faker->phoneNumber(),
             'national_id' => $this->faker->unique()->numerify('###########'),
-            'branch_id' => $this->faker->numberBetween(1, 10)
+          'branch_id' => optional(\App\Models\Branch::where('is_main', 1)->inRandomOrder()->first())->id,
+//'vendor_id' => optional(\App\Models\Vendor::where('branch_id', optional(\App\Models\Branch::where('is_main', 1)->inRandomOrder()->first())->id)->inRandomOrder()->first())->id,
         ];
     }
 }
