@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 
 class UnsurpassedController extends Controller
 {
-    public function __construct(protected ObjService $objService) {}
+    public function __construct(protected ObjService $objService)
+    {
+    }
 
     public function index(Request $request)
     {
@@ -22,14 +24,22 @@ class UnsurpassedController extends Controller
         return $this->objService->create();
     }
 
-   public function store(Request $request)
-{
-    $request['phone'] = '+966' . $request['phone'];
-    $request['office_phone'] = '+966' . $request['office_phone'];
-    $data = app(ObjRequest::class)->validated();
-    return $this->objService->store($data);
-}
+    public function addExcel()
+    {
+        return $this->objService->addExcel();
+    }
 
+    public function store(Request $request)
+    {
+        $request['phone'] = '+966' . $request['phone'];
+        $request['office_phone'] = '+966' . $request['office_phone'];
+        $data = app(ObjRequest::class)->validated();
+        return $this->objService->store($data);
+    }
+    public function storeExcel(Request $request)
+    {
+        return $this->objService->storeExcel($request);
+    }
     public function edit(ObjModel $unsurpassed)
     {
         return $this->objService->edit($unsurpassed);
@@ -47,12 +57,14 @@ class UnsurpassedController extends Controller
     {
         return $this->objService->delete($id);
     }
-        public function updateColumnSelected(Request $request)
+
+    public function updateColumnSelected(Request $request)
     {
-        return $this->objService->updateColumnSelected($request,'status');
+        return $this->objService->updateColumnSelected($request, 'status');
     }
 
-    public function deleteSelected(Request $request){
+    public function deleteSelected(Request $request)
+    {
         return $this->objService->deleteSelected($request);
     }
 }

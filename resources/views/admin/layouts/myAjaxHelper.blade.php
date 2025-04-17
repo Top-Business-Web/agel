@@ -136,6 +136,16 @@
         });
     }
 
+    function showAddExcelModal(routeOfShow) {
+        $(document).on('click', '.addExcelFile', function() {
+            $('#modal-excel-body').html(loader)
+            $('#editOrCreate').modal('show')
+            setTimeout(function() {
+                $('#modal-excel-body').load(routeOfShow)
+            }, 250)
+        });
+    }
+
     // show view Modal
     function showEditModal(routeOfEdit) {
         $(document).on('click', '.editBtn', function() {

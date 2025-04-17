@@ -24,10 +24,10 @@ class UnsurpassedRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|regex:/^\+966[0-9]{9}$/',
-            'national_id' => 'required|numeric|digits:10|unique:unsurpasseds,national_id,',
+            'phone' => 'required|string|regex:/^\+966[0-9]{9}$/|unique:unsurpasseds,phone|unique:unsurpasseds,office_phone',
+            'national_id' => 'required|numeric|digits:10|unique:unsurpasseds,national_id',
             'office_name' => 'nullable|string|max:255',
-            'office_phone' => 'nullable|string|regex:/^\+966[0-9]{9}$/',
+            'office_phone' => 'nullable|string|regex:/^\+966[0-9]{9}$/|unique:unsurpasseds,phone|unique:unsurpasseds,office_phone',
         ];
     }
 
@@ -35,10 +35,10 @@ class UnsurpassedRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|regex:/^\+966[0-9]{9}$/',
+            'phone' => 'required|string|regex:/^\+966[0-9]{9}$/|unique:unsurpasseds,phone|unique:unsurpasseds,office_phone',
             'national_id' => 'required|numeric|digits:10|unique:unsurpasseds,national_id,' . $this->route('unsurpassed'),
             'office_name' => 'nullable|string|max:255',
-            'office_phone' => 'nullable|string|regex:/^\+966[0-9]{9}$/',
+            'office_phone' => 'nullable|string|regex:/^\+966[0-9]{9}$/|unique:unsurpasseds,phone|unique:unsurpasseds,office_phone',
         ];
     }
 

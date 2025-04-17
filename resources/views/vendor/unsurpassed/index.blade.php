@@ -19,12 +19,18 @@
 										<i class="fe fe-plus"></i>
 									</span> أضافه
                         </button>
+                        <button class="btn btn-secondary btn-icon text-white addExcelFile">
+									<span>
+										<i class="fe fe-plus"></i>
+									</span> excel رفع ملف
+                        </button>
                         <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
                             <span><i class="fe fe-trash"></i></span> حذف المحدد
                         </button>
                     </div>
                 </div>
                 <div class="card-body">
+
                     <div class="table-responsive">
                         <!--begin::Table-->
                         <table class="table table-bordered text-nowrap w-100" id="dataTable">
@@ -74,6 +80,24 @@
         </div>
         <!-- MODAL CLOSED -->
 
+
+        <!-- Create Or Edit Modal -->
+        <div class="modal fade" id="addExcelFile" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="example-Modal4">التفاصيل</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-add-excel-body" id="modal-add-excel-body">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Create Or Edit Modal -->
 
         <!-- Create Or Edit Modal -->
         <div class="modal fade" id="editOrCreate" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
@@ -174,6 +198,7 @@
 
         // Add Using Ajax
         showAddModal('{{route($route.'.create')}}');
+        showAddExcelModal('{{route($route.'.add.excel')}}');
         addScript();
         // Add Using Ajax
         showEditModal('{{route($route.'.edit',':id')}}');
