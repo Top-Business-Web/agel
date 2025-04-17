@@ -55,7 +55,6 @@ class OrderService extends BaseService
                     return $obj->investor_id ? $obj->investor->name : "";
                 })->editColumn('status', function ($obj) {
                     return $obj->status == 1 ? $status = "مكتمل" : $status = "جديد";
-
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -152,9 +151,11 @@ class OrderService extends BaseService
 
 
             $stockDetails = $this->getAvailableStockDetails($data);
-            $this->markStockAsSold($stockDetails, $data['quantity']);
+            $seletedIds =   $this->markStockAsSold($stockDetails, $data['quantity']);
 
             $order = $this->storeOrder($data);
+
+            $this->storeOrderDetails($order, $seletedIds);
 
             if (isset($data['is_installment']) && $data['is_installment'] === 'on' && $data['installment_number'] > 0) {
                 $this->createInstallments($order, $data);
@@ -165,6 +166,18 @@ class OrderService extends BaseService
         }
     }
 
+
+
+    public function storeOrderDetails($order, $seletedIds)
+    {
+        foreach ($seletedIds as $id) {
+            $order->details()->create([
+                'stock_detail_id' => $id,
+                'order_id' => $order->id,
+
+            ]);
+        }
+    }
 
 
     public function checkClient($data)
@@ -210,15 +223,17 @@ class OrderService extends BaseService
             ->get();
     }
 
-
-    private function markStockAsSold($stockDetails, $quantity): void
+    private function markStockAsSold($stockDetails, $quantity): array
     {
+        $updatedIds = [];
         foreach ($stockDetails as $stockDetail) {
             if ($quantity <= 0) break;
 
             $stockDetail->update(['is_sold' => 1]);
+            $updatedIds[] = $stockDetail->id;
             $quantity -= $stockDetail->quantity;
         }
+        return $updatedIds;
     }
 
 
@@ -285,6 +300,25 @@ class OrderService extends BaseService
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception $e) {
             return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
+        }
+    }
+
+
+    public function reverseStockDetails($id)
+    {
+        $order = $this->getById($id);
+
+        $stockDetailIds = $order->details()->where('order_id', $id)->pluck('stock_detail_id')->toArray();
+        $this->updateStockDetail($stockDetailIds);
+    }
+
+    public function updateStockDetail($stockDetailIds)
+    {
+        $stockDetail = $this->stockDetail->whereIn('id', $stockDetailIds)->get();
+        foreach ($stockDetail as $detail) {
+            $detail->update([
+                'is_sold' => 0,
+            ]);
         }
     }
 }

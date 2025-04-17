@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Vendor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderRequest as ObjRequest;
 use App\Models\Order as ObjModel;
+use App\Models\StockDetail;
 use App\Services\Vendor\OrderService as ObjService;
 use Illuminate\Http\Request;
 
@@ -41,16 +42,10 @@ class OrderController extends Controller
 
     public function destroy($id)
     {
+        $this->objService->reverseStockDetails($id);
         return $this->objService->delete($id);
     }
-        public function updateColumnSelected(Request $request)
-    {
-        return $this->objService->updateColumnSelected($request,'status');
-    }
 
-    public function deleteSelected(Request $request){
-        return $this->objService->deleteSelected($request);
-    }
 
     public function calculatePrices(Request $request){
         return $this->objService->calculatePrices($request);

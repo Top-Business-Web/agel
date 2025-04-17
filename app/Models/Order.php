@@ -32,6 +32,12 @@ class Order extends BaseModel
         return $this->belongsTo(Vendor::class);
     }
 
-    
+
+    public function details()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
+
+
 
 }
