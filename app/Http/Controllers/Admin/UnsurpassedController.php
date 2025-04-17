@@ -22,20 +22,24 @@ class UnsurpassedController extends Controller
         return $this->objService->create();
     }
 
-    public function store(ObjRequest $data)
-    {
-        $data = $data->validated();
-        return $this->objService->store($data);
-    }
+   public function store(Request $request)
+{
+    $request['phone'] = '+966' . $request['phone'];
+    $request['office_phone'] = '+966' . $request['office_phone'];
+    $data = app(ObjRequest::class)->validated();
+    return $this->objService->store($data);
+}
 
     public function edit(ObjModel $unsurpassed)
     {
         return $this->objService->edit($unsurpassed);
     }
 
-    public function update(ObjRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $data = $request->validated();
+        $request['phone'] = '+966' . $request['phone'];
+        $request['office_phone'] = '+966' . $request['office_phone'];
+        $data = app(ObjRequest::class)->validated();
         return $this->objService->update($data, $id);
     }
 

@@ -25,7 +25,7 @@ class UnsurpassedRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'phone' => 'required|string|regex:/^\+966[0-9]{9}$/',
-            'national_id' => 'required|numeric|digits:10|unique:unsurpasseds,national_id,' . $this->route('unsurpassed'),
+            'national_id' => 'required|numeric|digits:10|unique:unsurpasseds,national_id,',
             'office_name' => 'nullable|string|max:255',
             'office_phone' => 'nullable|string|regex:/^\+966[0-9]{9}$/',
         ];
@@ -45,8 +45,8 @@ class UnsurpassedRequest extends FormRequest
     public function messages()
     {
         return [
-            'phone.regex' => 'The phone number must start with +966 and contain 8 to 14 digits.',
-            'office_phone.regex' => 'The phone number must start with +966 and contain 8 to 14 digits.',
+            'phone.regex' => 'The phone number must start with +966 and contain only 9 digits.',
+            'office_phone.regex' => 'The office phone number must start with +966 and contain only 9 digits.',
         ];
     }
 }

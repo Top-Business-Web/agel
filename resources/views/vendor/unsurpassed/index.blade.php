@@ -22,11 +22,6 @@
                         <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
                             <span><i class="fe fe-trash"></i></span> حذف المحدد
                         </button>
-
-                        <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
-                            <span><i class="fe fe-trending-up"></i></span> تحديث المحدد
-                        </button>
-
                     </div>
                 </div>
                 <div class="card-body">
