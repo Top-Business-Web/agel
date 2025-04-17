@@ -21,7 +21,6 @@ class UnsurpassedService extends BaseService
         if ($request->ajax()) {
             $obj = $this->getDataTable();
             return DataTables::of($obj)
-
                 ->addColumn('action', function ($obj) {
                     $buttons = '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
@@ -63,13 +62,15 @@ class UnsurpassedService extends BaseService
             $this->createData($data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception $e) {
-return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
+            return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
 
         }
     }
 
     public function edit($obj)
     {
+        $obj['phone'] = str_replace('+966', '', $obj['phone']);
+        $obj['office_phone'] = str_replace('+966', '', $obj['office_phone']);
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
@@ -93,7 +94,7 @@ return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', '�
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
 
         } catch (\Exception $e) {
-return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
+            return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
 
         }
     }
