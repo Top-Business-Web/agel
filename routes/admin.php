@@ -142,3 +142,5 @@ Route::group(
 
 
 Route::resourceWithDeleteSelected('unsurpasseds', \App\Http\Controllers\Admin\UnsurpassedController::class);
+Route::get('unsurpasseds/add/Excel',[ \App\Http\Controllers\Admin\UnsurpassedController::class,'addExcel'])->name('unsurpasseds.add.excel');
+Route::post('unsurpasseds/store/Excel',[ \App\Http\Controllers\Admin\UnsurpassedController::class,'storeExcel'])->name('unsurpasseds.store.excel');

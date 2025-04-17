@@ -58,6 +58,7 @@
     54 => 'Yajra\\Datatables\\DatatablesServiceProvider',
     55 => 'Buglinjo\\LaravelWebp\\WebpServiceProvider',
     56 => 'Spatie\\Permission\\PermissionServiceProvider',
+    57 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
   ),
   'eager' => 
   array (
@@ -103,6 +104,7 @@
     39 => 'Yajra\\Datatables\\DatatablesServiceProvider',
     40 => 'Buglinjo\\LaravelWebp\\WebpServiceProvider',
     41 => 'Spatie\\Permission\\PermissionServiceProvider',
+    42 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
   ),
   'deferred' => 
   array (

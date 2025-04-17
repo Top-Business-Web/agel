@@ -183,6 +183,8 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
 
 
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+
 
     ],
 
@@ -240,6 +242,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
         'Webp' => Buglinjo\LaravelWebp\Facades\Webp::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+
 
     ],
 
