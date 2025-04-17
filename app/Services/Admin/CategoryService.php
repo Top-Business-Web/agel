@@ -25,7 +25,7 @@ class CategoryService extends BaseService
             $obj = $this->getDataTable();
             return DataTables::of($obj)
 
-         
+
                 ->addColumn('name', function ($obj) {
                     return $obj->name;
                 })
@@ -39,6 +39,7 @@ class CategoryService extends BaseService
             return view($this->folder . '/index', [
                 'bladeName' => "الأصناف",
                 'route' => $this->route,
+                'vendors'=>$this->vendor->where('parent_id', null)->get(),
             ]);
         }
     }

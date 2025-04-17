@@ -13,6 +13,15 @@
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
+                    <div class="form-group row">
+                        <label for="officeFilter" class="col">اختر المكتب</label>
+                        <select id="officeFilter" class="form-control col">
+                            <option value="">الكل</option>
+                            @foreach ($vendors as $vendor)
+                                <option value="{{ $vendor->id }}">{{ $vendor->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                     <h3></h3>
                     <h3 class="card-title"></h3>
                     <div class="">
@@ -44,22 +53,31 @@
 @endsection
 @section('ajaxCalls')
     <script>
+        {{--var columns = [--}}
+        {{--    // {--}}
+        {{--    //     data: 'checkbox',--}}
+        {{--    //     name: 'checkbox',--}}
+        {{--    //     orderable: false,--}}
+        {{--    //     searchable: false,--}}
+        {{--    //     render: function (data, type, row) {--}}
+        {{--    //         return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;--}}
+        {{--    //     }--}}
+        {{--    // },--}}
+        {{--    {data: 'id', name: 'id'},--}}
+        {{--    {data: 'name', name: 'name'},--}}
+        {{--    {data: 'vendor', name: 'vendor'},--}}
+
+        {{--]--}}
+        {{--showData('{{route($route.'.index')}}', columns);--}}
+
         var columns = [
-            // {
-            //     data: 'checkbox',
-            //     name: 'checkbox',
-            //     orderable: false,
-            //     searchable: false,
-            //     render: function (data, type, row) {
-            //         return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
-            //     }
-            // },
+
             {data: 'id', name: 'id'},
             {data: 'name', name: 'name'},
             {data: 'vendor', name: 'vendor'},
 
         ]
-        showData('{{route($route.'.index')}}', columns);
+
 
 
         // Hide the first column and remove checkboxes
@@ -74,7 +92,25 @@
         {{--deleteSelected('{{route($route.'.deleteSelected')}}');--}}
 
 
+        // Initialize the DataTable
+        var dataTable = $('#dataTable').DataTable({
+            processing: true,
+            serverSide: false,
+            ajax: {
+                url: '{{route($route.'.index')}}',
+                data: function (d) {
+                    d.office_id = $('#officeFilter').val();
+                }
+            },
+            columns: columns,
+            order: [[0, 'desc']]
+        });
 
+
+        // Handle office filter change
+        $('#officeFilter').on('change', function() {
+            dataTable.ajax.reload();
+        });
 
 
     </script>
