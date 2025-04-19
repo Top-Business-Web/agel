@@ -112,6 +112,10 @@ Route::group(
                 Route::POST('setting/store', [SettingController::class, 'store'])->name('setting.store');
                 Route::POST('setting/update/{id}/', [SettingController::class, 'update'])->name('settingUpdate');
 
+                Route::resourceWithDeleteSelected('unsurpasseds', \App\Http\Controllers\Vendor\UnsurpassedController::class);
+                Route::get('unsurpasseds/add/Excel',[ \App\Http\Controllers\Vendor\UnsurpassedController::class,'addExcel'])->name('unsurpasseds.add.excel');
+                Route::post('unsurpasseds/store/Excel',[ \App\Http\Controllers\Vendor\UnsurpassedController::class,'storeExcel'])->name('unsurpasseds.store.excel');
+
             });
 //        });
 

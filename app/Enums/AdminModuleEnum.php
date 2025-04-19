@@ -18,6 +18,7 @@ enum AdminModuleEnum: string
     case VENDOR = 'vendor';
     case SETTING= 'setting';
     case ACTIVITY_LOG = 'activity_log';
+    case UNSURPASSED = 'unsurpassed';
     public function lang(): string
     {
         return match ($this) {
@@ -28,6 +29,7 @@ enum AdminModuleEnum: string
             self::CATEGORY => ' الفئات',
             self::ORDER => ' الطلبات',
             self::CLIENT => ' العملاء',
+            self::UNSURPASSED => 'المتعثرين',
             self::VENDOR => ' المكاتب',
             self::SETTING => 'إعدادات النظام',
             self::ACTIVITY_LOG => 'سجل النظام',
