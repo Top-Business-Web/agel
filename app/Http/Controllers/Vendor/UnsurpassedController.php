@@ -29,11 +29,9 @@ class UnsurpassedController extends Controller
         return $this->objService->addExcel();
     }
 
-    public function store(Request $request)
+    public function store(ObjRequest $request)
     {
-        $request['phone'] = '+966' . $request['phone'];
-        $request['office_phone'] = '+966' . $request['office_phone'];
-        $data = app(ObjRequest::class)->validated();
+        $data = $request->validated();
         return $this->objService->store($data);
     }
     public function storeExcel(Request $request)

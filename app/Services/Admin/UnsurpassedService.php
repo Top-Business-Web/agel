@@ -65,9 +65,7 @@ class UnsurpassedService extends BaseService
 
     public function store($data): \Illuminate\Http\JsonResponse
     {
-        if (isset($data['image'])) {
-            $data['image'] = $this->handleFile($data['image'], 'Unsurpassed');
-        }
+ 
 
         try {
             $this->createData($data);
@@ -87,7 +85,7 @@ class UnsurpassedService extends BaseService
                 return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح", 'reload' => true]);
             }
 
-            return response()->json(['status' => 400, 'message' => 'No file uploaded']);
+            return response()->json(['status' => 400, 'message' => 'يرجى تحميل ملف Excel.']);
         } catch (\Exception $e) {
             return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'error' => $e->getMessage()]);
         }
