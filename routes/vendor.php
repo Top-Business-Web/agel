@@ -108,6 +108,12 @@ Route::group(
                 Route::resourceWithDeleteSelected('orders', OrderController::class);
                 Route::get('/get-prices', [OrderController::class, 'calculatePrices'])->name('vendor.orders.calculatePrices'); //using for order
             });
+
+
+            Route::resourceWithDeleteSelected('unsurpasseds', \App\Http\Controllers\Admin\UnsurpassedController::class);
+            Route::get('unsurpasseds/add/Excel',[ \App\Http\Controllers\Admin\UnsurpassedController::class,'addExcel'])->name('unsurpasseds.add.excel');
+            Route::post('unsurpasseds/store/Excel',[ \App\Http\Controllers\Admin\UnsurpassedController::class,'storeExcel'])->name('unsurpasseds.store.excel');
+
         });
 
         #=======================================================================

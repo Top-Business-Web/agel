@@ -28,11 +28,11 @@ class UnsurpassedImport implements ToCollection, WithHeadingRow, WithValidation
     {
         foreach ($collection as $row) {
             Unsurpassed::create([
-                'name' => $row['name'] ?? $row['full_name'] ?? null, // Handle different column names
-                'phone' => $row['phone'] ?? $row['mobile'] ?? null,
-                'national_id' => $row['national_id'] ?? $row['id_number'] ?? null,
+                'name' => $row['name'] ?? null, // Handle different column names
+                'phone' => '+966'.$row['phone']  ?? null,
+                'national_id' => $row['national_id']  ?? null,
                 'office_name' => $row['office_name'] ?? null,
-                'office_phone' => $row['office_phone'] ?? null,
+                'office_phone' => '+966'.$row['office_phone'] ?? null,
             ]);
         }
     }
@@ -45,11 +45,11 @@ class UnsurpassedImport implements ToCollection, WithHeadingRow, WithValidation
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'phone' => 'required|string|regex:/^\+966[0-9]{9}$/|unique:unsurpasseds,phone|unique:unsurpasseds,office_phone',
+            'name' => 'required|max:255',
+            'phone' => 'required|regex:/^[0-9]{9}$/|unique:unsurpasseds,phone|unique:unsurpasseds,office_phone',
             'national_id' => 'required|numeric|digits:10|unique:unsurpasseds,national_id',
-            'office_name' => 'nullable|string|max:255',
-            'office_phone' => 'nullable|string|regex:/^\+966[0-9]{9}$/|unique:unsurpasseds,office_phone|unique:unsurpasseds,phone',
+            'office_name' => 'nullable|max:255',
+            'office_phone' => 'nullable|regex:/^[0-9]{9}$/|unique:unsurpasseds,office_phone|unique:unsurpasseds,phone',
         ];
     }
 
