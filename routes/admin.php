@@ -56,9 +56,7 @@ Route::group(
 
 
             Route::group(['middleware' => 'auth:admin'], function () {
-                Route::get('/', function () {
-                    return view('admin/index');
-                })->name('adminHome');
+                Route::get('/',[\App\Services\Admin\HomeService::class,'index'])->name('adminHome');
 
 
                 Route::resourceWithDeleteSelected('roles', RoleController::class, [
@@ -141,6 +139,3 @@ Route::group(
 // Route::resourceWithDeleteSelected('operations', \App\Http\Controllers\Admin\OperationController::class);
 
 
-Route::resourceWithDeleteSelected('unsurpasseds', \App\Http\Controllers\Admin\UnsurpassedController::class);
-Route::get('unsurpasseds/add/Excel',[ \App\Http\Controllers\Admin\UnsurpassedController::class,'addExcel'])->name('unsurpasseds.add.excel');
-Route::post('unsurpasseds/store/Excel',[ \App\Http\Controllers\Admin\UnsurpassedController::class,'storeExcel'])->name('unsurpasseds.store.excel');

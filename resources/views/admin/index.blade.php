@@ -7,14 +7,14 @@
 @endsection
 @section('content')
     <div class="row">
-        <!-- First Row -->
+        <!-- Admins Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
             <div class="card bg-primary-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ \App\Models\Admin::count() }}</h2>
-                            <p class="text-white mb-0"> عدد المشرفين</p>
+                            <h2 class="mb-0 number-font">{{ $admins }}</h2>
+                            <p class="text-white mb-0">عدد المشرفين</p>
                         </div>
                         <div class="mr-auto">
                             <i class="fe fe-user-check text-white fs-30 ml-2 mt-2"></i>
@@ -24,85 +24,153 @@
             </div>
         </div>
 
+        <!-- Offices Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card bg-primary-gradient img-card box-success-shadow">
+            <div class="card bg-secondary-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ \App\Models\Vendor::count() }}</h2>
-                            <p class="text-white mb-0"> عدد الشركاء </p>
+                            <h2 class="mb-0 number-font">{{ $offices }}</h2>
+                            <p class="text-white mb-0">عدد المكاتب</p>
                         </div>
                         <div class="mr-auto">
-                            <i class="fe fe-user-check text-white fs-30 ml-2 mt-2"></i>
+                            <i class="fe fe-home text-white fs-30 ml-2 mt-2"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Second Row -->
+        <!-- Vendors Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card bg-primary-gradient img-card box-success-shadow">
+            <div class="card bg-info-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ \App\Models\Country::count() }}</h2>
-                            <p class="text-white mb-0">عدد الدول </p>
+                            <h2 class="mb-0 number-font">{{ $vendors }}</h2>
+                            <p class="text-white mb-0">عدد البائعين</p>
                         </div>
                         <div class="mr-auto">
-                            <i class="fe fe-user-check text-white fs-30 ml-2 mt-2"></i>
+                            <i class="fe fe-users text-white fs-30 ml-2 mt-2"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-
+        <!-- Branches Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card bg-primary-gradient img-card box-success-shadow">
+            <div class="card bg-warning-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ \App\Models\City::count() }}</h2>
-                            <p class="text-white mb-0"> عدد المدن</p>
+                            <h2 class="mb-0 number-font">{{ $branches }}</h2>
+                            <p class="text-white mb-0">عدد الفروع</p>
                         </div>
                         <div class="mr-auto">
-                            <i class="fe fe-user-check text-white fs-30 ml-2 mt-2"></i>
+                            <i class="fe fe-map-pin text-white fs-30 ml-2 mt-2"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-
-
+        <!-- Regions Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card bg-primary-gradient img-card box-success-shadow">
+            <div class="card bg-danger-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ \App\Models\Plan::count() }}</h2>
-                            <p class="text-white mb-0"> عدد الخطط</p>
+                            <h2 class="mb-0 number-font">{{ $regions }}</h2>
+                            <p class="text-white mb-0">عدد المناطق</p>
                         </div>
                         <div class="mr-auto">
-                            <i class="fe fe-user-check text-white fs-30 ml-2 mt-2"></i>
+                            <i class="fe fe-navigation text-white fs-30 ml-2 mt-2"></i>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Third Row -->
+        <!-- Stock Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card bg-primary-gradient img-card box-success-shadow">
+            <div class="card bg-success-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ \App\Models\PlanDetail::count() }}</h2>
-                            <p class="text-white mb-0"> عدد تفاصيل الخطط</p>
+                            <h2 class="mb-0 number-font">{{ $stock }}</h2>
+                            <p class="text-white mb-0">المخزون</p>
                         </div>
                         <div class="mr-auto">
-                            <i class="fe fe-user-check text-white fs-30 ml-2 mt-2"></i>
+                            <i class="fe fe-package text-white fs-30 ml-2 mt-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plans Card -->
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-purple-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ $plans }}</h2>
+                            <p class="text-white mb-0">عدد الخطط</p>
+                        </div>
+                        <div class="mr-auto">
+                            <i class="fe fe-calendar text-white fs-30 ml-2 mt-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Subscriptions Card -->
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-teal-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ $activeSubscriptions }}</h2>
+                            <p class="text-white mb-0">الاشتراكات النشطة</p>
+                        </div>
+                        <div class="mr-auto">
+                            <i class="fe fe-check-circle text-white fs-30 ml-2 mt-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Requested Subscriptions Card -->
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-orange-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ $requestedSubscriptions }}</h2>
+                            <p class="text-white mb-0">الاشتراكات المطلوبة</p>
+                        </div>
+                        <div class="mr-auto">
+                            <i class="fe fe-clock text-white fs-30 ml-2 mt-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rejected Subscriptions Card -->
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-pink-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ $rejectedSubscriptions }}</h2>
+                            <p class="text-white mb-0">الاشتراكات المرفوضة</p>
+                        </div>
+                        <div class="mr-auto">
+                            <i class="fe fe-x-circle text-white fs-30 ml-2 mt-2"></i>
                         </div>
                     </div>
                 </div>

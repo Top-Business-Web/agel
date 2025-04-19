@@ -42,13 +42,14 @@
                                     <input type="checkbox" id="select-all">
                                 </th>
                                 <th class="min-w-25px">#</th>
-                                <th class="min-w-50px rounded-end">الإسم</th>
-                                <th class="min-w-50px rounded-end">البريد الإلكتروني</th>
-                                <th class="min-w-50px rounded-end">رقم الجوال</th>
-                                <th class="min-w-50px rounded-end">رقم الهوية</th>
-                                <th class="min-w-50px rounded-end">الحالة</th>
-                                <th class="min-w-50px rounded-end">الصورة</th>
-                                <th class="min-w-50px rounded-end">العمليات</th>
+                                <th class="min-w-50px rounded-end">اسم العميل </th>
+                                <th class="min-w-50px rounded-end">رقم هويه العميل </th>
+                                <th class="min-w-50px rounded-end">الكميه</th>
+                                <th class="min-w-50px rounded-end">تاريخ السداد</th>
+                                <th class="min-w-50px rounded-end"> اسم المستثمر</th>
+                                <th class="min-w-50px rounded-end"> رقم الطلب</th>
+                                <th class="min-w-50px rounded-end">  حاله الطلب</th>
+                                <th class="min-w-50px rounded-end"> المبلغ الطلوب سداده </th>
                             </tr>
                             </thead>
                         </table>
@@ -171,17 +172,53 @@
                     return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
                 }
             },
-            {data: 'id', name: 'id'},
-            {data: 'name', name: 'name'},
-            {data: 'email', name: 'email'},
-            {data: 'phone', name: 'phone'},
-            {data: 'national_id', name: 'national_id'},
-            {data: 'status', name: 'status'},
-            {data: 'image', name: 'image'},
+            {
+                data: 'id',
+                name: 'id'
+            },
+            {
+                data: 'client_id',
+                name: 'client_id'
+            },
 
             {
-                data: 'action', name: 'action', orderable: false, searchable: false
+                data: 'client_national_id',
+                name: 'client_national_id'
             },
+
+            {
+                data: 'quantity',
+                name: 'quantity'
+            },
+            {
+                data: 'date',
+                name: 'date'
+            },
+
+            {
+                data: 'investor_id',
+                name: 'investor_id'
+            },
+
+            {
+                data: 'order_number',
+                name: 'order_number'
+            },
+            {
+                data: 'status',
+                name: 'status'
+            },
+
+
+            {
+                data: 'required_to_pay',
+                name: 'required_to_pay'
+            },
+
+
+            // {
+            //     data: 'action', name: 'action', orderable: false, searchable: false
+            // },
         ]
         showData('{{route($route.'.index')}}', columns);
 

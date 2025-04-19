@@ -7,6 +7,7 @@
 {{--    {{ $bladeName }}--}}
 {{--@endsection--}}
 @section('content')
+{{--    @dd($obj)--}}
 
     <div class="row">
         <div class="col-md-12 col-lg-12">
@@ -240,7 +241,51 @@
         });
 
 
+        // Add this to your ajaxCalls section
+        $(document).ready(function() {
+            // Handle the Excel import form submission
+            $('#addForm').on('submit', function(e) {
+                e.preventDefault();
+                var formData = new FormData(this);
+                var url = $(this).attr('action');
+
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        if (response.status === 200) {
+                            toastr.success(response.message);
+                            $('#addExcelFile').modal('hide');
+
+                            // Reload the DataTable
+                            $('#dataTable').DataTable().ajax.reload(null, false);
+
+                            // Reset the form
+                            $('#addForm')[0].reset();
+                            $('.dropify-clear').click(); // Clear the dropify file input
+                        } else {
+                            toastr.error(response.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(key, value) {
+                            toastr.error(value[0]);
+                        });
+                    }
+                });
+            });
+        });
+
+        // Your existing showAddExcelModal function should look something like this:
+
+
     </script>
+
+
 
 @endsection
 

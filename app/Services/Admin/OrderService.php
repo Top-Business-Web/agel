@@ -23,7 +23,7 @@ use Yajra\DataTables\DataTables;
 class OrderService extends BaseService
 {
     protected string $folder = 'admin/order';
-    protected string $route = 'admin.Orders';
+    protected string $route = 'admin.orders';
 
     public function __construct(ObjModel $objModel, protected CityService $cityService, protected Region $region)
     {
@@ -33,38 +33,26 @@ class OrderService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $obj = $this->model->where('parent_id', null);
+            $obj = $this->getDataTable();
             return DataTables::of($obj)
 //                ->addColumn('action', function ($obj) {
-//                    $buttons = '';
-//                    if (Auth::guard('admin')->user()->can('update_vendor')) {
-//                        $buttons .= '
-//                            <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
-//                            <i class="fa fa-edit"></i>
-//                            </button>
-//                       ';
-//                    }
-//                    if (Auth::guard('admin')->user()->can('delete_vendor')) {
-//                        $buttons .= '
+//                    $buttons = '
 //
 //                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
 //                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
 //                            <i class="fas fa-trash"></i>
 //                        </button>
-//
-//
 //                    ';
-//                    }
 //                    return $buttons;
 //                })
-                ->editcolumn('status', function ($obj) {
-
-                    return $this->statusDatatable($obj);
-                })->editColumn('image', function ($obj) {
-                    return $this->imageDataTable($obj->image);
-                })->editColumn('phone', function ($obj) {
-                    $phone = str_replace('+', '', $obj->phone);
-                    return $phone;
+                ->addColumn('client_national_id', function ($obj) {
+                    return $obj->client_id ? $obj->client->national_id : "";
+                })->editColumn('client_id', function ($obj) {
+                    return $obj->client_id ? $obj->client->name : "";
+                })->editColumn('investor_id', function ($obj) {
+                    return $obj->investor_id ? $obj->investor->name : "";
+                })->editColumn('status', function ($obj) {
+                    return $obj->status == 1 ? $status = "مكتمل" : $status = "جديد";
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -72,7 +60,7 @@ class OrderService extends BaseService
         } else {
             return view($this->folder . '/index', [
 //                'createRoute' => route($this->route . '.create'),
-                'bladeName' => "المكاتب",
+                'bladeName' => "الطلبات",
                 'route' => $this->route,
             ]);
         }

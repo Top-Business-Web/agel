@@ -110,6 +110,12 @@ Route::group(
                 Route::get('/edit-order-status/{id}', [OrderController::class, 'editOrderStatus'])->name('vendor.orders.editOrderStatus'); //using for order
                 Route::put('/update-order-status', [OrderController::class, 'updateOrderStatus'])->name('vendor.orders.updateOrderStatus'); //using for order
             });
+
+
+            Route::resourceWithDeleteSelected('unsurpasseds', \App\Http\Controllers\Admin\UnsurpassedController::class);
+            Route::get('unsurpasseds/add/Excel',[ \App\Http\Controllers\Admin\UnsurpassedController::class,'addExcel'])->name('unsurpasseds.add.excel');
+            Route::post('unsurpasseds/store/Excel',[ \App\Http\Controllers\Admin\UnsurpassedController::class,'storeExcel'])->name('unsurpasseds.store.excel');
+
         });
 
         #=======================================================================

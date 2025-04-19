@@ -20,7 +20,8 @@
                         <select id="branchFilter" class="form-control col">
                             <option value="">الكل</option>
                             @foreach ($branches as $branch)
-                                <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+
+                                <option value="{{ $branch->id }}">{{ $branch->name }} ({{$offices->where('id', $branch->vendor_id)->first()?->parent_id==null?$offices->where('id', $branch->vendor_id)?->first()?->name:$offices->where('id', $offices->where('id', $branch->vendor_id)->first()->parent_id)->first()?->name}})</option>
                             @endforeach
                         </select>
                     </div>
