@@ -4,7 +4,6 @@ namespace App\Services\Vendor;
 
 use App\Models\Branch;
 use App\Models\Vendor;
-use Illuminate\Support\Str;
 use App\Models\VendorBranch;
 use App\Services\BaseService;
 use Yajra\DataTables\DataTables;
@@ -54,6 +53,9 @@ class ClientService extends BaseService
                 })->editColumn('phone', function ($obj) {
                     $phone = str_replace('+', '', $obj->phone);
                     return $phone;
+                })->addColumn('order_status', function ($obj) {
+                    
+                  return   $this->getOrderStatusForClient($obj);
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])

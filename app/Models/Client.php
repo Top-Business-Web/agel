@@ -28,4 +28,10 @@ class Client extends BaseModel
     {
         return Vendor::where('id',$this->vendor()?$this->vendor()->id:$this->vendor()->parent_id)->first();
     }
+
+    public function orders()
+    {
+
+        return $this->hasMany(Order::class, 'client_id');
+    }
 }

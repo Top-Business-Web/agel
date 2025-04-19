@@ -267,6 +267,30 @@ abstract class BaseService
         }
     }
 
+    public function getOrderStatusForClient($obj): string
+    {
+        // Client has 3 statuses: 1 -> Acceptable, 2 -> Unsurpassed, 3 -> Excellent
+        $orders = $obj->orders;
+        $orderStatuses = [];
+        foreach ($orders as $order) {
+            $orderStatuses[] = $order->order_status->status;
+        }
+
+        // dd($orderStatuses);
+
+
+
+        if (in_array(1, $orderStatuses) && !in_array(2, $orderStatuses)) {
+            return "<h5 class='text-primary'>مقبول</h5>";
+        } elseif (in_array(2, $orderStatuses) && !in_array(1, $orderStatuses)) {
+            return "<h5 class='text-warning'>متعثر</h5>";
+        } elseif (in_array(3, $orderStatuses) && !array_intersect([1, 2], $orderStatuses)) {
+            return "<h5 class='text-success'>ممتاز</h5>";
+        } else {
+            return "<h5 class='text-muted'>ليس لديه طلبات</h5>";
+        }
+    }
+
     /**
      * Helper function to delete a file from storage.
      *
