@@ -17,9 +17,7 @@
                                 <i class="fe fe-plus"></i>
                             </span> أضافه
                         </button>
-                        <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
-                            <span><i class="fe fe-trash"></i></span> حذف المحدد
-                        </button>
+
 
 
                     </div>
@@ -41,7 +39,8 @@
                                     <th class="min-w-50px rounded-end"> اسم المستثمر</th>
                                     <th class="min-w-50px rounded-end"> رقم الطلب</th>
                                     <th class="min-w-50px rounded-end">  حاله الطلب</th>
-                                    <th class="min-w-50px rounded-end"> المبلغ الطلوب سداده </th>
+                                    <th class="min-w-50px rounded-end"> المبلغ  الكلي </th>
+                                    <th class="min-w-50px rounded-end"> المبلغ المدفوع</th>
                                     <th class="min-w-50px rounded-end">ألإجراءات </th>
                                 </tr>
                             </thead>
@@ -96,28 +95,6 @@
         </div>
         <!-- Create Or Edit Modal -->
 
-        <!-- delete selected Modal -->
-        <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog"
-            aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteConfirmModalLabel">تأكيد الحذف</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <p>هل أنت متأكد أنك تريد حذف العناصر المحددة؟</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                        <button type="button" class="btn btn-danger" id="confirm-delete-btn">حذف</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- delete selected Modal -->
 
 
 
@@ -177,6 +154,11 @@
             {
                 data: 'required_to_pay',
                 name: 'required_to_pay'
+            }, 
+            
+            {
+                data: 'paid',
+                name: 'paid'
             },
 
 
@@ -191,9 +173,9 @@
 
         // Delete Using Ajax
         deleteScript('{{ route($route . '.destroy', ':id') }}');
-        deleteSelected('{{ route($route . '.deleteSelected') }}');
 
-
+        showEditModal('{{ route('vendor.orders.editOrderStatus', ':id') }}');
+        editScript();
 
         // Add Using Ajax
         showAddModal('{{ route($route . '.create') }}');

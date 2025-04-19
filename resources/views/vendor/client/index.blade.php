@@ -44,6 +44,7 @@
                                 <th class="min-w-25px">رقم الهاتف</th>
                                 <th class="min-w-25px">رقم الهويه</th>
                                 <th class="min-w-25px">الحاله</th>
+                                <th class="min-w-25px">حاله الطلب</th>
                                 <th class="min-w-25px">الفرع</th>
                                 <th class="min-w-50px rounded-end">العمليات</th>
                             </tr>
@@ -181,6 +182,9 @@
             {
                 data: 'status',
                 name: 'status'
+            },   {
+                data: 'order_status',
+                name: 'order_status'
             },
             {
                 data: 'branch_id',

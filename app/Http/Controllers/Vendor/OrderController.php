@@ -4,8 +4,7 @@ namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderRequest as ObjRequest;
-use App\Models\Order as ObjModel;
-use App\Models\StockDetail;
+use App\Http\Requests\Vendor\OrderStatusRequest;
 use App\Services\Vendor\OrderService as ObjService;
 use Illuminate\Http\Request;
 
@@ -29,16 +28,19 @@ class OrderController extends Controller
         return $this->objService->store($data);
     }
 
-    public function edit(ObjModel $model)
+    public function editOrderStatus($id)
     {
-        return $this->objService->edit($model);
+        return $this->objService->editOrderStatus($id);
     }
 
-    public function update(ObjRequest $request, $id)
+    public function updateOrderStatus(OrderStatusRequest $request)
     {
-        $data = $request->validated();
-        return $this->objService->update($data, $id);
+        return $this->objService->updateOrderStatus($request);
     }
+
+
+
+
 
     public function destroy($id)
     {
