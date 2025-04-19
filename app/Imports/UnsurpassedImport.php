@@ -27,13 +27,26 @@ class UnsurpassedImport implements ToCollection, WithHeadingRow, WithValidation
     public function collection(Collection $collection)
     {
         foreach ($collection as $row) {
-            Unsurpassed::create([
-                'name' => $row['name'] ?? null, // Handle different column names
-                'phone' => '+966'.$row['phone']  ?? null,
-                'national_id' => $row['national_id']  ?? null,
-                'office_name' => $row['office_name'] ?? null,
-                'office_phone' => '+966'.$row['office_phone'] ?? null,
-            ]);
+            $unsurpassed = Unsurpassed::where('phone', '+966'.$row['phone'])
+                ->orWhere('office_phone', '+966'.$row['office_phone'])
+                ->orWhere('national_id', $row['national_id'])
+                ->first();
+
+            if ($unsurpassed) {
+                $unsurpassed->update([
+                    'name' => $row['name'] ?? $unsurpassed->name,
+                    'office_name' => $row['office_name'] ?? $unsurpassed->office_name,
+                ]);
+            } else {
+                // Create new record
+                Unsurpassed::create([
+                    'name' => $row['name'] ?? null,
+                    'phone' => '+966'.$row['phone'] ?? null,
+                    'national_id' => $row['national_id'] ?? null,
+                    'office_name' => $row['office_name'] ?? null,
+                    'office_phone' => '+966'.$row['office_phone'] ?? null,
+                ]);
+            }
         }
     }
 
