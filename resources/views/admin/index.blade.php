@@ -26,7 +26,7 @@
 
         <!-- Offices Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card bg-secondary-gradient img-card box-success-shadow">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
@@ -43,7 +43,7 @@
 
         <!-- Vendors Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card bg-info-gradient img-card box-success-shadow">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
@@ -60,7 +60,7 @@
 
         <!-- Branches Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card bg-warning-gradient img-card box-success-shadow">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
@@ -77,7 +77,7 @@
 
         <!-- Regions Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card bg-danger-gradient img-card box-success-shadow">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
@@ -94,7 +94,7 @@
 
         <!-- Stock Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card bg-success-gradient img-card box-success-shadow">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
@@ -111,7 +111,7 @@
 
         <!-- Plans Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card bg-purple-gradient img-card box-success-shadow">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
@@ -128,7 +128,7 @@
 
         <!-- Active Subscriptions Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card bg-teal-gradient img-card box-success-shadow">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
@@ -145,7 +145,7 @@
 
         <!-- Requested Subscriptions Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card bg-orange-gradient img-card box-success-shadow">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
@@ -162,7 +162,7 @@
 
         <!-- Rejected Subscriptions Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card bg-pink-gradient img-card box-success-shadow">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
