@@ -1,22 +1,24 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
-use App\Http\Controllers\Vendor\OrderController;
-use App\Http\Controllers\Vendor\StockController;
-
+use App\Http\Controllers\Vendor\ActivityLogController;
 use App\Http\Controllers\Vendor\AuthController;
+use App\Http\Controllers\Vendor\BranchController;
+use App\Http\Controllers\Vendor\CategoryController;
+
+use App\Http\Controllers\Vendor\ClientController;
 use App\Http\Controllers\Vendor\HomeController;
+use App\Http\Controllers\Vendor\InvestorController;
+use App\Http\Controllers\Vendor\OrderController;
 use App\Http\Controllers\Vendor\PlanController;
 use App\Http\Controllers\Vendor\RoleController;
-use App\Http\Controllers\Vendor\BranchController;
-use App\Http\Controllers\Vendor\ClientController;
-use App\Http\Controllers\Vendor\VendorController;
 use App\Http\Controllers\Vendor\SettingController;
-use App\Http\Controllers\Vendor\CategoryController;
-use App\Http\Controllers\Vendor\InvestorController;
-use App\Http\Controllers\Vendor\ActivityLogController;
+use App\Http\Controllers\Vendor\StockController;
+use App\Http\Controllers\Vendor\UnsurpassedController;
+use App\Http\Controllers\Vendor\VendorController;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -48,9 +50,10 @@ Route::group(
             Route::get('/new-password/{email}', [AuthController::class, 'newPasswordForm'])->name('vendor.newPasswordForm');
             Route::POST('/reset-password/{email}', [AuthController::class, 'ResetPassword'])->name('vendor.resetPassword');
 
-            Route::get('my_profile', [VendorController::class, 'myProfile'])->name('vendor.myProfile');
 
             Route::group(['middleware' => 'auth:vendor'], function () {
+                Route::get('my_profile', [VendorController::class, 'myProfile'])->name('vendor.myProfile');
+
                 #============================ Home ====================================
                 Route::get('homeVendor', [HomeController::class, 'index'])->name('vendorHome');
                 #============================ branches ==================================
@@ -98,6 +101,11 @@ Route::group(
                 #============================ Stocks ==================================
                 Route::resourceWithDeleteSelected('stocks', StockController::class);
 
+                Route::resourceWithDeleteSelected('unsurpasseds', UnsurpassedController::class,);
+                Route::get('unsurpasseds/add/Excel',[ UnsurpassedController::class,'addExcel'])->name('unsurpasseds.add.excel');
+                Route::post('unsurpasseds/store/Excel',[ UnsurpassedController::class,'storeExcel'])->name('unsurpasseds.store.excel');
+    
+
                 #============================ plans ==================================
 
                 Route::resourceWithDeleteSelected('plans', PlanController::class, [
@@ -112,10 +120,7 @@ Route::group(
             });
 
 
-            Route::resourceWithDeleteSelected('unsurpasseds', \App\Http\Controllers\Vendor\UnsurpassedController::class);
-            Route::get('unsurpasseds/add/Excel',[ \App\Http\Controllers\Vendor\UnsurpassedController::class,'addExcel'])->name('unsurpasseds.add.excel');
-            Route::post('unsurpasseds/store/Excel',[ \App\Http\Controllers\Vendor\UnsurpassedController::class,'storeExcel'])->name('unsurpasseds.store.excel');
-
+         
         });
 
         #=======================================================================

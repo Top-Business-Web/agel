@@ -16,6 +16,7 @@ class UnsurpassedController extends Controller
 
     public function index(Request $request)
     {
+
         return $this->objService->index($request);
     }
 
@@ -29,11 +30,9 @@ class UnsurpassedController extends Controller
         return $this->objService->addExcel();
     }
 
-    public function store(Request $request)
+    public function store(ObjRequest $request)
     {
-        $request['phone'] = '+966' . $request['phone'];
-        $request['office_phone'] = '+966' . $request['office_phone'];
-        $data = app(ObjRequest::class)->validated();
+        $data = $request->validated();
         return $this->objService->store($data);
     }
     public function storeExcel(Request $request)
@@ -58,10 +57,7 @@ class UnsurpassedController extends Controller
         return $this->objService->delete($id);
     }
 
-    public function updateColumnSelected(Request $request)
-    {
-        return $this->objService->updateColumnSelected($request, 'status');
-    }
+
 
     public function deleteSelected(Request $request)
     {

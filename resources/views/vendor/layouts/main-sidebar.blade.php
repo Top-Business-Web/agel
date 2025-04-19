@@ -23,7 +23,7 @@
         @canany(['create_unsurpassed', 'update_unsurpassed', 'delete_unsurpassed', 'read_unsurpassed'])
             <li class="{{ routeActive('unsurpasseds.index') }}">
                 <a class="slide-item {{ routeActive('unsurpasseds.index') }}" style="margin-right:8px;"
-                   href="{{ route('unsurpasseds.index') }}">
+                    href="{{ route('unsurpasseds.index') }}">
                     <i class="fas fa-th side-menu__icon"></i> <!-- Category Icon -->
                     المتعثرين
                 </a>
