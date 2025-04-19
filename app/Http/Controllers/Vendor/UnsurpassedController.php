@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UnsurpassedRequest as ObjRequest;
 use App\Models\Unsurpassed as ObjModel;
-use App\Services\Admin\UnsurpassedService as ObjService;
+use App\Services\Vendor\UnsurpassedService as ObjService;
 use Illuminate\Http\Request;
 
 class UnsurpassedController extends Controller
