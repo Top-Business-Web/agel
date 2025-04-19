@@ -2,6 +2,7 @@
 
 namespace App\Services\Vendor;
 
+use App\Enums\OrderStatus;
 use App\Models\Client;
 use App\Models\Investor;
 use App\Models\Order as ObjModel;
@@ -39,22 +40,38 @@ class OrderService extends BaseService
             $obj = $this->getDataTable();
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
-                    $buttons = '
 
-                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
-                            <i class="fas fa-trash"></i>
+                    $buttons = '';
+                    if ($obj->order_status->status !== 3) {
+                        $buttons .= '
+                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-success-light editBtn">
+                        <i class="fa fa-money-bill-wave side-menu__icon"></i>
                         </button>
                     ';
+
+                    $buttons .= '
+
+                    <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
+                        data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                ';
+                    } else {
+                        return "<h5 class='text-success'>مكتمل</h5>";
+                    }
+
+                   
                     return $buttons;
                 })->addColumn('client_national_id', function ($obj) {
                     return $obj->client_id ? $obj->client->national_id : "";
+                })->addColumn('paid', function ($obj) {
+                    return $obj->order_status->paid; 
                 })->editColumn('client_id', function ($obj) {
                     return $obj->client_id ? $obj->client->name : "";
                 })->editColumn('investor_id', function ($obj) {
                     return $obj->investor_id ? $obj->investor->name : "";
-                })->editColumn('status', function ($obj) {
-                    return $obj->status == 1 ? $status = "مكتمل" : $status = "جديد";
+                })->addColumn('status', function ($obj) {
+                    return $obj->order_status->status !== null ? OrderStatus::from($obj->order_status->status)->lang() :  "غير محدد";
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -93,6 +110,55 @@ class OrderService extends BaseService
 
 
         ]);
+    }
+
+    public function editOrderStatus($id)
+    {
+        $order = $this->getById($id);
+        return view("{$this->folder}/parts/editOrderStatus", [
+            'obj' => $order,
+            'updateRoute' => route("vendor.orders.updateOrderStatus", parameters: $order->id),
+        ]);
+    }
+
+    public function updateOrderStatus($request)
+    {
+        try {
+            $order = $this->getById($request->id);
+
+            if ($this->isGracePeriod($request)) {
+                $this->applyGracePeriod($order, $request);
+            } else {
+                $this->updatePaymentStatus($order, $request);
+            }
+
+            return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
+        }
+    }
+
+    private function isGracePeriod($request): bool
+    {
+        return isset($request->is_graced) && $request->is_graced === 'on';
+    }
+
+    private function applyGracePeriod($order, $request): void
+    {
+        $order->order_status->update([
+            'is_graced' => 1,
+            'grace_period' => $request->grace_period,
+            'grace_date' => Carbon::parse($order->date)->addDays($request->grace_period),
+            'status' => 2,
+        ]);
+    }
+
+    private function updatePaymentStatus($order, $request): void
+    {
+        $order->order_status->increment('paid', $request->paid);
+
+        $newStatus = $order->order_status->paid == $order->required_to_pay ? 3 : 1;
+        $order->order_status->update(['status' => $newStatus]);
     }
 
 
@@ -157,6 +223,8 @@ class OrderService extends BaseService
 
             $this->storeOrderDetails($order, $seletedIds);
 
+            $this->storeOrderStatus($order);
+
             if (isset($data['is_installment']) && $data['is_installment'] === 'on' && $data['installment_number'] > 0) {
                 $this->createInstallments($order, $data);
             }
@@ -164,6 +232,15 @@ class OrderService extends BaseService
         } catch (\Exception $e) {
             return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
         }
+    }
+
+
+    public function storeOrderStatus($order)
+    {
+        return $order->order_status()->create([
+            'order_id' => $order->id,
+            'vendor_id' => auth('vendor')->user()->id,
+        ]);
     }
 
 
@@ -275,33 +352,9 @@ class OrderService extends BaseService
 
 
 
-    public function edit($obj)
-    {
-        return view("{$this->folder}/parts/edit", [
-            'obj' => $obj,
-            'updateRoute' => route("{$this->route}.update", $obj->id),
-        ]);
-    }
 
-    public function update($data, $id)
-    {
-        $oldObj = $this->getById($id);
 
-        if (isset($data['image'])) {
-            $data['image'] = $this->handleFile($data['image'], 'Order');
 
-            if ($oldObj->image) {
-                $this->deleteFile($oldObj->image);
-            }
-        }
-
-        try {
-            $oldObj->update($data);
-            return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
-        }
-    }
 
 
     public function reverseStockDetails($id)

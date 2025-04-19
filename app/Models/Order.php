@@ -38,6 +38,11 @@ class Order extends BaseModel
         return $this->hasMany(OrderDetail::class);
     }
 
+    public function order_status()
+    {
+        return $this->hasOne(OrderStatus::class);
+    }
+
 
 
 }

@@ -107,6 +107,8 @@ Route::group(
                 #============================ orders ==================================
                 Route::resourceWithDeleteSelected('orders', OrderController::class);
                 Route::get('/get-prices', [OrderController::class, 'calculatePrices'])->name('vendor.orders.calculatePrices'); //using for order
+                Route::get('/edit-order-status/{id}', [OrderController::class, 'editOrderStatus'])->name('vendor.orders.editOrderStatus'); //using for order
+                Route::put('/update-order-status', [OrderController::class, 'updateOrderStatus'])->name('vendor.orders.updateOrderStatus'); //using for order
             });
         });
 
