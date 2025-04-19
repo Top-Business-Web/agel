@@ -28,15 +28,15 @@ class UnsurpassedImport implements ToCollection, WithHeadingRow, WithValidation
     {
         foreach ($collection as $row) {
 
-            $unsurpassed = Unsurpassed::where('phone', '+966'.$row['phone'])
-                ->orWhere('office_phone', '+966'.$row['office_phone'])
-                ->orWhere('national_id', $row['national_id'])
+            $unsurpassed = Unsurpassed::Where('national_id', $row['national_id'])
                 ->first();
 
             if ($unsurpassed) {
                 $unsurpassed->update([
                     'name' => $row['name'] ?? $unsurpassed->name,
+                    'phone' => '+966'.$row['phone'] ?? $unsurpassed->phone,
                     'office_name' => $row['office_name'] ?? $unsurpassed->office_name,
+                    'office_phone' => '+966'.$row['office_phone'] ?? $unsurpassed->office_phone,
                 ]);
             } else {
                 // Create new record
@@ -60,40 +60,11 @@ class UnsurpassedImport implements ToCollection, WithHeadingRow, WithValidation
     {
         return [
             'name' => 'required|max:255',
-            'phone' => 'required|regex:/^[0-9]{9}$/|unique:unsurpasseds,phone|unique:unsurpasseds,office_phone',
-            'national_id' => 'required|numeric|digits:10|unique:unsurpasseds,national_id',
+            'phone' => 'required|regex:/^[0-9]{9}$/',
+            'national_id' => 'required|numeric|digits:10',
             'office_name' => 'nullable|max:255',
-            'office_phone' => 'nullable|regex:/^[0-9]{9}$/|unique:unsurpasseds,office_phone|unique:unsurpasseds,phone',
+            'office_phone' => 'nullable|regex:/^[0-9]{9}$/',
         ];
     }
-    public function messages()
-    {
-        return [
-            'phone.required' => 'The phone field is required.',
-            'phone.regex' => 'The phone number must contain exactly 9 digits.',
-            'phone.unique' => 'The phone number must be unique and not match any existing phone or office phone.',
-            'national_id.required' => 'The national ID field is required.',
-            'national_id.numeric' => 'The national ID must be a numeric value.',
-            'national_id.digits' => 'The national ID must be exactly 10 digits.',
-            'national_id.unique' => 'The national ID already exists in the database.',
-            'office_name.max' => 'The office name must not exceed 255 characters.',
-            'office_phone.regex' => 'The office phone number must contain exactly 9 digits.',
-            'office_phone.unique' => 'The office phone number must be unique and not match any existing office phone or phone.',
-        ];
-    }
-
-    /**
-     * Custom validation messages (optional).
-     *
-     * @return array
-     */
-    public function customValidationMessages()
-    {
-        return [
-            'national_id.unique' => 'The national ID already exists in the database.',
-            'name.required' => 'The name field is required.',
-            'phone.regex' => 'The phone number must start with +966 and contain only 9 digits.',
-            'office_phone.regex' => 'The office phone number must start with +966 and contain only 9 digits.',
-        ];
-    }
+//
 }
