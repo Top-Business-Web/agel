@@ -1,23 +1,25 @@
 <?php
 
+use App\Http\Controllers\Admin\ActivityLogController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\CountryController;
 use App\Http\Controllers\Admin\InvestorController;
 use App\Http\Controllers\Admin\OrderController;
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Artisan;
-use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\CityController;
 use App\Http\Controllers\Admin\PlanController;
-use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\VendorController;
-use App\Http\Controllers\Admin\CountryController;
-use App\Http\Controllers\Admin\SettingController;
-use App\Http\Controllers\Admin\PermissionController;
-use App\Http\Controllers\Admin\ActivityLogController;
 use App\Http\Controllers\Admin\PlanSubscriptionController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\VendorController;
+use App\Http\Controllers\Admin\UnsurpassedController;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
+
 
 
 /*
@@ -112,9 +114,7 @@ Route::group(
                 Route::POST('setting/store', [SettingController::class, 'store'])->name('setting.store');
                 Route::POST('setting/update/{id}/', [SettingController::class, 'update'])->name('settingUpdate');
 
-                Route::resourceWithDeleteSelected('unsurpasseds', \App\Http\Controllers\Vendor\UnsurpassedController::class);
-                Route::get('unsurpasseds/add/Excel',[ \App\Http\Controllers\Vendor\UnsurpassedController::class,'addExcel'])->name('unsurpasseds.add.excel');
-                Route::post('unsurpasseds/store/Excel',[ \App\Http\Controllers\Vendor\UnsurpassedController::class,'storeExcel'])->name('unsurpasseds.store.excel');
+                Route::get('unsurpasseds',[UnsurpassedController::class,'index'])->name('admin.unsurpasseds.index');
 
             });
 //        });
