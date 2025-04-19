@@ -1,5 +1,4 @@
 @extends('vendor.layouts.master')
-
 @section('title')
     {{ config()->get('app.name') }}
 @endsection
@@ -7,6 +6,7 @@
 {{--    {{ $bladeName }} --}}
 {{-- @endsection --}}
 @section('content')
+
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">

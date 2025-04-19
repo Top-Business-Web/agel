@@ -16,6 +16,7 @@ class UnsurpassedController extends Controller
 
     public function index(Request $request)
     {
+
         return $this->objService->index($request);
     }
 
@@ -56,10 +57,7 @@ class UnsurpassedController extends Controller
         return $this->objService->delete($id);
     }
 
-    public function updateColumnSelected(Request $request)
-    {
-        return $this->objService->updateColumnSelected($request, 'status');
-    }
+
 
     public function deleteSelected(Request $request)
     {

@@ -136,6 +136,5 @@ Route::group(
 
 
 
-// Route::resourceWithDeleteSelected('operations', \App\Http\Controllers\Admin\OperationController::class);
 
 

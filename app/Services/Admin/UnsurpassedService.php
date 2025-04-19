@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Vendor;
+namespace App\Services\Admin;
 
 use App\Models\Unsurpassed as ObjModel;
 use App\Services\BaseService;
@@ -10,7 +10,7 @@ use App\Imports\UnsurpassedImport;
 
 class UnsurpassedService extends BaseService
 {
-    protected string $folder = 'vendor/unsurpassed';
+    protected string $folder = 'admin/unsurpassed';
     protected string $route = 'unsurpasseds';
 
     public function __construct(ObjModel $objModel ,protected Excel $excel, protected UnsurpassedImport $unsurpassedImport)
@@ -39,12 +39,13 @@ class UnsurpassedService extends BaseService
                 ->escapeColumns([])
                 ->make(true);
         } else {
+            // dd('test');
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
                 'addExcelRoute' => route($this->route . '.add.excel'),
-                'bladeName' => "",
+                'bladeName' => "المتعثرين",
                 'route' => $this->route,
-                'obj' => $this->model->get(),
+                'obj' => $this->getAll(),
             ]);
         }
     }
