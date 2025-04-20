@@ -1,26 +1,20 @@
 <?php
 
-namespace App\Services\Admin;
 
-//use App\Models\Module;
 
 namespace App\Services\Admin;
 
-use App\Models\Investor;
-use App\Models\vendor;
 use App\Models\Branch;
-use App\Models\Region;
 
 use App\Models\Investor as ObjModel;
 
 use App\Services\BaseService;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Permission;
+use App\Models\Vendor;
 
 use Yajra\DataTables\DataTables;
+
+use function Symfony\Component\String\b;
 
 class InvestorService extends BaseService
 {
@@ -42,23 +36,19 @@ class InvestorService extends BaseService
         }
 
         if ($request->office_id) {
-            $query->where('branch_id', $request->office_id);
+            $query->whereIn('branch_id', $this->branch->where('vendor_id', $request->office_id)->pluck('id'));
         }
 
 
         if ($request->ajax()) {
             return DataTables::of($query)
                 ->addColumn('branch', function ($obj) {
-//                    return $obj->branch ? $obj->branch()->name : "غير مرتبط بفرع";
+                   return $obj->branch ? $obj->branch->name : "غير مرتبط بفرع";
                 })
                 ->addColumn('office', function ($obj) {
-//                    return $obj->office() ? $obj->office()->name : "غير مرتبط بمكتب";
+                   return $obj->branch->vendor->parent_id !=null? $obj->branch->vendor->parent->name : $obj->branch->vendor->name;
                 })
-                ->addColumn('name', function ($obj) {
-                    return $obj->name;
 
-//                    return $obj->branch?($obj->branch->vendor->parent_id==null? $obj->branch->vendor->name:$obj->branch->vendor->parent->name):"غير مرتبط بمكتب";
-                })
 
                 ->addColumn('vendor', function ($obj) {
                     return $obj->vendor() ? $obj->vendor()->name : "غير مرتبط بموظف";
@@ -66,9 +56,9 @@ class InvestorService extends BaseService
                 ->addColumn('national_id', function ($obj) {
                     return $obj->national_id;
                 })
-                ->addColumn('phone', function ($obj) {
-                    return $obj->phone;
-
+                ->editColumn('phone', function ($obj) {
+                    $phone = str_replace('+', '', $obj->phone);
+                    return $phone;
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -77,8 +67,8 @@ class InvestorService extends BaseService
 
         return view($this->folder . '/index', [
             'bladeName' => "المستثمرين",
-            'branches' => Branch::all(),
-            'offices' => $this->vendor->where('parent_id', null)->get(),
+            'branches' => $this->branch->whereIn('id',$this->model->pluck('branch_id')->unique())->get(),
+            'offices' => $this->vendor->whereIn('id', $this->branch->whereIn('id',$this->model->pluck('branch_id')->unique())->pluck('vendor_id')->unique())->where('parent_id', null)->get(),
             'route' => $this->route,
         ]);
     }

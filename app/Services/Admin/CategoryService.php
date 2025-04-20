@@ -22,7 +22,12 @@ class CategoryService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $obj = $this->getDataTable();
+            $obj = $this->model->apply()->get();
+
+        if ($request->filled('office_id')) {
+            $obj = $this->model->where('vendor_id',  $request->office_id)->get();
+        }
+
             return DataTables::of($obj)
 
 

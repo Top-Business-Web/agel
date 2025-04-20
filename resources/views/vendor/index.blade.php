@@ -5,7 +5,7 @@
 
 
 @section('content')
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
             <div class="card bg-primary-gradient img-card box-success-shadow">
                 <div class="card-body">
@@ -138,7 +138,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    {{-- </div> --}}
 @endsection
 @section('js')
 @endsection

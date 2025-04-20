@@ -28,7 +28,7 @@ class Investor extends BaseModel
         ($office->parent_id) {
            $office = Vendor::where('id', $this->vendor()->parent_id)->first();
         }
-//        return $this->vendor()?($this->vendor()->parent_id?Vendor::where('id',$this->vendor()->parent_id)->first():$this->vendor()->id):null;
+    //    return $this->vendor()?($this->vendor()->parent_id?Vendor::where('id',$this->vendor()->parent_id)->first():$this->vendor()->id):null;
         return $office;
     }
 
