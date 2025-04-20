@@ -156,9 +156,9 @@
             <hr>
             <div class="col-6">
                 <label class="form-control-label d-block">هل يوجد تقسيط؟</label>
-                <div class="d-flex justify-content-center align-items-center" style="min-height: 40px;">
+                <div class="" style="min-height: 40px;">
                     <div class="form-check form-switch">
-                        <input class="tgl tgl-ios form-check-input" type="checkbox" name="is_installment" id="is_installment">
+                        <input class="tgl tgl-ios form-check-input" type="checkbox" name="is_installment" id="is_installment" style="margin-right: 0">
                         <label class="tgl-btn" for="is_installment"></label>
                     </div>
                 </div>

@@ -4,29 +4,34 @@
         @method('PUT')
         <input type="hidden" value="{{ $obj->id }}" name="id">
         <div class="row">
+<div class="col-6">
 
-            <h3>حاله الطلب : {{ App\Enums\OrderStatus::from($obj->order_status->status)->lang() }}</h3>
-            <h3>المبلغ المطلوب دفعه : {{ $obj->required_to_pay - $obj->order_status->paid }}</h3>
+     <h4>حاله الطلب : {{ App\Enums\OrderStatus::from($obj->order_status->status)->lang() }}</h4>
+</div>
+<div class="col-6">
+    <h4>المبلغ المطلوب دفعه : {{ $obj->required_to_pay - $obj->order_status->paid }}</h4>
+</div>
 
-            <div class="col-12">
+            <div class="col-6 mt-4">
                 <label class="form-control-label d-block">هل تريد امهال  {{ $obj->client->name }}</label>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" name="is_graced" id="show_date_checkbox">
+                    <input class="form-check-input" type="checkbox" name="is_graced" id="show_date_checkbox" style="margin-right: 10px;">
                 </div>
             </div>
 
-            <div class="col-6" id="paid_wrapper">
-                <div class="form-group">
+            <div class="col-6 mt-4" >
+                <div class="form-group" id="paid_wrapper">
                     <label for="paid" class="form-control-label">المبلغ</label>
                     <input type="number" step="0.01" min="0" max="{{ $obj->required_to_pay - $obj->order_status->paid}}" class="form-control" name="paid" id="paid">
                 </div>
-            </div>
-
-             <div class="col-6" id="grace_period_wrapper" style="display: none;">
-                <div class="form-group">
+                <div class="form-group" id="grace_period_wrapper" style="display: none;">
                     <label for="grace_period" class="form-control-label"> ممده المهله</label>
                     <input type="number" name="grace_period" id="grace_period" class="form-control">
                 </div>
+            </div>
+
+             <div class="col-6"  >
+
             </div>
 
 
