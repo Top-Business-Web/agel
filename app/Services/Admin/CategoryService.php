@@ -21,14 +21,24 @@ class CategoryService extends BaseService
 
     public function index($request)
     {
+
         if ($request->ajax()) {
-            $obj = $this->model->apply()->get();
+            $query = $this->model->query();
+
+//            $obj = $this->model->apply()->get();
 
         if ($request->filled('office_id')) {
             $obj = $this->model->where('vendor_id',  $request->office_id)->get();
         }
 
-            return DataTables::of($obj)
+//            if ($request->office_id) {
+//                // First get the branch IDs for this office
+//                $branchIds = $this->branch->where('vendor_id', $request->office_id)->pluck('id');
+//                $query->whereIn('branch_id', $branchIds);
+//
+//            }
+
+            return DataTables::of($query)
 
 
                 ->addColumn('name', function ($obj) {
@@ -44,7 +54,7 @@ class CategoryService extends BaseService
             return view($this->folder . '/index', [
                 'bladeName' => "الأصناف",
                 'route' => $this->route,
-                'vendors'=>$this->vendor->where('parent_id', null)->get(),
+                'offices'=>$this->vendor->where('parent_id', null)->get(),
             ]);
         }
     }

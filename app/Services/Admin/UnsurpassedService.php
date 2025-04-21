@@ -28,6 +28,15 @@ class UnsurpassedService extends BaseService
                     $phone = str_replace('+', '', $obj->phone);
                     return $phone;
                 })
+                ->addColumn('actions', function ($obj) {
+                    $buttons = '
+                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
+                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    ';
+                    return $buttons;
+                })
 
                 ->addIndexColumn()
                 ->escapeColumns([])

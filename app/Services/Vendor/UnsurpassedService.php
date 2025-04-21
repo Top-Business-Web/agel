@@ -13,7 +13,7 @@ class UnsurpassedService extends BaseService
     protected string $folder = 'vendor/unsurpassed';
     protected string $route = 'unsurpasseds';
 
-    public function __construct(ObjModel $objModel ,protected Excel $excel, protected UnsurpassedImport $unsurpassedImport)
+    public function __construct(ObjModel $objModel, protected Excel $excel, protected UnsurpassedImport $unsurpassedImport)
     {
         parent::__construct($objModel);
     }
@@ -77,6 +77,7 @@ class UnsurpassedService extends BaseService
 
         }
     }
+
     public function storeExcel($data): \Illuminate\Http\JsonResponse
     {
         try {
@@ -123,5 +124,8 @@ class UnsurpassedService extends BaseService
             return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
 
         }
+
+
+
     }
 }
