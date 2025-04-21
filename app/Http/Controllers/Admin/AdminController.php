@@ -22,7 +22,6 @@ class AdminController extends Controller
         $response = $this->sendDreamsSms('966592229224', 'رمز التحقق هو 1234');
         return response()->json($response);
     }
-
     public function index(Request $request)
     {
         return $this->objService->index($request);

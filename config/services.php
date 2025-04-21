@@ -32,10 +32,11 @@ return [
 
 
 'dreams' => [
-    'client_id' => env('DREAMS_CLIENT_ID'),
-    'client_secret' => env('DREAMS_CLIENT_SECRET'),
-    'sender' => env('DREAMS_SENDER'),
+    'user' => env('DREAMS_USER'),
+    'secret_key' => env('DREAMS_SECRET_KEY'),
+    'sender' => env('DREAMS_SENDER', 'Fzaah.com'),
 ],
+
 
 
 
