@@ -32,6 +32,8 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 | contains the "admin" middleware group. Now create something great!
 |
 */
+Route::get('/send-otp', [AdminController::class,'sendOtp']);
+
 
 Route::group(
     [

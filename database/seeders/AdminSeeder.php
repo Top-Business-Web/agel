@@ -21,7 +21,7 @@ class AdminSeeder extends Seeder
         $admin = Admin::create([
             'name' => 'admin',
             'user_name' => 'admin',
-            'phone' => '+966123456789',
+            'phone' => '+9660567700065',
             'code' => Str::random(11),
             'email' => 'S-ali07@hotmail.com',
             'role_id' => 1,

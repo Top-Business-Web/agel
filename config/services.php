@@ -30,13 +30,14 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
-    'paymob' => [
-        'api_key' => env('PAYMOB_API_KEY'),
-        'integration_id' => env('PAYMOB_INTEGRATION_ID'),
-        'iframe_id' => env('PAYMOB_IFRAME_ID'),
-        'username' => env('PAYMOB_USERNAME'),
-        'password' => env('PAYMOB_PASSWORD'),
-    ],
+
+'dreams' => [
+    'client_id' => env('DREAMS_CLIENT_ID'),
+    'client_secret' => env('DREAMS_CLIENT_SECRET'),
+    'sender' => env('DREAMS_SENDER'),
+],
+
+
 
 
 

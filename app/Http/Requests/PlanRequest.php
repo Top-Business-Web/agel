@@ -26,9 +26,9 @@ class PlanRequest extends FormRequest
             'name' => 'required|string|max:255',
             'price' => 'required|numeric|min:0',
             'period' => 'required|string|max:100',
-            'discount' => 'nullable|numeric|min:0|max:100',
-            'description' => 'nullable|string|max:1000',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'discount' => 'required|numeric|min:0|max:100',
+            'description' => 'required|string|max:1000',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
 
             // التحقق من الخطط الديناميكية
             'plans' => 'nullable|array|min:1',
@@ -39,11 +39,9 @@ class PlanRequest extends FormRequest
             'string',
             'max:255',
             function ($attribute, $value, $fail) {
-                // استخراج رقم الخطة من اسم الحقل (مثلاً: plans.1.value)
                 $planIndex = explode('.', $attribute)[1] ?? null;
                 $isUnlimitedField = "plans.$planIndex.is_unlimited";
 
-                // التحقق مما إذا كان `is_unlimited` غير محدد، فإن `value` يصبح مطلوبًا
                 if (!request()->input($isUnlimitedField) && empty($value)) {
                 $fail(__('Please enter a value.'));
                 }

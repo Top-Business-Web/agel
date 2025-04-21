@@ -58,9 +58,9 @@
     </div>
 
     <!-- Plans Section -->
-    <button type="button" class="btn btn-success mt-2" id="add_plan">
+    {{-- <button type="button" class="btn btn-success mt-2" id="add_plan">
         <i class="fe fe-plus"></i> إضافة تفاصيل
-    </button>
+    </button> --}}
     <div class="col-12">
         <div id="plans_container">
             @foreach($obj->details as $index => $plan)

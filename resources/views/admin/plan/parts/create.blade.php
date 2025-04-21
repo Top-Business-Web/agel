@@ -53,14 +53,12 @@
         </div>
 
         <!-- Plans Section -->
-        <button type="button" class="btn btn-success mt-2"  id="add_plan">
-                <i class="fe fe-plus"></i> إضافة تفاصيل
-            </button>
+        <button type="button" class="btn btn-success mt-2" id="add_plan">
+            <i class="fe fe-plus"></i> إضافة تفاصيل
+        </button>
+
         <div class="col-12">
             <div id="plans_container"></div>
-
-
-
         </div>
 
         <!-- Modal Footer -->
@@ -71,22 +69,19 @@
     </form>
 </div>
 
-
-
 <script>
     $('.dropify').dropify();
     $('select').select2({
         dropdownParent: $('#editOrCreate .modal-content')
     });
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         let planCount = 0;
-        let selectedOptions = new Set(); // Store selected options
+        let selectedOptions = new Set();
 
-        // Disable the save button initially
         $('#addButton').prop('disabled', true);
 
-        $('#add_plan').on('click', function() {
+        $('#add_plan').on('click', function () {
             planCount++;
 
             let selectKey = `
@@ -114,14 +109,6 @@
                     </div>
                 </div>
 
-                {{-- <div class="col-2 d-flex align-items-center">
-                    <div class="form-group">
-                        <label class="form-control-label">غير محدود</label>
-                        <input type="hidden" name="plans[${planCount}][is_unlimited]" value="0">
-                        <input type="checkbox" class="unlimited-checkbox" name="plans[${planCount}][is_unlimited]" value="1">
-                    </div>
-                </div> --}}
-
                 <div class="col-2 d-flex align-items-center">
                     <button type="button" class="btn btn-danger remove-plan">
                         <i class="fe fe-trash"></i>
@@ -134,7 +121,7 @@
             toggleSaveButton();
         });
 
-        $('#plans_container').on('change', '.plan-select', function() {
+        $('#plans_container').on('change', '.plan-select', function () {
             let selectedValue = $(this).val();
             let previousValue = $(this).data('previous') || '';
 
@@ -149,7 +136,7 @@
             updateSelectOptions();
         });
 
-        $('#plans_container').on('change', '.unlimited-checkbox', function() {
+        $('#plans_container').on('change', '.unlimited-checkbox', function () {
             let inputField = $(this).closest('.plan-row').find('.plan-value');
             if ($(this).is(':checked')) {
                 inputField.prop('disabled', true).val('');
@@ -158,7 +145,7 @@
             }
         });
 
-        $('#plans_container').on('click', '.remove-plan', function() {
+        $('#plans_container').on('click', '.remove-plan', function () {
             let removedValue = $(this).closest('.plan-row').find('.plan-select').val();
             if (removedValue) {
                 selectedOptions.delete(removedValue);
@@ -169,9 +156,9 @@
         });
 
         function updateSelectOptions() {
-            $('.plan-select').each(function() {
+            $('.plan-select').each(function () {
                 let currentValue = $(this).val();
-                $(this).find('option').each(function() {
+                $(this).find('option').each(function () {
                     let optionValue = $(this).val();
                     if (optionValue && selectedOptions.has(optionValue) && optionValue !== currentValue) {
                         $(this).prop('disabled', true);
@@ -189,5 +176,10 @@
                 $('#addButton').prop('disabled', true);
             }
         }
+
+        for (let i = 0; i < 4; i++) {
+            $('#add_plan').trigger('click');
+        }
+        $('#add_plan').hide();
     });
 </script>

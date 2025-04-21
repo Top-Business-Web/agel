@@ -6,12 +6,21 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRequest as ObjRequest;
 use App\Models\Admin;
 use App\Services\Admin\AdminService as ObjService;
+use App\Traits\DreamsSmsTrait;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+    use DreamsSmsTrait;
 
     public function __construct(protected ObjService $objService){
+    }
+
+
+    public function sendOtp()
+    {
+        $response = $this->sendDreamsSms('966592229224', 'رمز التحقق هو 1234');
+        return response()->json($response);
     }
 
     public function index(Request $request)
