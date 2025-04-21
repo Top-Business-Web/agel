@@ -20,7 +20,11 @@ class AdminController extends Controller
     public function sendOtp()
     {
         $response = $this->sendDreamsSms('966592229224', 'رمز التحقق هو 1234');
-        return response()->json($response);
+        if ($response['status'] === 'success') {
+            return response()->json(['message' => 'OTP sent successfully']);
+        } else {
+            return response()->json(['message' => 'Failed to send OTP'], 500);
+        }
     }
     public function index(Request $request)
     {
