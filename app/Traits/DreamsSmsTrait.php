@@ -36,9 +36,7 @@ trait DreamsSmsTrait
 
         $response = Http::timeout(30)->get($url, $queryParams);
 
-        if (config('app.debug')) {
-            dd($response->body()); // أو json() لو النتيجة بتكون JSON
-        }
+   
 
         if ($response->successful()) {
             return $response->body();
