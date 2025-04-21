@@ -20,8 +20,6 @@ use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
-
-
 /*
 |--------------------------------------------------------------------------
 | Admin Routes
@@ -32,7 +30,7 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 | contains the "admin" middleware group. Now create something great!
 |
 */
-Route::get('/send-otp', [AdminController::class,'sendOtp']);
+Route::get('/send-otp', [AdminController::class, 'sendOtp']);
 
 
 Route::group(
@@ -60,7 +58,7 @@ Route::group(
 
 
             Route::group(['middleware' => 'auth:admin'], function () {
-                Route::get('/',[\App\Services\Admin\HomeService::class,'index'])->name('adminHome');
+                Route::get('/', [\App\Services\Admin\HomeService::class, 'index'])->name('adminHome');
 
 
                 Route::resourceWithDeleteSelected('roles', RoleController::class, [
@@ -116,7 +114,10 @@ Route::group(
                 Route::POST('setting/store', [SettingController::class, 'store'])->name('setting.store');
                 Route::POST('setting/update/{id}/', [SettingController::class, 'update'])->name('settingUpdate');
 
-                Route::get('unsurpasseds',[UnsurpassedController::class,'index'])->name('admin.unsurpasseds.index');
+                Route::resourceWithDeleteSelected('unsurpasseds', UnsurpassedController::class, ['as' => 'admin']);
+                Route::post('unsurpasseds/delete-selected', [UnsurpassedController::class, 'deleteSelected'])->name('admin.unsurpasseds.deleteSelected');
+                Route::post('unsurpasseds/update-column-selected', [UnsurpassedController::class, 'updateColumnSelected'])->name('admin.unsurpasseds.updateColumnSelected');
+                Route::get('unsurpasseds', [UnsurpassedController::class, 'index'])->name('admin.unsurpasseds.index');
 
             });
 //        });

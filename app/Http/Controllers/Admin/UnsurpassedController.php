@@ -17,5 +17,17 @@ class UnsurpassedController extends Controller
         return $this->objService->index($request);
     }
 
+    public function destroy($id)
+    {
+        return $this->objService->delete($id);
+    }
+
+
+
+    public function deleteSelected(Request $request)
+    {
+        return $this->objService->deleteSelected($request);
+    }
+
 
 }

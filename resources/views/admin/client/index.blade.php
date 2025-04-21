@@ -1,12 +1,12 @@
 @extends('admin/layouts/master')
 
 @section('title')
-{{ config()->get('app.name') }} | المكاتب
+    {{ config()->get('app.name') }} | المكاتب
 @endsection
 @section('page_name')
     <!-- {{ $bladeName }} -->
 @endsection
- <!-- {{--@section('page_name') {{ $title }} -->
+<!-- {{--@section('page_name') {{ $title }} -->
   @endsection--}} -->
 
 @section('content')
@@ -14,58 +14,88 @@
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">
-                <div class="card-header">
-                    <div class="form-group row">
-                        <label for="branchFilter" class="col">اختر الفرع</label>
-                        <select id="branchFilter" class="form-control col">
-                            <option value="">الكل</option>
-                            @foreach ($branches as $branch)
-                                <option value="{{ $branch->id }}">{{ $branch->name }}
-                                    ({{ $branch->vendor->parent_id != null ? $branch->vendor->parent->name : $branch->vendor->name }})
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="form-group row">
-                        <label for="officeFilter" class="col">اختر المكتب</label>
-                        <select id="officeFilter" class="form-control col">
-                            <option value="">الكل</option>
-                            @foreach ($offices as $office)
-                                <option value="{{ $office->id }}">{{ $office->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <h3></h3>
-                    <h3 class="card-title"></h3>
-                    <div class="">
-{{--                        <button class="btn btn-secondary btn-icon text-white addBtn">--}}
-{{--									<span>--}}
-{{--										<i class="fe fe-plus"></i>--}}
-{{--									</span> أضافه--}}
-{{--                        </button>--}}
-{{--                        <button class="btn btn-danger btn-icon text-white" id="bulk-delete">--}}
-{{--                            <span><i class="fe fe-trash"></i></span> حذف المحدد--}}
-{{--                        </button>--}}
+                {{--@dd($offices)--}}
 
-{{--                        <button class="btn btn-secondary btn-icon text-white" id="bulk-update">--}}
-{{--                            <span><i class="fe fe-trending-up"></i></span> تغير الحالة--}}
-{{--                        </button>--}}
+                <div class="card-header bg-light">
+                    <div class="row align-items-center" style="width: 800px">
+                        <!-- Office Filter -->
+                        <div class="col-md-5 mb-3 mb-md-0">
+                            <div class="form-group mb-0">
+                                <label for="officeFilter" class="font-weight-bold text-muted mb-1">المكتب
+                                </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-white">
+                            <i class="fas fa-building"></i>
+                        </span>
+                                    </div>
+                                    <select id="officeFilter" class="form-control select2"
+                                            aria-describedby="officeHelp">
+                                        <option disabled selected value="">إختر المكتب</option>
+                                        <option value="">الكل</option>
+                                        @foreach ($offices as $office)
+                                            <option value="{{ $office->id }}">{{ $office->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <small id="officeHelp" class="form-text text-muted">
+                                    حدد المكتب لتصفية الفروع المتاحة
+                                </small>
+                            </div>
+                        </div>
+
+                        <!-- Branch Filter - Hidden Initially -->
+                        <div class="col-md-5 mb-3 mb-md-0" id="branch-div" style="display: none">
+                            <div class="form-group mb-0">
+                                <label for="branchFilter" class="font-weight-bold text-muted mb-1">فرع المكتب</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-white">
+                            <i class="fas fa-code-branch"></i>
+                        </span>
+                                    </div>
+                                    <select id="branchFilter" class="form-control select2"
+                                            aria-describedby="branchHelp">
+                                        <option selected value="all">كل الفروع</option>
+                                        @foreach ($branches as $branch)
+                                            <option value="{{ $branch->id }}"
+                                                    data-office-id="{{ $branch->vendor->parent_id != null ? $branch->vendor->parent->id : $branch->vendor->id }}">
+                                                {{ $branch->name }}
+                                                ({{ $branch->vendor->parent_id != null ? $branch->vendor->parent->name : $branch->vendor->name }}
+                                                )
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <small id="branchHelp" class="form-text text-muted">
+                                    اختر فرع معين من الفروع التابعة للمكتب المحدد
+                                </small>
+                            </div>
+                        </div>
+
+                        {{--                        <!-- Optional Title Area -->--}}
+                        {{--                        <div class="col-md-2 text-md-right">--}}
+                        {{--                            <h3 class="card-title mb-0 text-primary">إعدادات التصفية</h3>--}}
+                        {{--                            <small class="text-muted">استخدم الفلاتر للبحث الدقيق</small>--}}
+                        {{--                        </div>--}}
                     </div>
                 </div>
+
                 <div class="card-body">
                     <div class="table-responsive">
                         <!--begin::Table-->
                         <table class="table table-bordered text-nowrap w-100" id="dataTable">
                             <thead>
                             <tr class="fw-bolder text-muted bg-light">
-{{--                                <th class="min-w-25px">--}}
-{{--                                    <input type="checkbox" id="select-all">--}}
-{{--                                </th>--}}
+                                {{--                                <th class="min-w-25px">--}}
+                                {{--                                    <input type="checkbox" id="select-all">--}}
+                                {{--                                </th>--}}
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-50px rounded-end">الإسم</th>
                                 <th class="min-w-50px rounded-end">رقم الهويه</th>
                                 <th class="min-w-50px rounded-end">رقم الهاتف</th>
                                 <th class="min-w-50px rounded-end">الفرع</th>
-{{--                                <th class="min-w-50px rounded-end">الموظف</th>--}}
+                                {{--                                <th class="min-w-50px rounded-end">الموظف</th>--}}
                                 <th class="min-w-50px rounded-end">المكتب</th>
                             </tr>
                             </thead>
@@ -192,12 +222,13 @@
         ]
 
 
-{{--        showData('{{route($route.'.index')}}', columns);--}}
 
-        // Initialize the DataTable
+
+
+
         var dataTable = $('#dataTable').DataTable({
             processing: true,
-            serverSide: false,
+            serverSide: true, // Change to true for server-side processing
             ajax: {
                 url: '{{route($route.'.index')}}',
                 data: function (d) {
@@ -209,77 +240,47 @@
             order: [[0, 'desc']]
         });
 
-        // Handle branch filter change
-        $('#branchFilter').on('change', function() {
-            // Reset office filter when branch changes
-            $('#officeFilter').val('');
+        $('#officeFilter').on('change', function () {
+            $('#branchFilter').val('');
+            const selectedOfficeId = $(this).val();
+
+            if (selectedOfficeId) {
+                $('#branch-div').css('display', 'block');
+            }
+
+            // Update branch options
+            let hasMatch = false;
+            $('#branchFilter option').each(function () {
+                const branchOfficeId = $(this).data('office-id');
+                if ($(this).val() === "all") return;
+
+                if (branchOfficeId == selectedOfficeId || !selectedOfficeId) {
+                    $(this).show();
+                    hasMatch = true;
+                } else {
+                    $(this).hide();
+                }
+            });
+
+            $('#branchFilter option:first').prop('selected', true).show();
+
+            if (!hasMatch) {
+                $('#branchFilter').append('<option value="" disabled class="none-matched">لا يوجد فروع في هذا المكتب</option>');
+            } else {
+                $('#branchFilter .none-matched').remove();
+            }
+
+            // Reload the table with new filters
             dataTable.ajax.reload();
         });
 
-        // Handle office filter change
-        $('#officeFilter').on('change', function() {
+        $('#branchFilter').on('change', function () {
             dataTable.ajax.reload();
         });
-
-
-        // Hide the first column and remove checkboxes
-        $('#dataTable').on('draw.dt', function () {
-            var table = $('#dataTable').DataTable();
-            table.column(0).visible(false);
-            $('.select-all-checkbox, .delete-checkbox, .checkbox-selector').remove();
-        });
-
-        {{--// Delete Using Ajax--}}
-        {{--deleteScript('{{route($route.'.destroy',':id')}}');--}}
-        {{--deleteSelected('{{route($route.'.deleteSelected')}}');--}}
-
-        {{--updateColumnSelected('{{route($route.'.updateColumnSelected')}}');--}}
-
-
-        {{--// Add Using Ajax--}}
-        {{--showAddModal('{{route($route.'.create')}}');--}}
-        {{--addScript();--}}
-        {{--// Add Using Ajax--}}
-        {{--showEditModal('{{route($route.'.edit',':id')}}');--}}
-        {{--editScript();--}}
     </script>
 
-{{--    <script>--}}
-{{--        // for status--}}
-{{--        $(document).on('click', '.statusBtn', function () {--}}
-{{--            let id = $(this).data('id');--}}
-
-{{--            var val = $(this).is(':checked') ? 1 : 0;--}}
-
-{{--            let ids = [id];--}}
 
 
-{{--            $.ajax({--}}
-{{--                type: 'POST',--}}
-{{--                url: '{{ route($route . '.updateColumnSelected') }}',--}}
-{{--                data: {--}}
-{{--                    "_token": "{{ csrf_token() }}",--}}
-{{--                    'ids': ids,--}}
-{{--                },--}}
-{{--                success: function (data) {--}}
-{{--                    if (data.status === 200) {--}}
-{{--                        if (val !== 0) {--}}
-{{--                            toastr.success('', "نشط");--}}
-{{--                        } else {--}}
-{{--                            toastr.warning('', "غير نشط ");--}}
-{{--                        }--}}
-{{--                    } else {--}}
-{{--                        toastr.error('Error', "حدث خطأ ما");--}}
-{{--                    }--}}
-{{--                },--}}
-{{--                error: function () {--}}
-{{--                    toastr.error('Error', "حدث خطأ ما");--}}
-{{--                }--}}
-{{--            });--}}
-{{--        });--}}
-
-
-{{--    </script>--}}
 
 @endsection
 

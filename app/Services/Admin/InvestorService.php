@@ -30,13 +30,33 @@ class InvestorService extends BaseService
     {
         $query = $this->model->query();
 
-        // Apply filters
-        if ($request->branch_id) {
-            $query->where('branch_id', $request->branch_id);
-        }
+//        // Apply filters
+//        if ($request->branch_id) {
+//            $query->where('branch_id', $request->branch_id);
+//        }
+//
+//        if ($request->office_id) {
+//            $query->whereIn('branch_id', $this->branch->where('vendor_id', $request->office_id)->pluck('id'));
+//        }
 
         if ($request->office_id) {
-            $query->whereIn('branch_id', $this->branch->where('vendor_id', $request->office_id)->pluck('id'));
+            // First get the branch IDs for this office
+            $branchIds = $this->branch->where('vendor_id', $request->office_id)->pluck('id');
+
+            if ($request->branch_id == 'all') {
+                $query->whereIn('branch_id', $branchIds);
+            }
+            elseif($request->branch_id) {
+                // If branch_id is specified, make sure it belongs to the selected office
+                $query->where('branch_id', $request->branch_id)
+                    ->whereIn('branch_id', $branchIds);
+            } else {
+                // Otherwise, just filter by all branches of this office
+                $query->whereIn('branch_id', $branchIds);
+            }
+        } elseif ($request->branch_id) {
+            // If only branch_id is specified (no office_id)
+            $query->where('branch_id', $request->branch_id);
         }
 
 
@@ -68,7 +88,8 @@ class InvestorService extends BaseService
         return view($this->folder . '/index', [
             'bladeName' => "المستثمرين",
             'branches' => $this->branch->whereIn('id',$this->model->pluck('branch_id')->unique())->get(),
-            'offices' => $this->vendor->whereIn('id', $this->branch->whereIn('id',$this->model->pluck('branch_id')->unique())->pluck('vendor_id')->unique())->where('parent_id', null)->get(),
+//            'offices' => $this->vendor->whereIn('id', $this->branch->whereIn('id',$this->model->pluck('branch_id')->unique())->pluck('vendor_id')->unique())->where('parent_id', null)->get(),
+            'offices' => $this->vendor->where('parent_id', null)->get(),
             'route' => $this->route,
         ]);
     }

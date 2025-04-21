@@ -38,30 +38,7 @@
                                 });
                             @endphp
 
-                            <!-- Phones Section -->
-      <!-- Phones Section -->
-<div id="plans_container">
-    @foreach($settings->where('key', 'phone') as $phone)
-        <div class="row phone-row border p-3 mb-2" id="phoneRow-{{ $loop->index }}">
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="phone" class="form-control-label">{{ __('Phone Number') }}</label>
-                    <div class="input-group">
-                        <span class="input-group-text">+966</span>
-                        <input type="number" class="form-control" name="phones[]" 
-                            value="{{ $phone->value ?? '' }}" required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-2 d-flex align-items-center">
-                <button type="button" class="btn btn-danger remove-phone" data-id="{{ $loop->index }}">
-                    <i class="fe fe-trash"></i> {{ __('Delete') }}
-                </button>
-            </div>
-        </div>
-    @endforeach
-</div>
+                                <!-- Phones Section -->
                             <div id="plans_container">
                                 @foreach($phones as $phone)
                                     <div class="row phone-row border p-3 mb-2" id="phoneRow-{{ $loop->index }}">
@@ -88,11 +65,67 @@
                                 @endforeach
                             </div>
 
+                            <!-- IBAN Section -->
+                            <div class="col-md-12 mt-4">
+                                <div class="card border-primary">
+                                    <div class="card-header bg-primary text-white">
+                                        <h5 class="mb-0">{{ __('Bank Account Information') }}</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="iban" class="form-label">{{ __('IBAN Number') }}</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fas fa-credit-card"></i></span>
+                                                        <input type="text"
+                                                               class="form-control"
+                                                               id="iban"
+                                                               name="iban"
+                                                               placeholder="SAXX XXXX XXXX XXXX XXXX XXXX"
+                                                               value="{{ $settings->where('key', 'iban')->first()->value ?? '' }}"
+                                                               pattern="[A-Z]{2}[0-9]{2}[a-zA-Z0-9]{1,30}"
+                                                               title="Please enter a valid IBAN number">
+                                                    </div>
+                                                    <small class="form-text text-muted">
+                                                        {{ __('Enter the IBAN in the format: SAXX XXXX XXXX XXXX XXXX XXXX') }}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="bank_name" class="form-label">{{ __('Bank Name') }}</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fas fa-university"></i></span>
+                                                        <input type="text"
+                                                               class="form-control"
+                                                               id="bank_name"
+                                                               name="bank_name"
+                                                               placeholder="{{ __('e.g. Al Rajhi Bank') }}"
+                                                               value="{{ $settings->where('key', 'bank_name')->first()->value ?? '' }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 mt-3">
+                                                <div class="form-group">
+                                                    <label for="account_holder" class="form-label">{{ __('Account Holder Name') }}</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                                        <input type="text"
+                                                               class="form-control"
+                                                               id="account_holder"
+                                                               name="account_holder"
+                                                               placeholder="{{ __('Account holder full name') }}"
+                                                               value="{{ $settings->where('key', 'account_holder')->first()->value ?? '' }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
-
-                        <!-- Phones Section -->
-                        <div id="plans_container"></div>
 
                         <!-- Add Phone Button -->
                         <div class="mt-4 text-left">
@@ -114,11 +147,9 @@
 @endsection
 
 @section('ajaxCalls')
-
     <script>
         editScript();
     </script>
-
 
     <script>
         $('.dropify').dropify();
@@ -161,9 +192,24 @@
                 let phoneId = $(this).data('id');
                 $('#phoneRow-' + phoneId).remove();
             });
+
+            // Format IBAN input
+            $('#iban').on('input', function() {
+                let value = $(this).val().replace(/\s+/g, '').toUpperCase();
+                let formattedValue = '';
+
+                for (let i = 0; i < value.length; i++) {
+                    if (i > 0 && i % 4 === 0) {
+                        formattedValue += ' ';
+                    }
+                    formattedValue += value[i];
+                }
+
+                $(this).val(formattedValue);
+            });
         });
     </script>
-
 @endsection
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropify/0.2.2/css/dropify.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
