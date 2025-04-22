@@ -127,6 +127,8 @@
                 name: 'office'
             },
         ]
+        {{--showData('{{route($route.'.index')}}', columns);--}}
+
 
         // Initialize the DataTable
         {{--var dataTable = $('#dataTable').DataTable({--}}
@@ -143,6 +145,7 @@
         {{--    order: [--}}
         {{--        [0, 'desc']--}}
         {{--    ]--}}
+
         {{--});--}}
 
         {{--$('#branchFilter').on('change', function () {--}}
@@ -172,7 +175,57 @@
                 }
             },
             columns: columns,
-            order: [[0, 'desc']]
+            order: [[0, 'desc']],
+            "language": {
+                "sProcessing": "جاري المعالجة...",
+                "sLengthMenu": "عرض _MENU_ سجلات",
+                "sZeroRecords": "لم يتم العثور على سجلات",
+                "sInfo": "عرض _START_ إلى _END_ من _TOTAL_ سجلات",
+                "sInfoEmpty": "عرض 0 إلى 0 من 0 سجلات",
+                "sInfoFiltered": "(تمت التصفية من _MAX_ إجمالي السجلات)",
+                "sSearch": "بحث :",
+                "oPaginate": {
+                    "sPrevious": "السابق",
+                    "sNext": "التالي"
+                },
+                "buttons": {
+                    "copyTitle": "تم النسخ <i class=\"fa fa-check-circle text-success\"></i>",
+                    "copySuccess": {
+                        "1": "تم نسخ 1 صف",
+                        "_": "تم نسخ %d صفوف"
+                    }
+                }
+            },
+
+
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'copy',
+                    text: "نسخ",
+                    className: 'btn-primary'
+                },
+                {
+                    extend: 'print',
+                    text: "طباعة",
+                    className: 'btn-primary'
+                },
+                {
+                    extend: 'excel',
+                    text: "إكسل",
+                    className: 'btn-primary'
+                },
+                {
+                    extend: 'pdf',
+                    text: "PDF",
+                    className: 'btn-primary'
+                },
+                {
+                    extend: 'colvis',
+                    text: "إظهار/إخفاء الأعمدة",
+                    className: 'btn-primary'
+                }
+            ]
         });
 
         $('#officeFilter').on('change', function () {
