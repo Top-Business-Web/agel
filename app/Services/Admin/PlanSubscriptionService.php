@@ -4,6 +4,7 @@ namespace App\Services\Admin;
 
 use App\Models\PlanSubscription as ObjModel;
 use App\Services\BaseService;
+use Carbon\Carbon;
 use Yajra\DataTables\DataTables;
 
 class PlanSubscriptionService extends BaseService
@@ -44,12 +45,32 @@ class PlanSubscriptionService extends BaseService
                         if ($obj->status == 2) {
                             return '<button class="' . $buttonClass . ' btn-danger" disabled>مرفوض</button>';
                         }
-                        return '<button class="' . $buttonClass . ' btn-success" disabled> مفعل</button>';
+                        $remainingDays = Carbon::now()->diffInDays($obj->to)+1;
+
+                        if ($remainingDays <= 0) {
+                            return '<button class="' . $buttonClass . ' btn-danger px-4 py-2" disabled>
+                                <span class="fw-bold">منتهي</span>
+                            </button>';
+                        }
+                        return '<button class="' . $buttonClass . ' btn-success px-1 py-2 d-flex align-items-center gap-3" disabled>
+                    <span class="fw-bold mr-9">مفعل</span>
+                    <span class="badge bg-white text-danger border border-danger" style="
+                        font-size: 0.9rem;
+                        padding: 8px 12px;
+                        border-radius: 50px;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+                        font-weight: 600;
+                        letter-spacing: 0.5px;
+                    ">
+                        <i class="fas fa-clock me-2"></i>
+                        ' . $remainingDays . ' يوم متبقي
+                    </span>
+                </button>';
+
                     }
 
                     return $buttons;
                 })
-
                 ->editColumn('vendor_id', function ($obj) {
                     return $obj->vendor->name;
                 })->editColumn('plan_id', function ($obj) {

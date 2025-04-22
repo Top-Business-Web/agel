@@ -125,12 +125,80 @@
                                     @endif
                                 @else
                                     @if($planSubscription->plan_id == $plan->id)
-                                        <button type="button"
-                                                class="mt-4 btn btn-primary subscribe-btn"
-                                                data-plan-id="{{ $plan->id }}"
-                                                disabled>
-                                            الخطه الخاصة بك
-                                        </button>
+                                        <div class="d-flex flex-column align-items-center mt-4">
+                                            <!-- Enhanced Button with Hover Effect -->
+                                            <button type="button"
+                                                    class="btn btn-primary subscribe-btn position-relative"
+                                                    data-plan-id="{{ $plan->id }}"
+                                                    disabled
+                                                    style="
+                        padding: 10px 24px;
+                        font-weight: 600;
+                        border-radius: 8px;
+                        border: none;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                        transition: all 0.3s ease;
+                    ">
+                                                <i class="fas fa-crown me-2"></i>
+                                                الخطة الحالية
+                                            </button>
+
+                                            @if(now()->diffInDays($planSubscription->to)+1 > 0)
+                                                <!-- Active Plan Badge with Hover -->
+                                                <span class="badge mt-2 bg-white text-danger border border-danger"
+                                                      style="
+                    font-size: 0.85rem;
+                    padding: 8px 16px;
+                    border-radius: 50px;
+                    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.15);
+                    font-weight: 700;
+                    letter-spacing: 0.5px;
+                    transition: all 0.3s ease;
+                    cursor: default;
+                "
+                                                      onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='0 4px 12px rgba(220, 53, 69, 0.2)'"
+                                                      onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 2px 8px rgba(220, 53, 69, 0.15)'">
+                    <i class="fas fa-clock me-1"></i>
+                    {{now()->diffInDays($planSubscription->to)+1 }} يوم متبقي
+                </span>
+                                            @else
+                                                <!-- Expired Plan Badge with Pulse Alert -->
+                                                <span class="badge mt-2 bg-danger text-white" style="
+                    font-size: 0.85rem;
+                    padding: 8px 16px;
+                    border-radius: 50px;
+                    font-weight: 700;
+                    letter-spacing: 0.5px;
+                    animation: pulseAlert 1.5s infinite;
+                ">
+                    <i class="fas fa-exclamation-circle me-1"></i>
+                    الخطة منتهية
+                </span>
+                                            @endif
+                                        </div>
+
+                                        <!-- CSS Animation Definition -->
+                                        <style>
+                                            @keyframes pulseAlert {
+                                                0% {
+                                                    transform: scale(1);
+                                                    opacity: 1;
+                                                }
+                                                50% {
+                                                    transform: scale(1.05);
+                                                    opacity: 0.9;
+                                                }
+                                                100% {
+                                                    transform: scale(1);
+                                                    opacity: 1;
+                                                }
+                                            }
+
+                                            .subscribe-btn:hover {
+                                                transform: translateY(-2px);
+                                                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+                                            }
+                                        </style>
                                     @endif
                                 @endif
 
@@ -150,8 +218,8 @@
                 @csrf
                 <input type="hidden" name="plan_id" id="selectedPlanId">
                 <div class="modal-content">
-                    <div class="modal-header" >
-{{--                        <h5 class="modal-title col" id="subscriptionModalLabel"></h5>--}}
+                    <div class="modal-header">
+                        {{--                        <h5 class="modal-title col" id="subscriptionModalLabel"></h5>--}}
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -159,7 +227,8 @@
 
                             <div class="col-12">
                                 <div class="form-group">
-                                    <label for="payment_receipt" class="form-control-label">يمكنك الدفع عن طريق الأرقام الآتيه :
+                                    <label for="payment_receipt" class="form-control-label">يمكنك الدفع عن طريق الأرقام
+                                        الآتيه :
                                         @foreach($phones as $phone)
                                             <span style="color: #0a0c0d"> {{$phone->value}}</span>
                                             @if(!$loop->last)
