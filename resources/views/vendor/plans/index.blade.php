@@ -226,16 +226,32 @@
                         <div class="row">
 
                             <div class="col-12">
-                                <div class="form-group">
-                                    <label for="payment_receipt" class="form-control-label">يمكنك الدفع عن طريق الأرقام
-                                        الآتيه :
-                                        @foreach($phones as $phone)
-                                            <span style="color: #0a0c0d"> {{$phone->value}}</span>
-                                            @if(!$loop->last)
-                                                ,
-                                            @endif
+                                <div class="form-group p-3 mb-4 rounded" style="background: #f8f9fa; border: 1px solid #e0e0e0; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                                    <label class="d-block mb-3">
+                                        <!-- Header -->
+                                        <div class="d-flex align-items-center mb-2" style="color: #2c3e50; font-weight: bold;">
+                                            <i class="fas fa-money-bill-wave me-2 m-2" style="color: #3498db;"></i>
+                                            <span>طرق الدفع المتاحة :</span>
+                                        </div>
 
-                                        @endforeach
+                                        <!-- Phone Numbers -->
+                                        <div class="d-flex flex-wrap align-items-center mb-2">
+                                            <i class="fas fa-phone-alt me-2" style="color: #7f8c8d; width: 20px;"></i>
+                                            <span class="me-2" style="font-weight: 600; color: #34495e;">الدفع عبر الرقم:</span>
+                                            @foreach($phones as $phone)
+                                                <span class="px-2 me-1 rounded" style="background: #e8f4fc; color: #2980b9;">{{ $phone->value }}</span>
+                                                @if(!$loop->last)
+                                                    <span class="me-1" style="color: #95a5a6;">،</span>
+                                                @endif
+                                            @endforeach
+                                        </div>
+
+                                        <!-- Bank Account -->
+                                        <div class="d-flex flex-wrap align-items-center">
+                                            <i class="fas fa-university me-2" style="color: #7f8c8d; width: 20px;"></i>
+                                            <span class="me-2" style="font-weight: 600; color: #34495e;">الحساب البنكي:</span>
+                                            <span class="px-2 rounded" style="background: #e8f4fc; color: #2980b9;">{{ $bank_account->value }}</span>
+                                        </div>
                                     </label>
                                 </div>
                                 <div class="form-group">
