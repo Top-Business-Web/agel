@@ -59,7 +59,6 @@
         @endcanany
 
 
-        @canany(['create_plans', 'update_plans', 'delete_plans', 'read_plans'])
             <li class="{{ routeActive('vendor.plans.index') }}">
                 <a class="slide-item {{ routeActive('vendor.plans.index') }}" style="margin-right:8px;"
                     href="{{ route('vendor.plans.index') }}">
@@ -67,7 +66,6 @@
                     الاشتراكات
                 </a>
             </li>
-        @endcanany
 
         @canany(['create_order', 'update_order', 'delete_order', 'read_order'])
             <li class="{{ routeActive('order.index') }}">

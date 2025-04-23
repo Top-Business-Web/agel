@@ -12,21 +12,21 @@
                         <div class="row">
                             <!-- Logo -->
                             <div class="col-md-4 mt-3">
-                                <label class="labels">{{ __('Logo') }}</label>
+                                <label class="labels">اللوجو</label>
                                 <input type="file" class="form-control dropify" name="logo"
                                        data-default-file="{{ isset($settings) && $settings->where('key', 'logo')->first() ? asset('storage/settings/' . $settings->where('key', 'logo')->first()->value) : '' }}">
                             </div>
 
                             <!-- Fav Icon -->
                             <div class="col-md-4 mt-3">
-                                <label class="labels">{{ __('Fav Icon') }}</label>
+                                <label class="labels">الايقونة</label>
                                 <input type="file" class="form-control dropify" name="fav_icon"
                                        data-default-file="{{ isset($settings) && $settings->where('key', 'fav_icon')->first() ? asset('storage/settings/' . $settings->where('key', 'fav_icon')->first()->value) : '' }}">
                             </div>
 
                             <!-- Loader -->
                             <div class="col-md-4 mt-3">
-                                <label class="labels">{{ __('Loader') }}</label>
+                                <label class="labels">اللودر</label>
                                 <input type="file" class="form-control dropify" name="loader"
                                        data-default-file="{{ isset($settings) && $settings->where('key', 'loader')->first() ? asset('storage/settings/' . $settings->where('key', 'loader')->first()->value) : '' }}">
                             </div>
@@ -45,7 +45,7 @@
                                         <div class="col-6">
                                             <div class="form-group">
                                                 <label for="phone"
-                                                       class="form-control-label">{{ __('Phone Number') }}</label>
+                                                       class="form-control-label">رقم الهاتف</label>
                                                 <div class="input-group">
                                                     <span class="input-group-text">+966</span>
                                                     <input type="number" class="form-control" name="phones[]"
@@ -69,13 +69,13 @@
                             <div class="col-md-12 mt-4">
                                 <div class="card border-primary">
                                     <div class="card-header bg-primary text-white">
-                                        <h5 class="mb-0">{{ __('Bank Account Information') }}</h5>
+                                        <h5 class="mb-0">بيانات البنك</h5>
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="iban" class="form-label">{{ __('IBAN Number') }}</label>
+                                                    <label for="iban" class="form-label">رقم IBAN</label>
                                                     <div class="input-group">
                                                         <span class="input-group-text"><i class="fas fa-credit-card"></i></span>
                                                         <input type="text"
@@ -84,38 +84,38 @@
                                                                name="iban"
                                                                placeholder="SAXX XXXX XXXX XXXX XXXX XXXX"
                                                                value="{{ $settings->where('key', 'iban')->first()->value ?? '' }}"
-                                                               pattern="[A-Z]{2}[0-9]{2}[a-zA-Z0-9]{1,30}"
-                                                               title="Please enter a valid IBAN number">
+                                                               {{-- pattern="[A-Z]{2}[0-9]{2}[a-zA-Z0-9]{1,30}" --}}
+                                                               title="رقم IBAN يجب أن يتكون من 24 حرفًا ورقمًا">
                                                     </div>
                                                     <small class="form-text text-muted">
-                                                        {{ __('Enter the IBAN in the format: SAXX XXXX XXXX XXXX XXXX XXXX') }}
+                                                        من فضلك أدخل رقم IBAN بشكل صحيح. يجب أن يتكون من 24 حرفًا ورقمًا.
                                                     </small>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label for="bank_name" class="form-label">{{ __('Bank Name') }}</label>
+                                                    <label for="bank_name" class="form-label">اسم البنك</label>
                                                     <div class="input-group">
                                                         <span class="input-group-text"><i class="fas fa-university"></i></span>
                                                         <input type="text"
                                                                class="form-control"
                                                                id="bank_name"
                                                                name="bank_name"
-                                                               placeholder="{{ __('e.g. Al Rajhi Bank') }}"
+                                                               placeholder="اسم البنك مثل البنك الأهلي"
                                                                value="{{ $settings->where('key', 'bank_name')->first()->value ?? '' }}">
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 mt-3">
                                                 <div class="form-group">
-                                                    <label for="account_holder" class="form-label">{{ __('Account Holder Name') }}</label>
+                                                    <label for="account_holder" class="form-label">اسم صاحب الحساب</label>
                                                     <div class="input-group">
                                                         <span class="input-group-text"><i class="fas fa-user"></i></span>
                                                         <input type="text"
                                                                class="form-control"
                                                                id="account_holder"
                                                                name="account_holder"
-                                                               placeholder="{{ __('Account holder full name') }}"
+                                                               placeholder="اسم صاحب الحساب بالكامل"
                                                                value="{{ $settings->where('key', 'account_holder')->first()->value ?? '' }}">
                                                     </div>
                                                 </div>

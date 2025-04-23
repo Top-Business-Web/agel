@@ -33,6 +33,7 @@ class SettingService extends BaseService
     public function update(array $data)
     {
         try {
+            // dd($data);
             // Handle file uploads
             $files = ['logo', 'fav_icon', 'loader'];
             foreach ($files as $file) {
@@ -62,6 +63,22 @@ class SettingService extends BaseService
                     }
                 }
             }
+            $other=[
+                'iban'=>$data['iban']??null,
+                'bank_name'=>$data['bank_name']??null,
+                'account_holder'=>$data['account_holder']??null,
+            ];
+
+            foreach ($other as $key => $value) {
+                if (!empty($value)) {
+                    $this->model->updateOrCreate([
+                        'key' => $key,
+                        'value' => $value
+                    ]);
+                }
+            }
+
+
 
 
 
