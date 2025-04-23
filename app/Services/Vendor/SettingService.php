@@ -39,6 +39,7 @@ class SettingService extends BaseService
 
     public function update($data): JsonResponse
     {
+
         unset($data['_token']);
         $vendorId = auth()->guard('vendor')->user()->id;
         $parentId = auth()->guard('vendor')->user()->parent_id;

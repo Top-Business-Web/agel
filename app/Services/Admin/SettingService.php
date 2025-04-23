@@ -4,7 +4,7 @@ namespace App\Services\Admin;
 
 use App\Models\Setting as ObjModel;
 use App\Services\BaseService;
-
+use Illuminate\Support\Facades\Validator;
 class SettingService extends BaseService
 {
     protected string $folder = 'admin/setting';
@@ -30,9 +30,20 @@ class SettingService extends BaseService
     }
 
 
-    public function update(array $data)
+    public function update($data)
     {
+//        dd($data);
+        Validator::make($data, [
+            'iban' => [
+                'required_if:bank_name,account_holder',
+                'regex:/^SA\d{2}(\s\d{4}){5}$/'
+            ],
+        ], [
+            'iban.regex' => 'يجب أن يكون رقم الآيبان بصيغة SAXX XXXX XXXX XXXX XXXX XXXX',
+        ]);
         try {
+//            dd($data);
+//            dd(isset($data['iban']));
             // Handle file uploads
             $files = ['logo', 'fav_icon', 'loader'];
             foreach ($files as $file) {
@@ -41,7 +52,15 @@ class SettingService extends BaseService
                     $this->storeOrUpdateSetting($file, basename($filePath));
                 }
             }
-
+            if (isset($data['bank_name'])) {
+                $this->storeOrUpdateSetting('bank_name', $data['bank_name']);
+            }
+            if (isset($data['account_holder'])) {
+                $this->storeOrUpdateSetting('account_holder', $data['account_holder']);
+            }
+            if (isset($data['iban'])) {
+                $this->storeOrUpdateSetting('iban', $data['iban']);
+            }
 
             if (!empty($data['phones']) && is_array($data['phones'])) {
                 $this->model->where('key', 'like', 'phone%')->delete();
