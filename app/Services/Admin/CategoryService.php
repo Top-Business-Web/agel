@@ -23,22 +23,15 @@ class CategoryService extends BaseService
     {
 
         if ($request->ajax()) {
-            $query = $this->model->query();
 
-//            $obj = $this->model->apply()->get();
+           $obj = $this->model->apply()->get();
 
         if ($request->filled('office_id')) {
-            $obj = $this->model->where('vendor_id',  $request->office_id)->get();
+            $obj = $this->model->apply()->where('vendor_id',  $request->office_id)->get();
         }
 
-//            if ($request->office_id) {
-//                // First get the branch IDs for this office
-//                $branchIds = $this->branch->where('vendor_id', $request->office_id)->pluck('id');
-//                $query->whereIn('branch_id', $branchIds);
-//
-//            }
 
-            return DataTables::of($query)
+            return DataTables::of(source: $obj)
 
 
                 ->addColumn('name', function ($obj) {

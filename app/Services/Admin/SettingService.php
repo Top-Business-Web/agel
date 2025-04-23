@@ -42,8 +42,7 @@ class SettingService extends BaseService
             'iban.regex' => 'يجب أن يكون رقم الآيبان بصيغة SAXX XXXX XXXX XXXX XXXX XXXX',
         ]);
         try {
-//            dd($data);
-//            dd(isset($data['iban']));
+
             // Handle file uploads
             $files = ['logo', 'fav_icon', 'loader'];
             foreach ($files as $file) {
@@ -81,6 +80,22 @@ class SettingService extends BaseService
                     }
                 }
             }
+            $other=[
+                'iban'=>$data['iban']??null,
+                'bank_name'=>$data['bank_name']??null,
+                'account_holder'=>$data['account_holder']??null,
+            ];
+
+            foreach ($other as $key => $value) {
+                if (!empty($value)) {
+                    $this->model->updateOrCreate([
+                        'key' => $key,
+                        'value' => $value
+                    ]);
+                }
+            }
+
+
 
 
 

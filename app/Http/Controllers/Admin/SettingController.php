@@ -34,16 +34,5 @@ class SettingController extends Controller
         return $this->objService->update($request->all());
     }
 
-        public function destroy($id)
-    {
-        return $this->objService->delete($id);
-    }
-    public function updateColumnSelected(Request $request)
-    {
-        return $this->objService->updateColumnSelected($request,'status',StatusEnum::values());
-    }
 
-    public function deleteSelected(Request $request){
-        return $this->objService->deleteSelected($request);
-    }
 }

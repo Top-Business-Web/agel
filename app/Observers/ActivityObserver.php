@@ -50,7 +50,7 @@ class ActivityObserver
     {
         $tables = [
             'admins' => 'المشرفين',
-            'vendors' => 'البائعين',
+            'vendors' => 'المكاتب',
             'users' => 'المستخدمين',
             'products' => 'المنتجات',
             'orders' => 'الطلبات',
@@ -63,8 +63,22 @@ class ActivityObserver
             'countries' => 'الدول',
             'plans' => 'الخطط',
             'settings' => 'الإعدادات',
+            'areas' => 'الأحياء',
+            'plan_details' => 'تفاصيل الخطط',
+            'vendor_branches' => 'فروع المكاتب',
+            'investors' => 'المستثمرين',
+            'activity_logs' => 'سجل النشاطات',
+            'operations' => 'العمليات',
+            'stock_details' => 'تفاصيل المخزون',
+            'order_installments' => 'أقساط الطلبات',
+            'unsurpassedes' => 'غير المصروفة',
+            'order_details' => 'تفاصيل الطلب',
+            'order_statuses' => 'حالات الطلب',
+            'plan_subscriptions' => 'اشتراكات الخطط',
+            'permissions' => 'الصلاحيات',
         ];
+        
 
-        return $tables[$tableName] ?? $tableName; // إذا لم يكن موجودًا، استخدم الاسم الأصلي
+        return $tables[$tableName] ?? $tableName; 
     }
 }
