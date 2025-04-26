@@ -30,6 +30,11 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 | contains the "admin" middleware group. Now create something great!
 |
 */
+
+Route::get('/check-env', function () {
+    return 'Current APP_ENV: ' . env('APP_ENV') . ' | App Environment: ' . app()->environment();
+});
+
 Route::get('/send-otp', [AdminController::class, 'sendOtp']);
 
 
@@ -74,6 +79,7 @@ Route::group(
 //                    Route::resourceWithDeleteSelected('vendors', VendorController::class);
                 Route::get('vendors/index', [VendorController::class, 'index'])->name('admin.vendors.index');
                 Route::get('vendors/create', [VendorController::class, 'create'])->name('admin.vendors.create');
+                Route::get('vendors/LoginAsVendor/{id}', [VendorController::class, 'LoginAsVendor'])->name('admin.vendors.LoginAsVendor');
                 Route::post('vendors', [VendorController::class, 'store'])->name('admin.vendors.store');
                 Route::put('vendors/update', [VendorController::class, 'update'])->name('admin.vendors.update');
                 Route::delete('vendors/{id}', [VendorController::class, 'destroy'])->name('admin.vendors.destroy');

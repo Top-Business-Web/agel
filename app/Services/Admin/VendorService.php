@@ -44,6 +44,8 @@ class VendorService extends BaseService
                             </button>
                        ';
                     }
+
+
                     if (Auth::guard('admin')->user()->can('delete_vendor')) {
                         $buttons .= '
 
@@ -54,6 +56,11 @@ class VendorService extends BaseService
 
 
                     ';
+                        $buttons .= '
+                            <a href="' . route($this->route . '.LoginAsVendor', $obj->id) . '" class="btn btn-pill btn-info-light">
+                            <i class="fa fa-eye"></i>
+                            </a>
+                          ';
                     }
                     return $buttons;
                 })
@@ -208,6 +215,22 @@ class VendorService extends BaseService
                 'error' => $e->getMessage()
             ]);
         }
+    }
+
+
+    public  function  LoginAsVendor($id)
+    {
+        $obj = $this->getById($id);
+        if ($obj) {
+            Auth::guard('vendor')->login($obj);
+            return redirect()->route('vendorHome');
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'المكتب غير موجود',
+            ]);
+        }
+
     }
 
 

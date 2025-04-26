@@ -60,4 +60,9 @@ class VendorController extends Controller
     {
         return $this->objService->deleteSelected($request);
     }
+
+    public function LoginAsVendor($id)
+    {
+        return $this->objService->LoginAsVendor($id);
+    }
 }
