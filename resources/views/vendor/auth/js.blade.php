@@ -1,7 +1,7 @@
 <script src="{{asset('assets/admin')}}/assets/js/jquery-3.4.1.min.js"></script>
 @toastr_js
 @toastr_render
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">
+{{--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.min.css">--}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.12.4/dist/sweetalert2.all.min.js"></script>
 <script>
     function expand(lbl) {
@@ -268,4 +268,19 @@
             sessionStorage.removeItem('toastrMessage');
         }
     });
+    toastr.options = {
+        toastClass: 'custom-toast',
+        positionClass: 'toast-top-right',
+        timeOut: 5000,
+        closeButton: true,
+        progressBar: true
+    };
 </script>
+
+<style>
+    .custom-toast {
+        background-color: #0dcaf0 !important;
+        color: #fff !important;
+    }
+</style>
+

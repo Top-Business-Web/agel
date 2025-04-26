@@ -332,4 +332,18 @@
             sessionStorage.removeItem('toastrMessage');
         }
     });
+    toastr.options = {
+        toastClass: 'custom-toast',
+        positionClass: 'toast-top-right',
+        timeOut: 5000,
+        closeButton: true,
+        progressBar: true
+    };
 </script>
+
+<style>
+    .custom-toast {
+        background-color: #0dcaf0 !important;
+        color: #fff !important;
+    }
+</style>
