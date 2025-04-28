@@ -13,13 +13,7 @@ use Illuminate\Support\Facades\Mail;
 
 class AuthService extends BaseService
 {
-//    public function index()
-//    {
-//        if (Auth::guard('admin')->check()) {
-//            return redirect()->route('adminHome');
-//        }
-//        return view('admin.auth.login');
-//    }
+
     public function __construct(Admin $model, protected Region $region)
     {
         parent::__construct($model);
@@ -49,13 +43,13 @@ class AuthService extends BaseService
             ]
         );
 
+
         if ($request->verificationType == 'phone') {
-            $admin = Admin::where('phone', '+966'.$data['input'])->first();
+            $admin = Admin::where('phone', '+966' . $data['input'])->first();
 
             if (!$admin) {
                 return response()->json([
                     'status' => 203,
-//                    'email' => $admin->email
                 ], 200);
             }
             if ($admin->status == 0) {
@@ -64,12 +58,19 @@ class AuthService extends BaseService
                 ], 207);
             }
             $credentials = [
-                'phone' => '+966'.$data['input'],
+                'phone' => '+966' . $data['input'],
                 'password' => $data['password'],
             ];
-            if (Auth::guard('admin')->attempt($credentials)) {
+            if (Auth::guard('admin')->validate($credentials)) {
+                $otp = rand(1000, 9999);
+                $admin->update([
+                    'otp' => $otp,
+                    'otp_expire_at' => now()->addMinutes(5)
+                ]);
+                $this->sendDreamsSms(substr($admin->phone, 1), $otp);
+
                 return response()->json([
-                    'status' => 204,
+                    'status' => 200,
                     'email' => $admin->email
                 ], 200);
             } else {
@@ -123,89 +124,8 @@ class AuthService extends BaseService
 
 
 
-//    public function login( $request): \Illuminate\Http\JsonResponse
-//    {
-//        // التحقق من البيانات المدخلة
-//        $data = $request->validate(
-//            [
-//                'input' => 'required',
-//                'password' => 'required',
-//            ],
-//            [
-//                'input.required' => 'يرجى إدخال اسم المستخدم أو البريد الإلكتروني أو الكود',
-//                'password.required' => 'يرجي ادخال كلمة المرور',
-//            ]
-//        );
-//
-//        $admin = Admin::where('user_name', $data['input'])
-//            ->orWhere('email', $data['input'])
-//            ->orWhere('code', $data['input'])
-//            ->first();
-//
-//        if (!$admin) {
-//            return response()->json(['message' => 'بيانات تسجيل الدخول غير صحيحة'], 401);
-//        }
-//
-//        $credentials = [
-//            (filter_var($data['input'], FILTER_VALIDATE_EMAIL) ? 'email' : (is_numeric($data['input']) ? 'code' : 'user_name')) => $data['input'],
-//            'password' => $data['password'],
-//        ];
-//
-//        if (Auth::guard('admin')->attempt($credentials)) {
-//            return response()->json(200);
-//        }
-//        return response()->json(405);
-//
-//    }
 
 
-    public function register($request)
-    {
-        $validate = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:admins,email',
-            'phone' => 'required|numeric|unique:admins,phone',
-            'password' => 'required|min:6|confirmed',
-            'region_id' => 'required|exists:regions,id',
-            'commercial_number' => 'required|unique:admins,commercial_number',
-            'national_id' => 'required|numeric|unique:admins,national_id',
-        ]);
-
-        $admin = Admin::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password),
-            'region_id' => $request->region_id,
-            'commercial_number' => $request->commercial_number,
-            'national_id' => $request->national_id,
-            'username' => $this->generateUsername($request->name),
-            'status' => 0,
-            'plan_id' => 1
-
-        ]);
-
-        if ($admin) {
-            // generate otp
-            $otp = rand(1000, 9999);
-            $admin->update([
-                'otp' => $otp,
-                'otp_expire_at' => now()->addMinutes(5)
-            ]);
-
-            Mail::to($admin->email)->send(new Otp($admin->name, $otp));
-            return response()->json([
-                'status' => 200,
-                'email' => $admin->email
-            ], 200);
-        }
-
-        return response()->json([
-            'status' => 405,
-            'message' => 'لم يتم العثور على المكتب'
-        ], 405);
-
-    }
 
     public function generateUsername($name)
     {
@@ -230,7 +150,6 @@ class AuthService extends BaseService
     }
 
 
-
     public
     function verifyOtp($request)
     {
@@ -243,10 +162,6 @@ class AuthService extends BaseService
                 'status' => 1
             ]);
             if ($request->isReset == 2) {
-//                dd('sl/kd/fjl');
-//                return  redirect()->route('admin.newPasswordForm',['email' => $request->email]);
-//                return redirect('', ['email' => $request->email]);
-
 
                 return response()->json([
                     'status' => 300,
@@ -271,7 +186,6 @@ class AuthService extends BaseService
     }
 
 
-
     public function resetPasswordForm()
     {
         return view('admin.auth.verify-reset-password');
@@ -285,12 +199,12 @@ class AuthService extends BaseService
     public function resetPassword($request)
     {
         $request->validate([
-            'email'=>'required|exists:admins,email',
+            'email' => 'required|exists:admins,email',
             'password' => 'required|min:6|confirmed',
         ]);
         $admin = Admin::where('email', $request->email)->first();
         $admin->update([
-            'password'=>Hash::make($request->password)
+            'password' => Hash::make($request->password)
         ]);
         Auth::guard('admin')->login($admin);
         return response()->json([
@@ -325,7 +239,6 @@ class AuthService extends BaseService
         ], 200);
 
     }
-
 
 
     public function logout()

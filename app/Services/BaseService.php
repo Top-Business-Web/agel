@@ -2,6 +2,7 @@
 
 
 namespace App\Services;
+use App\Traits\DreamsSmsTrait;
 use App\Traits\PhotoTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
@@ -17,6 +18,7 @@ use Illuminate\Support\Str;
 abstract class BaseService
 {
     use PhotoTrait;
+    use DreamsSmsTrait;
 
     /**
      * @var Model

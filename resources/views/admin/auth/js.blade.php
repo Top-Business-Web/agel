@@ -43,10 +43,7 @@
             },
             success: function (data) {
 
-                // if (data === 205) {
-                //     toastr.error('من فضلك تأكد من رقم الجوال و أعد المحاوله');
-                //     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
-                //
+
 
                 // }
                 if (data.status === 300) {
@@ -60,8 +57,9 @@
 
 
                 if (data === 500 ) {
-                    window.location.href = '{{route('adminHome')}}';
-                    sessionStorage.setItem('toastrMessage', 'انتهت صلاحية هذا الكود الرجاء إعادة المحاوله');
+                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
+
+                    toastr.error('الكود الذي ادخلته غبر صحيح او منتهي الصلاحية يرجى المحاوله مره اخرى');
                 }
                 if (data.status === 205 ) {
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
@@ -83,10 +81,7 @@
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
                     toastr.error('خطاء في كلمة المرور الرجاء التأكد من كلمة المرور و إعادة المحاوله');
                 }
-                if (data.status === 200 ) {
-                    $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
-                    window.location.href = '{{route('adminHome')}}';
-                }
+
                 if (data.status == 204 ) {
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
                     window.location.href = '{{route('adminHome')}}';
@@ -98,7 +93,6 @@
 
 
                 if (data.status == 200) {
-                    console.log(data.status);
 
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
                     window.location.href = '{{ route('admin.otp.verify', ['email' => '__EMAIL__','type'=>'login','resetPassword'=>1]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
@@ -111,59 +105,7 @@
             },
 
 
-            {{--success: function (data) {--}}
-                {{--    if (data == 200) {--}}
-                {{--        swal.fire({--}}
-                {{--            title: "اهلا بك",--}}
-                {{--            icon: "success"--}}
-                {{--        }).then(function () {--}}
-                {{--            window.location.href = '{{route('vendorHome')}}';--}}
-                {{--        });--}}
-                {{--        --}}{{--window.setTimeout(function () {--}}
-                {{--        --}}{{--    window.location.href = '{{route('adminHome')}}';--}}
-                {{--        --}}{{--}, 1000);--}}
-                {{--    } else {--}}
-                {{--        toastr.error('خطأ في  بيانات الدخول');--}}
-                {{--        $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);--}}
-                {{--    }--}}
 
-
-                {{--    if (data.status === 200) {--}}
-
-                {{--        swal.fire({--}}
-                {{--            title: " من فضلك قم بإدخال الكود الذي تم إرساله على البريد الإلكتروني لتأكيد تسجيل الدخول",--}}
-                {{--            icon: "success"--}}
-                {{--        }).then(function () {--}}
-                {{--            window.location.href = '{{ route('otp.verify', ['email' => '__EMAIL__','type'=>'login']) }}'.replace('__EMAIL__', encodeURIComponent(data.email));                    });--}}
-
-                {{--    } else {--}}
-                {{--        toastr.error('خطأ في  بيانات الدخول');--}}
-                {{--        $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);--}}
-                {{--    }--}}
-
-                {{--},--}}
-                {{--error: function (data) {--}}
-                {{--    if (data.status === 500) {--}}
-                {{--        $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);--}}
-                {{--        toastr.error('هناك خطأ ما');--}}
-                {{--    } else if (data.status === 422) {--}}
-                {{--        $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);--}}
-                {{--        var errors = $.parseJSON(data.responseText);--}}
-                {{--        $.each(errors, function (key, value) {--}}
-                {{--            if ($.isPlainObject(value)) {--}}
-                {{--                $.each(value, function (key, value) {--}}
-                {{--                    toastr.error(value);--}}
-                {{--                });--}}
-
-                {{--            } else {--}}
-                {{--            }--}}
-                {{--        });--}}
-                {{--    } else {--}}
-                {{--        $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);--}}
-
-                {{--        toastr.error('خطأ في  بيانات الدخول');--}}
-                {{--    }--}}
-                {{--},//end error method--}}
 
             cache: false,
             contentType: false,

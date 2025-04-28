@@ -59,27 +59,21 @@
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
 
                 }
-                {{--if (data === 200 ) {--}}
 
-                {{--    window.location.href = '{{route('vendorHome')}}';--}}
-                {{--} --}}
-                if (data === 500) {
-                    toastr.error('لقد قمت بإدخال الكود الذي تم إرساله بشكل خاطئ');
+                if (data === 500 ) {
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
-                    window.location.href = '/partner';
+
+                    toastr.error('الكود الذي ادخلته غبر صحيح او منتهي الصلاحية يرجى المحاوله مره اخرى');
                 }
+
 
 
                 if (data.status === 200) {
                     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> تسجيل  `).attr('disabled', false);
                     window.location.href = '{{ route('vendor.otp.verify', ['email' => '__EMAIL__','type'=>'login','resetPassword'=>1]) }}'.replace('__EMAIL__', encodeURIComponent(data.email));
-                    // toastr.warning('من فضلك قم بإدخال الكود الذي تم إرساله على البريد الإلكتروني');
                 }
 
-                // else {
-                //     // toastr.error('خطأ في  بيانات الدخول');
-                //     $('#loginButton').html(`<i id="lockId" class="fa fa-lock" style="margin-left: 6px"></i> دخول`).attr('disabled', false);
-                // }
+
 
             },
             error: function (data) {

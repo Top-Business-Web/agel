@@ -59,16 +59,21 @@ class AuthService extends BaseService
             if ($vendor->status == 0) {
                 return response()->json([
                     'status' => 301,
-//                    'email' => $vendor->email
                 ], 200);
             }
             $credentials = [
                 'phone' => '+966' . $data['input'],
                 'password' => $data['password'],
             ];
-            if (Auth::guard('vendor')->attempt($credentials)) {
+                if (Auth::guard('vendor')->validate($credentials)) {
+                    $otp = rand(1000, 9999);
+                    $vendor->update([
+                        'otp' => $otp,
+                        'otp_expire_at' => now()->addMinutes(5)
+                    ]);
+                    $this->sendDreamsSms(substr($vendor->phone, 1), $otp);
                 return response()->json([
-                    'status' => 204,
+                    'status' => 200,
                     'email' => $vendor->email
                 ], 200);
             } else {
@@ -84,17 +89,14 @@ class AuthService extends BaseService
                 'email' => $data['input'],
                 'password' => $data['password'],
             ];
-//            dd($credentials);
             if (!$vendor) {
                 return response()->json([
                     'status' => 206,
-//                    'email' => $vendor->email
                 ], 200);
             }
             if ($vendor->status == 0) {
                 return response()->json(206);
             }
-//            dd($credentials,$vendor);
 
             if (Auth::guard('vendor')->validate($credentials)) {
                 $otp = rand(1000, 9999);

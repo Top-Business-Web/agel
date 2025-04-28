@@ -195,13 +195,7 @@
 </div>
 
 
-<script>
-    $('.dropify').dropify();
-    $('select').select2({
-        dropdownParent: $('#addStock .modal-content')
 
-    });
-</script>
 <script>
     $(document).ready(function() {
         function toggleFields() {
@@ -374,5 +368,11 @@
         } else {
             $("#quantity_display, #add_display, #sell_display").text(0);
         }
+    });
+</script>
+<script>
+    $('select').select2({
+        dropdownParent: $('#addStock .modal-content')
+
     });
 </script>

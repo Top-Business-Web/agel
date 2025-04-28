@@ -204,7 +204,6 @@
 
 
 <script>
-    $('.dropify').dropify();
     $('select').select2({
         dropdownParent: $('#addStockBase .modal-content')
 
