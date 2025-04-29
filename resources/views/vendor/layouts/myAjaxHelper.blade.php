@@ -18,8 +18,9 @@
                 ajax: routeOfShow,
                 columns: columns,
                 order: [
-                    [0, "DESC"]
+                    [1, "DESC"]
                 ],
+
                 "language": {
                     "sProcessing": "جاري المعالجة...",
                     "sLengthMenu": "عرض _MENU_ سجلات",
@@ -385,6 +386,6 @@
 
 
 
-      
+
 </script>
 

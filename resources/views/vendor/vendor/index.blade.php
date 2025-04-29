@@ -16,7 +16,7 @@
                             <button class="btn btn-secondary btn-icon text-white addBtn">
                                 <span>
                                     <i class="fe fe-plus"></i>
-                                </span> إضافة موظف
+                                </span> إضافة
                             </button>
                         @endcan
                         @can('delete_vendor')

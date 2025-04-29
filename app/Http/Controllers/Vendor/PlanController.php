@@ -18,29 +18,16 @@ class PlanController extends Controller
         return $this->objService->index();
     }
 
-    public function create()
-    {
-        return $this->objService->create();
-    }
+
 
 //    public function store(ObjRequest $data)
     public function store(Request $data)
     {
-//        $data = $data->validated();
         return $this->objService->store($data);
     }
 
-    public function edit(ObjModel $client)
-    {
-        return $this->objService->edit($client);
-    }
 
 //    public function update(ObjRequest $request, $id)
-    public function update($id)
-    {
-//        $data = $request->validated();
-//        return $this->objService->update($data, $id);
-    }
 
     public function destroy($id)
     {

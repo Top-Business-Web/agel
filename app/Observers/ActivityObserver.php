@@ -54,7 +54,7 @@ class ActivityObserver
             'users' => 'المستخدمين',
             'products' => 'المنتجات',
             'orders' => 'الطلبات',
-            'categories' => 'التصنيفات',
+            'categories' => 'الاصناف',
             'cities' => 'المدن',
             'branches' => 'الفروع',
             'clients' => 'العملاء',
@@ -77,8 +77,8 @@ class ActivityObserver
             'plan_subscriptions' => 'اشتراكات الخطط',
             'permissions' => 'الصلاحيات',
         ];
-        
 
-        return $tables[$tableName] ?? $tableName; 
+
+        return $tables[$tableName] ?? $tableName;
     }
 }

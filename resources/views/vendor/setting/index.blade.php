@@ -41,21 +41,26 @@
                         </div>
 
 
-                        <div class="col-6">
+                        <div class="col-5">
                             <div class="form-group">
                                 <label for="name" class="form-control-label">أسم المكتب</label>
                                 <input type="text" class="form-control" name="name" id="name" {{isset($vendorSetting->name) ? 'value='.$vendorSetting->name.'' : ''}}>
                             </div>
                         </div>
-
-                        <div class="col-6">
+                        <div class="col-3">
                             <div class="form-group">
                                 <label for="phone" class="form-control-label">رقم الجوال</label>
-                                <input type="number" class="form-control" name="phone" id="phone"  {{isset($vendorSetting->phone) ? 'value='.$vendorSetting->phone.'' : ''}}>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="phone" {{isset($vendorSetting->phone) ? 'value='.substr($vendorSetting->phone, 4).'' : ''}}  name="phone" maxlength="11">
+                                    <span class="input-group-text">966+</span>
+
+                                </div>
                             </div>
                         </div>
 
-                         <div class="col-6">
+
+
+                         <div class="col-4">
                             <div class="form-group">
                                 <label for="commercial_number" class="form-control-label">رقم السجل التجاري</label>
                                 <input type="number" class="form-control" name="commercial_number" id="commercial_number" {{isset($vendorSetting->commercial_number) ? 'value='.$vendorSetting->commercial_number.'' : ''}} >
@@ -107,7 +112,7 @@
 
 
 
-                        <div class="col-12">
+                        <div class="col-6">
                             <div class="form-group">
                                 <label for="is_profit_ratio_static" class="form-control-label">هل نسبه الربح ثابتة</label>
                                 <select class="form-control" name="is_profit_ratio_static" id="is_profit_ratio_static">

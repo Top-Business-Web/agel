@@ -7,7 +7,6 @@
 
 
 @section('content')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
@@ -239,7 +238,7 @@
                                             <i class="fas fa-phone-alt me-2" style="color: #7f8c8d; width: 20px;"></i>
                                             <span class="me-2" style="font-weight: 600; color: #34495e;">الدفع عبر الرقم:</span>
                                             @foreach($phones as $phone)
-                                                <span class="px-2 me-1 rounded" style="background: #e8f4fc; color: #2980b9;">{{ $phone->value }}</span>
+                                                <span class="px-2 me-1 rounded" style="background: #e8f4fc; color: #2980b9;">{{ $phone?->value }}</span>
                                                 @if(!$loop->last)
                                                     <span class="me-1" style="color: #95a5a6;">،</span>
                                                 @endif
@@ -250,7 +249,7 @@
                                         <div class="d-flex flex-wrap align-items-center">
                                             <i class="fas fa-university me-2" style="color: #7f8c8d; width: 20px;"></i>
                                             <span class="me-2" style="font-weight: 600; color: #34495e;">الحساب البنكي:</span>
-                                            <span class="px-2 rounded" style="background: #e8f4fc; color: #2980b9;">{{ $bank_account->value }}</span>
+                                            <span class="px-2 rounded" style="background: #e8f4fc; color: #2980b9;">{{ $bank_account?->value }}</span>
                                         </div>
                                     </label>
                                 </div>
