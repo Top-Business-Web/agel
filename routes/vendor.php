@@ -100,6 +100,7 @@ Route::group(
 
                 #============================ Stocks ==================================
                 Route::resourceWithDeleteSelected('stocks', StockController::class);
+                Route::get('unsurpasseds/download-example', [UnsurpassedController::class, 'downloadExample'])->name('unsurpasseds.download.example');
 
                 Route::resourceWithDeleteSelected('unsurpasseds', UnsurpassedController::class);
                 Route::get('unsurpasseds/add/Excel', [UnsurpassedController::class, 'addExcel'])->name('unsurpasseds.add.excel');

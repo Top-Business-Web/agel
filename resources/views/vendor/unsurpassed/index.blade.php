@@ -22,6 +22,9 @@
                         <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
                             <span><i class="fe fe-trash"></i></span> حذف المحدد
                         </button>
+                        <a href="{{ route('unsurpasseds.download.example') }}" class="btn btn-primary btn-icon text-white">
+                            <span><i class="fe fe-download"></i></span> تحميل مثال
+                        </a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -211,6 +214,6 @@
 
 
 
-     
+
     </script>
 @endsection

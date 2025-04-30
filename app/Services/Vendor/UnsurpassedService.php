@@ -2,11 +2,13 @@
 
 namespace App\Services\Vendor;
 
+use App\Exports\UnsurpassedExampleExport;
 use App\Models\Unsurpassed as ObjModel;
 use App\Services\BaseService;
 use Yajra\DataTables\DataTables;
-use Maatwebsite\Excel\Excel;
 use App\Imports\UnsurpassedImport;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class UnsurpassedService extends BaseService
 {
@@ -62,7 +64,10 @@ class UnsurpassedService extends BaseService
             'storeExcelRoute' => route("{$this->route}.store.excel"),
         ]);
     }
+public function show()
+{
 
+}
     public function store($data): \Illuminate\Http\JsonResponse
     {
         if (isset($data['image'])) {
@@ -102,6 +107,11 @@ class UnsurpassedService extends BaseService
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
         ]);
+    }
+
+    public function downloadExample()
+    {
+        return \Excel::download(new UnsurpassedExampleExport, 'unsurpassed_example.xlsx');
     }
 
     public function update($data, $id)
