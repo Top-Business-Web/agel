@@ -43,6 +43,16 @@ class UnsurpassedController extends Controller
     {
         return $this->objService->edit($unsurpassed);
     }
+    public function downloadExample()
+    {
+        return $this->objService->downloadExample();
+
+    }
+    public function show()
+    {
+
+    }
+
 
     public function update(Request $request, $id)
     {
