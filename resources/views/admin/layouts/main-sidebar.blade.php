@@ -86,7 +86,7 @@
             <li class="{{ routeActive('admin.unsurpasseds.index') }}">
                 <a class="slide-item {{ routeActive('admin.unsurpasseds.index') }}" style="margin-right:8px;"
                    href="{{ route('admin.unsurpasseds.index') }}">
-                    <i class="fas fa-th side-menu__icon"></i> <!-- Category Icon -->
+                    <i class="fas fa-hand-holding-usd side-menu__icon"></i> <!-- المتعثرين -->
                     المتعثرين
                 </a>
 

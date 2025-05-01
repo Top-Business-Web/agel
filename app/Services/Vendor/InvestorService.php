@@ -262,14 +262,16 @@ class InvestorService extends BaseService
         $addStock = $this->stockService->model->whereIn('id', $addOperations->pluck('stock_id'));
         $sellStock = $this->stockService->model->whereIn('id', $sellOperations->pluck('stock_id'));
 
-        // dd($addStock->sum('quantity') , $sellStock->sum('quantity'));
 
         // حساب القيم المجمعة
         return response()->json([
             'status' => 200,
             'available' => (int)($addStock->sum('quantity') - $sellStock->sum('quantity')),
-            'total_price' => $addStock->sum('total_price_add') - $sellStock->sum('total_price_add'),
-            'total_price_commission' => $addStock->sum('total_price_add') - ($addStock->sum('vendor_commission') + $addStock->sum('investor_commission') + $addStock->sum('sell_diff')) - $sellStock->sum('total_price_add') - ($sellStock->sum('vendor_commission') + $sellStock->sum('investor_commission') + $sellStock->sum('sell_diff')),
+            'total_price' => $addStock->sum('total_price_add') - $sellStock->sum('total_price_sub'),
+            'total_price_commission' => $addStock->sum('total_price_add') -
+                ($addStock->sum('vendor_commission') + $addStock->sum('investor_commission') + $addStock->sum('sell_diff'))
+                - $sellStock->sum('total_price_sub') - ($sellStock->sum('vendor_commission') + $sellStock->sum('investor_commission')
+                    + $sellStock->sum('sell_diff')),
         ]);
     }
 }
