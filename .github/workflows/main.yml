@@ -50,6 +50,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd domains/scriptech.ebharbook.com/public_html/agel
-            php artisan optimize:clear
-            php artisan storage:link
+             php artisan refresh:storage-link
+             php artisan storage:link
             php artisan mi:f --seed --force
