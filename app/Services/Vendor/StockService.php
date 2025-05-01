@@ -87,10 +87,10 @@ class StockService extends BaseService
         $auth = auth('vendor')->user();
         $branches = [];
         if ($auth->parent_id == null) {
-            $branches = $this->branchService->model->apply()->whereIn('vendor_id', [$auth->parent_id, $auth->id])->where('name', "!=", 'الفرع الرئيسي')->get();
+            $branches = $this->branchService->model->apply()->whereIn('vendor_id', [$auth->parent_id, $auth->id])->get();
         } else {
             $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
-            $branches = $this->branchService->model->apply()->whereIn('id', $branchIds)->where('name', "!=", 'الفرع الرئيسي')->get();
+            $branches = $this->branchService->model->apply()->whereIn('id', $branchIds)->get();
         }
         return view("{$this->folder}/parts/create", [
             'storeRoute' => route("{$this->route}.store"),

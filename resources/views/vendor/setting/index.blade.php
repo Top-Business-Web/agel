@@ -13,27 +13,27 @@
                 <form id="addForm" class="addForm">
                     <div class="row">
 
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="logo" class="form-control-label">الشعار</label>
-                                <input type="file" class="dropify" name="logo" id="logo"  data-default-file="{{  getFile(getAuthSetting('logo') ) }}">
-                            </div>
-                        </div>
+{{--                        <div class="col-6">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label for="logo" class="form-control-label">الشعار</label>--}}
+{{--                                <input type="file" class="dropify" name="logo" id="logo"  data-default-file="{{  getFile(getAuthSetting('logo') ) }}">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="loader" class="form-control-label">أيقونة التحميل</label>
-                                <input type="file" class="dropify" name="loader" id="loader" data-default-file="{{ getFile(getAuthSetting('loader') )}}">
-                            </div>
-                        </div>
+{{--                        <div class="col-6">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label for="loader" class="form-control-label">أيقونة التحميل</label>--}}
+{{--                                <input type="file" class="dropify" name="loader" id="loader" data-default-file="{{ getFile(getAuthSetting('loader') )}}">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="fav_icon" class="form-control-label">أيقونة علامه التيوب</label>
-                                <input type="file" class="dropify" name="fav_icon" id="fav_icon" data-default-file="{{ getFile(getAuthSetting('fav_icon'))}}">
-                            </div>
-                        </div>
-                        <div class="col-6">
+{{--                        <div class="col-6">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label for="fav_icon" class="form-control-label">أيقونة علامه التيوب</label>--}}
+{{--                                <input type="file" class="dropify" name="fav_icon" id="fav_icon" data-default-file="{{ getFile(getAuthSetting('fav_icon'))}}">--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+                        <div class="col-12">
                             <div class="form-group">
                                 <label for="image" class="form-control-label">الصورة الشخصية</label>
                                 <input type="file" class="dropify" name="image" id="image" data-default-file="{{ isset($vendorSetting->image) ? getFile($vendorSetting->image) : '' }}">

@@ -19,13 +19,9 @@
             <div class="col-6">
                 <div class="form-group">
 
-                    <label for="region_id" class="form-control-label">عنوان الفرع
-                    </label>
-                    <select class="form-control" name="region_id" id="region_id">
-                        @foreach ($regions as $region)
-                            <option value="{{ $region->id }} " {{ $obj->region_id == $region->id ? 'selected' : ''}} >{{ $region->name }}-{{ $region->area->name }}-{{ $region->area->city->name }}</option>
-                        @endforeach
-                    </select>
+                    <label for="address" class="form-control-label">العنوان</label>
+                    <input type="text" class="form-control" name="address" id="address"
+                           value="{{ $obj->address }}">
                 </div>
             </div>
 

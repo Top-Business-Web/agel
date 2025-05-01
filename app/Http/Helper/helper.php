@@ -50,7 +50,7 @@ if (!function_exists('get_file')) {
                 $created = Vendor::where('parent_id', $parentId)->count();
                 return $created;
             } elseif ($key == 'Branch') {
-                $created = Branch::whereIn('vendor_id', $vendorIds)->where('name', '!=', 'الفرع الرئيسي')->count();
+                $created = Branch::whereIn('vendor_id', $vendorIds)->count();
                 return $created;
             } elseif ($key == 'Investor') {
                 $created = Investor::whereIn('Branch_id', Branch::whereIn('vendor_id', $vendorIds)->pluck('id'))->count();

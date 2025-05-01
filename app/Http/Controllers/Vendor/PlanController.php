@@ -20,14 +20,12 @@ class PlanController extends Controller
 
 
 
-//    public function store(ObjRequest $data)
     public function store(Request $data)
     {
         return $this->objService->store($data);
     }
 
 
-//    public function update(ObjRequest $request, $id)
 
     public function destroy($id)
     {

@@ -59,7 +59,7 @@ class PlanService extends BaseService
         $data['to'] = \Carbon\Carbon::now()->addDays($this->plan->where('id', $data['plan_id'])->value('period'))->format('Y-m-d');
         try {
             if (isset($data['payment_receipt'])) {
-                $data['payment_receipt'] = $this->handleFile($data['payment_receipt'], 'Plan_subscriptions');
+                $image = $this->handleFile($data['payment_receipt'], 'Plan_subscriptions');
             } else {
                 return response()->json(['status' => 500, 'message' => "يرجى إرفاق إيصال الدفع"]);
             }
@@ -69,58 +69,12 @@ class PlanService extends BaseService
                 'status' => $data['status'],
                 'from' => $data['from'],
                 'to' => $data['to'],
-                'payment_receipt' => $data['payment_receipt'],
+                'payment_receipt' => $image,
             ]);
 
-            // $vendor['plan_id'] = $data['plan_id'];
-            // $vendor->save();   it will be pending until accept or reject
             return response()->json(['status' => 200, 'message' => "تم تقديم الطلب بنجاح"]);
         } catch (\Exception $e) {
             return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
         }
     }
-//
-//    public function edit($obj)
-//    {
-//
-//        $auth = auth('vendor')->user();
-//        $branches = [];
-//        if ($auth->parent_id == null) {
-//            $branches = $this->branchService->model->whereIn('vendor_id', [$auth->parent_id, $auth->id])
-//                ->where('name', '!=', 'الفرع الرئيسي')
-//                ->where('is_main', '!=', 1)
-//                ->get();
-//        } else {
-//            $branches = $this->branchService->model->whereIn('id', $branchIds)
-//                ->where('name', '!=', 'الفرع الرئيسي')
-//                ->where('is_main', '!=', 1)
-//                ->get();
-//        }
-//        return view("{$this->folder}/parts/edit", [
-//            'obj' => $obj,
-//            'updateRoute' => route("{$this->route}.update", $obj->id),
-//            'branches' => $branches,
-//        ]);
-//    }
-//
-//    public function update($data, $id)
-//    {
-//        $oldObj = $this->getById($id);
-//
-//        if (isset($data['image'])) {
-//            $data['image'] = $this->handleFile($data['image'], 'Client');
-//
-//            if ($oldObj->image) {
-//                $this->deleteFile($oldObj->image);
-//            }
-//        }
-//
-//        try {
-//            $oldObj->update($data);
-//            return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
-//
-//        } catch (\Exception $e) {
-//            return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
-//        }
-//    }
 }

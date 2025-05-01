@@ -43,7 +43,8 @@
                                 </th>
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-25px">الاسم</th>
-                                <th class="min-w-25px">المدينة</th>
+                                <th class="min-w-25px">العنوان</th>
+                                <th class="min-w-25px"> هل الفرع رئيسي</th>
                                 <th class="min-w-25px">الحاله</th>
                                 <th class="min-w-50px rounded-end">العمليات</th>
                             </tr>
@@ -174,7 +175,8 @@
                 if (row.is_main === 1) {
                     return ''; // Return empty string to hide the checkbox
                 }
-                return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;            }
+                return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
+            }
         },
             {
                 data: 'id',
@@ -185,8 +187,14 @@
                 name: 'name'
             },
             {
-                data: 'region_id',
-                name: 'region_id'
+                data: 'address',
+                name: 'address'
+
+            },
+            {
+                data: 'is_main',
+                name: 'is_main'
+
             },
             {
                 data: 'status',
@@ -215,7 +223,7 @@
         showEditModal('{{ route($route . '.edit', ':id') }}');
         editScript();
 
-                        checkVendorKeyLimit('.addBtn', 'Branch');
+        checkVendorKeyLimit('.addBtn', 'Branch');
 
     </script>
 
