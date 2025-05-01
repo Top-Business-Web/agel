@@ -9,7 +9,7 @@ class Kernel extends ConsoleKernel
 {
 
     protected $commands = [
-        \App\Console\Commands\ChangeStatusToCompleted::class,
+        \App\Console\Commands\RefreshStorageLink::class,
     ];
     /**
      * Define the application's command schedule.

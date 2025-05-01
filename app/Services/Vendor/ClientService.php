@@ -54,8 +54,8 @@ class ClientService extends BaseService
                     $phone = str_replace('+', '', $obj->phone);
                     return $phone;
                 })->addColumn('order_status', function ($obj) {
-                    
-                  return   $this->getOrderStatusForClient($obj);
+
+                    return $this->getOrderStatusForClient($obj);
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -75,14 +75,12 @@ class ClientService extends BaseService
         $branches = [];
         if ($auth->parent_id == null) {
             $branches = $this->branchService->model->whereIn('vendor_id', [$auth->parent_id, $auth->id])
-                ->where('name', '!=', 'الفرع الرئيسي')
-                ->where('is_main', '!=', 1)
+
                 ->get();
         } else {
             $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
             $branches = $this->branchService->model->whereIn('id', $branchIds)
-                ->where('name', '!=', 'الفرع الرئيسي')
-                ->where('is_main', '!=', 1)
+
                 ->get();
         }
         return view("{$this->folder}/parts/create", [
@@ -110,14 +108,12 @@ class ClientService extends BaseService
         $branches = [];
         if ($auth->parent_id == null) {
             $branches = $this->branchService->model->whereIn('vendor_id', [$auth->parent_id, $auth->id])
-                ->where('name', '!=', 'الفرع الرئيسي')
-                ->where('is_main', '!=', 1)
+
                 ->get();
         } else {
             $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
             $branches = $this->branchService->model->whereIn('id', $branchIds)
-                ->where('name', '!=', 'الفرع الرئيسي')
-                ->where('is_main', '!=', 1)
+
                 ->get();
         }
         return view("{$this->folder}/parts/edit", [
@@ -157,16 +153,15 @@ class ClientService extends BaseService
             $vendorIds = $vendors->pluck('id');
 
             $obj = $this->model->where('national_id', $data['national_id'])
-            ->whereIn('Branch_id', Branch::whereIn('vendor_id', $vendorIds)->pluck('id'))->first();
-
+                ->whereIn('Branch_id', Branch::whereIn('vendor_id', $vendorIds)->pluck('id'))->first();
 
 
             if ($obj) {
                 return response()->json([
                     'exists' => true,
                     'user' => [
-                        'name' =>  $obj->name,
-                        'phone' =>  $obj->phone,
+                        'name' => $obj->name,
+                        'phone' => $obj->phone,
                     ]
                 ]);
             }

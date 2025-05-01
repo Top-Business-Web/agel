@@ -74,7 +74,7 @@
                 <div class="form-group">
                     <label for="vendor_commission" class="form-control-label">أجمالي العمولة للمكتب
                     </label>
-                    <input type="number" min="1" class="form-control" name="vendor_commission"
+                    <input type="number" min="0" class="form-control" name="vendor_commission" value="0"
                         id="vendor_commission">
                 </div>
             </div>
@@ -82,7 +82,7 @@
                 <div class="form-group">
                     <label for="investor_commission" class="form-control-label">أجمالي العمولة للمستثمر
                     </label>
-                    <input type="number" min="1" class="form-control" name="investor_commission"
+                    <input type="number" min="0" class="form-control" name="investor_commission" value="0"
                         id="investor_commission">
                 </div>
             </div>
@@ -92,7 +92,7 @@
                     <label for="sell_diff" class="form-control-label">
                         فروقات اعاده البيع
                     </label>
-                    <input type="number" min="1" class="form-control" name="sell_diff" id="sell_diff">
+                    <input type="number" min="0" class="form-control" name="sell_diff" id="sell_diff" value="0">
                 </div>
             </div>
         </div>

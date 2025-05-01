@@ -10,7 +10,9 @@ use Illuminate\Http\Request;
 
 class BranchController extends Controller
 {
-    public function __construct(protected ObjService $objService) {}
+    public function __construct(protected ObjService $objService)
+    {
+    }
 
     public function index(Request $request)
     {
@@ -43,6 +45,7 @@ class BranchController extends Controller
     {
         return $this->objService->delete($id);
     }
+
     public function updateColumnSelected(Request $request)
     {
         return $this->objService->updateColumnSelected($request, 'status');

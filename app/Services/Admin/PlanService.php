@@ -26,7 +26,17 @@ class PlanService extends BaseService
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
                     if ($obj->id == 1) {
-                        return 'لا يمكن اتخاذ اي أجراء ';
+                        $buttons = '';
+                        if (auth('admin')->user()->can('update_plan')) {
+
+                            $buttons .= '
+                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
+                            <i class="fa fa-edit"></i>
+                        </button>
+
+                    ';
+                        }
+                        return $buttons;
                     }
                     $buttons = '';
                     if (auth('admin')->user()->can('update_plan')) {

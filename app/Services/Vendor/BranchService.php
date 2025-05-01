@@ -3,10 +3,9 @@
 namespace App\Services\Vendor;
 
 use App\Models\Branch as ObjModel;
-use App\Models\Region;
+use App\Models\City;
 use App\Models\Vendor;
 use App\Models\VendorBranch;
-use App\Services\Admin\CityService;
 use App\Services\BaseService;
 use Illuminate\Http\JsonResponse;
 use Yajra\DataTables\DataTables;
@@ -16,7 +15,7 @@ class BranchService extends BaseService
     protected string $folder = 'vendor/branch';
     protected string $route = 'branches';
 
-    public function __construct(ObjModel $objModel, protected Vendor $vendor, protected Region $region, protected VendorBranch $vendorBranch)
+    public function __construct(ObjModel $objModel, protected Vendor $vendor, protected VendorBranch $vendorBranch)
     {
         parent::__construct($objModel);
     }
@@ -38,16 +37,25 @@ class BranchService extends BaseService
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
                     if ($obj->is_main === 1) {
-                        return $buttons = 'لا يمكن اتخاذ هذا الإجراء';
-                    } else {
                         $buttons = '';
-                    if (auth('vendor')->user()->can('update_branch')) {
-                        $buttons .= '
+                        if (auth('vendor')->user()->can('update_branch')) {
+                            $buttons .= '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
                             <i class="fa fa-edit"></i>
                         </button>
                     ';
-                    }
+                        }
+                        return $buttons;
+
+                    } else {
+                        $buttons = '';
+                        if (auth('vendor')->user()->can('update_branch')) {
+                            $buttons .= '
+                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
+                            <i class="fa fa-edit"></i>
+                        </button>
+                    ';
+                        }
                         if (auth('vendor')->user()->can('delete_branch')) {
                             $buttons .= '
 
@@ -60,10 +68,10 @@ class BranchService extends BaseService
                     }
 
                     return $buttons;
-                })->editColumn('region_id', function ($obj) {
-                    return $obj->region_id ? $obj->region->name : 'غير محدد';
                 })->editColumn('status', function ($obj) {
                     return $obj->is_main === 1 ? 'غير متاح' : $this->statusDatatable($obj);
+                })->editColumn('is_main', function ($obj) {
+                    return $obj->is_main === 1 ? 'نعم' : 'لا';
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -81,7 +89,6 @@ class BranchService extends BaseService
     {
         return view("{$this->folder}/parts/create", [
             'storeRoute' => route("{$this->route}.store"),
-            'regions' => $this->region->get(),
         ]);
     }
 
@@ -102,16 +109,15 @@ class BranchService extends BaseService
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
-            'regions' => $this->region->get(),
         ]);
     }
 
     public function update($data, $id)
     {
-        $oldObj = $this->getById($id);
-
-
         try {
+
+            $oldObj = $this->getById($id);
+
 
             $oldObj->update($data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);

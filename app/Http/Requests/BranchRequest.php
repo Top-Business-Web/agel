@@ -24,15 +24,15 @@ class BranchRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:branches,name',
-            'region_id' => 'required|exists:regions,id',
+            'address' => 'required',
         ];
     }
 
     protected function update(): array
     {
         return [
-            'name' => 'nullable|unique:branches,name,' . $this->branch,
-            'region_id' => 'nullable|exists:regions,id',
+            'name' => $this->name == 'الفرع الرئيسي' ? 'nullable' : 'nullable|unique:branches,name,' . $this->branch,
+            'address' => 'required',
         ];
     }
 }

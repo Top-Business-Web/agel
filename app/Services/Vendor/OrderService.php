@@ -60,12 +60,12 @@ class OrderService extends BaseService
                         return "<h5 class='text-success'>مكتمل</h5>";
                     }
 
-                   
+
                     return $buttons;
                 })->addColumn('client_national_id', function ($obj) {
                     return $obj->client_id ? $obj->client->national_id : "";
                 })->addColumn('paid', function ($obj) {
-                    return $obj->order_status->paid; 
+                    return $obj->order_status->paid;
                 })->editColumn('client_id', function ($obj) {
                     return $obj->client_id ? $obj->client->name : "";
                 })->editColumn('investor_id', function ($obj) {
@@ -90,10 +90,10 @@ class OrderService extends BaseService
         $auth = auth('vendor')->user();
         $branches = [];
         if ($auth->parent_id == null) {
-            $branches = $this->branchService->model->apply()->whereIn('vendor_id', [$auth->parent_id, $auth->id])->where('name', "!=", 'الفرع الرئيسي')->get();
+            $branches = $this->branchService->model->apply()->whereIn('vendor_id', [$auth->parent_id, $auth->id])->get();
         } else {
             $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
-            $branches = $this->branchService->model->apply()->whereIn('id', $branchIds)->where('name', "!=", 'الفرع الرئيسي')->get();
+            $branches = $this->branchService->model->apply()->whereIn('id', $branchIds)->get();
         }
 
         return view("{$this->folder}/parts/create", [
