@@ -27,7 +27,7 @@
                     <label for="phone" class="form-control-label">رقم الهاتف
                     </label>
                     <div class="input-group">
-                        <input type="text" class="form-control" name="phone" id="phone" value="{{$obj->phone}}"
+                        <input type="text" class="form-control" name="phone" id="phone" value="{{substr($obj->phone, 4)}}"
                                style=" text-align: left;">
                         <span class="input-group-text">966+</span>
                     </div>
@@ -48,7 +48,7 @@
                     <div class="input-group">
 
                         <input type="text" class="form-control" name="office_phone" id="office_phone"
-                               value="{{$obj->office_phone}}" style=" text-align: left;">
+                               value="{{substr($obj->office_phone, 4)}}" style=" text-align: left;">
                         <span class="input-group-text">966+</span>
                     </div>
                 </div>

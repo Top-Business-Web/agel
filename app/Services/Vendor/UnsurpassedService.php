@@ -36,6 +36,12 @@ class UnsurpassedService extends BaseService
                         </button>
                     ';
                     return $buttons;
+                })->editColumn('phone', function ($obj) {
+                    $phone = str_replace('+', '', $obj->phone);
+                    return $phone;
+                })->editColumn('office_phone', function ($obj) {
+                    $phone = str_replace('+', '', $obj->office_phone);
+                    return $phone;
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -72,9 +78,6 @@ class UnsurpassedService extends BaseService
 
     public function store($data): \Illuminate\Http\JsonResponse
     {
-        if (isset($data['image'])) {
-            $data['image'] = $this->handleFile($data['image'], 'Unsurpassed');
-        }
 
         try {
             $this->createData($data);
@@ -103,8 +106,6 @@ class UnsurpassedService extends BaseService
     }
     public function edit($obj)
     {
-        $obj['phone'] = str_replace('+966', '', $obj['phone']);
-        $obj['office_phone'] = str_replace('+966', '', $obj['office_phone']);
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),

@@ -54,11 +54,9 @@ class UnsurpassedController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function update(ObjRequest $request, $id)
     {
-        $request['phone'] = '+966' . $request['phone'];
-        $request['office_phone'] = '+966' . $request['office_phone'];
-        $data = app(ObjRequest::class)->validated();
+        $data = $request->validated();
         return $this->objService->update($data, $id);
     }
 
