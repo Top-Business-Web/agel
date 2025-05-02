@@ -64,10 +64,12 @@ class UnsurpassedService extends BaseService
             'storeExcelRoute' => route("{$this->route}.store.excel"),
         ]);
     }
-public function show()
-{
 
-}
+    public function show()
+    {
+
+    }
+
     public function store($data): \Illuminate\Http\JsonResponse
     {
         if (isset($data['image'])) {
@@ -85,20 +87,20 @@ public function show()
 
     public function storeExcel($data): \Illuminate\Http\JsonResponse
     {
-        try {
+//        try {
             if (isset($data['excel_file'])) {
                 $data->validate(['excel_file' => 'required|mimes:xlsx,xls,csv']);
                 $file = $data->file('excel_file');
-                $this->excel->import($this->unsurpassedImport, $file);
+
+                Excel::import($this->unsurpassedImport, $file);
+
                 return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح", 'reload' => true]);
             }
-
-            return response()->json(['status' => 400, 'message' => 'No file uploaded']);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'error' => $e->getMessage()]);
-        }
+            return response()->json('error importing the excel file');
+//        } catch (\Exception $e) {
+//            return response()->json('error importing the excel file');
+//        }
     }
-
     public function edit($obj)
     {
         $obj['phone'] = str_replace('+966', '', $obj['phone']);

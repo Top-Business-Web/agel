@@ -31,10 +31,10 @@ class DataSheet implements FromArray, WithHeadings
     {
         return [
             'name',
-            'phone (without +966)',
+            'phone',
             'national_id',
             'office_name',
-            'office_phone (without +966)',
+            'office_phone',
         ];
     }
 }
