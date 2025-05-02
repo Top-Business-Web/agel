@@ -105,10 +105,10 @@
                         </div>
                     </div>
                     <label class="inp d-flex">
+                        <span class="input-group-text" id="validationTooltipUsernamePrepend"
+                              style="border-radius: 0 2rem 2rem 0; background-color: #e8f0ff; border: none; font-size: 20px;left: 10px;">+966</span>
                         <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField"
                                style="background-color: rgb(232, 240, 254); border-radius: 2rem 0 0 2rem;">
-                        <span class="input-group-text" id="validationTooltipUsernamePrepend"
-                              style="border-radius: 0 2rem 2rem 0; background-color: #e8f0ff; border: none; font-size: 20px;left: 10px;">966+</span>
                         <span class="label" id="placeHolder">البريد الالكتروني</span>
                         <span class="input-icon">
                     <i class="fa-solid fa-envelope"></i>
