@@ -1,7 +1,6 @@
 <?php
 
 
-
 namespace App\Services\Admin;
 
 use App\Models\vendor;
@@ -30,13 +29,13 @@ class ClientService extends BaseService
 // Apply filters
         if ($request->office_id) {
             // First get the branch IDs for this office
-            $branchIds = $this->branch->where('vendor_id', $request->office_id)->pluck('id');
-
-            if ($request->branch_id == 'all') {
-                $query->whereIn('branch_id', $branchIds);
+            if ($request->office_id == 'all') {
+                $branchIds = $this->branch->pluck('id');
+            } else {
+                $branchIds = $this->branch->where('vendor_id', $request->office_id)->pluck('id');
             }
-            elseif($request->branch_id) {
-                // If branch_id is specified, make sure it belongs to the selected office
+
+            if ($request->branch_id!='all') {
                 $query->where('branch_id', $request->branch_id)
                     ->whereIn('branch_id', $branchIds);
             } else {

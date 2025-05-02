@@ -27,7 +27,7 @@
                                     <select id="officeFilter" class="form-control select2"
                                             aria-describedby="officeHelp">
                                         <option disabled selected value="">إختر المكتب</option>
-                                        <option value="">الكل</option>
+                                        <option value="all">الكل</option>
                                         @foreach ($offices as $office)
                                             <option value="{{ $office->id }}">{{ $office->name }}</option>
                                         @endforeach
