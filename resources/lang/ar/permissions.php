@@ -19,13 +19,14 @@ return [
     'ACTIVITY_LOG' => 'سجل النشاط',
     'CATEGORY' => 'التصنيفات',
     'STOCK' => 'المخزون',
-
+    'ORDER' => 'الطلبات',
+    'PLANS' => 'الخطط',
 
 
     //admin
     'ADMIN' => 'مدرين النظام',
-    'PLAN'=>'الخطط',
-    'PLAN_SUBSCRIPTION'=>'الاشتراكات'
+    'PLAN' => 'الخطط',
+    'PLAN_SUBSCRIPTION' => 'الاشتراكات',
 
 ];
 

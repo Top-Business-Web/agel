@@ -23,7 +23,7 @@ class CategoryRequest extends FormRequest
     protected function store(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:categories,name'
+            'name' => 'required|string|max:255'
 
         ];
     }
@@ -32,7 +32,7 @@ class CategoryRequest extends FormRequest
     {
         return [
 
-            'name' => 'nullable|string|max:255|unique:categories,name,' . $this->route('category')
+            'name' => 'required|string|max:255',
         ];
     }
 }

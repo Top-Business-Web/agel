@@ -273,18 +273,17 @@ abstract class BaseService
     {
         // Client has 3 statuses: 1 -> Acceptable, 2 -> Unsurpassed, 3 -> Excellent
         $orders = $obj->orders;
+//        dd($orders);
         $orderStatuses = [];
         foreach ($orders as $order) {
             $orderStatuses[] = $order->order_status->status;
         }
-
-        // dd($orderStatuses);
-
+//        dd($orderStatuses);
 
 
-        if (in_array(1, $orderStatuses) && !in_array(2, $orderStatuses)) {
+        if (in_array(1, $orderStatuses) && !array_intersect([0,2], $orderStatuses)) {
             return "<h5 class='text-primary'>مقبول</h5>";
-        } elseif (in_array(2, $orderStatuses) && !in_array(1, $orderStatuses)) {
+        } elseif (array_intersect([0,2], $orderStatuses)) {
             return "<h5 class='text-warning'>متعثر</h5>";
         } elseif (in_array(3, $orderStatuses) && !array_intersect([1, 2], $orderStatuses)) {
             return "<h5 class='text-success'>ممتاز</h5>";
