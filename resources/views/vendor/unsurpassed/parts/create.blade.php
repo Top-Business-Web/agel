@@ -15,14 +15,19 @@
                 <div class="form-group">
                     <label for="name" class="form-control-label">رقم الهويه
                     </label>
-                    <input type="text" class="form-control" name="national_id" id="national_id">
+                    <input type="number" class="form-control" name="national_id" id="national_id" minlength="10" maxlength="10" >
                 </div>
             </div>
+
+
             <div class="col-6">
-                <div class="form-group">
-                    <label for="name" class="form-control-label">رقم الهاتف
+                <div class="form-group position-relative">
+                    <label for="phone" class="form-control-label">رقم الهاتف
                     </label>
-                    <input type="number" be class="form-control" name="phone" id="phone">
+                    <div class="input-group">
+                        <input type="number" class="form-control" name="phone" id="phone" style=" text-align: left;">
+                        <span class="input-group-text">966+</span>
+                    </div>
                 </div>
             </div>
             <div class="col-6">
@@ -32,11 +37,14 @@
                     <input type="text" class="form-control" name="office_name" id="office_name">
                 </div>
             </div>
+
             <div class="col-6">
-                <div class="form-group">
-                    <label for="name" class="form-control-label">رقم المكتب
-                    </label>
-                    <input type="text" class="form-control" name="office_phone" id="office_phone">
+                <div class="form-group position-relative">
+                    <label for="office_phone" class="form-control-label">رقم المكتب</label>
+                    <div class="input-group">
+                        <input type="number" class="form-control" name="office_phone" id="office_phone" style=" text-align: left;" >
+                        <span class="input-group-text">966+</span>
+                    </div>
                 </div>
             </div>
 

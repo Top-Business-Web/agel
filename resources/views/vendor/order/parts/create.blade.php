@@ -25,8 +25,8 @@
                 <div class="form-group">
                     <label for="phone" class="form-control-label">رقم الهاتف</label>
                     <div class="input-group">
-                        <span class="input-group-text">+966</span>
-                        <input type="number" class="form-control" name="phone" maxlength="9" required>
+                        <input type="number" class="form-control" name="phone" maxlength="9" required style="text-align: left;">
+                        <span class="input-group-text">966+</span>
                     </div>
                 </div>
             </div>

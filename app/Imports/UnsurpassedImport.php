@@ -26,37 +26,33 @@ class UnsurpassedImport implements ToCollection, WithHeadingRow
      */
     public function collection(Collection $collection)
     {
-        foreach ($collection as $row) {
+//        dd($collection);
+       foreach ($collection as $row) {
+    if (!$row->get('name')) {
+        continue; // Skip rows with missing 'name'
+    }
 
+    $unsurpassed = Unsurpassed::where('national_id', $row->get('national_id'))
+        ->first();
 
-            $unsurpassed = Unsurpassed::where('national_id', $row['national_id'])
-                ->first();
-
-            if ($unsurpassed) {
-                $unsurpassed->update([
-//<<<<<<< ismail
-                    'name' => $row['name'] ?? $unsurpassed->name,
-                    'phone' => '+966'.$row['phone'] ?? $unsurpassed->phone,
-                    'office_name' => $row['office_name'] ?? $unsurpassed->office_name,
-                    'office_phone' => '+966'.$row['office_phone'] ?? $unsurpassed->office_phone,
-//=======
-//                    'name' => $row['name'] ?? null,
-//                    'phone' => '+966'.$row['phone'] ?? null,
-//                    'office_name' => $row['office_name'] ?? null,
-  //                  'office_phone' => '+966'.$row['office_phone'] ?? null,
-//>>>>>>> main
-                ]);
-            } else {
-                // Create new record
-                Unsurpassed::create([
-                    'name' => $row['name'] ?? null,
-                    'phone' => '+966'.$row['phone'] ?? null,
-                    'national_id' => $row['national_id'] ?? null,
-                    'office_name' => $row['office_name'] ?? null,
-                    'office_phone' => '+966'.$row['office_phone'] ?? null,
-                ]);
-            }
-        }
+    if ($unsurpassed) {
+        $unsurpassed->update([
+            'name' => $row->get('name') ?? $unsurpassed->name,
+            'phone' => '+966' . $row->get('phone') ?? $unsurpassed->phone,
+            'national_id' => $row->get('national_id') ?? $unsurpassed->national_id,
+            'office_name' => $row->get('office_name') ?? $unsurpassed->office_name,
+            'office_phone' => '+966' . ($row->get('office_phone') ?? $unsurpassed->office_phone),
+        ]);
+    } else {
+        Unsurpassed::create([
+            'name' => $row->get('name'),
+            'phone' => '+966' . $row->get('phone'),
+            'national_id' => $row->get('national_id'),
+            'office_name' => $row->get('office_name'),
+            'office_phone' => '+966' . $row->get('office_phone'),
+        ]);
+    }
+}
     }
 
 

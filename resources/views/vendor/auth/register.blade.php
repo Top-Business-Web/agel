@@ -119,10 +119,9 @@
                                 <label class="inp">
                                     <label class="fs-4 mb-3">رقم الجوال</label>
                                     <div style="display: flex; align-items: center; gap: 5px; position: relative;">
-                                        <label class="country-code" style="    position: absolute;
-    right: 10px;
-    font-size: 15px;">+966</label>
-                                        <input type="tel" name="phone" class="input-text" required style="background-color: rgb(232, 240, 254); flex: 1;">
+                                        <input type="tel" name="phone" class="input-text" required style="background-color: rgb(232, 240, 254); flex: 1;padding-left: 50px">
+                                        <label class="country-code" style="    position: absolute;left: 10px;font-size: 15px;">966+</label>
+
                                         <span class="input-icon"><i class="fa-solid fa-phone"></i></span>
                                     </div>
                                 </label>
