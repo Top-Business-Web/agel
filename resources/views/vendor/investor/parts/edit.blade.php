@@ -23,7 +23,7 @@
                     <label for="phone" class="form-control-label">رقم الهاتف</label>
                     <div class="input-group">
                         <input type="number" class="form-control" name="phone" maxlength="11"
-                               value="{{ substr($obj->phone, 4) }}" style="text-align: left;">
+                         id="phone"       value="{{ substr($obj->phone, 4) }}" style="text-align: left;">
                         <span class="input-group-text">966+</span>
                     </div>
                 </div>
@@ -64,3 +64,24 @@
         dropdownParent: $('#editOrCreate .modal-content')
 
     });</script>
+<script>
+    function handlePhoneInput(inputId) {
+        document.getElementById(inputId).addEventListener('input', function (e) {
+            let value = e.target.value;
+
+            // Remove leading zero
+            if (value.startsWith('0')) {
+                value = value.slice(1);
+            }
+
+            // Limit to a maximum of 9 digits
+            if (value.length > 9) {
+                value = value.slice(0, 9);
+            }
+
+            e.target.value = value;
+        });
+    }
+
+    handlePhoneInput('phone');
+</script>

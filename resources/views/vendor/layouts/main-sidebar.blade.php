@@ -20,7 +20,6 @@
                 <span class="side-menu__label">الرئيسية</span>
             </a>
         </li>
-        @canany(['create_unsurpassed', 'update_unsurpassed', 'delete_unsurpassed', 'read_unsurpassed'])
             <li class="{{ routeActive('unsurpasseds.index') }}">
                 <a class="slide-item {{ routeActive('unsurpasseds.index') }}" style="margin-right:8px;"
                     href="{{ route('unsurpasseds.index') }}">
@@ -29,7 +28,6 @@
                 </a>
 
             </li>
-        @endcanany
         @canany(['create_branch', 'update_branch', 'delete_branch', 'read_branch'])
             <li class="{{ routeActive('branches.index') }}">
                 <a class="slide-item {{ routeActive('branches.index') }}" style="margin-right:5px;"

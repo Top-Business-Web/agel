@@ -179,4 +179,26 @@
             });
         });
     </script>
+
+    <script>
+        function handlePhoneInput(inputId) {
+            document.getElementById(inputId).addEventListener('input', function (e) {
+                let value = e.target.value;
+
+                // Remove leading zero
+                if (value.startsWith('0')) {
+                    value = value.slice(1);
+                }
+
+                // Limit to a maximum of 9 digits
+                if (value.length > 9) {
+                    value = value.slice(0, 9);
+                }
+
+                e.target.value = value;
+            });
+        }
+
+        handlePhoneInput('phone');
+    </script>
 @endsection

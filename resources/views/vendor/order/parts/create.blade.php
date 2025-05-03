@@ -16,7 +16,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="name" class="form-control-label">الاسم </label>
-                    <input type="text" maxlength="10" class="form-control" name="name" id="name">
+                    <input type="text"  class="form-control" name="name" id="name">
                 </div>
             </div>
 
@@ -24,7 +24,7 @@
                 <div class="form-group">
                     <label for="phone" class="form-control-label">رقم الهاتف</label>
                     <div class="input-group">
-                        <input type="number" class="form-control" name="phone" maxlength="9" required
+                        <input type="number" class="form-control" id="phone" name="phone" maxlength="9" required
                                style="text-align: left;">
                         <span class="input-group-text">966+</span>
                     </div>
@@ -85,7 +85,7 @@
                     <label for="expected_price" class="form-control-label">
                         سعر اعاده البيع المتوقع
                     </label>
-                    <input type="number" min="0" class="form-control" name="expected_price" readonly
+                    <input type="number" min="0" class="form-control" name="expected_price" readonly value="0"
                            id="expected_price">
                 </div>
             </div>
@@ -95,7 +95,7 @@
                     <label for="Total_expected_commission" class="form-control-label">
                         اجمالي العموله المتوقعه
                     </label>
-                    <input type="number" min="0" class="form-control" name="Total_expected_commission" required readonly
+                    <input type="number" min="0" class="form-control" name="Total_expected_commission" required readonly value="0"
                            id="Total_expected_commission">
                 </div>
             </div>
@@ -104,7 +104,7 @@
                     <label for="sell_diff" class="form-control-label">
                         فروقات البيع
                     </label>
-                    <input type="number" min="0" class="form-control" name="sell_diff" id="sell_diff" required>
+                    <input type="number" min="0" class="form-control" value="0" name="sell_diff" id="sell_diff" required>
                 </div>
             </div>
             <div class="col-6">
@@ -112,7 +112,7 @@
                     <label for="delivered_price_to_client" class="form-control-label">
                         السعر المسلم للعميل
                     </label>
-                    <input type="number" min="0" class="form-control" name="delivered_price_to_client"
+                    <input type="number" min="0" class="form-control" name="delivered_price_to_client" value="0"
                            id="delivered_price_to_client" required>
                 </div>
             </div>
@@ -122,7 +122,7 @@
                     <label for="required_to_pay" class="form-control-label">
                         المبلغ الطلوب سداده
                     </label>
-                    <input type="number" min="0" class="form-control" name="required_to_pay"
+                    <input type="number" min="0" class="form-control" name="required_to_pay" value="0"
                            id="required_to_pay" required>
                 </div>
             </div>
@@ -302,6 +302,26 @@
     });
 </script>
 
+<script>
+    function handlePhoneInput(inputId) {
+        document.getElementById(inputId).addEventListener('input', function (e) {
+            let value = e.target.value;
 
+            // Remove leading zero
+            if (value.startsWith('0')) {
+                value = value.slice(1);
+            }
+
+            // Limit to a maximum of 9 digits
+            if (value.length > 9) {
+                value = value.slice(0, 9);
+            }
+
+            e.target.value = value;
+        });
+    }
+
+    handlePhoneInput('phone');
+</script>
 
 

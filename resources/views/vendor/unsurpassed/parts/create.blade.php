@@ -15,7 +15,8 @@
                 <div class="form-group">
                     <label for="name" class="form-control-label">رقم الهويه
                     </label>
-                    <input type="number" class="form-control" name="national_id" id="national_id" minlength="10" maxlength="10" >
+                    <input type="number" class="form-control" name="national_id" id="national_id" minlength="10"
+                           maxlength="10">
                 </div>
             </div>
 
@@ -42,7 +43,8 @@
                 <div class="form-group position-relative">
                     <label for="office_phone" class="form-control-label">رقم المكتب</label>
                     <div class="input-group">
-                        <input type="number" class="form-control" name="office_phone" id="office_phone" style=" text-align: left;" >
+                        <input type="number" class="form-control" name="office_phone" id="office_phone"
+                               style=" text-align: left;">
                         <span class="input-group-text">966+</span>
                     </div>
                 </div>
@@ -66,3 +68,26 @@
         dropdownParent: $('#editOrCreate .modal-content')
 
     });</script>
+
+<script>
+    function handlePhoneInput(inputId) {
+        document.getElementById(inputId).addEventListener('input', function (e) {
+            let value = e.target.value;
+
+            // Remove leading zero
+            if (value.startsWith('0')) {
+                value = value.slice(1);
+            }
+
+            // Limit to a maximum of 9 digits
+            if (value.length > 9) {
+                value = value.slice(0, 9);
+            }
+
+            e.target.value = value;
+        });
+    }
+
+    handlePhoneInput('office_phone');
+    handlePhoneInput('phone');
+</script>
