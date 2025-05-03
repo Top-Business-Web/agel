@@ -28,8 +28,7 @@ class InvestorService extends BaseService
 
     public function index($request)
     {
-        $query = $this->model->query();
-
+        $query = $this->model->newQuery()->with('branch');
         // Apply filters
         if ($request->office_id && $request->office_id != 'all') {
             // Get branches for this specific office
@@ -38,6 +37,7 @@ class InvestorService extends BaseService
             if ($request->branch_id && $request->branch_id != 'all') {
                 // Verify the branch belongs to the office before filtering
                 if (in_array($request->branch_id, $branchIds->toArray())) {
+
                     $query->where('branch_id', $request->branch_id);
                 } else {
                     // Branch doesn't belong to office - return empty
@@ -84,7 +84,11 @@ class InvestorService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 'bladeName' => "العملاء",
-                'branches' => $this->vendor=='all'?$this->model->pluck('branch_id')->unique():$this->branch->whereIn('id', $this->model->pluck('branch_id')->unique())->get(),
+//                'branches' => $this->vendor=='all'?$this->model->pluck('branch_id')->unique():$this->branch->whereIn('id', $this->model->pluck('branch_id')->unique())->get(),
+                'branches' => $this->vendor=='all'?$this->model->pluck('branch_id')->unique():$this->branch->get(),
+//                'branches' => $this->vendor=='all'
+//                    ?$this->model->pluck('branch_id')->unique()
+//                    : $this->branch->where('vendor_id', $request->office_id)->get(),
                 'offices' => $this->vendor->where('parent_id', null)->get(),
                 'route' => $this->route,
             ]);

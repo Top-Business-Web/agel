@@ -101,6 +101,7 @@
     @include('admin/layouts/myAjaxHelper')
 @endsection
 @section('ajaxCalls')
+
     <script>
         var columns = [{
             data: 'id',
