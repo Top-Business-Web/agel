@@ -81,7 +81,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label class="form-control-label">Value</label>
-                            <input type="text" class="form-control plan-value" name="plans[{{ $index }}][value]"
+                            <input type="number" class="form-control plan-value" name="plans[{{ $index }}][value]"
                                    value="{{ $plan->value }}" required>
                         </div>
                     </div>
