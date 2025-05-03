@@ -25,7 +25,7 @@ class PlanController extends Controller
     public function store(ObjRequest $request)
     {
         $data = $request->validated();
-        return $this->objService->store($request);
+        return $this->objService->store($data);
     }
 
     public function edit($id)

@@ -23,14 +23,14 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="email" class="form-control-label">البريد الإلكتروني</label>
-                    <input type="text" class="form-control" name="email" id="email">
+                    <input type="text" class="form-control" name="email" id="email" autocomplete="off">
                 </div>
             </div>
 
             <div class="col-6">
                 <div class="form-group">
                     <label for="password" class="form-control-label">كلمة السر</label>
-                    <input type="password" class="form-control" name="password" id="password">
+                    <input type="password" class="form-control" name="password" id="password" autocomplete="off">
                 </div>
             </div>
 

@@ -28,7 +28,7 @@ class PlanRequest extends FormRequest
             'period' => 'required|string|max:100',
             'discount' => 'required|numeric|min:0|max:100',
             'description' => 'required|string|max:1000',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
 
             // التحقق من الخطط الديناميكية
             'plans' => 'nullable|array|min:1',
