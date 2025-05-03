@@ -227,11 +227,51 @@
                 }
             ]
         });
+        //
+        // $('#officeFilter').on('change', function () {
+        //     $('#branchFilter').val('');
+        //     const selectedOfficeId = $(this).val();
+        //
+        //     if (selectedOfficeId) {
+        //         $('#branch-div').css('display', 'block');
+        //     }
+        //
+        //     // Update branch options
+        //     let hasMatch = false;
+        //     $('#branchFilter option').each(function () {
+        //         const branchOfficeId = $(this).data('office-id');
+        //         if ($(this).val() === "all") return;
+        //
+        //         if (branchOfficeId == selectedOfficeId || !selectedOfficeId) {
+        //             $(this).show();
+        //             hasMatch = true;
+        //         } else {
+        //             $(this).hide();
+        //         }
+        //     });
+        //
+        //     $('#branchFilter option:first').prop('selected', true).show();
+        //
+        //     if (!hasMatch) {
+        //         $('#branchFilter').append('<option value="" disabled class="none-matched">لا يوجد فروع في هذا المكتب</option>');
+        //     } else {
+        //         $('#branchFilter .none-matched').remove();
+        //     }
+        //
+        //     // Reload the table with new filters
+        //     dataTable.ajax.reload();
+        // });
+        //
+        // $('#branchFilter').on('change', function () {
+        //     dataTable.ajax.reload();
+        // });
+
 
         $('#officeFilter').on('change', function () {
-            $('#branchFilter').val('');
-            const selectedOfficeId = $(this).val();
 
+            $('#branchFilter').val('all');
+            const selectedOfficeId = $(this).val();
+            let branchOfficeId ='all'
             if (selectedOfficeId) {
                 $('#branch-div').css('display', 'block');
             }
@@ -239,10 +279,13 @@
             // Update branch options
             let hasMatch = false;
             $('#branchFilter option').each(function () {
-                const branchOfficeId = $(this).data('office-id');
-                if ($(this).val() === "all") return;
+                branchOfficeId = $(this).data('office-id');
+                if ($(this).val() === "all") {
+                    $(this).show(); // Ensure "all" is always visible
+                    return;
+                }
 
-                if (branchOfficeId == selectedOfficeId || !selectedOfficeId) {
+                if (selectedOfficeId === "all" || branchOfficeId == selectedOfficeId || !selectedOfficeId) {
                     $(this).show();
                     hasMatch = true;
                 } else {
@@ -252,11 +295,11 @@
 
             $('#branchFilter option:first').prop('selected', true).show();
 
-            if (!hasMatch) {
-                $('#branchFilter').append('<option value="" disabled class="none-matched">لا يوجد فروع في هذا المكتب</option>');
-            } else {
-                $('#branchFilter .none-matched').remove();
-            }
+            // if (!hasMatch) {
+            //     $('#branchFilter').append('<option value="" disabled class="none-matched">لا يوجد مستثمرين في هذا المكتب</option>');
+            // } else {
+            //     $('#branchFilter .none-matched').remove();
+            // }
 
             // Reload the table with new filters
             dataTable.ajax.reload();
