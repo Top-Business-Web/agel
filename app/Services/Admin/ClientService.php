@@ -27,12 +27,15 @@ class ClientService extends BaseService
         $query = $this->model->query();
 
 // Apply filters
-        if ($request->office_id) {
+//        if ($request->office_id) {
             // First get the branch IDs for this office
             if ($request->office_id == 'all') {
                 $branchIds = $this->branch->pluck('id');
             } else {
-                $branchIds = $this->branch->where('vendor_id', $request->office_id)->pluck('id');
+
+//                $branchIds = $this->branch->where('vendor_id', $request->office_id)->pluck('id');
+                $branchIds = $this->branch->pluck('id');
+//                $query->where('vendor_id', $request->office_id);
             }
 
             if ($request->branch_id!='all') {
@@ -42,10 +45,10 @@ class ClientService extends BaseService
                 // Otherwise, just filter by all branches of this office
                 $query->whereIn('branch_id', $branchIds);
             }
-        } elseif ($request->branch_id) {
-            // If only branch_id is specified (no office_id)
-            $query->where('branch_id', $request->branch_id);
-        }
+//        } elseif ($request->branch_id) {
+//            // If only branch_id is specified (no office_id)
+//            $query->where('branch_id', $request->branch_id);
+//        }
 
         if ($request->ajax()) {
             return DataTables::of($query)
@@ -73,7 +76,7 @@ class ClientService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 'bladeName' => "العملاء",
-                'branches' => $this->branch->whereIn('id', $this->model->pluck('branch_id')->unique())->get(),
+                'branches' => $this->vendor=='all'?$this->model->pluck('branch_id')->unique():$this->branch->whereIn('id', $this->model->pluck('branch_id')->unique())->get(),
                 'offices' => $this->vendor->where('parent_id', null)->get(),
                 'route' => $this->route,
             ]);
