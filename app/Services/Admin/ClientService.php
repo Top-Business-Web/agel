@@ -76,7 +76,9 @@ class ClientService extends BaseService
         } else {
             return view($this->folder . '/index', [
                 'bladeName' => "العملاء",
-                'branches' => $this->vendor=='all'?$this->model->pluck('branch_id')->unique():$this->branch->whereIn('id', $this->model->pluck('branch_id')->unique())->get(),
+//                'branches' => $this->vendor=='all'?$this->model->pluck('branch_id')->unique():$this->branch->whereIn('id', $this->model->pluck('branch_id')->unique())->get(),
+                'branches' => $this->vendor=='all'?$this->model->pluck('branch_id')->unique():$this->branch->get(),
+
                 'offices' => $this->vendor->where('parent_id', null)->get(),
                 'route' => $this->route,
             ]);
