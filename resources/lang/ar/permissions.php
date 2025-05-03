@@ -12,6 +12,7 @@ return [
 
 
     'INVESTOR' => 'المستثمرين',
+    'UNSURPASSED'=>'المتعثرين',
 
 
     'SETTING' => 'الإعدادات',
