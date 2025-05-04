@@ -95,18 +95,18 @@ class PlanService extends BaseService
     public function store($validatedData)
     {
         try {
-if (isset($validatedData['image']) && $validatedData['image'] instanceof \Illuminate\Http\UploadedFile) {
-    $image = $validatedData['image']->handleFile($validatedData['image'], 'Plan');
-}
+            if (isset($validatedData['image']) && $validatedData['image'] instanceof \Illuminate\Http\UploadedFile) {
+                $image = $validatedData['image']->handleFile($validatedData['image'], 'Plan');
+            }
 
-$plan = Plan::create([
-    'name' => $validatedData['name'],
-    'price' => $validatedData['price'],
-    'period' => $validatedData['period'],
-    'discount' => $validatedData['discount'] ?? null,
-    'description' => $validatedData['description'] ?? null,
-    'image' => $image ?? null,
-]);
+            $plan = Plan::create([
+                'name' => $validatedData['name'],
+                'price' => $validatedData['price'],
+                'period' => $validatedData['period'],
+                'discount' => $validatedData['discount'] ?? null,
+                'description' => $validatedData['description'] ?? null,
+                'image' => $image ?? null,
+            ]);
 
             $this->createPlanDetails($plan, $validatedData['plans']);
 

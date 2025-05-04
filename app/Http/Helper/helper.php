@@ -115,16 +115,21 @@ if (!function_exists('checkVendorPlanLimit')) {
 if (!function_exists('getAuthSetting')) {
     function getAuthSetting($key)
     {
-        $setting = Setting::where('vendor_id', Auth::guard('vendor')->user()->id)->get();
+//        $setting = Setting::where('vendor_id', Auth::guard('vendor')->user()->id)->get();
+//
+//        if ($setting->isEmpty()) {
+//            $setting = Setting::where('vendor_id', Auth::guard('vendor')->user()->parent_id)->get();
+//        }
+        $key = Setting::where('key', $key)->first();
+//        dd($key);
 
-        if ($setting->isEmpty()) {
-            $setting = Setting::where('vendor_id', Auth::guard('vendor')->user()->parent_id)->get();
-        }
-        $key = $setting->where('key', $key)->first();
         if ($key) {
+//            dd( $key->value);
             return $key->value;
 
         } else {
+//            dd( 'not found');
+
             return 'assets/uploads/empty.png';
         }
     }

@@ -21,7 +21,7 @@
                         <button class="btn btn-secondary btn-icon text-white addBtn">
 									<span>
 										<i class="fe fe-plus"></i>
-									</span> إضافة مدير للنظام
+									</span> إضافة
                         </button>
                     </div>
                 </div>

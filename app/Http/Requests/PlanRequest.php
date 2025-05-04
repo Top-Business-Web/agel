@@ -28,24 +28,24 @@ class PlanRequest extends FormRequest
             'period' => 'required|string|max:100',
             'discount' => 'required|numeric|min:0|max:100',
             'description' => 'required|string|max:1000',
-        'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
 
             // التحقق من الخطط الديناميكية
             'plans' => 'nullable|array|min:1',
             'plans.*.key' => 'required|string|max:255',
             'plans.*.value' => [
-            'nullable',
-            'required_without:plans.*.is_unlimited',
-            'string',
-            'max:255',
-            function ($attribute, $value, $fail) {
-                $planIndex = explode('.', $attribute)[1] ?? null;
-                $isUnlimitedField = "plans.$planIndex.is_unlimited";
+                'nullable',
+                'required_without:plans.*.is_unlimited',
+                'integer',
+                'max:255',
+                function ($attribute, $value, $fail) {
+                    $planIndex = explode('.', $attribute)[1] ?? null;
+                    $isUnlimitedField = "plans.$planIndex.is_unlimited";
 
-                if (!request()->input($isUnlimitedField) && empty($value)) {
-                $fail(__('Please enter a value.'));
-                }
-            },
+                    if (!request()->input($isUnlimitedField) && empty($value)) {
+                        $fail(__('Please enter a value.'));
+                    }
+                },
             ],
             'plans.*.is_unlimited' => 'nullable|boolean',
         ];

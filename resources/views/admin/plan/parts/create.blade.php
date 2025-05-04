@@ -31,7 +31,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="discount" class="form-control-label">الخصم</label>
-                    <input type="number" class="form-control" name="discount" id="discount">
+                    <input type="number" class="form-control" name="discount" id="discount" value="0">
                 </div>
             </div>
 

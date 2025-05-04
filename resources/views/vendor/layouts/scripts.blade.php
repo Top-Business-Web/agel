@@ -119,5 +119,39 @@
 </script>
 
 <script src="{{ asset('assets/admin/assets/plugins/Parsley/dist/parsley.min.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const inputs = document.querySelectorAll('input[type="text"], input[type="number"]');
+
+        inputs.forEach(input => {
+            input.addEventListener('input', function (e) {
+                let value = e.target.value;
+
+                // تحويل الأرقام العربية إلى إنجليزية
+                const arabicNumbers = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+                const englishNumbers = ['0','1','2','3','4','5','6','7','8','9'];
+                for (let i = 0; i < arabicNumbers.length; i++) {
+                    value = value.replaceAll(arabicNumbers[i], englishNumbers[i]);
+                }
+
+                // حذف كل شيء غير الأرقام 0-9
+                value = value.replace(/[^0-9]/g, '');
+
+                // حذف الصفر الأول
+                if (value.startsWith('0')) {
+                    value = value.slice(1);
+                }
+
+                // تقصير إلى 9 أرقام فقط (اختياري)
+                if (value.length > 9) {
+                    value = value.slice(0, 9);
+                }
+
+                e.target.value = value;
+            });
+        });
+    });
+</script>
+
 
 @yield('js')

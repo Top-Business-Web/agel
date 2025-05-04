@@ -101,7 +101,7 @@
                                                                class="form-control"
                                                                id="bank_name"
                                                                name="bank_name"
-                                                               placeholder="اسم البنك مثل البنك الأهلي"
+                                                               placeholder=" مثال مصرف الراجحي"
                                                                value="{{ $settings->where('key', 'bank_name')->first()->value ?? '' }}">
                                                     </div>
                                                 </div>

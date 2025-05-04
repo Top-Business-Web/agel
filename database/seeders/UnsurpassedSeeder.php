@@ -20,7 +20,7 @@ class UnsurpassedSeeder extends Seeder
      */
     public function run()
     {
-        Unsurpassed::factory()->count(10)->create();
+        Unsurpassed::factory()->count(100)->create();
 
     }
 

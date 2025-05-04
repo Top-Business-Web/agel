@@ -16,6 +16,6 @@ class VendorBranchSeeder extends Seeder
      */
     public function run()
     {
-        VendorBranch::factory()->count(10)->create();
+        VendorBranch::factory()->count(100)->create();
     }
 }

@@ -341,7 +341,6 @@ class AuthService extends BaseService
     function logout()
     {
         Auth::guard('vendor')->logout();
-        toastr()->info('تم تسجيل الخروج');
         return redirect('/partner');
     }
 }
