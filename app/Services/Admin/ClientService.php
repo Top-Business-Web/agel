@@ -24,31 +24,36 @@ class ClientService extends BaseService
 
     public function index($request)
     {
-        $query = $this->model->query();
+        $query = $this->model->newQuery()->with('branch');
+        // Apply filters
+        if ($request->office_id && $request->office_id != 'all') {
+            // Get branches for this specific office
+            $branchIds = $this->branch->where('vendor_id', $request->office_id)->pluck('id');
 
-// Apply filters
-//        if ($request->office_id) {
-            // First get the branch IDs for this office
-            if ($request->office_id == 'all') {
-                $branchIds = $this->branch->pluck('id');
+            if ($request->branch_id && $request->branch_id != 'all') {
+                // Verify the branch belongs to the office before filtering
+                if (in_array($request->branch_id, $branchIds->toArray())) {
+
+                    $query->where('branch_id', $request->branch_id);
+                } else {
+                    // Branch doesn't belong to office - return empty
+                    return DataTables::of(collect([]))->make(true);
+                }
             } else {
-
-//                $branchIds = $this->branch->where('vendor_id', $request->office_id)->pluck('id');
-                $branchIds = $this->branch->pluck('id');
-//                $query->where('vendor_id', $request->office_id);
-            }
-
-            if ($request->branch_id!='all') {
-                $query->where('branch_id', $request->branch_id)
-                    ->whereIn('branch_id', $branchIds);
-            } else {
-                // Otherwise, just filter by all branches of this office
+                // Filter by all branches of this office
                 $query->whereIn('branch_id', $branchIds);
             }
-//        } elseif ($request->branch_id) {
-//            // If only branch_id is specified (no office_id)
-//            $query->where('branch_id', $request->branch_id);
-//        }
+        } elseif ($request->office_id == 'all') {
+            // All offices selected - handle branch filter if any
+            if ($request->branch_id && $request->branch_id != 'all') {
+                $query->where('branch_id', $request->branch_id);
+            }
+            // else no branch filter - show all
+        } elseif ($request->branch_id) {
+            // Only branch_id is specified (no office_id)
+            $query->where('branch_id', $request->branch_id);
+        }
+
 
         if ($request->ajax()) {
             return DataTables::of($query)
