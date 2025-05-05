@@ -154,8 +154,8 @@
             {
                 data: 'required_to_pay',
                 name: 'required_to_pay'
-            }, 
-            
+            },
+
             {
                 data: 'paid',
                 name: 'paid'
@@ -181,7 +181,7 @@
         showAddModal('{{ route($route . '.create') }}');
         addScript();
 
-        // checkVendorKeyLimit('.addBtn', 'Order');
+        checkVendorKeyLimit('.addBtn', 'Order');
     </script>
 
 
