@@ -118,6 +118,10 @@ Route::group(
                 Route::get('/get-prices', [OrderController::class, 'calculatePrices'])->name('vendor.orders.calculatePrices'); //using for order
                 Route::get('/edit-order-status/{id}', [OrderController::class, 'editOrderStatus'])->name('vendor.orders.editOrderStatus'); //using for order
                 Route::put('/update-order-status', [OrderController::class, 'updateOrderStatus'])->name('vendor.orders.updateOrderStatus'); //using for order
+
+                Route::POST('/orders/get-investors', [OrderController::class, 'getInvestors'])->name('vendor.orders.getInvestors'); //using for order
+                Route::POST('/orders/get-categories', [OrderController::class, 'getCategories'])->name('vendor.orders.getCategories'); //using for order
+
             });
 
 

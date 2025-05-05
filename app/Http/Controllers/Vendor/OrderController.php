@@ -49,7 +49,20 @@ class OrderController extends Controller
     }
 
 
+
     public function calculatePrices(Request $request){
         return $this->objService->calculatePrices($request);
+    }
+
+    public  function getInvestors(Request $request)
+    {
+        return $this->objService->getInvestors($request);
+
+    }
+
+    public  function getCategories(Request $request)
+    {
+        return $this->objService->getCategories($request);
+
     }
 }

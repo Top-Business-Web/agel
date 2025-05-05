@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Investor;
 use App\Models\Order as ObjModel;
 use App\Models\OrderInstallment;
+use App\Models\Stock;
 use App\Models\StockDetail;
 use App\Models\Vendor;
 use App\Models\VendorBranch;
@@ -21,16 +22,18 @@ class OrderService extends BaseService
     protected string $route = 'orders';
 
     public function __construct(
-        ObjModel $objModel,
-        protected CategoryService $categoryService,
-        protected BranchService $branchService,
-        protected VendorBranch $vendorBranch,
-        protected Investor $investor,
-        protected StockService $stockService,
-        protected StockDetail $stockDetail,
-        private Client $client,
-        protected OrderInstallment $orderInstallment
-    ) {
+        ObjModel                   $objModel,
+        protected CategoryService  $categoryService,
+        protected BranchService    $branchService,
+        protected VendorBranch     $vendorBranch,
+        protected Investor         $investor,
+        protected StockService     $stockService,
+        protected StockDetail      $stockDetail,
+        private Client             $client,
+        protected OrderInstallment $orderInstallment,
+        protected Stock $stock
+    )
+    {
         parent::__construct($objModel);
     }
 
@@ -49,7 +52,7 @@ class OrderService extends BaseService
                         </button>
                     ';
 
-                    $buttons .= '
+                        $buttons .= '
 
                     <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                         data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
@@ -71,7 +74,7 @@ class OrderService extends BaseService
                 })->editColumn('investor_id', function ($obj) {
                     return $obj->investor_id ? $obj->investor->name : "";
                 })->addColumn('status', function ($obj) {
-                    return $obj->order_status->status !== null ? OrderStatus::from($obj->order_status->status)->lang() :  "غير محدد";
+                    return $obj->order_status->status !== null ? OrderStatus::from($obj->order_status->status)->lang() : "غير محدد";
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -217,7 +220,7 @@ class OrderService extends BaseService
 
 
             $stockDetails = $this->getAvailableStockDetails($data);
-            $seletedIds =   $this->markStockAsSold($stockDetails, $data['quantity']);
+            $seletedIds = $this->markStockAsSold($stockDetails, $data['quantity']);
 
             $order = $this->storeOrder($data);
 
@@ -242,7 +245,6 @@ class OrderService extends BaseService
             'vendor_id' => auth('vendor')->user()->id,
         ]);
     }
-
 
 
     public function storeOrderDetails($order, $seletedIds)
@@ -277,9 +279,6 @@ class OrderService extends BaseService
         $data['is_installment'] = $data['is_installment'] ?? 'off';
         $data['installment_number'] = $data['installment_number'] ?? 0;
     }
-
-
-
 
 
     private function getAvailableStockDetails($data)
@@ -351,12 +350,6 @@ class OrderService extends BaseService
     }
 
 
-
-
-
-
-
-
     public function reverseStockDetails($id)
     {
         $order = $this->getById($id);
@@ -374,4 +367,60 @@ class OrderService extends BaseService
             ]);
         }
     }
+
+
+    public function getInvestors( $request)
+    {
+        $branchId = $request->branch_id;
+        $investors = $this->investor->where('branch_id', $branchId)->get(['id', 'name']);
+
+        return response()->json([
+            'investors' => $investors
+        ]);
+    }
+
+    public function getCategories( $request)
+    {
+        $investorId = $request->investor_id;
+
+        $catIds = $this->stockService->model
+            ->where('investor_id', $investorId)
+            ->pluck('category_id');
+
+        $categories = $this->categoryService->model->whereIn('id', $catIds)->get();
+
+        $result = [];
+
+        foreach ($categories as $category) {
+            $add = $category->stocks
+                ->where('investor_id', $investorId)
+                ->flatMap(function ($stock) {
+                    return $stock->operations->where('type', 1);
+                })
+                ->sum(function ($op) {
+                    return $op->stock->quantity ?? 0;
+                });
+
+            $remove = $category->stocks
+                ->where('investor_id', $investorId)
+                ->flatMap(function ($stock) {
+                    return $stock->operations->where('type', 0);
+                })
+                ->sum(function ($op) {
+                    return $op->stock->quantity ?? 0;
+                });
+
+            $total = $add - $remove;
+
+            $result[] = [
+                'id' => $category->id,
+                'name' => $category->name . ' (' . $total . ')',
+            ];
+        }
+
+        return response()->json([
+            'categories' => $result
+        ]);
+    }
+
 }

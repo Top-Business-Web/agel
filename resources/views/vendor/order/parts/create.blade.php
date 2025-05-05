@@ -16,7 +16,7 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="name" class="form-control-label">الاسم </label>
-                    <input type="text"  class="form-control" name="name" id="name">
+                    <input type="text" class="form-control" name="name" id="name">
                 </div>
             </div>
 
@@ -95,7 +95,8 @@
                     <label for="Total_expected_commission" class="form-control-label">
                         اجمالي العموله المتوقعه
                     </label>
-                    <input type="number" min="0" class="form-control" name="Total_expected_commission" required readonly value="0"
+                    <input type="number" min="0" class="form-control" name="Total_expected_commission" required readonly
+                           value="0"
                            id="Total_expected_commission">
                 </div>
             </div>
@@ -104,7 +105,8 @@
                     <label for="sell_diff" class="form-control-label">
                         فروقات البيع
                     </label>
-                    <input type="number" min="0" class="form-control" value="0" name="sell_diff" id="sell_diff" required>
+                    <input type="number" min="0" class="form-control" value="0" name="sell_diff" id="sell_diff"
+                           required>
                 </div>
             </div>
             <div class="col-6">
@@ -242,6 +244,66 @@
         $('#delivered_price_to_client, #profit_ratio').on('input', calculateRequiredToPay);
 
     });
+</script>
+
+<script>
+    $(document).ready(function () {
+
+        // لما تختار الفرع
+        $('#branch_id').on('change', function () {
+            let branchId = $(this).val();
+            if (branchId) {
+                $.ajax({
+                    url: '{{ route("vendor.orders.getInvestors") }}',
+                    method: 'POST',
+                    data: {
+                        branch_id: branchId,
+                        '_token': '{{ csrf_token() }}'
+                    },
+                    success: function (response) {
+                        let investorSelect = $('#investor_id');
+                        investorSelect.empty().append('<option disabled selected>اختر المستثمر</option>');
+                        response.investors.forEach(function (investor) {
+                            investorSelect.append(`<option value="${investor.id}">${investor.name}</option>`);
+                        });
+
+                        // إفراغ واخفاء الأصناف كمان
+                        $('#category_id').empty().append('<option disabled selected>اختر الصنف</option>');
+                    },
+                    error: function () {
+                        toastr.error('حدث خطأ أثناء تحميل المستثمرين');
+                    }
+                });
+            }
+        });
+
+        // لما تختار المستثمر
+        $('#investor_id').on('change', function () {
+            let investorId = $(this).val();
+            if (investorId) {
+                $.ajax({
+                    url: '{{ route("vendor.orders.getCategories") }}',
+                    method: 'POST',
+                    data: {
+                        investor_id: investorId,
+                        '_token': '{{ csrf_token() }}'
+                    },
+                    success: function (response) {
+                        let categorySelect = $('#category_id');
+                        categorySelect.empty().append('<option disabled selected>اختر الصنف</option>');
+                        response.categories.forEach(function (category) {
+                            categorySelect.append(`<option value="${category.id}">${category.name}</option>`);
+                        });
+                    },
+                    error: function () {
+                        toastr.error('حدث خطأ أثناء تحميل الأصناف');
+                    }
+                });
+            }
+        });
+
+    });
+
 </script>
 <script>
     function fetchCalculatedFields() {
