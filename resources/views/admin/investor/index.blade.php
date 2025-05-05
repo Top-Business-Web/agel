@@ -54,9 +54,9 @@
                                         <option selected value="all">كل الفروع</option>
                                         @foreach ($branches as $branch)
                                             <option value="{{ $branch->id }}"
-                                                    data-office-id="{{ $branch->vendor->parent_id != null ? $branch->vendor->parent->id : $branch->vendor->id }}">
+                                                    data-office-id="{{ $branch->vendor?->parent_id != null ? $branch->vendor?->parent->id : $branch->vendor?->id }}">
                                                 {{ $branch->name }}
-                                                ({{ $branch->vendor->parent_id != null ? $branch->vendor->parent->name : $branch->vendor->name }}
+                                                ({{ $branch->vendor?->parent_id != null ? $branch->vendor->parent->name : $branch->vendor?->name }}
                                                 )
                                             </option>
                                         @endforeach
