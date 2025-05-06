@@ -396,8 +396,8 @@ class OrderService extends BaseService
                 ->where('investor_id', $investorId)
                 ->flatMap(function ($stock) {
                     return $stock->operations->where('type', 1);
-                })
-                ->sum(function ($op) {
+                });
+             $addedStocks = $add->sum(function ($op) {
                     return $op->stock->quantity ?? 0;
                 });
 
@@ -405,12 +405,19 @@ class OrderService extends BaseService
                 ->where('investor_id', $investorId)
                 ->flatMap(function ($stock) {
                     return $stock->operations->where('type', 0);
-                })
-                ->sum(function ($op) {
+                });
+                $removedStocks = $remove->sum(function ($op) {
                     return $op->stock->quantity ?? 0;
                 });
 
-            $total = $add - $remove;
+            $sold = $this->stockDetail
+                ->whereIn('stock_id', $add->pluck('id'))
+                ->where('is_sold', 1)
+                ->orderBy('created_at', 'asc')
+                ->count();
+
+
+            $total = $addedStocks - $removedStocks - $sold;
 
             $result[] = [
                 'id' => $category->id,

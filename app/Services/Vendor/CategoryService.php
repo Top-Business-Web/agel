@@ -3,6 +3,7 @@
 namespace App\Services\Vendor;
 
 use App\Models\Category as ObjModel;
+use App\Models\StockDetail;
 use App\Models\Vendor;
 use App\Services\BaseService;
 use Illuminate\Http\JsonResponse;
@@ -14,7 +15,7 @@ class CategoryService extends BaseService
     protected string $folder = 'vendor/category';
     protected string $route = 'categories';
 
-    public function __construct(ObjModel $objModel)
+    public function __construct(ObjModel $objModel,protected StockDetail $stockDetail)
     {
         parent::__construct($objModel);
     }
@@ -46,16 +47,36 @@ class CategoryService extends BaseService
                     return $this->statusDatatable($obj);
                 })->editColumn('name', function ($obj) {
 
-
-                    $add = $obj->stocks->flatMap(function ($stock) {
+                    $addedStocks = $obj->stocks->flatMap(function ($stock) {
                         return $stock->operations->where('type', 1);
-                    })->sum('stock.quantity');
+                    });
 
-                    $remove = $obj->stocks->flatMap(function ($stock) {
+                    $removedStocks = $obj->stocks->flatMap(function ($stock) {
                         return $stock->operations->where('type', 0);
-                    })->sum('stock.quantity');
-                    $total = $add - $remove;
-                    return $obj->name . '  ('. $total . ')';
+                    });
+
+                    $add = $addedStocks->sum('stock.quantity');
+                    $remove = $removedStocks->sum('stock.quantity');
+
+                    $stockDetails = $this->stockDetail
+                        ->whereIn('stock_id', $addedStocks->pluck('id'))
+                        ->where('is_sold', 0)
+                        ->orderBy('created_at', 'asc')
+                        ->get();
+
+                    $quantity = $add - $remove;
+
+                    foreach ($stockDetails as $stockDetail) {
+                        if ($quantity <= 0) {
+                            break;
+                        }
+
+                        $used_quantity = min($stockDetail->quantity, $quantity);
+                        $quantity -= $used_quantity;
+                    }
+
+                    $total = $add - $remove - $quantity;
+                    return $obj->name . '  (' . $total . ')';
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
