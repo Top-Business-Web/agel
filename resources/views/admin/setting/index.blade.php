@@ -47,13 +47,15 @@
                                                 <label for="phone"
                                                        class="form-control-label">رقم الهاتف</label>
                                                 <div class="input-group">
-                                                    <span class="input-group-text">+966</span>
-                                                    <input type="number" class="form-control" name="phones[]"
-                                                           maxlength="11"
+                                                    <input type="number" class="form-control " name="phones[]"
+                                                           maxlength="11" style="text-align: left;"
                                                            value="{{ $phone->value ?? '' }}" required>
+                                                    <span class="input-group-text">+966</span>
+
                                                 </div>
                                             </div>
                                         </div>
+
 
                                         <div class="col-2 d-flex align-items-center">
                                             <button type="button" class="btn btn-danger remove-phone"
@@ -152,64 +154,71 @@
     </script>
 
     <script>
-        $('.dropify').dropify();
-        $('select').select2({
-            minimumResultsForSearch: Infinity
-        });
-    </script>
-
-    <script>
-        $(document).ready(function () {
-            let phoneCount = 0;
-
-            $('#addPhoneButton').on('click', function () {
-                phoneCount++;
-
-                let phoneRow = `
-            <div class="row phone-row border p-3 mb-2" id="phoneRow-${phoneCount}">
-                <div class="col-6">
-                    <div class="form-group">
-                        <label for="phone" class="form-control-label">{{ __('Phone Number') }}</label>
-                        <div class="input-group">
-                            <span class="input-group-text">+966</span>
-                            <input type="number" class="form-control" name="phones[]" maxlength="11" required>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-2 d-flex align-items-center">
-                    <button type="button" class="btn btn-danger remove-phone" data-id="${phoneCount}">
-                        <i class="fe fe-trash"></i> {{ __('Delete') }}
-                </button>
-            </div>
-        </div>`;
-
-                $('#plans_container').append(phoneRow);
+        function preventLeadingZero(input) {
+            input.addEventListener('keydown', function (e) {
+                if (e.key === '0' && this.selectionStart === 0) {
+                    e.preventDefault(); // block typing 0 as the first digit
+                }
             });
 
-            // Remove phone entry
+            input.addEventListener('input', function (e) {
+                let value = this.value;
+
+                // Remove leading zeros (in case of paste)
+                while (value.startsWith('0')) {
+                    value = value.substring(1);
+                }
+
+                // Limit to 9 digits
+                if (value.length > 9) {
+                    value = value.substring(0, 9);
+                }
+
+                this.value = value;
+            });
+        }
+
+        function handlePhoneInputs() {
+            document.querySelectorAll('input[name="phones[]"]').forEach(preventLeadingZero);
+        }
+        let phoneCount = {{ count($phones) }};
+
+        $(document).ready(function () {
+            handlePhoneInputs();
+
+            $('#addPhoneButton').on('click', function () {
+                // Add phone field
+                phoneCount++;
+                let phoneRow = `
+                <div class="row phone-row border p-3 mb-2" id="phoneRow-${phoneCount}">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label for="phone" class="form-control-label">رقم الهاتف</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" name="phones[]" maxlength="11" required style="text-align: left;">
+                                <span class="input-group-text">+966</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-2 d-flex align-items-center">
+                        <button type="button" class="btn btn-danger remove-phone" data-id="${phoneCount}">
+                            <i class="fe fe-trash"></i> حذف
+                        </button>
+                    </div>
+                </div>
+            `;
+                $('#plans_container').append(phoneRow);
+
+                // Re-bind event
+                handlePhoneInputs();
+            });
+
+            // Remove phone
             $(document).on('click', '.remove-phone', function () {
                 let phoneId = $(this).data('id');
                 $('#phoneRow-' + phoneId).remove();
             });
-
-            // Format IBAN input
-            $('#iban').on('input', function() {
-                let value = $(this).val().replace(/\s+/g, '').toUpperCase();
-                let formattedValue = '';
-
-                for (let i = 0; i < value.length; i++) {
-                    if (i > 0 && i % 4 === 0) {
-                        formattedValue += ' ';
-                    }
-                    formattedValue += value[i];
-                }
-
-                $(this).val(formattedValue);
-            });
         });
     </script>
-@endsection
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropify/0.2.2/css/dropify.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+@endsection
