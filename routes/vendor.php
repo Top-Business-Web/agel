@@ -100,6 +100,8 @@ Route::group(
 
                 #============================ Stocks ==================================
                 Route::resourceWithDeleteSelected('stocks', StockController::class);
+                Route::POST('/stocks/get-branches', [StockController::class, 'getBranches'])->name('vendor.stocks.getBranches'); //using for stock
+
                 Route::get('unsurpasseds/download-example', [UnsurpassedController::class, 'downloadExample'])->name('unsurpasseds.download.example');
 
                 Route::resourceWithDeleteSelected('unsurpasseds', UnsurpassedController::class);

@@ -82,7 +82,8 @@
                 <div class="form-group">
                     <label for="vendor_commission" class="form-control-label">أجمالي العمولة للمكتب
                     </label>
-                    <input type="number" min="0" value="0" class="form-control" name="vendor_commission" id="vendor_commission">
+                    <input type="number" min="0" value="0" class="form-control" name="vendor_commission"
+                           id="vendor_commission">
                 </div>
             </div>
             <div class="col-6">
@@ -106,7 +107,7 @@
         </div>
 
         <div class="footer" id="addFooter"
-            style="padding: 10px; display: flex; justify-content: space-between; margin: 20px 0;">
+             style="padding: 10px; display: flex; justify-content: space-between; margin: 20px 0;">
             <div class="text" style="display: flex; flex-direction: column;">
                 <span>الكميه  </span>
                 <span id="quantity_display" style="text-align: center">0</span>
@@ -190,7 +191,6 @@
                 </div>
             </div>
         </div>
-
 
 
         <div class="modal-footer">
@@ -277,7 +277,7 @@
             // For subtraction operation
             let totalPriceSub = parseFloat($("#total_price_sub").val()) || 0;
             let finalQuantity = parseFloat($("#available_quantity").text()) - quantity || 0;
-            let finalPrice =  parseFloat($("#total_price").text())-totalPriceSub  || 0;
+            let finalPrice = parseFloat($("#total_price").text()) - totalPriceSub || 0;
 
             $("#sub_quantity").text(quantity);
             $("#total_price_of_sub_quantity").text(totalPriceSub);
@@ -389,6 +389,33 @@
     });
 
 
+</script>
+
+<script>
+    // لما تختار المستثمر
+    $('#investor_id').on('change', function () {
+        let investorId = $(this).val();
+        if (investorId) {
+            $.ajax({
+                url: '{{ route("vendor.stocks.getBranches") }}',
+                method: 'POST',
+                data: {
+                    investor_id: investorId,
+                    '_token': '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    let branchSelect = $('#branch_id');
+                    branchSelect.empty().append('<option disabled selected>اختر الفرع</option>');
+                    response.branches.forEach(function (branches) {
+                        branchSelect.append(`<option value="${branches.id}">${branches.name}</option>`);
+                    });
+                },
+                error: function () {
+                    toastr.error('حدث خطأ أثناء تحميل الأصناف');
+                }
+            });
+        }
+    });
 </script>
 
 

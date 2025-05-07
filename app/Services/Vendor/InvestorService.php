@@ -153,18 +153,14 @@ class InvestorService extends BaseService
     public function addStockForm($id)
     {
         $auth = auth('vendor')->user();
-        $branches = [];
-        if ($auth->parent_id == null) {
-            $branches = $this->branchService->model->apply()->whereIn('vendor_id', [$auth->parent_id, $auth->id])->get();
-        } else {
-            $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
-            $branches = $this->branchService->model->apply()->whereIn('id', $branchIds)->get();
-        }
+
         return view("{$this->folder}/parts/add_stock", [
             'storeRoute' => route("vendor.investors.storeStock"),
             'investorId' => $id,
             'categories' => $this->categoryService->model->where('vendor_id', $auth->parent_id ?? $auth->id)->get(),
-            'branches' => $branches,
+//            'branches' => $branches,
+            'branches' => $this->branchService->model->where('id', $this->model->where('id', $id)->first()->branch_id)->get(),
+
         ]);
     }
 

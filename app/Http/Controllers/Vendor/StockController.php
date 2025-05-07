@@ -51,4 +51,10 @@ class StockController extends Controller
     public function deleteSelected(Request $request){
         return $this->objService->deleteSelected($request);
     }
+
+    public  function getBranches(Request $request)
+    {
+        return $this->objService->getBranches($request);
+
+    }
 }

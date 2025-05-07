@@ -73,10 +73,11 @@ class StockService extends BaseService
             $vendors = $this->vendorService->model->where('parent_id', $parentId)->get();
             $vendors[] =  $this->vendorService->model->where('id', $parentId)->first();
             $vendorIds = $vendors->pluck('id');
+//            dd($vendorIds);
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
                 'route' => $this->route,
-                'investors' => $this->investor->whereIn('Branch_id', $this->branchService->model->whereIn('vendor_id', $vendorIds)->pluck('id'))->get(),
+                'investors' => $this->investor->whereIn('branch_id', $this->branchService->model->whereIn('vendor_id', $vendorIds)->pluck('id'))->get(),
             ]);
         }
     }
@@ -160,4 +161,15 @@ class StockService extends BaseService
             return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
         }
     }
+
+    public function getBranches( $request)
+    {
+       $branches=$this->branchService->model->where('id', $this->investor->where('id', $request->investor_id)->first()->branch_id)->get();
+
+        return response()->json([
+            'branches' => $branches
+        ]);
+    }
+
+
 }
