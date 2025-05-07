@@ -158,6 +158,8 @@ class InvestorService extends BaseService
             'storeRoute' => route("vendor.investors.storeStock"),
             'investorId' => $id,
             'categories' => $this->categoryService->model->where('vendor_id', $auth->parent_id ?? $auth->id)->get(),
+//            'categories' => $this->categoryService->model->where('vendor_id', $auth->parent_id ?? $auth->id)->get(),
+
 //            'branches' => $branches,
             'branches' => $this->branchService->model->where('id', $this->model->where('id', $id)->first()->branch_id)->get(),
 
