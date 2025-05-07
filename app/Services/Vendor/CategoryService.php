@@ -23,7 +23,7 @@ class CategoryService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $obj = $this->getDataTable();
+            $obj = $this->model->where('vendor_id', auth('vendor')->user()->parent_id??auth('vendor')->user()->id)->get();
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
                     $buttons = '';
