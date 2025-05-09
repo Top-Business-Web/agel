@@ -416,7 +416,6 @@ class OrderService extends BaseService
                 ->orderBy('created_at', 'asc')
                 ->count();
 
-            dd($addedStocks, $removedStocks, $sold);
 
 
             $total = $addedStocks - $removedStocks - $sold;
