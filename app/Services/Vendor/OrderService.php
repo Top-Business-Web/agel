@@ -416,6 +416,8 @@ class OrderService extends BaseService
                 ->orderBy('created_at', 'asc')
                 ->count();
 
+            dd($addedStocks, $removedStocks, $sold);
+
 
             $total = $addedStocks - $removedStocks - $sold;
 
@@ -424,6 +426,7 @@ class OrderService extends BaseService
                 'name' => $category->name . ' (' . $total . ')',
             ];
         }
+
 
         return response()->json([
             'categories' => $result
