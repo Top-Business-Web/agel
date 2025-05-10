@@ -31,7 +31,7 @@ class OrderService extends BaseService
         protected StockDetail      $stockDetail,
         private Client             $client,
         protected OrderInstallment $orderInstallment,
-        protected Stock $stock
+        protected Stock            $stock
     )
     {
         parent::__construct($objModel);
@@ -369,7 +369,7 @@ class OrderService extends BaseService
     }
 
 
-    public function getInvestors( $request)
+    public function getInvestors($request)
     {
         $branchId = $request->branch_id;
         $investors = $this->investor->where('branch_id', $branchId)->get(['id', 'name']);
@@ -379,7 +379,7 @@ class OrderService extends BaseService
         ]);
     }
 
-    public function getCategories( $request)
+    public function getCategories($request)
     {
         $investorId = $request->investor_id;
 
@@ -397,28 +397,28 @@ class OrderService extends BaseService
                 ->flatMap(function ($stock) {
                     return $stock->operations->where('type', 1);
                 });
-             $addedStocks = $add->sum(function ($op) {
-                    return $op->stock->quantity ?? 0;
-                });
+            $addedStocks = $add->sum(function ($op) {
+                return $op->stock->quantity ?? 0;
+            });
 
-            $remove = $category->stocks
-                ->where('investor_id', $investorId)
-                ->flatMap(function ($stock) {
-                    return $stock->operations->where('type', 0);
-                });
-                $removedStocks = $remove->sum(function ($op) {
-                    return $op->stock->quantity ?? 0;
-                });
+//            $remove = $category->stocks
+//                ->where('investor_id', $investorId)
+//                ->flatMap(function ($stock) {
+//                    return $stock->operations->where('type', 0);
+//                });
+//            $removedStocks = $remove->sum(function ($op) {
+//                return $op->stock->quantity ?? 0;
+//            });
 
             $sold = $this->stockDetail
                 ->whereIn('stock_id', $add->pluck('id'))
-                ->where('is_sold', 1)
+                ->where('is_sold', 1    )
                 ->orderBy('created_at', 'asc')
                 ->count();
 
 
-
-            $total = $addedStocks - $removedStocks - $sold;
+//            dd($addedStocks, $removedStocks, $sold);
+            $total = $addedStocks - $sold;
 
             $result[] = [
                 'id' => $category->id,
