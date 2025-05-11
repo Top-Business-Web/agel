@@ -25,6 +25,8 @@ class SettingService extends BaseService
         $vendorSetting=$this->vendor->model->where('id',auth()->guard('vendor')->user()->id)
             ->orWhere('id',auth()->guard('vendor')->user()->parent_id)->first();
 
+
+
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.store'),
                 'bladeName' => 'الإعدادات',
