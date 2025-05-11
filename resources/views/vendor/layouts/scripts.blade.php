@@ -121,7 +121,7 @@
 <script src="{{ asset('assets/admin/assets/plugins/Parsley/dist/parsley.min.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const inputs = document.querySelectorAll('input[type="text"], input[type="number"]');
+        const inputs = document.querySelectorAll('input[type="number"]');
 
         inputs.forEach(input => {
             input.addEventListener('input', function (e) {
