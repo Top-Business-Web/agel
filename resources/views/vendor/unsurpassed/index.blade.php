@@ -43,6 +43,7 @@
                                     <th class="min-w-50px">رقم الهاتف</th>
                                     <th class="min-w-50px">المكتب التابع له</th>
                                     <th class="min-w-50px">رقم هاتف المكتب</th>
+                                    <th class="min-w-50px">حاله العميل</th>
                                     <th class="min-w-50px rounded-end">ألإجراءات</th>
                                 </tr>
                             </thead>
@@ -179,6 +180,11 @@
                 data: 'office_phone',
                 name: 'office_phone'
             },
+            {
+                data: 'client_status',
+                name: 'client_status'
+            },
+
             {
                 data: 'action',
                 name: 'action',

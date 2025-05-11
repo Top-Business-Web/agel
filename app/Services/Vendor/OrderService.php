@@ -103,7 +103,6 @@ class OrderService extends BaseService
             'storeRoute' => route("{$this->route}.store"),
             'categories' => $this->categoryService->model->where('vendor_id', $auth->parent_id ?? $auth->id)->get(),
             'investors' => $this->investor->whereIn('branch_id', $branches->pluck('id'))->get(),
-            'categories' => $this->categoryService->model->where('vendor_id', $auth->parent_id ?? $auth->id)->get(),
             'branches' => $branches,
             'profit_ratio' => auth('vendor')->user()->parent_id == null ? auth('vendor')->user()->profit_ratio
                 : Vendor::where('id', auth('vendor')->user()->parent_id)->first()->profit_ratio,
@@ -242,6 +241,7 @@ class OrderService extends BaseService
     {
         return $order->order_status()->create([
             'order_id' => $order->id,
+            'date' => $order->date,
             'vendor_id' => auth('vendor')->user()->id,
         ]);
     }
