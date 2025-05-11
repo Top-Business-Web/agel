@@ -72,10 +72,13 @@ class UnsurpassedService extends BaseService
 
                         if (in_array(0, $orderStatuses) && now()->greaterThan(min($orderDates))) {
                             return "<h5 class='text-warning'>متعثر</h5>";
-                        } elseif (array_intersect([0, 2, 1], $orderStatuses) && now()->lessThan(min($orderDates))) {
-                            return "<h5 class='text-primary'>مقبول</h5>";
+                        } elseif (in_array(0, $orderStatuses) && now()->lessThan(min($orderDates))) {
+                            return "<h5 class='text-break'>لديه طلب قائم</h5>";
+                        } elseif
+                        (array_intersect([3], $orderStatuses) && now()->greaterThan(min($orderDates))) {
+                            return "<h5 class='text-primary'>غير منتظم في السداد</h5>";
                         } elseif (in_array(3, $orderStatuses) && !array_intersect([1, 2, 0], $orderStatuses)) {
-                            return "<h5 class='text-success'>ممتاز</h5>";
+                            return "<h5 class='text-success'>منتظم في السداد</h5>";
                         } else {
                             return "<h5 class='text-muted'>ليس لديه طلبات لهذا المكتب</h5>";
                         }
