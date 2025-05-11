@@ -3,8 +3,11 @@
 namespace App\Services\Vendor;
 
 use App\Exports\UnsurpassedExampleExport;
+use App\Models\Client;
 use App\Models\Unsurpassed as ObjModel;
+use App\Models\Vendor;
 use App\Services\BaseService;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use App\Imports\UnsurpassedImport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -15,7 +18,7 @@ class UnsurpassedService extends BaseService
     protected string $folder = 'vendor/unsurpassed';
     protected string $route = 'unsurpasseds';
 
-    public function __construct(ObjModel $objModel, protected Excel $excel, protected UnsurpassedImport $unsurpassedImport)
+    public function __construct(ObjModel $objModel, protected Excel $excel, protected UnsurpassedImport $unsurpassedImport, protected Client $client, protected Vendor $vendor)
     {
         parent::__construct($objModel);
     }
@@ -23,7 +26,12 @@ class UnsurpassedService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $obj = $this->getDataTable();
+            $unsurpassed = ObjModel::query()->select('*', DB::raw("'unsurpassed' as model_type"));
+            $clients = Client::query()->select('*', DB::raw("'client' as model_type"));
+
+            $obj = $unsurpassed->unionAll($clients)->get();
+
+
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
                     $buttons = '
@@ -39,9 +47,41 @@ class UnsurpassedService extends BaseService
                 })->editColumn('phone', function ($obj) {
                     $phone = str_replace('+', '', $obj->phone);
                     return $phone;
-                })->editColumn('office_phone', function ($obj) {
-                    $phone = str_replace('+', '', $obj->office_phone);
+                })->addColumn('office_phone', function ($obj) {
+                    $parentId = auth('vendor')->user()->parent_id ? auth('vendor')->user()->parent_id : auth('vendor')->user()->id;
+                    $vendor = $this->vendor->where('id', $parentId)->first();
+//                    dd($vendor , $obj);
+                    $phone = str_replace('+', '', $obj->model_type === 'client' ? $vendor->phone : $obj->office_phone);
                     return $phone;
+                })->addColumn('office_name', function ($obj) {
+                    $parentId = auth('vendor')->user()->parent_id ? auth('vendor')->user()->parent_id : auth('vendor')->user()->id;
+                    $vendor = $this->vendor->where('id', $parentId)->first();
+                    return $obj->model_type === 'client' ? $vendor->name : $obj->office_name;
+                })->addColumn('client_status', function ($obj) {
+
+                    if ($obj->model_type === 'client') {
+                        $order=$this->client->find($obj->id);
+                        $orders = $order->orders ?? [];
+                        $orderStatuses = [];
+                        $orderDates = [];
+
+                        foreach ($orders as $order) {
+                            $orderStatuses[] = $order->order_status->status;
+                            $orderDates[] = $order->order_status->date;
+                        }
+
+                        if (in_array(0, $orderStatuses) && now()->greaterThan(min($orderDates))) {
+                            return "<h5 class='text-warning'>متعثر</h5>";
+                        } elseif (array_intersect([0, 2, 1], $orderStatuses) && now()->lessThan(min($orderDates))) {
+                            return "<h5 class='text-primary'>مقبول</h5>";
+                        } elseif (in_array(3, $orderStatuses) && !array_intersect([1, 2, 0], $orderStatuses)) {
+                            return "<h5 class='text-success'>ممتاز</h5>";
+                        } else {
+                            return "<h5 class='text-muted'>ليس لديه طلبات لهذا المكتب</h5>";
+                        }
+                    }
+
+                    return '<h5 class="text-muted">ليس لديه طلبات لهذا المكتب</h5>';
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -91,19 +131,20 @@ class UnsurpassedService extends BaseService
     public function storeExcel($data): \Illuminate\Http\JsonResponse
     {
 //        try {
-            if (isset($data['excel_file'])) {
-                $data->validate(['excel_file' => 'required|mimes:xlsx,xls,csv']);
-                $file = $data->file('excel_file');
+        if (isset($data['excel_file'])) {
+            $data->validate(['excel_file' => 'required|mimes:xlsx,xls,csv']);
+            $file = $data->file('excel_file');
 
-                Excel::import($this->unsurpassedImport, $file);
+            Excel::import($this->unsurpassedImport, $file);
 
-                return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح", 'reload' => true]);
-            }
-            return response()->json('error importing the excel file');
+            return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح", 'reload' => true]);
+        }
+        return response()->json('error importing the excel file');
 //        } catch (\Exception $e) {
 //            return response()->json('error importing the excel file');
 //        }
     }
+
     public function edit($obj)
     {
         return view("{$this->folder}/parts/edit", [
@@ -137,7 +178,6 @@ class UnsurpassedService extends BaseService
             return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
 
         }
-
 
 
     }

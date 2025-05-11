@@ -112,6 +112,8 @@ if (!function_exists('checkVendorPlanLimit')) {
 }
 
 
+
+
 if (!function_exists('getAuthSetting')) {
     function getAuthSetting($key)
     {
@@ -1089,4 +1091,15 @@ if (!function_exists('helperJson')) {
         $json = response()->json(['data' => $data, 'message' => $message, 'code' => $code], $status);
         return $json;
     }
+}
+
+if(!function_exists('VendorParentAuthData')){
+    function VendorParentAuthData($key)
+    {
+       $parent_id = auth('vendor')->user()->parent_id == null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
+       $parent = Vendor::where('id', $parent_id)->first();
+       return $parent->$key;
+
+    }
+
 }

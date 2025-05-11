@@ -35,7 +35,7 @@
                 <div class="form-group">
                     <label for="name" class="form-control-label">اسم المكتب
                     </label>
-                    <input type="text" class="form-control" name="office_name" id="office_name">
+                    <input type="text" class="form-control" name="office_name" id="office_name" value="{{VendorParentAuthData('name')}}" >
                 </div>
             </div>
 
@@ -43,8 +43,7 @@
                 <div class="form-group position-relative">
                     <label for="office_phone" class="form-control-label">رقم المكتب</label>
                     <div class="input-group">
-                        <input type="number" class="form-control" name="office_phone" id="office_phone"
-                               style=" text-align: left;">
+                        <input type="number" class="form-control" name="office_phone" id="office_phone" value="{{substr(VendorParentAuthData('phone'), 4)}}"  style=" text-align: left;">
                         <span class="input-group-text">966+</span>
                     </div>
                 </div>

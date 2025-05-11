@@ -2,6 +2,7 @@
 
 
 namespace App\Services;
+
 use App\Traits\DreamsSmsTrait;
 use App\Traits\PhotoTrait;
 use Illuminate\Database\Eloquent\Model;
@@ -33,7 +34,6 @@ abstract class BaseService
     {
         $this->model = $model;
     }
-
 
 
     /**
@@ -139,12 +139,13 @@ abstract class BaseService
         return $data;
     }
 
-    public function getAuthDateTable($column,$guard):mixed
+    public function getAuthDateTable($column, $guard): mixed
     {
-        return  $this->model->where($column,auth($guard)->user()->id)->get();
+        return $this->model->where($column, auth($guard)->user()->id)->get();
 
     }
-  public function getVendorDateTable(): mixed
+
+    public function getVendorDateTable(): mixed
     {
         $user = auth('vendor')->user();
         $parentId = $user->parent_id ?? $user->id;
@@ -272,23 +273,23 @@ abstract class BaseService
     public function getOrderStatusForClient($obj): string
     {
         // Client has 3 statuses: 1 -> Acceptable, 2 -> Unsurpassed, 3 -> Excellent
-        $orders = $obj->orders;
+        $orders = $obj->orders ?? [];
 //        dd($orders);
         $orderStatuses = [];
         foreach ($orders as $order) {
             $orderStatuses[] = $order->order_status->status;
+            $orderDates[] = $order->order_status->date;
         }
-//        dd($orderStatuses);
 
 
-        if (in_array(1, $orderStatuses) && !array_intersect([0,2], $orderStatuses)) {
-            return "<h5 class='text-primary'>مقبول</h5>";
-        } elseif (array_intersect([0,2], $orderStatuses)) {
+        if (in_array(0, $orderStatuses)  && now()->greaterThan(min($orderDates))){
             return "<h5 class='text-warning'>متعثر</h5>";
-        } elseif (in_array(3, $orderStatuses) && !array_intersect([1, 2], $orderStatuses)) {
+        } elseif (array_intersect([0, 2, 1], $orderStatuses) && now()->lessThan(min($orderDates))) {
+            return "<h5 class='text-primary'>مقبول</h5>";
+        } elseif (in_array(3, $orderStatuses) && !array_intersect([1, 2, 0], $orderStatuses)) {
             return "<h5 class='text-success'>ممتاز</h5>";
         } else {
-            return "<h5 class='text-muted'>ليس لديه طلبات</h5>";
+            return "<h5 class='text-muted'>ليس لديه طلبات لهذا المكتب</h5>";
         }
     }
 
@@ -324,10 +325,10 @@ abstract class BaseService
     public function imageDataTable($image): string
     {
         if ($image)
-            return '<img src="'. asset($image) .'" onclick="window.open('."'". asset($image) ."'".')" class="avatar avatar-md rounded-circle" style="cursor:pointer;" width="100" height="100">';
+            return '<img src="' . asset($image) . '" onclick="window.open(' . "'" . asset($image) . "'" . ')" class="avatar avatar-md rounded-circle" style="cursor:pointer;" width="100" height="100">';
         else
             $image = asset('assets/uploads/empty.png');
-            return '<img src="'. asset($image) .'" onclick="window.open('."'". asset($image) ."'".')" class="avatar avatar-md rounded-circle" style="cursor:pointer;" width="100" height="100">';
+        return '<img src="' . asset($image) . '" onclick="window.open(' . "'" . asset($image) . "'" . ')" class="avatar avatar-md rounded-circle" style="cursor:pointer;" width="100" height="100">';
     }
 
     /**
@@ -352,7 +353,7 @@ abstract class BaseService
      * @param int $status
      * @return JsonResponse
      */
-    public function responseMsg($msg='تمت العملية بنجاح', $data = null, int $status = 200): JsonResponse
+    public function responseMsg($msg = 'تمت العملية بنجاح', $data = null, int $status = 200): JsonResponse
     {
         return response()->json([
             'msg' => $msg,
@@ -360,7 +361,8 @@ abstract class BaseService
             'status' => $status
         ]);
     }
-    public function responseMsgError($msg='حدث خطأ', $data = null, int $status = 500): JsonResponse
+
+    public function responseMsgError($msg = 'حدث خطأ', $data = null, int $status = 500): JsonResponse
     {
         return response()->json([
             'msg' => $msg,
@@ -433,18 +435,18 @@ abstract class BaseService
     }
 
 
-    public function updateColumnSelected($request,$column)
+    public function updateColumnSelected($request, $column)
     {
         try {
 
             $ids = $request->input('ids');
             if (is_array($ids) && count($ids)) {
-                foreach($ids as $id){
+                foreach ($ids as $id) {
 
                     $obj = $this->getById($id);
 
-                        $obj->{$column} = !$obj->{$column};
-                        $obj->save();
+                    $obj->{$column} = !$obj->{$column};
+                    $obj->save();
                 }
                 return $this->responseMsg();
             }
@@ -456,7 +458,7 @@ abstract class BaseService
 
     public function generateUsername($name)
     {
-        return str_replace(' ', '', strtolower($name)).rand(1000,9999);
+        return str_replace(' ', '', strtolower($name)) . rand(1000, 9999);
 
     }
 
