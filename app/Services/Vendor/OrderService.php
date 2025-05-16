@@ -31,7 +31,8 @@ class OrderService extends BaseService
         protected StockDetail      $stockDetail,
         private Client             $client,
         protected OrderInstallment $orderInstallment,
-        protected Stock            $stock
+        protected Stock            $stock,
+        protected Vendor           $vendor
     )
     {
         parent::__construct($objModel);
@@ -40,7 +41,21 @@ class OrderService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $obj = $this->getDataTable();
+            $parentId = auth('vendor')->user()->parent_id ?? auth('vendor')->user()->id;
+
+            $obj = $this->model->where('vendor_id', $parentId);
+
+            if ($request->filled('investor_id')) {
+                $obj = $obj->where('investor_id', $request->investor_id);
+            }
+
+            if ($request->filled('month')) {
+                $obj = $obj->whereMonth('date', $request->month);
+            }
+
+            if ($request->filled('year')) {
+                $obj = $obj->whereYear('date', $request->year);
+            }
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
 
@@ -80,9 +95,15 @@ class OrderService extends BaseService
                 ->escapeColumns([])
                 ->make(true);
         } else {
+            $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
+            $vendors = $this->vendor->where('parent_id', $parentId)->get();
+            $vendors[] =  $this->vendor->where('id', $parentId)->first();
+            $vendorIds = $vendors->pluck('id');
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
                 'bladeName' => "الطلبات",
+                'investors' => $this->investor->whereIn('branch_id', $this->branchService->model->whereIn('vendor_id', $vendorIds)->pluck('id'))->get(),
+
                 'route' => $this->route,
             ]);
         }
