@@ -60,7 +60,7 @@ class UnsurpassedService extends BaseService
                 })->addColumn('client_status', function ($obj) {
 
                     if ($obj->model_type === 'client') {
-                        $order=$this->client->find($obj->id);
+                        $order = $this->client->find($obj->id);
                         $orders = $order->orders ?? [];
                         $orderStatuses = [];
                         $orderDates = [];

@@ -73,7 +73,6 @@ class StockService extends BaseService
             $vendors = $this->vendorService->model->where('parent_id', $parentId)->get();
             $vendors[] =  $this->vendorService->model->where('id', $parentId)->first();
             $vendorIds = $vendors->pluck('id');
-//            dd($vendorIds);
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
                 'route' => $this->route,
