@@ -31,9 +31,6 @@ use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 |
 */
 
-Route::get('/check-env', function () {
-    return 'Current APP_ENV: ' . env('APP_ENV') . ' | App Environment: ' . app()->environment();
-});
 
 Route::get('/send-otp', [AdminController::class, 'sendOtp']);
 
@@ -45,7 +42,12 @@ Route::group(
     ],
     function () {
 
-        Route::get('/', [AuthController::class, 'index']);
+        Route::get('/', function (){
+            return view('admin.auth.select');
+        })->name('select');
+
+        Route::get('/admin', [AuthController::class, 'index']);
+
 
         Route::group(['prefix' => 'admin'], function () {
             Route::get('/login', [AuthController::class, 'index'])->name('admin.login');
