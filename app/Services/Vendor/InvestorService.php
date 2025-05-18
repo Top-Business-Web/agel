@@ -5,11 +5,8 @@ namespace App\Services\Vendor;
 use App\Models\Investor as ObjModel;
 use App\Models\StockDetail;
 use App\Models\VendorBranch;
-use App\Services\Vendor\OperationService;
-use App\Services\Vendor\StockService;
 use App\Services\BaseService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class InvestorService extends BaseService
@@ -42,36 +39,82 @@ class InvestorService extends BaseService
                 ->editColumn('branch_id', function ($obj) {
                     return $obj->branch->name;
                 })
+//                ->addColumn('action', function ($obj) {
+//                    $buttons = '';
+//                    if (Auth::guard('vendor')->user()->can("update_investor")) {
+//
+//                        $buttons .= '
+//                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
+//                            <i class="fa fa-edit"></i>
+//                        </button>
+//                    ';
+//                    }
+//                    if (Auth::guard('vendor')->user()->can("delete_investor")) {
+//
+//                        $buttons .= '
+//
+//                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
+//                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
+//                            <i class="fas fa-trash"></i>
+//                        </button>
+//
+//                    ';
+//                    }
+//                    if (Auth::guard('vendor')->user()->can("create_stock")) {
+//                        $buttons .= '
+//
+//                             <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light addStock">
+//                            <i class="fa fa-plus"></i>
+//                        </button>
+//                    ';
+//                    }
                 ->addColumn('action', function ($obj) {
+
                     $buttons = '';
-                    if (Auth::guard('vendor')->user()->can("update_investor")) {
+                    $buttons .= '
+                            <li><button type="button" data-id="' . $obj->id . '" class="dropdown-item btn editBtn">
+                                <i class="fa fa-edit text-primary"></i>
+                                 تعديل
+                            </button></li>';
+
+
+                    $buttons .= '
+                            <li> <button type="button" data-id="' . $obj->id . '" class="dropdown-item btn addStock">
+                             <i class="fa fa-plus"></i>
+                                المخزون
+                         </button></li>';
+
+
+
+
 
                         $buttons .= '
-                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                    ';
-                    }
-                    if (Auth::guard('vendor')->user()->can("delete_investor")) {
+                    <li><button type="button" class="dropdown-item btn" onclick="window.location.href=\'' . route('investors.stocks.summary', $obj->id) . '\'">
+                        <i class="fas fa-user text-success"></i>
+                             تفاصيل المخزون
+                    </button></li>';
 
-                        $buttons .= '
 
-                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
-                            <i class="fas fa-trash"></i>
-                        </button>
 
-                    ';
-                    }
-                    if (Auth::guard('vendor')->user()->can("create_stock")) {
-                        $buttons .= '
 
-                             <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light addStock">
-                            <i class="fa fa-plus"></i>
-                        </button>
-                    ';
-                    }
-                    return $buttons;
+                    $buttons .= '<li><button class="dropdown-item btn" data-bs-toggle="modal"
+                        data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
+                        <i class="fas fa-trash text-danger"></i>
+                       حذف
+                        </button></li>';
+
+                    $dropdowns = '<div class="dropdown" style="display: inline-block;">
+                                        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <span>' . 'الاجراءات' . '</span>
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">'
+                        . $buttons .
+                        '</ul>
+
+                                        </div>';
+
+                    return $dropdowns;
                 })->editColumn('phone', function ($obj) {
                     $phone = str_replace('+', '', $obj->phone);
                     return $phone;
@@ -270,6 +313,22 @@ class InvestorService extends BaseService
                 ($addStock->sum('vendor_commission') + $addStock->sum('investor_commission') + $addStock->sum('sell_diff'))
                 - $sellStock->sum('total_price_sub') - ($sellStock->sum('vendor_commission') + $sellStock->sum('investor_commission')
                     + $sellStock->sum('sell_diff')),
+        ]);
+    }
+
+    public function InvestorStocksSummary($id)
+    {
+        $investor = $this->model->find($id);
+        $stocks = $this->stockService->model->where('investor_id', $id)->get();
+        return view("{$this->folder}/parts/investor_stocks_summary", [
+            'stocksWithTheSameCategoryInAddOperation' =>$stocks->filter(function ($stock) {
+                return $stock->operations->where('type', 1)->isNotEmpty();
+            }),
+            'stocksWithTheSameCategoryInSellOperation' => $stocks->filter(function ($stock) {
+                return $stock->operations->where('type', 0)->isNotEmpty();
+            }),
+            'stocks' => $stocks,
+            'investor' => $investor,
         ]);
     }
 }
