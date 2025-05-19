@@ -22,6 +22,7 @@ class SettingService extends BaseService
     public function index()
     {
 
+
         $vendorSetting=$this->vendor->model->where('id',auth()->guard('vendor')->user()->id)
             ->orWhere('id',auth()->guard('vendor')->user()->parent_id)->first();
 
@@ -41,6 +42,7 @@ class SettingService extends BaseService
 
     public function update($data): JsonResponse
     {
+//        dd($data);
 
         unset($data['_token']);
         $vendorId = auth()->guard('vendor')->user()->id;
@@ -108,7 +110,7 @@ class SettingService extends BaseService
             // update vendor data
             $obj->update([
                 'name' => $settingData['name'],
-                'phone' => $settingData['phone'],
+                'phone' => '+966'.$settingData['phone'],
                 'image' => $settingData['image']??null,
                 'email' => $settingData['email'],
                 'city_id' =>$settingData['city_id'],
