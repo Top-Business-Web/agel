@@ -5,16 +5,22 @@
 @endsection
 @section('page_name')
 @endsection
+
 @section('content')
+<style>
+    .select2-container{
+        width: 100% !important;
+    }
+</style>
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
                     <div class="row align-items-end">
 
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-4 mb-3 d-flex flex-column">
                             <label for="investorFilter">اختر المستثمر</label>
-                            <select id="investorFilter" class="form-control">
+                            <select id="investorFilter" class="form-control w-100">
                                 <option value="">الكل</option>
                                 @foreach ($investors as $investor)
                                     <option value="{{ $investor->id }}">{{ $investor->name }}</option>
