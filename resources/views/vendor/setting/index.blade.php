@@ -44,7 +44,7 @@
                         <div class="col-5">
                             <div class="form-group">
                                 <label for="name" class="form-control-label">أسم المكتب</label>
-                                <input type="text" class="form-control" name="name" id="name" {{isset($vendorSetting->name) ? 'value='.$vendorSetting->name.'' : ''}}>
+                                <input type="text" class="form-control" name="name" id="name" value="{{isset($vendorSetting->name) ? $vendorSetting->name : ''}}">
                             </div>
                         </div>
                         <div class="col-3">
