@@ -32,6 +32,11 @@
                 <p>الكمية المنقصه</p>
                 <p style="font-weight: bold; margin-right: 10px;">{{$stocksWithTheSameCategoryInSellOperation->sum('quantity')}}</p>
             </div>
+            <div style="margin-right: 20px;">
+                @foreach($stocksWithTheSameCategoryInSellOperation as $stock)
+                    <li class="fa fa-arrow-up" style="color: #151515;">{{$stock->quantity}} من {{$stock->category->name}}</li>
+                @endforeach
+            </div>
             <div style="display: flex">
                 <p>السعر الاحمالي للكميه المنقصه</p>
                 <p style="font-weight: bold; margin-right: 10px;">{{$stocksWithTheSameCategoryInSellOperation->sum('total_price_sub')}}</p>
