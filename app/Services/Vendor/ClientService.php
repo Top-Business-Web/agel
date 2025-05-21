@@ -23,7 +23,13 @@ class ClientService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $obj = $this->getDataTable();
+            $obj = $this->model->with('branch')->whereHas('branch', function ($query) {
+                $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
+                $vendors = Vendor::where('parent_id', $parentId)->get();
+                $vendors[] = Vendor::where('id', $parentId)->first();
+                $vendorIds = $vendors->pluck('id');
+                $query->whereIn('vendor_id', $vendorIds);
+            })->select('*');
             return DataTables::of($obj)
                 ->editColumn('branch_id', function ($obj) {
                     return $obj->branch->name;
