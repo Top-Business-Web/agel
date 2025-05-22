@@ -3,6 +3,7 @@
 namespace App\Services\Vendor;
 
 use App\Exports\UnsurpassedExampleExport;
+use App\Models\Branch;
 use App\Models\Client;
 use App\Models\Unsurpassed as ObjModel;
 use App\Models\Vendor;
@@ -18,7 +19,7 @@ class UnsurpassedService extends BaseService
     protected string $folder = 'vendor/unsurpassed';
     protected string $route = 'unsurpasseds';
 
-    public function __construct(ObjModel $objModel, protected Excel $excel, protected UnsurpassedImport $unsurpassedImport, protected Client $client, protected Vendor $vendor)
+    public function __construct(ObjModel $objModel, protected Excel $excel, protected UnsurpassedImport $unsurpassedImport, protected Client $client, protected Vendor $vendor, protected Branch $branch)
     {
         parent::__construct($objModel);
     }
@@ -48,14 +49,15 @@ class UnsurpassedService extends BaseService
                     $phone = str_replace('+', '', $obj->phone);
                     return $phone;
                 })->addColumn('office_phone', function ($obj) {
-                    $parentId = auth('vendor')->user()->parent_id ? auth('vendor')->user()->parent_id : auth('vendor')->user()->id;
-                    $vendor = $this->vendor->where('id', $parentId)->first();
-//                    dd($vendor , $obj);
+                    $branch = $this->branch->where('id', $obj->office_phone)->first();// i use office_phone because unionAll rename cols
+                    $vendor = $this->vendor->where('id', $branch->vendor_id)->first();
+
+
                     $phone = str_replace('+', '', $obj->model_type === 'client' ? $vendor->phone : $obj->office_phone);
                     return $phone;
                 })->addColumn('office_name', function ($obj) {
-                    $parentId = auth('vendor')->user()->parent_id ? auth('vendor')->user()->parent_id : auth('vendor')->user()->id;
-                    $vendor = $this->vendor->where('id', $parentId)->first();
+                    $branch = $this->branch->where('id', $obj->office_phone)->first();// i use office_phone because unionAll rename cols
+                    $vendor = $this->vendor->where('id', $branch->vendor_id)->first();
                     return $obj->model_type === 'client' ? $vendor->name : $obj->office_name;
                 })->addColumn('client_status', function ($obj) {
 
@@ -80,11 +82,11 @@ class UnsurpassedService extends BaseService
                         } elseif (in_array(3, $orderStatuses) && !array_intersect([1, 2, 0], $orderStatuses)) {
                             return "<h5 class='text-success'>منتظم في السداد</h5>";
                         } else {
-                            return "<h5 class='text-muted'>ليس لديه طلبات لهذا المكتب</h5>";
+                            return "<h5 class='text-muted'>ليس لديه طلبات </h5>";
                         }
                     }
 
-                    return '<h5 class="text-muted">ليس لديه طلبات لهذا المكتب</h5>';
+                    return '<h5 class="text-muted">ليس لديه طلبات</h5>';
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])

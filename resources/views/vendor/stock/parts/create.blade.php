@@ -348,7 +348,7 @@
         var operation = $("#operation").val();
         var categoryId = $("#category_id").val();
         var branchId = $("#branch_id").val();
-        var investorId = $("input[name='investor_id']").val();
+        var investorId = $("#investor_id").val();
 
         if (operation === "0" && categoryId && branchId) {
             $.ajax({

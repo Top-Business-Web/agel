@@ -284,24 +284,17 @@ class InvestorService extends BaseService
         $branchId = $request->get('branch_id');
         $categoryId = $request->get('category_id');
 
-        // استعلام العمليات مع العلاقة
-        $addOperations = $this->operationService->model->where('type', 1)
-            ->with(['stock' => function ($query) use ($investorId, $branchId, $categoryId) {
-                $query->where('investor_id', $investorId)
-                    ->where('branch_id', $branchId)
-                    ->where('category_id', $categoryId);
-            }]);
-
-        $sellOperations = $this->operationService->model->where('type', 0)
-            ->with(['stock' => function ($query) use ($investorId, $branchId, $categoryId) {
-                $query->where('investor_id', $investorId)
-                    ->where('branch_id', $branchId)
-                    ->where('category_id', $categoryId);
-            }]);
 
 
-        $addStock = $this->stockService->model->whereIn('id', $addOperations->pluck('stock_id'));
-        $sellStock = $this->stockService->model->whereIn('id', $sellOperations->pluck('stock_id'));
+        $stock = $this->stockService->model->where('investor_id', $investorId)
+            ->where('category_id', $categoryId)
+            ->where('branch_id', $branchId)->get();
+
+
+
+
+        $addStock =$stock->whereNull('total_price_sub') ->whereNotNull('total_price_add');
+        $sellStock = $stock->whereNotNull('total_price_sub')->whereNull('total_price_add');
 
 
         // حساب القيم المجمعة

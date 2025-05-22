@@ -25,6 +25,11 @@
                         <a href="{{ route('unsurpasseds.download.example') }}" class="btn btn-primary btn-icon text-white">
                             <span><i class="fe fe-download"></i></span> تحميل مثال
                         </a>
+                        <button id="loadData" class="btn btn-primary">
+                            <i class="fas fa-sync-alt"></i> تحميل البيانات
+                        </button>
+
+
                     </div>
                 </div>
                 <div class="card-body">
@@ -147,52 +152,75 @@
 @endsection
 @section('ajaxCalls')
     <script>
-        var columns = [{
-                data: 'checkbox',
-                name: 'checkbox',
-                orderable: false,
-                searchable: false,
-                render: function(data, type, row) {
-                    return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
-                }
-            },
-            {
-                data: 'id',
-                name: 'id'
-            },
-            {
-                data: 'name',
-                name: 'name'
-            },
-            {
-                data: 'national_id',
-                name: 'national_id'
-            },
-            {
-                data: 'phone',
-                name: 'phone'
-            },
-            {
-                data: 'office_name',
-                name: 'office_name'
-            },
-            {
-                data: 'office_phone',
-                name: 'office_phone'
-            },
-            {
-                data: 'client_status',
-                name: 'client_status'
-            },
+        var dataTable = $('#dataTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '{{ route($route . '.index') }}',
+                type: 'GET',
 
-            {
-                data: 'action',
-                name: 'action',
-                orderable: false,
-                searchable: false
             },
-        ];
-        showData('{{ route($route . '.index') }}', columns);
+            columns: [
+                {
+                    data: 'checkbox',
+                    name: 'checkbox',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row) {
+                        return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
+                    }
+                },
+                {
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'name',
+                    name: 'name'
+                },
+                {
+                    data: 'national_id',
+                    name: 'national_id'
+                },
+                {
+                    data: 'phone',
+                    name: 'phone'
+                },
+                {
+                    data: 'office_name',
+                    name: 'office_name'
+                },
+                {
+                    data: 'office_phone',
+                    name: 'office_phone'
+                },
+                {
+                    data: 'client_status',
+                    name: 'client_status'
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false,
+                    searchable: false
+                }
+            ],
+
+            lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+            language: {
+                search: "_INPUT_",
+                searchPlaceholder: "ابحث...",
+                emptyTable: "لا توجد بيانات متاحة في الجدول",
+                info: "عرض _START_ إلى _END_ من أصل _TOTAL_ سجل",
+                infoEmpty: "عرض 0 إلى 0 من أصل 0 سجل",
+                lengthMenu: "عرض _MENU_ سجل",
+            },
+            // Prevent automatic data loading
+            deferLoading: 0,
+            initComplete: function(settings, json) {
+                // Add any post-init code here
+            }
+        });
 
         // Delete Using Ajax
         deleteScript('{{ route($route . '.destroy', ':id') }}');
@@ -202,10 +230,14 @@
         showAddModal('{{ route($route . '.create') }}');
         addScript();
 
-
         // Edit Using Ajax
         showEditModal('{{ route($route . '.edit', ':id') }}');
         editScript();
+
+        // Load Data Button (optional)
+        $('#loadData').click(function() {
+            dataTable.ajax.reload();
+        });
 
         $(document).on('click', '.addExcelFile', function() {
             let routeOfShow = '{{ route('unsurpasseds.add.excel') }}';
@@ -216,9 +248,6 @@
                 $('#modal-excel-body').load(routeOfShow);
             }, 250);
         });
-
-
-
 
 
     </script>
