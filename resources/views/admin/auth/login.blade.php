@@ -68,7 +68,44 @@
         input:focus {
             border: none;
             outline: none;
+        } label.inp {
+              position: relative;
+              display: flex;
+              align-items: center;
+          }
+
+        #placeHolder {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #999;
+            user-select: none;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: right; /* محاذاة النص لليمين */
         }
+
+        .password-label {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #999;
+            user-select: none;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: right; /* محاذاة النص لليمين */
+        }
+        .label.hide {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+
     </style>
 </head>
 <body class="d-flex align-items-center" style="background-image: linear-gradient(rgba(33,33,34,0.4), rgba(33,33,34,0.8)),url('{{ asset('bg.jpg') }}'); background-size: cover;
@@ -82,7 +119,8 @@
                 <div class="d-flex justify-content-center w-100">
                     <img src="{{ asset('logo 1.png') }}" style="height: 90px;">
                 </div>
-                <form class="signup-form" action="{{route('admin.login')}}" method="POST" id="LoginForm">
+                <form class="signup-form" action="{{route('admin.login')}}" method="POST" id="LoginForm"
+                      style="max-width: 100%;">
                     @csrf
                     @method('POST')
                     <div class="gap-2">
@@ -105,10 +143,11 @@
                         </div>
                     </div>
                     <label class="inp d-flex">
-                        <span class="input-group-text" id="validationTooltipUsernamePrepend"
-                              style="border-radius: 0 2rem 2rem 0; background-color: #e8f0ff; border: none; font-size: 20px;left: 10px;">+966</span>
+
                         <input type="email" name="input" class="input-text" placeholder="&nbsp;" id="inputField"
-                               style="background-color: rgb(232, 240, 254); border-radius: 2rem 0 0 2rem;">
+                               style="background-color: rgb(232, 240, 254); border-radius: 2rem;">
+                        <span class="input-group-text" id="validationTooltipUsernamePrepend"
+                              style="border-radius: 2rem 0 0 2rem; background-color: #e8f0ff; border: none; font-size: 19px;left: 10px; padding: 19px">+966</span>
                         <span class="label" id="placeHolder">البريد الالكتروني</span>
                         <span class="input-icon">
                     <i class="fa-solid fa-envelope"></i>
@@ -117,9 +156,8 @@
                     <label class="inp">
                         <input type="password" name="password" class="input-text" placeholder="&nbsp;" id="password"
                                style="background-color: rgb(232, 240, 254);">
-                        <span class="label"> كلمة المرور</span>
-                        <span class="input-icon input-icon-password" data-password><i
-                                class="fa-solid fa-eye"></i></span>
+                        <span class="label password-label">كلمة المرور</span>
+                        <span class="input-icon input-icon-password" data-password><i class="fa-solid fa-eye"></i></span>
                     </label>
                     <button class="btn btn-primary fs-3 p-3" id="loginButton"
                             style="background-color: #3cb9c7; border-color: #3cb9c7;"> تسجيل دخول
@@ -147,8 +185,8 @@
         const inputIcon = document.querySelector('.input-icon i');
         const phonePrefix = document.getElementById("validationTooltipUsernamePrepend");
 
-        // إخفاء كود الدولة افتراضيًا
         phonePrefix.style.display = "none";
+
         // جعل البريد الإلكتروني الخيار الافتراضي عند تحميل الصفحة
         emailRadio.checked = true;
         inputField.type = 'email';
@@ -165,16 +203,32 @@
                     placeHolder.textContent = 'البريد الالكتروني';
                     inputIcon.className = 'fa-solid fa-envelope';
                     phonePrefix.style.display = "none"; // إخفاء كود الدولة
-
+                    inputField.style.borderRadius = '2rem'; // رجع شكل الحدود للرسمي
                 } else if (event.target.value === 'phone') {
-                    inputField.type = 'number';
+                    inputField.type = 'text';
                     placeHolder.textContent = 'رقم الجوال';
                     inputIcon.className = 'fa-solid fa-phone';
+                    inputField.style.borderRadius = '0 2rem 2rem 0';
                     phonePrefix.style.display = "block"; // إظهار كود الدولة
-
                 }
             });
         });
+
+        const inputs = document.querySelectorAll('.input-text');
+        inputs.forEach(input => {
+            const label = input.parentElement.querySelector('.label'); // get corresponding label span
+
+            input.addEventListener('focus', () => {
+                if (label) label.classList.add('hide');
+            });
+
+            input.addEventListener('blur', () => {
+                if (label && input.value.trim() === '') {
+                    label.classList.remove('hide');
+                }
+            });
+        });
+
     });
 </script>
 
