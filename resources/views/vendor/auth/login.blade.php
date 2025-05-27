@@ -93,19 +93,25 @@
             transition: all 0.3s ease;
             width: 100%;
             text-align: right; /* محاذاة النص لليمين */
-        }.password-label {
-             position: absolute;
-             right: 1rem;
-             top: 50%;
-             transform: translateY(-50%);
-             pointer-events: none;
-             color: #999;
-             user-select: none;
-             transition: all 0.3s ease;
-             width: 100%;
-             text-align: right; /* محاذاة النص لليمين */
-         }
+        }
 
+        .password-label {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #999;
+            user-select: none;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-align: right; /* محاذاة النص لليمين */
+        }
+        .label.hide {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
 
 
     </style>
@@ -147,7 +153,7 @@
                                style="background-color: rgb(232, 240, 254); border-radius: 2rem;">
                         <span class="input-group-text" id="validationTooltipUsernamePrepend"
                               style="border-radius: 2rem 0 0 2rem; background-color: #e8f0ff; border: none; font-size: 20px;margin-bottom: 1px; padding: 19px">+966</span>
-                        <span class="label" id="placeHolder">البريد الالكتروني</span> <!-- Default placeholder -->
+                        <span class="label" id="placeHolder">البريد الإلكتروني</span> <!-- Default placeholder -->
                         <span class="input-icon">
         <i class="fa-solid fa-envelope"></i> <!-- Default icon -->
     </span>
@@ -216,6 +222,22 @@
                 }
             });
         });
+
+        const inputs = document.querySelectorAll('.input-text');
+        inputs.forEach(input => {
+            const label = input.parentElement.querySelector('.label'); // get corresponding label span
+
+            input.addEventListener('focus', () => {
+                if (label) label.classList.add('hide');
+            });
+
+            input.addEventListener('blur', () => {
+                if (label && input.value.trim() === '') {
+                    label.classList.remove('hide');
+                }
+            });
+        });
+
     });
 </script>
 @include('vendor.auth.js')
