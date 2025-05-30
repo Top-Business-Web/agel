@@ -15,6 +15,7 @@ use App\Http\Controllers\Vendor\SettingController;
 use App\Http\Controllers\Vendor\StockController;
 use App\Http\Controllers\Vendor\UnsurpassedController;
 use App\Http\Controllers\Vendor\VendorController;
+use App\Models\Vendor;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -49,6 +50,14 @@ Route::group(
             Route::get('/reset-password', [AuthController::class, 'resetPasswordForm'])->name('vendor.resetPasswordForm');
             Route::get('/new-password/{email}', [AuthController::class, 'newPasswordForm'])->name('vendor.newPasswordForm');
             Route::POST('/reset-password/{email}', [AuthController::class, 'ResetPassword'])->name('vendor.resetPassword');
+
+
+            Route::get('my_profile', [VendorController::class, 'myProfile'])->name('myProfile');
+            Route::get('my_profile/edit', [VendorController::class, 'editProfile'])->name('myProfile.edit');
+            Route::get('my_profile/edit_profile_image', [VendorController::class, 'editProfileImage'])->name('myProfile.edit.image');
+            Route::post('my_profile/update_profile_image', [VendorController::class, 'updateProfileImage'])->name('myProfile.update.image');
+            Route::post('my_profile/update', [VendorController::class, 'updateProfile'])->name('myProfile.update');
+            Route::get('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
 
             Route::group(['middleware' => 'auth:vendor'], function () {
