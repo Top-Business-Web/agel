@@ -73,7 +73,7 @@
 <link href='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css' rel='stylesheet'>
 
 {{--  ckeditor  --}}
-@toastr_css
+{{-- @toastr_css --}}
 <link rel="stylesheet" href="{{ asset('assets/fileUpload/fileUpload.css') }}">
 
 <!-- Switcher CSS -->

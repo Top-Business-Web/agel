@@ -270,4 +270,4 @@
     }
 
 </style>
-@toastr_css
+{{-- @toastr_css --}}

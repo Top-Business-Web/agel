@@ -28,7 +28,7 @@
         "spatie/laravel-translatable": "^6.8",
         "tymon/jwt-auth": "^2.1",
         "yajra/laravel-datatables": "^1.5",
-        "yoeunes/toastr": "^1.2"
+        "yoeunes/toastr": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -73,11 +73,15 @@
             "dont-discover": []
         }
     },
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": "dist",
-        "sort-packages": true
-    },
+"config": {
+    "platform-check": false,
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "allow-plugins": {
+        "php-http/discovery": true,
+        "pestphp/pest-plugin": true
+    }
+},
     "minimum-stability": "dev",
     "prefer-stable": true
 }

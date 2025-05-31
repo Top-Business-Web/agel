@@ -76,7 +76,7 @@
 </style>
 
 {{--  ckeditor  --}}
-@toastr_css
+{{-- @toastr_css --}}
 
 <!-- Switcher CSS -->
 <link href="{{asset('assets/admin')}}/assets/switcher/css/switcher-rtl.css" rel="stylesheet">

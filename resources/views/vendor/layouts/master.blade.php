@@ -142,7 +142,7 @@
     });
 
 </script>
-@toastr_js
+{{-- @toastr_js --}}
 @toastr_render
 </body>
 </html>
