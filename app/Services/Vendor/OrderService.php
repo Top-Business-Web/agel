@@ -95,7 +95,7 @@ class OrderService extends BaseService
                 })->editColumn('investor_id', function ($obj) {
                     return $obj->investor_id ? $obj->investor->name : "";
                 })->addColumn('status', function ($obj) {
-                    return  $obj->date >= now() ? OrderStatus::from($obj->order_status->status)->lang() : "متعثر";
+                    return  $obj->date >= now() && $obj->order_status->status!== OrderStatus::COMPLETELY_PAID  ? OrderStatus::from($obj->order_status->status)->lang() : "متعثر";
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
