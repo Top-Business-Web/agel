@@ -78,6 +78,7 @@
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-50px rounded-end">اسم العميل</th>
                                 <th class="min-w-50px rounded-end">رقم هويه العميل</th>
+                                <th class="min-w-50px rounded-end">حاله العميل العميل</th>
                                 <th class="min-w-50px rounded-end">الكميه</th>
                                 <th class="min-w-50px rounded-end">تاريخ السداد</th>
                                 <th class="min-w-50px rounded-end"> اسم المستثمر</th>
@@ -169,6 +170,7 @@
                 {data: 'id', name: 'id'},
                 {data: 'client_id', name: 'client_id'},
                 {data: 'client_national_id', name: 'client_national_id'},
+                {data: 'client_status', name: 'client_status'},
                 {data: 'quantity', name: 'quantity'},
                 {data: 'date', name: 'date'},
                 {data: 'investor_id', name: 'investor_id'},

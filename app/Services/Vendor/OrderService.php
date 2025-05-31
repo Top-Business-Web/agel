@@ -82,6 +82,10 @@ class OrderService extends BaseService
                     return $buttons;
                 })->addColumn('client_national_id', function ($obj) {
                     return $obj->client_id ? $obj->client->national_id : "";
+                })
+                ->addColumn('client_status', function ($obj) {
+
+                    return $this->getOrderStatusForClient($obj->client);
                 })->addColumn('paid', function ($obj) {
                     return $obj->order_status->paid;
                 })->editColumn('client_id', function ($obj) {
@@ -91,7 +95,7 @@ class OrderService extends BaseService
                 })->editColumn('investor_id', function ($obj) {
                     return $obj->investor_id ? $obj->investor->name : "";
                 })->addColumn('status', function ($obj) {
-                    return $obj->order_status->status  && $obj->date > now() ? OrderStatus::from($obj->order_status->status)->lang() : "متعثر";
+                    return  $obj->date >= now() ? OrderStatus::from($obj->order_status->status)->lang() : "متعثر";
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -99,7 +103,7 @@ class OrderService extends BaseService
         } else {
             $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
             $vendors = $this->vendor->where('parent_id', $parentId)->get();
-            $vendors[] =  $this->vendor->where('id', $parentId)->first();
+            $vendors[] = $this->vendor->where('id', $parentId)->first();
             $vendorIds = $vendors->pluck('id');
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
@@ -436,7 +440,7 @@ class OrderService extends BaseService
 
             $sold = $this->stockDetail
                 ->whereIn('stock_id', $add->pluck('id'))
-                ->where('is_sold', 1    )
+                ->where('is_sold', 1)
                 ->orderBy('created_at', 'asc')
                 ->count();
 
