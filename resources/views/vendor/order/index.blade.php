@@ -78,7 +78,7 @@
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-50px rounded-end">اسم العميل</th>
                                 <th class="min-w-50px rounded-end">رقم هويه العميل</th>
-                                <th class="min-w-50px rounded-end">حاله العميل العميل</th>
+                                <th class="min-w-50px rounded-end">حاله العميل </th>
                                 <th class="min-w-50px rounded-end">الكميه</th>
                                 <th class="min-w-50px rounded-end">تاريخ السداد</th>
                                 <th class="min-w-50px rounded-end"> اسم المستثمر</th>
