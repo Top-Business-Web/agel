@@ -12,12 +12,20 @@
                     <div class="wideget-user text-center">
                         <div class="wideget-user-desc">
                             <div class="wideget-user-img">
-{{--                                <img class="" src="{{ $vendor->image ? asset($vendor->image) : asset('assets/uploads/avatar.png')}}" alt="img">--}}
+                               <img class="" src="{{ $vendor->image ? asset($vendor->image) : asset('assets/uploads/avatar.png')}}" alt="img">
                             </div>
                             <div class="user-wrap">
                                 <h4 class="mb-1 text-capitalize">{{$vendor->name}}</h4>
 {{--                                <h6 class="text-muted mb-4"> {{$vendor->created_at->diffForHumans()}}</h6>--}}
                                 <h6 class="text-muted mb-4"> {{$vendor->email}}</h6>
+                            </div>
+                            <div class="">
+                                <button class="btn btn-secondary btn-icon text-white editBtn m-2">
+                                            <span>
+                                                <i class="fe fe-edit"></i>
+                                            </span>
+                                    {{ trns('update_password') }}
+                                </button>
                             </div>
                         </div>
                     </div>

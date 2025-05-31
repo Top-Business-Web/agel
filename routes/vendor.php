@@ -55,6 +55,8 @@ Route::group(
 
             Route::group(['middleware' => 'auth:vendor'], function () {
                 Route::get('my_profile', [VendorController::class, 'myProfile'])->name('vendor.myProfile');
+                Route::get('my_profile/edit', [VendorController::class, 'editProfile'])->name('vendor.myProfile.edit');
+                Route::post('my_profile/update', [VendorController::class, 'updateProfile'])->name('vendor.myProfile.update');
 
                 #============================ Home ====================================
                 Route::get('homeVendor', [HomeController::class, 'index'])->name('vendorHome');
