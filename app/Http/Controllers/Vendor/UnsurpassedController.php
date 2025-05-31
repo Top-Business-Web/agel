@@ -19,6 +19,11 @@ class UnsurpassedController extends Controller
 
         return $this->objService->index($request);
     }
+    public function myUnsurpassed(Request $request)
+    {
+
+        return $this->objService->myUnsurpassed($request);
+    }
 
     public function create()
     {

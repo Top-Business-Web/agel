@@ -86,10 +86,12 @@ class OrderService extends BaseService
                     return $obj->order_status->paid;
                 })->editColumn('client_id', function ($obj) {
                     return $obj->client_id ? $obj->client->name : "";
+                })->editColumn('date', function ($obj) {
+                    return $obj->date ? Carbon::parse($obj->date)->subDays(3)->format('y-m-d') : "";
                 })->editColumn('investor_id', function ($obj) {
                     return $obj->investor_id ? $obj->investor->name : "";
                 })->addColumn('status', function ($obj) {
-                    return $obj->order_status->status !== null ? OrderStatus::from($obj->order_status->status)->lang() : "غير محدد";
+                    return $obj->order_status->status  && $obj->date > now() ? OrderStatus::from($obj->order_status->status)->lang() : "متعثر";
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -174,6 +176,7 @@ class OrderService extends BaseService
             'grace_date' => Carbon::parse($order->date)->addDays($request->grace_period),
             'status' => 2,
         ]);
+        $order->date = Carbon::parse($order->date)->addDays($request->grace_period);
     }
 
     private function updatePaymentStatus($order, $request): void

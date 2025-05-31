@@ -117,6 +117,7 @@ Route::group(
 
                 Route::resourceWithDeleteSelected('unsurpasseds', UnsurpassedController::class);
                 Route::get('unsurpasseds/add/Excel', [UnsurpassedController::class, 'addExcel'])->name('unsurpasseds.add.excel');
+                Route::get('my-unsurpassed', [UnsurpassedController::class, 'myUnsurpassed'])->name('myUnsurpassed');
                 Route::post('unsurpasseds/store/Excel', [UnsurpassedController::class, 'storeExcel'])->name('unsurpasseds.store.excel');
 
 

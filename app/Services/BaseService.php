@@ -274,7 +274,6 @@ abstract class BaseService
     {
         // Client has 3 statuses: 1 -> Acceptable, 2 -> Unsurpassed, 3 -> Excellent
         $orders = $obj->orders ?? [];
-//        dd($orders);
         $orderStatuses = [];
         foreach ($orders as $order) {
             $orderStatuses[] = $order->order_status->status;
@@ -282,9 +281,9 @@ abstract class BaseService
         }
 
 
-        if (in_array(0, $orderStatuses) && now()->greaterThan(min($orderDates))) {
+        if (array_intersect([0, 1], $orderStatuses) && now()->greaterThan(min($orderDates))) {
             return "<h5 class='text-warning'>متعثر</h5>";
-        } elseif (in_array(0, $orderStatuses) && now()->lessThan(min($orderDates))) {
+        } elseif (array_intersect([0, 1], $orderStatuses) && now()->lessThan(min($orderDates))) {
             return "<h5 class='text-break'>لديه طلب قائم</h5>";
         } elseif
         (array_intersect([3], $orderStatuses) && now()->greaterThan(min($orderDates))) {
@@ -292,7 +291,7 @@ abstract class BaseService
         } elseif (in_array(3, $orderStatuses) && !array_intersect([1, 2, 0], $orderStatuses)) {
             return "<h5 class='text-success'>منتظم في السداد</h5>";
         } else {
-            return "<h5 class='text-muted'>ليس لديه طلبات لهذا المكتب</h5>";
+            return "<h5 class='text-muted'>ليس لديه طلبات </h5>";
         }
     }
 
