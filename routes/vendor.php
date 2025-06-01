@@ -52,16 +52,11 @@ Route::group(
             Route::POST('/reset-password/{email}', [AuthController::class, 'ResetPassword'])->name('vendor.resetPassword');
 
 
-            Route::get('my_profile', [VendorController::class, 'myProfile'])->name('myProfile');
-            Route::get('my_profile/edit', [VendorController::class, 'editProfile'])->name('myProfile.edit');
-            Route::get('my_profile/edit_profile_image', [VendorController::class, 'editProfileImage'])->name('myProfile.edit.image');
-            Route::post('my_profile/update_profile_image', [VendorController::class, 'updateProfileImage'])->name('myProfile.update.image');
-            Route::post('my_profile/update', [VendorController::class, 'updateProfile'])->name('myProfile.update');
-            Route::get('logout', [AuthController::class, 'logout'])->name('admin.logout');
-
 
             Route::group(['middleware' => 'auth:vendor'], function () {
                 Route::get('my_profile', [VendorController::class, 'myProfile'])->name('vendor.myProfile');
+                Route::get('my_profile/edit', [VendorController::class, 'editProfile'])->name('vendor.myProfile.edit');
+                Route::post('my_profile/update', [VendorController::class, 'updateProfile'])->name('vendor.myProfile.update');
 
                 #============================ Home ====================================
                 Route::get('homeVendor', [HomeController::class, 'index'])->name('vendorHome');

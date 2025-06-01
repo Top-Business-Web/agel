@@ -231,6 +231,34 @@ class VendorService extends BaseService
         }
 
     }
+    public function editProfile()
+    {
+//        dd($admin);
+        return view($this->folder . '/profile/edit_profile', [
+//            'admin' => $admin,
+            'updateRoute' => route('vendor.myProfile' . '.update'),
+        ]);
+    }
+
+    public function updateProfile($data)
+    {
+
+        if ($data['password'] && $data['password'] != null) {
+
+            $data['password'] = Hash::make($data['password']);
+        } else {
+            unset($data['password']);
+        }
+
+
+        if ($this->updateData(Auth::user()->id, $data)) {
+            return response()->json(['status' => 200,'redirect'=>route('vendor.myProfile')]);
+        } else {
+            return response()->json(['status' => 405]);
+        }
+
+
+    }
 
 
 }

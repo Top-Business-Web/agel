@@ -61,6 +61,17 @@ class VendorController extends Controller
     {
         return $this->objService->myProfile();
     }
+    public function editProfile()
+    {
+        return $this->objService->editProfile();
+    }
+    public function updateProfile(ObjRequest $request)
+    {
+//        dd($request->all());
+
+        $data = $request->validated();
+        return $this->objService->updateProfile($data);
+    }
 
 
 
@@ -69,29 +80,4 @@ class VendorController extends Controller
 
 
 
-
-
-//     public function updateProfile(ObjRequestProfile $request)
-//     {
-// //        dd($request->all());
-
-//         $data = $request->validated();
-//         return $this->objService->updateProfile($data);
-//     }
-
-//     public function editProfile()
-//     {
-//         return $this->objService->editProfile();
-//     }
-//     public function editProfileImage()
-//     {
-//         return $this->objService->editProfileImage();
-//     }
-//     public function updateProfileImage(ObjRequestProfileImage $request)
-//     {
-// //        dd($request->all());
-
-//         $data = $request->validated();
-//         return $this->objService->updateProfileImage($data);
-//     }
 }
