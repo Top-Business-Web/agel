@@ -131,7 +131,21 @@
                 </a>
             </li>
 
-            <!-- إدارة أعدادات النظام -->
+            <!-- إدارة كلمه السر -->
+        @endcanany
+
+        @canany(['read_setting', 'create_setting', 'update_setting', 'delete_setting'])
+            <li class="slide">
+                <a class="side-menu__item  {{ Route::currentRouteName() == 'UpdatePassword' ? 'active' : '' }}"
+                    href="{{ route('UpdatePassword') }}">
+                    <i class="fas fa-key side-menu__icon"></i>
+
+                    </i> <!-- إعدادات  كلمه السر Icon --> <span
+                        class="side-menu__label">تغير كلمه السر</span>
+                </a>
+            </li>
+
+            <!-- إدارة  كلمه السر -->
         @endcanany
 
 

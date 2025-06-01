@@ -95,6 +95,7 @@ Route::group(
                 //============================ VendorSetting ====================================
 
                 Route::get('vendor/setting', [SettingController::class, 'index'])->name('vendorSetting');
+                Route::get('vendor/UpdatePassword', [SettingController::class, 'UpdatePassword'])->name('UpdatePassword');
                 Route::post('vendor/setting/update', [SettingController::class, 'update'])->name('vendorSetting.store');
                 #============================ investors ====================================
 

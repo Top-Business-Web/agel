@@ -23,6 +23,12 @@ class SettingController extends Controller
 
     }
 
+    public function UpdatePassword()
+    {
+        return $this->service->UpdatePassword();
+
+    }
+
     public function update(SettingRequest  $request)
     {
 

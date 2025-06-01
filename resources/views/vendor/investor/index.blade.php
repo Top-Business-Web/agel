@@ -97,6 +97,24 @@
         </div>
         <!-- add stock Modal -->
 
+        <!-- showInvestorSummary Modal -->
+        <div class="modal fade" id="showInvestorSummary" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">التفاصيل</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modal-body2">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- showInvestorSummary Modal -->
+
         <!-- Create Or Edit Modal -->
         <div class="modal fade" id="editOrCreate" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -212,6 +230,15 @@
             $('#addStock').modal('show')
             setTimeout(function() {
                 $('#modal-body1').load('{{ route('vendor.investors.addStock', ':id') }}'.replace(':id', id))
+            }, 250)
+        });
+
+        $(document).on('click', '.showInvestorSummary', function() {
+            let id = $(this).data('id');
+            $('#modal-body').html(loader)
+            $('#showInvestorSummary').modal('show')
+            setTimeout(function() {
+                $('#modal-body2').load('{{ route('investors.stocks.summary', ':id') }}'.replace(':id', id))
             }, 250)
         });
     </script>

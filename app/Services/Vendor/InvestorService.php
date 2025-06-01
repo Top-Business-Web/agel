@@ -3,6 +3,7 @@
 namespace App\Services\Vendor;
 
 use App\Models\Investor as ObjModel;
+use App\Models\Order;
 use App\Models\StockDetail;
 use App\Models\VendorBranch;
 use App\Services\BaseService;
@@ -22,7 +23,8 @@ class InvestorService extends BaseService
         protected StockService     $stockService,
         protected OperationService $operationService,
         protected VendorService $vendorService,
-        protected StockDetail $stockDetail
+        protected StockDetail $stockDetail,
+        protected Order $order
     ) {
         parent::__construct($objModel);
     }
@@ -86,13 +88,16 @@ class InvestorService extends BaseService
 
 
 
-
-
-                        $buttons .= '
-                    <li><button type="button" class="dropdown-item btn" onclick="window.location.href=\'' . route('investors.stocks.summary', $obj->id) . '\'">
+                    $buttons .= '
+                            <li> <button type="button" data-id="' . $obj->id . '" class="dropdown-item btn showInvestorSummary">
                         <i class="fas fa-user text-success"></i>
                              تفاصيل المخزون
-                    </button></li>';
+                         </button></li>';
+
+
+
+
+
 
 
 
@@ -313,6 +318,8 @@ class InvestorService extends BaseService
     {
         $investor = $this->model->find($id);
         $stocks = $this->stockService->model->where('investor_id', $id)->get();
+
+        $orders=$this->order->where('investor_id', $id)->get();
         return view("{$this->folder}/parts/investor_stocks_summary", [
             'stocksWithTheSameCategoryInAddOperation' =>$stocks->filter(function ($stock) {
                 return $stock->operations->where('type', 1)->isNotEmpty();
@@ -322,6 +329,7 @@ class InvestorService extends BaseService
             }),
             'stocks' => $stocks,
             'investor' => $investor,
+            'orders' => $orders,
         ]);
     }
 }
