@@ -231,7 +231,7 @@
 
 @section('ajaxCalls')
     <script>
-        var dataTable = $('#dataTableWithoutButtons').DataTable({
+        var dataTableWithoutButtons = $('#dataTableWithoutButtons').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
@@ -268,22 +268,21 @@
         });
 
         // سلوك البحث مع ظهور الoverlay عند refresh الصفحة
-        $('#dataTable_filter input').off().on('input', function () {
+        $('#dataTableWithoutButtons_filter input').off().on('input', function () {
             let searchValue = $(this).val().trim();
 
             if (searchValue === '') {
                 // أظهر overlay
                 $('#loadingOverlay').show();
 
-                // اعمل refresh للصفحة
                 location.reload();
             } else {
-                dataTable.search(searchValue).draw();
+                dataTableWithoutButtons.search(searchValue).draw();
             }
         });
 
         // الجدول الثاني بدون أزرار
-        var dataTableWithoutButtons = $('#dataTable').DataTable({
+        var dataTable = $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
