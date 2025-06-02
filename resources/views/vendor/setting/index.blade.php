@@ -87,19 +87,19 @@
                             </div>
                         </div>
 
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="password" class="form-control-label">كلمه السر</label>
-                                <input type="password" class="form-control" name="password" id="password" autocomplete="off" >
-                            </div>
-                        </div>
+{{--                        <div class="col-6">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label for="password" class="form-control-label">كلمه السر</label>--}}
+{{--                                <input type="password" class="form-control" name="password" id="password" autocomplete="off" >--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
-                        <div class="col-6">
-                            <div class="form-group">
-                                <label for="password_confirmation" class="form-control-label">تأكيد كلمه السر</label>
-                                <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" autocomplete="off" >
-                            </div>
-                        </div>
+{{--                        <div class="col-6">--}}
+{{--                            <div class="form-group">--}}
+{{--                                <label for="password_confirmation" class="form-control-label">تأكيد كلمه السر</label>--}}
+{{--                                <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" autocomplete="off" >--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
 
 

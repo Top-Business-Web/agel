@@ -48,7 +48,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="tab-two-tab" data-bs-toggle="tab" href="#tab-two" role="tab"
-                       aria-controls="tab-two" aria-selected="false">متعثرين النظام </a>
+                       aria-controls="tab-two" aria-selected="false">متعثرين المكتب </a>
                 </li>
             </ul>
 
@@ -56,23 +56,10 @@
                 <!-- التبويب الأول -->
                 <div class="tab-pane fade show active" id="tab-one" role="tabpanel" aria-labelledby="tab-one-tab">
                     <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title"></h3>
-                            <div>
-                                <button class="btn btn-secondary btn-icon text-white addBtn">أضافه</button>
-                                <button class="btn btn-secondary btn-icon text-white addExcelFile">اكسل ملف</button>
-                                <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
-                                    <span><i class="fe fe-trash"></i></span> حذف المحدد
-                                </button>
-                                <a href="{{ route('unsurpasseds.download.example') }}"
-                                   class="btn btn-primary btn-icon text-white">
-                                    <span><i class="fe fe-download"></i></span> تحميل مثال
-                                </a>
-                            </div>
-                        </div>
+
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered text-nowrap w-100" id="dataTable">
+                                <table class="table table-bordered text-nowrap w-100" id="dataTableWithoutButtons">
                                     <thead>
                                     <tr class="fw-bolder text-muted bg-light">
                                         <th><input type="checkbox" id="select-all"></th>
@@ -96,10 +83,22 @@
                 <div class="tab-pane fade" id="tab-two" role="tabpanel" aria-labelledby="tab-two-tab">
                     <div class="card">
                         <div class="card-header">
+                            <h3 class="card-title"></h3>
+                            <div>
+                                <button class="btn btn-secondary btn-icon text-white addBtn">أضافه</button>
+                                <button class="btn btn-secondary btn-icon text-white addExcelFile">اكسل ملف</button>
+                                <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
+                                    <span><i class="fe fe-trash"></i></span> حذف المحدد
+                                </button>
+                                <a href="{{ route('unsurpasseds.download.example') }}"
+                                   class="btn btn-primary btn-icon text-white">
+                                    <span><i class="fe fe-download"></i></span> تحميل مثال
+                                </a>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-bordered text-nowrap w-100" id="dataTableWithoutButtons">
+                                <table class="table table-bordered text-nowrap w-100" id="dataTable">
                                     <thead>
                                     <tr class="fw-bolder text-muted bg-light">
                                         <th>#</th>
@@ -232,7 +231,7 @@
 
 @section('ajaxCalls')
     <script>
-        var dataTable = $('#dataTable').DataTable({
+        var dataTable = $('#dataTableWithoutButtons').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
@@ -284,7 +283,7 @@
         });
 
         // الجدول الثاني بدون أزرار
-        var dataTableWithoutButtons = $('#dataTableWithoutButtons').DataTable({
+        var dataTableWithoutButtons = $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: {

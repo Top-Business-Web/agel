@@ -40,10 +40,10 @@ class UnsurpassedRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|regex:/^\+966[0-9]{9}$/|unique:unsurpasseds,phone|unique:unsurpasseds,office_phone',
+            'phone' => 'required|string|regex:/^\+966[0-9]{9}$/',
             'national_id' => 'required|numeric|digits:10|unique:unsurpasseds,national_id',
             'office_name' => 'nullable|string|max:255',
-            'office_phone' => 'nullable|string|regex:/^\+966[0-9]{9}$/|unique:unsurpasseds,phone|unique:unsurpasseds,office_phone',
+            'office_phone' => 'nullable|string|regex:/^\+966[0-9]{9}$/',
         ];
     }
 
@@ -52,9 +52,9 @@ class UnsurpassedRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'phone' => 'required|unique:unsurpasseds,phone,'.$this->id,
-            'national_id' => 'required|numeric|digits:10|unique:unsurpasseds,national_id,' . $this->route('unsurpassed'),
+            'national_id' => 'required|numeric|digits:10',
             'office_name' => 'nullable|string|max:255',
-            'office_phone' => 'nullable|unique:unsurpasseds,office_phone,'.$this->id,
+            'office_phone' => 'nullable',
         ];
     }
 
