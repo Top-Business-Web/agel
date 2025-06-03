@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('commercial_number')->unique()->nullable();
             $table->string('email')->unique()->nullable();
             $table->string('national_id')->nullable();
+            $table->double('balance')->default(0);
             $table->string('username')->unique();
             $table->string('password');
             $table->string('role_id')->nullable();
