@@ -27,6 +27,7 @@ class UnsurpassedService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
+
             $unsurpassed = ObjModel::query()->select('*', DB::raw("'unsurpassed' as model_type"));
             $vendorId = auth('vendor')->user()->parent_id !== null ? auth('vendor')->user()->parent_id : auth('vendor')->user()->id;
 
@@ -39,6 +40,11 @@ class UnsurpassedService extends BaseService
 
             $obj = $unsurpassed->unionAll($clients)->get();
 
+            if ($request->filled('national_id')) {
+                $obj = $obj->filter(function($item) use ($request) {
+                    return $item->national_id === $request->national_id;
+                });
+            }
 
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {

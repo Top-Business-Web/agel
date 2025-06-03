@@ -3,40 +3,7 @@
     {{ config()->get('app.name') }}
 @endsection
 
-<style>
-    #loadingOverlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: #f2f2f2;
-        z-index: 9999;
-        text-align: center;
-        padding-top: 20%;
-        font-size: 1.5rem;
-        color: #fff;
-        font-weight: bold;
-    }
-
-</style>
 @section('content')
-    <div id="loadingOverlay" style="
-    display:none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgb(232,232,232);
-    z-index: 9999;
-    text-align: center;
-    padding-top: 20%;
-    font-size: 1.5rem;
-    color: #fff;
-    font-weight: bold;
-">
-        جاري تحميل البيانات من فضلك انتظر...
-    </div>
 
     <div class="row">
         <div class="col-md-12">
@@ -57,8 +24,15 @@
                 <div class="tab-pane fade show active" id="tab-one" role="tabpanel" aria-labelledby="tab-one-tab">
                     <div class="card">
 
+
                         <div class="card-body">
                             <div class="table-responsive">
+
+                                <div class="mr-auto col-4 ml-3">
+                                    <label>ابحث <span id="digitsCount" style="color: blue; margin: 15px; font-weight: bold;">0</span></label>
+                                    <input type="text" id="searchByNationalId" class="form-control"
+                                           placeholder="ابحث برقم الهوية">
+                                </div>
                                 <table class="table table-bordered text-nowrap w-100" id="dataTableWithoutButtons">
                                     <thead>
                                     <tr class="fw-bolder text-muted bg-light">
@@ -237,6 +211,10 @@
             ajax: {
                 url: '{{ route($route . ".index") }}',
                 type: 'GET',
+                data: function (d) {
+                    let value = $('#searchByNationalId').val();
+                    d.national_id = /^\d{10}$/.test(value) ? value : 'invalid_nid';
+                }
             },
             columns: [
                 {
@@ -264,22 +242,20 @@
                 lengthMenu: "عرض _MENU_ سجل",
             },
             deferLoading: 0,
-            searching: true,
+            searching: false
         });
 
-        // سلوك البحث مع ظهور الoverlay عند refresh الصفحة
-        $('#dataTableWithoutButtons_filter input').off().on('input', function () {
-            let searchValue = $(this).val().trim();
-
-            if (searchValue === '') {
-                // أظهر overlay
-                $('#loadingOverlay').show();
-
-                location.reload();
-            } else {
-                dataTableWithoutButtons.search(searchValue).draw();
-            }
+        $('#searchByNationalId').on('input', function () {
+            let val = $(this).val();
+            $('#digitsCount').text(val.length);
+            dataTableWithoutButtons.ajax.reload();
         });
+
+        $(document).ready(function () {
+            $('#searchByNationalId').val('');
+            $('#digitsCount').text('0');
+        });
+
 
         // الجدول الثاني بدون أزرار
         var dataTable = $('#dataTable').DataTable({
