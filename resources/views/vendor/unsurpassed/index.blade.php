@@ -201,6 +201,13 @@
         <!-- Modals -->
         @include('vendor.layouts.myAjaxHelper')
     </div>
+
+    <style>
+        .dataTables_processing {
+            display: none !important;
+        }
+
+    </style>
 @endsection
 
 @section('ajaxCalls')
@@ -235,6 +242,8 @@
             lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
             language: {
                 search: "_INPUT_",
+                processing: "",
+
                 searchPlaceholder: "ابحث...",
                 emptyTable: "لا توجد بيانات متاحة في الجدول",
                 info: "عرض _START_ إلى _END_ من أصل _TOTAL_ سجل",
