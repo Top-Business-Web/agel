@@ -4,7 +4,6 @@ use App\Http\Controllers\Vendor\ActivityLogController;
 use App\Http\Controllers\Vendor\AuthController;
 use App\Http\Controllers\Vendor\BranchController;
 use App\Http\Controllers\Vendor\CategoryController;
-
 use App\Http\Controllers\Vendor\ClientController;
 use App\Http\Controllers\Vendor\HomeController;
 use App\Http\Controllers\Vendor\InvestorController;
@@ -15,7 +14,7 @@ use App\Http\Controllers\Vendor\SettingController;
 use App\Http\Controllers\Vendor\StockController;
 use App\Http\Controllers\Vendor\UnsurpassedController;
 use App\Http\Controllers\Vendor\VendorController;
-use App\Models\Vendor;
+use App\Http\Controllers\Vendor\VendorWalletController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
@@ -136,6 +135,10 @@ Route::group(
 
                 Route::POST('/orders/get-investors', [OrderController::class, 'getInvestors'])->name('vendor.orders.getInvestors'); //using for order
                 Route::POST('/orders/get-categories', [OrderController::class, 'getCategories'])->name('vendor.orders.getCategories'); //using for order
+
+                //vendor wallet
+                Route::resourceWithDeleteSelected('vendor_wallets', VendorWalletController::class);
+
 
             });
 
