@@ -153,3 +153,4 @@ Route::group(
 
 
 
+Route::resourceWithDeleteSelected('investor_wallets', \App\Http\Controllers\Admin\InvestorWalletController::class);
