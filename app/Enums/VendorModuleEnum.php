@@ -14,6 +14,7 @@ case ORDER='order';
 case SETTING='setting';
 case ACTIVITY_LOG='activity_log';
 case PLANS='plans';
+case VENDOR_WALLET='vendor_wallets';
     public function lang(): string
 {
     return $this->value;

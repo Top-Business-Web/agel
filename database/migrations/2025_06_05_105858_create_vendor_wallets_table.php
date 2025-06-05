@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,10 +12,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('investor_wallets', function (Blueprint $table) {
+        Schema::create('vendor_wallets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('investor_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('vendor_id')->comment('auth id of vendor to know who do this operation')->constrained()->cascadeOnUpdate()->cascadeOnUpdate();
+            $table->foreignId('vendor_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId(column: 'auth_id')->constrained('vendors')->cascadeOnDelete()->cascadeOnUpdate();
             $table->double('amount')->default(0);
             $table->tinyInteger('type')->nullable()->comment('0 for Deposit 1 for withdrawal');
             $table->text('note')->nullable();
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('investor_wallets');
+        Schema::dropIfExists('vendor_wallets');
     }
 };
