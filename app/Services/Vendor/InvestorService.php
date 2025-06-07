@@ -203,7 +203,7 @@ class InvestorService extends BaseService
         $auth = auth('vendor')->user();
 
         return view("{$this->folder}/parts/add_stock", [
-            'storeRoute' => route("vendor.investors.storeStock"),
+            'storeRoute' => route(name: "vendor.investors.storeStock"),
             'investorId' => $id,
             'categories' => $this->categoryService->model->where('vendor_id', $auth->parent_id ?? $auth->id)->get(),
             //            'categories' => $this->categoryService->model->where('vendor_id', $auth->parent_id ?? $auth->id)->get(),
@@ -217,6 +217,8 @@ class InvestorService extends BaseService
     public function storeStock($data): JsonResponse
     {
         try {
+
+            dd($data);
             $data['vendor_id'] = auth('vendor')->user()->parent_id ?? auth('vendor')->user()->id;
             $data = $this->prepareStockData($data);
             $stockData = $data;

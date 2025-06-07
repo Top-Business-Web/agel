@@ -93,7 +93,7 @@ class StockService extends BaseService
             $branches = $this->branchService->model->apply()->whereIn('id', $branchIds)->get();
         }
         return view("{$this->folder}/parts/create", [
-            'storeRoute' => route("{$this->route}.store"),
+            'storeRoute' => route(name: "vendor.investors.storeStock"),
             'investors' => $this->investor->whereIn('branch_id', $branches->pluck('id'))->get(),
             'categories' => $this->categoryService->model->where('vendor_id', $auth->parent_id ?? $auth->id)->get(),
             'branches' => $branches,

@@ -65,7 +65,8 @@
                     <label for="total_price_add" class="form-control-label">
                         السعر
                     </label>
-                    <input type="number" min="1" class="form-control" name="total_price_add" id="total_price_add">
+                    <input type="number" min="1" class="form-control" name="total_price_add"
+                        id="total_price_add">
                 </div>
             </div>
 
@@ -74,7 +75,8 @@
                     <label for="total_price_sub" class="form-control-label">
                         السعر
                     </label>
-                    <input type="number" min="1" class="form-control" name="total_price_sub" id="total_price_sub">
+                    <input type="number" min="1" class="form-control" name="total_price_sub"
+                        id="total_price_sub">
                 </div>
             </div>
 
@@ -83,7 +85,7 @@
                     <label for="vendor_commission" class="form-control-label">أجمالي العمولة للمكتب
                     </label>
                     <input type="number" min="0" value="0" class="form-control" name="vendor_commission"
-                           id="vendor_commission">
+                        id="vendor_commission">
                 </div>
             </div>
             <div class="col-6">
@@ -91,8 +93,7 @@
                     <label for="investor_commission" class="form-control-label">أجمالي العمولة للمستثمر
                     </label>
                     <input type="number" min="0" class="form-control" name="investor_commission" value="0"
-                           id="investor_commission"
-                    >
+                        id="investor_commission">
                 </div>
             </div>
 
@@ -101,25 +102,26 @@
                     <label for="sell_diff" class="form-control-label">
                         فروقات اعاده البيع
                     </label>
-                    <input type="number" min="0" class="form-control" name="sell_diff" id="sell_diff" value="0">
+                    <input type="number" min="0" class="form-control" name="sell_diff" id="sell_diff"
+                        value="0">
                 </div>
             </div>
         </div>
 
         <div class="footer" id="addFooter"
-             style="padding: 10px; display: flex; justify-content: space-between; margin: 20px 0;">
+            style="padding: 10px; display: flex; justify-content: space-between; margin: 20px 0;">
             <div class="text" style="display: flex; flex-direction: column;">
-                <span>الكميه  </span>
+                <span>الكميه </span>
                 <span id="quantity_display" style="text-align: center">0</span>
             </div>
             <div class="text" style="display: flex; flex-direction: column;">
-                <span>السعر الاجمالي  </span>
+                <span>السعر الاجمالي </span>
                 <span id="price_display" style="text-align: center">0</span>
             </div>
 
 
             <div class="text" style="display: flex; flex-direction: column;">
-                <span> العمولات  </span>
+                <span> العمولات </span>
                 <span id="commission_display" style="text-align: center">0</span>
             </div>
 
@@ -129,29 +131,29 @@
             </div>
 
             <div class="text" style="display: flex; flex-direction: column;">
-                <span>صافي السعر  </span>
+                <span>صافي السعر </span>
                 <span id="total_display" style="text-align: center">0</span>
             </div>
             <br>
 
             <div class="text" style="display: flex; flex-direction: column;">
-                <span>سعر الوحده  </span>
+                <span>سعر الوحده </span>
                 <span id="division_result" style="text-align: center">0</span>
             </div>
         </div>
         <div class="footer" id="subFooter" style="padding: 10px;">
             <div style="padding: 10px; display: flex; justify-content: space-between; margin: 20px 0;">
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span>الكميه  </span>
+                    <span>الكميه </span>
                     <span id="available_quantity" style="text-align: center">0</span>
                 </div>
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span>السعر الاجمالي  </span>
+                    <span>السعر الاجمالي </span>
                     <span id="total_price" style="text-align: center">0</span>
                 </div>
 
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span> السعر ناقص العموله  </span>
+                    <span> السعر ناقص العموله </span>
                     <span id="total_price_commission" style="text-align: center">0</span>
                 </div>
             </div>
@@ -159,11 +161,11 @@
             <div style="padding: 10px; display: flex; justify-content: space-evenly; margin: 20px 0;">
 
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span>الكميه السابقه  </span>
+                    <span>الكميه السابقه </span>
                     <span id="previous_quantity" style="text-align: center">0</span>
                 </div>
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span>السعر الاجمالي  </span>
+                    <span>السعر الاجمالي </span>
                     <span id="total_price_of_previous_quantity" style="text-align: center">0</span>
                 </div>
 
@@ -171,11 +173,11 @@
             </div>
             <div style="padding: 10px; display: flex; justify-content: space-evenly; margin: 20px 0;">
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span>الكميه المنقصه  </span>
+                    <span>الكميه المنقصه </span>
                     <span id="sub_quantity" style="text-align: center">0</span>
                 </div>
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span>السعر المتبقي  </span>
+                    <span>السعر المتبقي </span>
                     <span id="total_price_of_sub_quantity" style="text-align: center">0</span>
                 </div>
             </div>
@@ -186,7 +188,7 @@
                     <span id="final_quantity" style="text-align: center">0</span>
                 </div>
                 <div class="text" style="display: flex; flex-direction: column;">
-                    <span> الاجمالي  </span>
+                    <span> الاجمالي </span>
                     <span id="final_price" style="text-align: center">0</span>
                 </div>
             </div>
@@ -210,13 +212,13 @@
     });
 </script>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         function toggleFields() {
             var operation = $("#operation").val();
             $(".form-group").closest('.col-6').fadeOut(200);
             $("#operation").closest('.col-6').fadeIn(300);
 
-            setTimeout(function () {
+            setTimeout(function() {
                 if (operation === "1") { // إضافة
                     $("#category_id").closest('.col-6').fadeIn(300);
                     $("#branch_id").closest('.col-6').fadeIn(300);
@@ -298,7 +300,7 @@
 
 
     // add script
-    $(document).on('submit', '#addStockBase', function (e) {
+    $(document).off('submit', '#addStockBase').on('submit', '#addStockBase', function(e) {
         e.preventDefault();
         var formData = new FormData(this);
         var url = $('#addStockBase').attr('action');
@@ -306,11 +308,12 @@
             url: url,
             type: 'POST',
             data: formData,
-            beforeSend: function () {
+            beforeSend: function() {
                 $('#addButtonStock').html('<span class="spinner-border spinner-border-sm mr-2" ' +
-                    ' ></span> <span style="margin-left: 4px;">أنتظر قليلًا...</span>').attr('disabled', true);
+                    ' ></span> <span style="margin-left: 4px;">أنتظر قليلًا...</span>').attr(
+                    'disabled', true);
             },
-            success: function (data) {
+            success: function(data) {
                 if (data.status == 200) {
                     $('#dataTable').DataTable().ajax.reload();
                     toastr.success('تمت العملية بنجاح');
@@ -321,14 +324,14 @@
                 $('#addButtonStock').html(`اضافه`).attr('disabled', false);
                 $('#addStockBase').modal('hide')
             },
-            error: function (data) {
+            error: function(data) {
                 if (data.status === 500) {
                     toastr.error('');
                 } else if (data.status === 422) {
                     var errors = $.parseJSON(data.responseText);
-                    $.each(errors, function (key, value) {
+                    $.each(errors, function(key, value) {
                         if ($.isPlainObject(value)) {
-                            $.each(value, function (key, value) {
+                            $.each(value, function(key, value) {
                                 toastr.error(value, 'خطأ');
                             });
                         }
@@ -336,7 +339,7 @@
                 } else
                     toastr.error('حدث خطأ ما');
                 $('#addButtonStock').html(`اضافة`).attr('disabled', false);
-            },//end error method
+            }, //end error method
 
             cache: false,
             contentType: false,
@@ -359,7 +362,7 @@
                     branch_id: branchId,
                     investor_id: investorId
                 },
-                success: function (response) {
+                success: function(response) {
                     if (response.status === 200) {
                         console.log(response);
                         $("#available_quantity").text(response.available);
@@ -371,7 +374,7 @@
                         toastr.error("حدث خطأ أثناء جلب البيانات");
                     }
                 },
-                error: function () {
+                error: function() {
                     toastr.error("تعذر جلب البيانات، تحقق من الاتصال بالسيرفر");
                 }
             });
@@ -380,45 +383,39 @@
 
     // تشغيل الفانكشن عند تغيير نوع العملية أو الصنف أو الفرع
     $("#category_id, #branch_id").change(fetchAvailableStock);
-    $("#operation").change(function () {
+    $("#operation").change(function() {
         if ($(this).val() === "0") {
             fetchAvailableStock();
         } else {
             $("#quantity_display, #add_display, #sell_display").text(0);
         }
     });
-
-
 </script>
 
 <script>
     // لما تختار المستثمر
-    $('#investor_id').on('change', function () {
+    $("#investor_id").off('change').on('change', function() {
         let investorId = $(this).val();
         if (investorId) {
             $.ajax({
-                url: '{{ route("vendor.stocks.getBranches") }}',
+                url: '{{ route('vendor.stocks.getBranches') }}',
                 method: 'POST',
                 data: {
                     investor_id: investorId,
                     '_token': '{{ csrf_token() }}'
                 },
-                success: function (response) {
+                success: function(response) {
                     let branchSelect = $('#branch_id');
                     branchSelect.empty().append('<option disabled selected>اختر الفرع</option>');
-                    response.branches.forEach(function (branches) {
-                        branchSelect.append(`<option value="${branches.id}">${branches.name}</option>`);
+                    response.branches.forEach(function(branches) {
+                        branchSelect.append(
+                            `<option value="${branches.id}">${branches.name}</option>`);
                     });
                 },
-                error: function () {
+                error: function() {
                     toastr.error('حدث خطأ أثناء تحميل الأصناف');
                 }
             });
         }
     });
 </script>
-
-
-
-
-

@@ -22,7 +22,7 @@
                     </div>
 
                     <h3 class="card-title"></h3>
-                    <div class="">
+                    {{-- <div class="">
                         @can('create_stock')
                             <button class="btn btn-secondary btn-icon text-white addBtnStock">
                                 <span>
@@ -31,7 +31,7 @@
                             </button>
                         @endcan
 
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -162,7 +162,7 @@
     </script>
 
     <script>
-        $(document).on('click', '.addBtnStock', function() {
+        $(document).one('click', '.addBtnStock', function() {
             let id = $(this).data('id');
             $('#modal-body').html(loader)
             $('#addStockBase').modal('show')
