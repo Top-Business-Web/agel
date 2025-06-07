@@ -62,8 +62,7 @@ class InvestorWalletService extends BaseService
             $this->createData($data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception $e) {
-return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
-
+            return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
         }
     }
 
@@ -90,10 +89,8 @@ return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', '�
         try {
             $oldObj->update($data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
-
         } catch (\Exception $e) {
-return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
-
+            return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
         }
     }
 }

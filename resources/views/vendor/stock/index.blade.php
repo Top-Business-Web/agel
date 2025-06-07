@@ -98,6 +98,10 @@
         let dataTable = $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
+            order: [
+                [1, "DESC"]
+            ],
+
             ajax: {
                 url: '{{ route($route . '.index') }}',
                 data: function(d) {

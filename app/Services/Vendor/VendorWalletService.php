@@ -21,7 +21,7 @@ class VendorWalletService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $obj = $this->getDataTable();
+            $obj = $this->model->where('vendor_id', VendorParentAuthData('id'))->get();
             return DataTables::of($obj)
                 ->editColumn('auth_id', function ($obj) {
                     return $obj->whoDoOperation?->name;

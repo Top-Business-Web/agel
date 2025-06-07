@@ -249,6 +249,9 @@
         var dataTableWithoutButtons = $('#dataTableWithoutButtons').DataTable({
             processing: true,
             serverSide: true,
+             order: [
+                [0, "DESC"]
+            ],
             ajax: {
                 url: '{{ route($route . '.index') }}',
                 type: 'GET',
@@ -341,6 +344,9 @@
         var dataTable = $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
+            order: [
+                [0, "DESC"]
+            ],
             ajax: {
                 url: '{{ route('myUnsurpassed') }}',
                 type: 'GET',
@@ -348,48 +354,48 @@
             columns: [{
                     data: 'id',
                     name: 'id',
-                    orderable: false,
+                    orderable: true,
                     searchable: false
                 },
                 {
                     data: 'name',
                     name: 'name',
-                    orderable: false
+                    orderable: true
                 },
                 {
                     data: 'national_id',
                     name: 'national_id',
-                    orderable: false
+                    orderable: true
                 },
                 {
                     data: 'phone',
                     name: 'phone',
-                    orderable: false
+                    orderable: true
                 },
                 {
                     data: 'office_name',
                     name: 'office_name',
-                    orderable: false
+                    orderable: true
                 },
                 {
                     data: 'office_phone',
                     name: 'office_phone',
-                    orderable: false
+                    orderable: true
                 },
                 {
                     data: 'client_status',
                     name: 'client_status',
-                    orderable: false
+                    orderable: true
                 },
                 {
                     data: 'action',
                     name: 'action',
-                    orderable: false
+                    orderable: true
                 },
             ],
             language: {
                 search: "_INPUT_",
-                orderable: false,
+                orderable: true,
                 searchable: false,
                 searchPlaceholder: "ابحث...",
                 emptyTable: "لا توجد بيانات متاحة في الجدول",
