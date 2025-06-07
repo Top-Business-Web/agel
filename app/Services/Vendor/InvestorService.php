@@ -216,6 +216,7 @@ class InvestorService extends BaseService
 
     public function storeStock($data): JsonResponse
     {
+        dd($data);
         try {
             $data['vendor_id'] = auth('vendor')->user()->parent_id ?? auth('vendor')->user()->id;
             $data = $this->prepareStockData($data);

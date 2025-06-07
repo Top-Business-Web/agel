@@ -28,5 +28,7 @@ class StoreStockRequest extends FormRequest
 
     }
 
+    
+
 
 }

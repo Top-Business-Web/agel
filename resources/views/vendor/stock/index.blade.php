@@ -24,7 +24,7 @@
                     <h3 class="card-title"></h3>
                     <div class="">
                         @can('create_stock')
-                            <button class="btn btn-secondary btn-icon text-white addBtn">
+                            <button class="btn btn-secondary btn-icon text-white addBtnStock">
                                 <span>
                                     <i class="fe fe-plus"></i>
                                 </span> أضافه
@@ -162,7 +162,7 @@
     </script>
 
     <script>
-        $(document).on('click', '.addBtn', function() {
+        $(document).on('click', '.addBtnStock', function() {
             let id = $(this).data('id');
             $('#modal-body').html(loader)
             $('#addStockBase').modal('show')
