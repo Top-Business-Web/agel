@@ -22,6 +22,28 @@
 
                 </div>
             </div>
+
+                <div class="col-6">
+                <div class="form-group">
+                    <label for="email" class="form-control-label">المستثمر
+                    </label>
+                    <select name="investor_id" id="investor_id" class="form-control select2">
+                        <option value="" selected disabled>اختر المستثمر</option>
+                        @foreach ($investors as $investor)
+                            <option value="{{ $investor->id }}" @if($obj->investor_id == $investor->id) selected @endif>{{ $investor->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="debt" class="form-control-label">المبلغ المطلوب سداده
+                    </label>
+                    <input type="number" step="0.01" class="form-control" value="{{$obj->debt}}" min="0.01" name="debt" id="debt">
+                </div>
+            </div>
+
             <div class="col-6">
                 <div class="form-group">
                     <label for="phone" class="form-control-label">رقم الهاتف

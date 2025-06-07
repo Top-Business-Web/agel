@@ -81,6 +81,7 @@
                                             <th>رقم الهاتف</th>
                                             <th>المكتب التابع له</th>
                                             <th>رقم هاتف المكتب</th>
+                                            <th> المبلغ المطلوب سداده</th>
                                             <th>حاله العميل</th>
                                             <th>ألإجراءات</th>
                                         </tr>
@@ -383,6 +384,11 @@
                     orderable: true
                 },
                 {
+                    data: 'debt',
+                    name: 'debt',
+                    orderable: true
+                },
+                {
                     data: 'client_status',
                     name: 'client_status',
                     orderable: true
@@ -428,46 +434,58 @@
     </script>
 
     <script>
-        $(document).on('click', '#pay_btn', function() {
-            var id = $("#pay_id").val();
-            console.log("Paying ID:", id);
+    $(document).on('click', '[data-bs-target="#pay_modal"]', function () {
+        var id = $(this).data('id');
+        var title = $(this).data('title');
 
-            var routeTemplate = "{{ route('unsurpasseds.pay', ':id') }}";
-            var route = routeTemplate.replace(':id', id);
+        // خزن القيم داخل المودال
+        $('#pay_id').val(id);
+        $('#title').text(title);
 
-            // Start loading
-            var $btn = $('#pay_btn');
-            $btn.attr('disabled', true);
-            $btn.find('.btn-text').text('جارٍ الدفع...');
-            $btn.find('.spinner-border').removeClass('d-none');
+        // خزن الـ id داخل الزر نفسه إن أردت
+        $('#pay_btn').data('id', id);
+    });
 
-            $.ajax({
-                type: 'POST',
-                url: route,
-                data: {
-                    '_token': "{{ csrf_token() }}",
-                    'id': id
-                },
-                success: function(data) {
-                    $("#dismiss_pay_modal")[0].click();
-                    if (data.status === 200) {
-                        $('#dataTable').DataTable().ajax.reload();
-                        toastr.success(data.message);
-                    } else {
-                        toastr.error(data.message);
-                    }
-                },
-                error: function(xhr) {
-                    toastr.error("حدث خطأ أثناء الدفع.");
-                    console.error(xhr.responseText);
-                },
-                complete: function() {
-                    // Reset button
-                    $btn.attr('disabled', false);
-                    $btn.find('.btn-text').text('ادفع الآن');
-                    $btn.find('.spinner-border').addClass('d-none');
+    $(document).on('click', '#pay_btn', function () {
+        var id = $(this).data('id');
+        console.log("Paying ID:", id);
+
+        var routeTemplate = "{{ route('unsurpasseds.pay', ':id') }}";
+        var route = routeTemplate.replace(':id', id);
+
+        var $btn = $('#pay_btn');
+        $btn.attr('disabled', true);
+        $btn.find('.btn-text').text('جارٍ الدفع...');
+        $btn.find('.spinner-border').removeClass('d-none');
+
+        $.ajax({
+            type: 'GET',
+            url: route,
+            data: {
+                '_token': "{{ csrf_token() }}",
+                'id': id
+            },
+            success: function (data) {
+                $("#dismiss_pay_modal")[0].click();
+                if (data.status === 200) {
+                    $('#dataTable').DataTable().ajax.reload();
+                    toastr.success(data.message);
+                } else {
+                    toastr.error(data.message);
                 }
-            });
+            },
+            error: function (xhr) {
+                toastr.error("حدث خطأ أثناء الدفع.");
+                console.error(xhr.responseText);
+            },
+            complete: function () {
+                $btn.attr('disabled', false);
+                $btn.find('.btn-text').text('ادفع الآن');
+                $btn.find('.spinner-border').addClass('d-none');
+            }
         });
+    });
+
+
     </script>
 @endsection

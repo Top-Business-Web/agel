@@ -17,13 +17,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('phone');
-            $table->foreignId('investor_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->double('debt')->default(0);
-            $table->string('note')->nullable();
+
             $table->string('national_id');
             $table->string('office_name')->nullable();
             $table->string('office_phone')->nullable();
             $table->timestamps();
+            $table->foreignId('investor_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->double('debt')->default(0);
         });
     }
 

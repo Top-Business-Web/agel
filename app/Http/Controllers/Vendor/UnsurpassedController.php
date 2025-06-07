@@ -80,7 +80,6 @@ class UnsurpassedController extends Controller
 
     public function pay($id){
 
-        dd($id);
         return $this->objService->pay($id);
     }
 }

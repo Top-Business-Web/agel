@@ -33,8 +33,7 @@ class OrderService extends BaseService
         protected OrderInstallment $orderInstallment,
         protected Stock            $stock,
         protected Vendor           $vendor
-    )
-    {
+    ) {
         parent::__construct($objModel);
     }
 
@@ -95,7 +94,7 @@ class OrderService extends BaseService
                 })->editColumn('investor_id', function ($obj) {
                     return $obj->investor_id ? $obj->investor->name : "";
                 })->addColumn('status', function ($obj) {
-                    return  $obj->date <= now() && $obj->order_status->status!== OrderStatus::COMPLETELY_PAID->value ? "متعثر" :OrderStatus::from($obj->order_status->status)->lang() ;
+                    return  $obj->date <= now() && $obj->order_status->status !== OrderStatus::COMPLETELY_PAID->value ? "متعثر" : OrderStatus::from($obj->order_status->status)->lang();
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -227,6 +226,7 @@ class OrderService extends BaseService
             $Total_expected_commission += $stockDetail->vendor_commission + $stockDetail->investor_commission;
             $sell_diff += $stockDetail->sell_diff;
         }
+
 
         $available_quantity = $request->quantity - $quantity; // الكمية الحقيقية المتوفرة اللي تم استخدامها
 
@@ -429,14 +429,14 @@ class OrderService extends BaseService
                 return $op->stock->quantity ?? 0;
             });
 
-//            $remove = $category->stocks
-//                ->where('investor_id', $investorId)
-//                ->flatMap(function ($stock) {
-//                    return $stock->operations->where('type', 0);
-//                });
-//            $removedStocks = $remove->sum(function ($op) {
-//                return $op->stock->quantity ?? 0;
-//            });
+            //            $remove = $category->stocks
+            //                ->where('investor_id', $investorId)
+            //                ->flatMap(function ($stock) {
+            //                    return $stock->operations->where('type', 0);
+            //                });
+            //            $removedStocks = $remove->sum(function ($op) {
+            //                return $op->stock->quantity ?? 0;
+            //            });
 
             $sold = $this->stockDetail
                 ->whereIn('stock_id', $add->pluck('id'))
@@ -445,7 +445,7 @@ class OrderService extends BaseService
                 ->count();
 
 
-//            dd($addedStocks, $removedStocks, $sold);
+            //            dd($addedStocks, $removedStocks, $sold);
             $total = $addedStocks - $sold;
 
             $result[] = [
@@ -459,5 +459,4 @@ class OrderService extends BaseService
             'categories' => $result
         ]);
     }
-
 }

@@ -44,6 +44,8 @@ class UnsurpassedRequest extends FormRequest
             'national_id' => 'required|numeric|digits:10|unique:unsurpasseds,national_id',
             'office_name' => 'nullable|string|max:255',
             'office_phone' => 'nullable|string|regex:/^\+966[0-9]{9}$/',
+            'investor_id' => 'required|exists:investors,id',
+            'debt' => 'required|numeric|min:0.01',
         ];
     }
 
@@ -55,6 +57,8 @@ class UnsurpassedRequest extends FormRequest
             'national_id' => 'required|numeric|digits:10',
             'office_name' => 'nullable|string|max:255',
             'office_phone' => 'nullable',
+            'investor_id' => 'required|exists:investors,id',
+            'debt' => 'required|numeric|min:0.01',
         ];
     }
 
@@ -63,6 +67,12 @@ class UnsurpassedRequest extends FormRequest
         return [
             'phone.regex' => 'يجب أن يبدأ رقم الهاتف بـ +966 ويحتوي على 9 أرقام فقط.',
             'office_phone.regex' => ' يجب أن يبدأ رقم الهاتف بـ +966 ويحتوي على 9 أرقام فقط.',
+            'investor_id.exists' => 'لم يتم العثور على المستثمر المطلوب.',
+            'investor_id.required' => 'حقل المستثمر مطلوب.',
+            'debt.required' => 'حقل المبلغ الطلوب سداده مطلوب.',
+            'debt.min' => 'حقل المبلغ الطلوب سداده يجب ان يكون اكبر من 0.01',
+
+
         ];
     }
 }

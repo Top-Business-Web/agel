@@ -2,6 +2,7 @@
 
 namespace App\Services\Vendor;
 
+use App\Enums\OrderStatus;
 use App\Exports\UnsurpassedExampleExport;
 use App\Models\Branch;
 use App\Models\Client;
@@ -11,6 +12,10 @@ use App\Services\BaseService;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 use App\Imports\UnsurpassedImport;
+use App\Models\Investor;
+use App\Models\InvestorWallet;
+use App\Models\Order;
+use App\Models\OrderStatus as ModelsOrderStatus;
 use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -19,8 +24,18 @@ class UnsurpassedService extends BaseService
     protected string $folder = 'vendor/unsurpassed';
     protected string $route = 'unsurpasseds';
 
-    public function __construct(ObjModel $objModel, protected Excel $excel, protected UnsurpassedImport $unsurpassedImport, protected Client $client, protected Vendor $vendor, protected Branch $branch)
-    {
+    public function __construct(
+        ObjModel $objModel,
+        protected Excel $excel,
+        protected UnsurpassedImport $unsurpassedImport,
+        protected Client $client,
+        protected Vendor $vendor,
+        protected Branch $branch,
+        protected Investor $investor,
+        protected InvestorWallet $investorWallet,
+        protected Order $order,
+        protected ModelsOrderStatus $orderStatus
+    ) {
         parent::__construct($objModel);
     }
 
@@ -55,7 +70,7 @@ class UnsurpassedService extends BaseService
                         $vendorId = null;
                     }
 
-                    if ($obj->model_type === 'unsurpassed' && $obj->office_phone === auth('vendor')->user()->phone) {
+                    if ($obj->model_type === 'unsurpassed' && $obj->office_phone === VendorParentAuthData('phone')) {
 
                         $buttons = '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
@@ -153,6 +168,7 @@ class UnsurpassedService extends BaseService
 
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
+
                     $branch = $this->branch->where('id', $obj->office_phone)->first(); // i use office_phone because unionAll rename cols
                     if ($branch) {
                         $vendor = $this->vendor->where('id', $branch->vendor_id)->first();
@@ -162,7 +178,7 @@ class UnsurpassedService extends BaseService
                         $vendorId = null;
                     }
 
-                    if ($obj->model_type === 'unsurpassed' && $obj->office_phone === auth('vendor')->user()->phone) {
+                    if ($obj->model_type === 'unsurpassed' && $obj->office_phone === VendorParentAuthData('phone')) {
 
                         $buttons = '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
@@ -199,6 +215,22 @@ class UnsurpassedService extends BaseService
 
                     $phone = str_replace('+', '', $obj->model_type === 'client' ? $vendor->phone : $obj->office_phone);
                     return $phone;
+                })->addColumn('debt', function ($obj) {
+
+
+                    if ($obj->model_type === 'client') {
+                        $orders = $this->order->where('client_id', $obj->id)->pluck('id')->toArray();
+                        $orderStatuses = $this->orderStatus->whereIn('order_id', $orders)->whereNot('status', OrderStatus::COMPLETELY_PAID->value)->get();
+                        $total = 0;
+                        foreach ($orderStatuses as $orderStatus) {
+                            $order = $this->order->find($orderStatus->order_id);
+
+                            $total = $total + ($order->required_to_pay - $orderStatus->paid);
+                        }
+                        return $total;
+                    }
+
+                    return $obj->debt;
                 })->addColumn('office_name', function ($obj) {
 
                     if ($obj->model_type === 'client') {
@@ -317,8 +349,14 @@ class UnsurpassedService extends BaseService
 
     public function create()
     {
+        $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
+        $vendors = $this->vendor->where('parent_id', $parentId)->get();
+        $vendors[] =  $this->vendor->where('id', $parentId)->first();
+        $vendorIds = $vendors->pluck('id');
+        $obj = $this->investor->whereIn('Branch_id', $this->branch->whereIn('vendor_id', $vendorIds)->pluck('id'))->get();
         return view("{$this->folder}/parts/create", [
             'storeRoute' => route("{$this->route}.store"),
+            'investors' => $obj,
         ]);
     }
 
@@ -361,9 +399,16 @@ class UnsurpassedService extends BaseService
 
     public function edit($obj)
     {
+        $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
+        $vendors = $this->vendor->where('parent_id', $parentId)->get();
+        $vendors[] =  $this->vendor->where('id', $parentId)->first();
+        $vendorIds = $vendors->pluck('id');
+        $investors = $this->investor->whereIn('Branch_id', $this->branch->whereIn('vendor_id', $vendorIds)->pluck('id'))->get();
         return view("{$this->folder}/parts/edit", [
             'obj' => $obj,
             'updateRoute' => route("{$this->route}.update", $obj->id),
+            'investors' => $investors,
+
         ]);
     }
 
@@ -390,5 +435,36 @@ class UnsurpassedService extends BaseService
         } catch (\Exception $e) {
             return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
         }
+    }
+
+
+    public function pay($id)
+    {
+        $unsurpassed = $this->getById($id);
+        if ($unsurpassed->status == 1) {
+            return response()->json(['status' => 500, 'message' => "لم يتم العثور علي هذا المتعثر"]);
+        }
+
+        $investor = $this->investor->find($unsurpassed->investor_id);
+        if (!$investor) {
+            return response()->json(['status' => 500, 'message' => "لم يتم العثور علي هذا المستثمر"]);
+        }
+        $investor->balance += $unsurpassed->debt;
+        $investor->save();
+
+        // add record to investor wallet
+        $this->investorWallet->create([
+            'investor_id' => $unsurpassed->investor_id,
+            'vendor_id' => auth('vendor')->user()->id,
+            'amount' => $unsurpassed->debt,
+            'type' => 0,
+            'date' => now(),
+            'note' => sprintf('تم سداد مستحقات المتعثر %s بقيمة %s', $unsurpassed->name, number_format($unsurpassed->debt))
+        ]);
+
+        $unsurpassed->delete();
+
+
+        return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
     }
 }

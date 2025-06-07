@@ -20,13 +20,11 @@ return new class extends Migration
             $table->string('national_id');
             $table->boolean('status')->default(1);
             $table->foreignId('branch_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->timestamps();
+
             $table->string('image')->nullable();
 
-            $table->string('note')->nullable();
             $table->string('bgCover')->nullable();
-
-
-            $table->timestamps();
         });
     }
 

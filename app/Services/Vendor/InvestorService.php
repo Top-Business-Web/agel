@@ -41,35 +41,35 @@ class InvestorService extends BaseService
                 ->editColumn('branch_id', function ($obj) {
                     return $obj->branch->name;
                 })
-//                ->addColumn('action', function ($obj) {
-//                    $buttons = '';
-//                    if (Auth::guard('vendor')->user()->can("update_investor")) {
-//
-//                        $buttons .= '
-//                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
-//                            <i class="fa fa-edit"></i>
-//                        </button>
-//                    ';
-//                    }
-//                    if (Auth::guard('vendor')->user()->can("delete_investor")) {
-//
-//                        $buttons .= '
-//
-//                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-//                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
-//                            <i class="fas fa-trash"></i>
-//                        </button>
-//
-//                    ';
-//                    }
-//                    if (Auth::guard('vendor')->user()->can("create_stock")) {
-//                        $buttons .= '
-//
-//                             <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light addStock">
-//                            <i class="fa fa-plus"></i>
-//                        </button>
-//                    ';
-//                    }
+                //                ->addColumn('action', function ($obj) {
+                //                    $buttons = '';
+                //                    if (Auth::guard('vendor')->user()->can("update_investor")) {
+                //
+                //                        $buttons .= '
+                //                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
+                //                            <i class="fa fa-edit"></i>
+                //                        </button>
+                //                    ';
+                //                    }
+                //                    if (Auth::guard('vendor')->user()->can("delete_investor")) {
+                //
+                //                        $buttons .= '
+                //
+                //                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
+                //                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
+                //                            <i class="fas fa-trash"></i>
+                //                        </button>
+                //
+                //                    ';
+                //                    }
+                //                    if (Auth::guard('vendor')->user()->can("create_stock")) {
+                //                        $buttons .= '
+                //
+                //                             <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light addStock">
+                //                            <i class="fa fa-plus"></i>
+                //                        </button>
+                //                    ';
+                //                    }
                 ->addColumn('action', function ($obj) {
 
                     $buttons = '';
@@ -206,9 +206,9 @@ class InvestorService extends BaseService
             'storeRoute' => route("vendor.investors.storeStock"),
             'investorId' => $id,
             'categories' => $this->categoryService->model->where('vendor_id', $auth->parent_id ?? $auth->id)->get(),
-//            'categories' => $this->categoryService->model->where('vendor_id', $auth->parent_id ?? $auth->id)->get(),
+            //            'categories' => $this->categoryService->model->where('vendor_id', $auth->parent_id ?? $auth->id)->get(),
 
-//            'branches' => $branches,
+            //            'branches' => $branches,
             'branches' => $this->branchService->model->where('id', $this->model->where('id', $id)->first()->branch_id)->get(),
 
         ]);
@@ -216,7 +216,6 @@ class InvestorService extends BaseService
 
     public function storeStock($data): JsonResponse
     {
-        dd($data);
         try {
             $data['vendor_id'] = auth('vendor')->user()->parent_id ?? auth('vendor')->user()->id;
             $data = $this->prepareStockData($data);
@@ -247,17 +246,17 @@ class InvestorService extends BaseService
 
                     ]);
                 }
-            }else{
+            } else {
                 $stockDetails = $this->stockDetail->whereHas('stock', function ($query) use ($data) {
                     $query->where('branch_id', $data['branch_id'])
-                          ->where('category_id', $data['category_id'])
-                          ->where('investor_id', $data['investor_id']);
+                        ->where('category_id', $data['category_id'])
+                        ->where('investor_id', $data['investor_id']);
                 })
-                ->orderBy('created_at', 'asc')
-                ->where('is_sold', 0)
-                ->OrderBy('id', 'asc')
-                ->take($data['quantity'])
-                ->get();
+                    ->orderBy('created_at', 'asc')
+                    ->where('is_sold', 0)
+                    ->OrderBy('id', 'asc')
+                    ->take($data['quantity'])
+                    ->get();
 
                 foreach ($stockDetails as $stockDetail) {
                     $stockDetail->is_sold = 1;
@@ -299,8 +298,9 @@ class InvestorService extends BaseService
 
 
 
-        $addStock =$stock->whereNull('total_price_sub') ->whereNotNull('total_price_add');
+        $addStock = $stock->whereNull('total_price_sub')->whereNotNull('total_price_add');
         $sellStock = $stock->whereNotNull('total_price_sub')->whereNull('total_price_add');
+
 
 
         // حساب القيم المجمعة
@@ -320,9 +320,9 @@ class InvestorService extends BaseService
         $investor = $this->model->find($id);
         $stocks = $this->stockService->model->where('investor_id', $id)->get();
 
-        $orders=$this->order->where('investor_id', $id)->get();
+        $orders = $this->order->where('investor_id', $id)->get();
         return view("{$this->folder}/parts/investor_stocks_summary", [
-            'stocksWithTheSameCategoryInAddOperation' =>$stocks->filter(function ($stock) {
+            'stocksWithTheSameCategoryInAddOperation' => $stocks->filter(function ($stock) {
                 return $stock->operations->where('type', 1)->isNotEmpty();
             }),
             'stocksWithTheSameCategoryInSellOperation' => $stocks->filter(function ($stock) {

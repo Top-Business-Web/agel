@@ -16,17 +16,37 @@
                     <label for="name" class="form-control-label">رقم الهويه
                     </label>
                     <input type="number" class="form-control" name="national_id" id="national_id" minlength="10"
-                           maxlength="10">
+                        maxlength="10">
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="email" class="form-control-label">المستثمر
+                    </label>
+                    <select name="investor_id" id="investor_id" class="form-control select2">
+                        <option value="" selected disabled>اختر المستثمر</option>
+                        @foreach ($investors as $investor)
+                            <option value="{{ $investor->id }}">{{ $investor->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 
+            <div class="col-6">
+                <div class="form-group">
+                    <label for="debt" class="form-control-label">المبلغ المطلوب سداده
+                    </label>
+                    <input type="number" step="0.01" min="0.01" class="form-control" name="debt" id="debt">
+                </div>
+            </div>
 
             <div class="col-6">
                 <div class="form-group position-relative">
                     <label for="phone" class="form-control-label">رقم الهاتف
                     </label>
                     <div class="input-group">
-                        <input type="number" class="form-control" name="phone" id="phone" style=" text-align: left;">
+                        <input type="number" class="form-control" name="phone" id="phone"
+                            style=" text-align: left;">
                         <span class="input-group-text">966+</span>
                     </div>
                 </div>
@@ -35,7 +55,8 @@
                 <div class="form-group">
                     <label for="name" class="form-control-label">اسم المكتب
                     </label>
-                    <input type="text" class="form-control" name="office_name" id="office_name"  readonly value="{{VendorParentAuthData('name')}}" >
+                    <input type="text" class="form-control" name="office_name" id="office_name" readonly
+                        value="{{ VendorParentAuthData('name') }}">
                 </div>
             </div>
 
@@ -43,7 +64,8 @@
                 <div class="form-group position-relative">
                     <label for="office_phone" class="form-control-label">رقم المكتب</label>
                     <div class="input-group">
-                        <input type="number" class="form-control" name="office_phone" id="office_phone" readonly value="{{substr(VendorParentAuthData('phone'), 4)}}"  style=" text-align: left;">
+                        <input type="number" class="form-control" name="office_phone" id="office_phone" readonly
+                            value="{{ substr(VendorParentAuthData('phone'), 4) }}" style=" text-align: left;">
                         <span class="input-group-text">966+</span>
                     </div>
                 </div>
@@ -66,11 +88,12 @@
     $('select').select2({
         dropdownParent: $('#editOrCreate .modal-content')
 
-    });</script>
+    });
+</script>
 
 <script>
     function handlePhoneInput(inputId) {
-        document.getElementById(inputId).addEventListener('input', function (e) {
+        document.getElementById(inputId).addEventListener('input', function(e) {
             let value = e.target.value;
 
             // Remove leading zero
