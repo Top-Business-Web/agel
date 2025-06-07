@@ -76,4 +76,11 @@ class UnsurpassedController extends Controller
     {
         return $this->objService->deleteSelected($request);
     }
+
+
+    public function pay($id){
+
+        dd($id);
+        return $this->objService->pay($id);
+    }
 }

@@ -26,18 +26,13 @@ class VendorWalletService extends BaseService
                 ->editColumn('auth_id', function ($obj) {
                     return $obj->whoDoOperation?->name;
                 })
-
                 ->editColumn('type', function ($obj) {
-                    return $obj->type == 0? "ايداع" : "سحب";
+                    return $obj->type == 0 ? "ايداع" : "سحب";
                 })
-
                 ->editColumn('date', function ($obj) {
                     Carbon::setLocale('ar');
                     return $obj->created_at->translatedFormat('j F Y الساعة g:i A');
                 })
-
-
-
                 ->addIndexColumn()
                 ->escapeColumns([])
                 ->make(true);
@@ -56,6 +51,7 @@ class VendorWalletService extends BaseService
             'storeRoute' => route("{$this->route}.store"),
         ]);
     }
+
     public function store($data): \Illuminate\Http\JsonResponse
     {
         try {

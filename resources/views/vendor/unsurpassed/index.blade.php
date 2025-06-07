@@ -4,18 +4,17 @@
 @endsection
 
 @section('content')
-
     <div class="row">
         <div class="col-md-12">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="tab-one-tab" data-bs-toggle="tab" href="#tab-one" role="tab"
-                       aria-controls="tab-one" aria-selected="true">المتعثرين</a>
+                        aria-controls="tab-one" aria-selected="true">المتعثرين</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="tab-two-tab" data-bs-toggle="tab" href="#tab-two" role="tab"
-                       aria-controls="tab-two" aria-selected="false">متعثرين المكتب </a>
+                        aria-controls="tab-two" aria-selected="false">متعثرين المكتب </a>
                 </li>
             </ul>
 
@@ -29,23 +28,24 @@
                             <div class="table-responsive">
 
                                 <div class="mr-auto col-4 ml-3">
-                                    <label>ابحث <span id="digitsCount" style="color: blue; margin: 15px; font-weight: bold;">0</span></label>
+                                    <label>ابحث <span id="digitsCount"
+                                            style="color: blue; margin: 15px; font-weight: bold;">0</span></label>
                                     <input type="text" id="searchByNationalId" class="form-control"
-                                           placeholder="ابحث برقم الهوية">
+                                        placeholder="ابحث برقم الهوية">
                                 </div>
                                 <table class="table table-bordered text-nowrap w-100" id="dataTableWithoutButtons">
                                     <thead>
-                                    <tr class="fw-bolder text-muted bg-light">
-                                        <th><input type="checkbox" id="select-all"></th>
-                                        <th>#</th>
-                                        <th>اسم المستخدم</th>
-                                        <th>رقم الهويه</th>
-                                        <th>رقم الهاتف</th>
-                                        <th>المكتب التابع له</th>
-                                        <th>رقم هاتف المكتب</th>
-                                        <th>حاله العميل</th>
-                                        <th>ألإجراءات</th>
-                                    </tr>
+                                        <tr class="fw-bolder text-muted bg-light">
+                                            <th><input type="checkbox" id="select-all"></th>
+                                            <th>#</th>
+                                            <th>اسم المستخدم</th>
+                                            <th>رقم الهويه</th>
+                                            <th>رقم الهاتف</th>
+                                            <th>المكتب التابع له</th>
+                                            <th>رقم هاتف المكتب</th>
+                                            <th>حاله العميل</th>
+                                            <th>ألإجراءات</th>
+                                        </tr>
                                     </thead>
                                 </table>
                             </div>
@@ -65,7 +65,7 @@
                                     <span><i class="fe fe-trash"></i></span> حذف المحدد
                                 </button>
                                 <a href="{{ route('unsurpasseds.download.example') }}"
-                                   class="btn btn-primary btn-icon text-white">
+                                    class="btn btn-primary btn-icon text-white">
                                     <span><i class="fe fe-download"></i></span> تحميل مثال
                                 </a>
                             </div>
@@ -74,15 +74,16 @@
                             <div class="table-responsive">
                                 <table class="table table-bordered text-nowrap w-100" id="dataTable">
                                     <thead>
-                                    <tr class="fw-bolder text-muted bg-light">
-                                        <th>#</th>
-                                        <th>اسم المستخدم</th>
-                                        <th>رقم الهويه</th>
-                                        <th>رقم الهاتف</th>
-                                        <th>المكتب التابع له</th>
-                                        <th>رقم هاتف المكتب</th>
-                                        <th>حاله العميل</th>
-                                    </tr>
+                                        <tr class="fw-bolder text-muted bg-light">
+                                            <th>#</th>
+                                            <th>اسم المستخدم</th>
+                                            <th>رقم الهويه</th>
+                                            <th>رقم الهاتف</th>
+                                            <th>المكتب التابع له</th>
+                                            <th>رقم هاتف المكتب</th>
+                                            <th>حاله العميل</th>
+                                            <th>ألإجراءات</th>
+                                        </tr>
                                     </thead>
                                 </table>
                             </div>
@@ -92,9 +93,39 @@
             </div>
         </div>
 
+        <!-- Pay MODAL -->
+        <div class="modal fade" id="pay_modal" tabindex="-1" role="dialog" aria-labelledby="payModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog " role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="payModalLabel">دفع</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input id="pay_id" name="id" type="hidden">
+                        <p>هل انت متأكد من دفع <span id="title" class="text-success fw-bold"></span>؟</p>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_pay_modal">
+                            إغلاق
+                        </button>
+                        <button type="button" class="btn btn-success" id="pay_btn">
+                            <span class="btn-text">ادفع الآن</span>
+                            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- MODAL CLOSED -->
+
         <!--Delete MODAL -->
         <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
+            aria-hidden="true">
             <div class="modal-dialog " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -109,7 +140,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
+                        <button type="button" class="btn btn-default" data-bs-dismiss="modal"
+                            id="dismiss_delete_modal">
                             أغلاق
                         </button>
                         <button type="button" class="btn btn-danger" id="delete_btn">حذف !</button>
@@ -120,7 +152,8 @@
         <!-- MODAL CLOSED -->
 
         <!-- add stock Modal -->
-        <div class="modal fade" id="addStock" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal fade" id="addStock" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -138,7 +171,8 @@
         <!-- add stock Modal -->
 
         <!-- Create Or Edit Modal -->
-        <div class="modal fade" id="editOrCreate" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal fade" id="editOrCreate" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -155,7 +189,8 @@
         </div>
         <!-- Create Or Edit Modal -->
         <!-- addExcelFile Modal -->
-        <div class="modal fade" id="addExcelFile" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal fade" id="addExcelFile" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -173,7 +208,7 @@
         <!-- addExcelFile Modal -->
         <!-- delete selected  Modal -->
         <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog"
-             aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+            aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -206,7 +241,6 @@
         .dataTables_processing {
             display: none !important;
         }
-
     </style>
 @endsection
 
@@ -216,30 +250,67 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: '{{ route($route . ".index") }}',
+                url: '{{ route($route . '.index') }}',
                 type: 'GET',
-                data: function (d) {
+                data: function(d) {
                     let value = $('#searchByNationalId').val();
                     d.national_id = /^\d{10}$/.test(value) ? value : 'invalid_nid';
                 }
             },
-            columns: [
-                {
-                    data: 'checkbox', name: 'checkbox', orderable: false, searchable: false,
-                    render: function (data, type, row) {
+            columns: [{
+                    data: 'checkbox',
+                    name: 'checkbox',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row) {
                         return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
                     }
                 },
-                {data: 'id', name: 'id', orderable: false},
-                {data: 'name', name: 'name', orderable: false},
-                {data: 'national_id', name: 'national_id', orderable: false},
-                {data: 'phone', name: 'phone', orderable: false},
-                {data: 'office_name', name: 'office_name', orderable: false},
-                {data: 'office_phone', name: 'office_phone', orderable: false},
-                {data: 'client_status', name: 'client_status', orderable: false},
-                {data: 'action', name: 'action', orderable: false}
+                {
+                    data: 'id',
+                    name: 'id',
+                    orderable: false
+                },
+                {
+                    data: 'name',
+                    name: 'name',
+                    orderable: false
+                },
+                {
+                    data: 'national_id',
+                    name: 'national_id',
+                    orderable: false
+                },
+                {
+                    data: 'phone',
+                    name: 'phone',
+                    orderable: false
+                },
+                {
+                    data: 'office_name',
+                    name: 'office_name',
+                    orderable: false
+                },
+                {
+                    data: 'office_phone',
+                    name: 'office_phone',
+                    orderable: false
+                },
+                {
+                    data: 'client_status',
+                    name: 'client_status',
+                    orderable: false
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false
+                }
             ],
-            lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+            lengthMenu: [
+                [10, 25, 50, 100, -1],
+                [10, 25, 50, 100, "All"]
+            ],
             language: {
                 search: "_INPUT_",
                 processing: "",
@@ -254,13 +325,13 @@
             searching: false
         });
 
-        $('#searchByNationalId').on('input', function () {
+        $('#searchByNationalId').on('input', function() {
             let val = $(this).val();
             $('#digitsCount').text(val.length);
             dataTableWithoutButtons.ajax.reload();
         });
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#searchByNationalId').val('');
             $('#digitsCount').text('0');
         });
@@ -271,17 +342,50 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: '{{ route("myUnsurpassed") }}',
+                url: '{{ route('myUnsurpassed') }}',
                 type: 'GET',
             },
-            columns: [
-                {data: 'id', name: 'id', orderable: false, searchable: false},
-                {data: 'name', name: 'name', orderable: false},
-                {data: 'national_id', name: 'national_id', orderable: false},
-                {data: 'phone', name: 'phone', orderable: false},
-                {data: 'office_name', name: 'office_name', orderable: false},
-                {data: 'office_phone', name: 'office_phone', orderable: false},
-                {data: 'client_status', name: 'client_status', orderable: false},
+            columns: [{
+                    data: 'id',
+                    name: 'id',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'name',
+                    name: 'name',
+                    orderable: false
+                },
+                {
+                    data: 'national_id',
+                    name: 'national_id',
+                    orderable: false
+                },
+                {
+                    data: 'phone',
+                    name: 'phone',
+                    orderable: false
+                },
+                {
+                    data: 'office_name',
+                    name: 'office_name',
+                    orderable: false
+                },
+                {
+                    data: 'office_phone',
+                    name: 'office_phone',
+                    orderable: false
+                },
+                {
+                    data: 'client_status',
+                    name: 'client_status',
+                    orderable: false
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false
+                },
             ],
             language: {
                 search: "_INPUT_",
@@ -296,24 +400,68 @@
         });
 
         // باقي السكريبتات كما هي
-        deleteScript('{{ route($route . ".destroy", ":id") }}');
-        deleteSelected('{{ route($route . ".deleteSelected") }}');
-        showAddModal('{{ route($route . ".create") }}');
+        deleteScript('{{ route($route . '.destroy', ':id') }}');
+        deleteSelected('{{ route($route . '.deleteSelected') }}');
+        showAddModal('{{ route($route . '.create') }}');
         addScript();
-        showEditModal('{{ route($route . ".edit", ":id") }}');
+        showEditModal('{{ route($route . '.edit', ':id') }}');
         editScript();
 
-        $('#loadData').click(function () {
+        $('#loadData').click(function() {
             dataTable.ajax.reload();
         });
 
-        $(document).on('click', '.addExcelFile', function () {
-            let routeOfShow = '{{ route("unsurpasseds.add.excel") }}';
+        $(document).on('click', '.addExcelFile', function() {
+            let routeOfShow = '{{ route('unsurpasseds.add.excel') }}';
             $('#modal-excel-body').html(loader);
             $('#addExcelFile').modal('show');
-            setTimeout(function () {
+            setTimeout(function() {
                 $('#modal-excel-body').load(routeOfShow);
             }, 250);
+        });
+    </script>
+
+    <script>
+        $(document).on('click', '#pay_btn', function() {
+            var id = $("#pay_id").val();
+            console.log("Paying ID:", id);
+
+            var routeTemplate = "{{ route('unsurpasseds.pay', ':id') }}";
+            var route = routeTemplate.replace(':id', id);
+
+            // Start loading
+            var $btn = $('#pay_btn');
+            $btn.attr('disabled', true);
+            $btn.find('.btn-text').text('جارٍ الدفع...');
+            $btn.find('.spinner-border').removeClass('d-none');
+
+            $.ajax({
+                type: 'POST',
+                url: route,
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'id': id
+                },
+                success: function(data) {
+                    $("#dismiss_pay_modal")[0].click();
+                    if (data.status === 200) {
+                        $('#dataTable').DataTable().ajax.reload();
+                        toastr.success(data.message);
+                    } else {
+                        toastr.error(data.message);
+                    }
+                },
+                error: function(xhr) {
+                    toastr.error("حدث خطأ أثناء الدفع.");
+                    console.error(xhr.responseText);
+                },
+                complete: function() {
+                    // Reset button
+                    $btn.attr('disabled', false);
+                    $btn.find('.btn-text').text('ادفع الآن');
+                    $btn.find('.spinner-border').addClass('d-none');
+                }
+            });
         });
     </script>
 @endsection
