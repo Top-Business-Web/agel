@@ -5,6 +5,8 @@ namespace App\Services;
 
 use App\Models\Investor;
 use App\Models\InvestorWallet;
+use App\Models\Vendor;
+use App\Models\VendorWallet;
 use App\Traits\DreamsSmsTrait;
 use App\Traits\PhotoTrait;
 use Illuminate\Database\Eloquent\Collection;
@@ -468,7 +470,7 @@ abstract class BaseService
         $obj->date = now();
         $obj->vendor_id = auth('vendor')->user()->id;
         $obj->amount = $amount;
-        $obj->note = $note  . $type == 0 ? 'الي' : 'من ' . $investor->name . 'بقيمه ' . $amount . ' ريال';
+        $obj->note = $note.' ' . ($type == 0 ? 'الي ' : 'من ') . $investor->name . ' بقيمه ' . $amount . ' ريال';
         $obj->save();
 
         if ($type == 1) {
@@ -478,6 +480,21 @@ abstract class BaseService
             $investor->balance = $investor->balance - $amount;
             $investor->save();
         }
+    }    public function addOrSubBalanceToVendor($amount, $type, $note,$orderNumber)
+    {
+        $vendor = Vendor::where('id', vendorParentAuthData('id'))->first();
+        $vendor->balance = $vendor->balance + $amount;
+        $vendor->save();
+
+        // store vendor wallet
+        $obj = new VendorWallet();
+        $obj->vendor_id = $vendor->id;
+        $obj->auth_id = auth('vendor')->user()->id;
+        $obj->type = $type;
+        $obj->date = now();
+        $obj->amount = $amount;
+        $obj->note = $note .' '. ($type == 0 ? 'الي ' : 'من ') . $vendor->name . ' بقيمه ' . $amount . ' ريال من الطلب رقم ' . $orderNumber;
+        $obj->save();
     }
 
     public function checkIfInvestorHasBalance($investor_id, $amount)

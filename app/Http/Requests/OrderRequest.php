@@ -32,6 +32,8 @@ class OrderRequest extends FormRequest
             'quantity' => 'required|numeric',
             'expected_price' => 'required|numeric',
             'Total_expected_commission' => 'required|numeric',
+            'investor_commission' => 'required|numeric',
+            'vendor_commission' => 'required|numeric',
             'sell_diff' => 'required|numeric',
             'delivered_price_to_client' => 'required|numeric',
             'required_to_pay' => 'required|numeric',

@@ -85,7 +85,7 @@
                     <label for="expected_price" class="form-control-label">
                         سعر اعاده البيع المتوقع
                     </label>
-                    <input type="number" min="0" class="form-control" name="expected_price" readonly value="0"
+                    <input type="number" min="0" step="0.01" class="form-control" name="expected_price" readonly value="0"
                            id="expected_price">
                 </div>
             </div>
@@ -95,7 +95,7 @@
                     <label for="Total_expected_commission" class="form-control-label">
                         اجمالي العموله المتوقعه
                     </label>
-                    <input type="number" min="0" class="form-control" name="Total_expected_commission" required readonly
+                    <input type="number" min="0" step="0.01" class="form-control" name="Total_expected_commission" required readonly
                            value="0"
                            id="Total_expected_commission">
                 </div>
@@ -105,7 +105,7 @@
                     <label for="sell_diff" class="form-control-label">
                         فروقات البيع
                     </label>
-                    <input type="number" min="0" class="form-control" value="0" name="sell_diff" id="sell_diff"
+                    <input type="number" min="0" step="0.01" class="form-control" value="0" name="sell_diff" id="sell_diff"
                            required>
                 </div>
             </div>
@@ -114,17 +114,21 @@
                     <label for="delivered_price_to_client" class="form-control-label">
                         السعر المسلم للعميل
                     </label>
-                    <input type="number" min="0" class="form-control" name="delivered_price_to_client" value="0"
+                    <input type="number" min="0" step="0.01" class="form-control" name="delivered_price_to_client" value="0"
                            id="delivered_price_to_client" required>
                 </div>
             </div>
+
+            <input type="hidden" name="vendor_commission" id="vendor_commission" value="0">
+            <input type="hidden" name="investor_commission" id="investor_commission" value="0">
+
             <hr>
             <div class="col-4">
                 <div class="form-group">
                     <label for="required_to_pay" class="form-control-label">
                         المبلغ الطلوب سداده
                     </label>
-                    <input type="number" min="0" class="form-control" name="required_to_pay" value="0"
+                    <input type="number" min="0" step="0.01" class="form-control" name="required_to_pay" value="0"
                            id="required_to_pay" required>
                 </div>
             </div>
@@ -148,7 +152,7 @@
                     </label>
 
                     <div class="input-group">
-                        <input type="number" class="form-control" value="{{ $profit_ratio }}"
+                        <input type="number" step="0.01" class="form-control" value="{{ $profit_ratio }}"
                                @if ($is_profit_ratio_static == 1) readonly @endif min="0" max="100"
                                name="profit_ratio" id="profit_ratio">
                         <span class="input-group-text">%</span>
@@ -335,6 +339,8 @@
                     $('#Total_expected_commission').val(response.Total_expected_commission);
                     $('#sell_diff').val(response.sell_diff);
                     $('#delivered_price_to_client').val(response.expected_price);
+                    $('#investor_commission').val(response.investor_commission);
+                    $('#vendor_commission').val(response.vendor_commission);
                     calculateRequiredToPay();
 
                 },

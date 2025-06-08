@@ -214,6 +214,8 @@ class OrderService extends BaseService
         $expected_price = 0;
         $Total_expected_commission = 0;
         $sell_diff = 0;
+        $total_vendor_commission = 0;
+        $total_investor_commission = 0;
         foreach ($stockDetails as $stockDetail) {
             if ($quantity <= 0) {
                 break;
@@ -223,6 +225,8 @@ class OrderService extends BaseService
             $quantity -= $used_quantity;
 
             $expected_price += $stockDetail->price;
+            $total_vendor_commission += $stockDetail->vendor_commission;
+            $total_investor_commission += $stockDetail->investor_commission;
             $Total_expected_commission += $stockDetail->vendor_commission + $stockDetail->investor_commission;
             $sell_diff += $stockDetail->sell_diff;
         }
@@ -235,12 +239,27 @@ class OrderService extends BaseService
             'Total_expected_commission' => $Total_expected_commission,
             'sell_diff' => $sell_diff,
             'available_quantity' => $available_quantity,
+            'vendor_commission' => $total_vendor_commission ?? 0,
+            'investor_commission' => $total_investor_commission ?? 0
+
         ]);
     }
 
     public function store($data): JsonResponse
     {
         try {
+
+
+            $vendorCommission = $data['vendor_commission'];
+
+            $this->addOrSubBalanceToInvestor($data['investor_id'],  $data['delivered_price_to_client'], 1, "اضافة طلب");
+            $this->addOrSubBalanceToInvestor($data['investor_id'],  $data['investor_commission'], 1, "اضافة عموله الطلب");
+
+            unset($data['investor_commission'], $data['vendor_commission']);
+
+
+
+
             // check if client exists
             $data['client_id'] = $this->checkClient($data);
             $this->setDefaultInstallmentValues($data);
@@ -254,6 +273,9 @@ class OrderService extends BaseService
             $this->storeOrderDetails($order, $seletedIds);
 
             $this->storeOrderStatus($order);
+
+            $this->addOrSubBalanceToVendor($vendorCommission, 0, "اضافة عموله المكتب ",  $order->order_number);
+
 
             if (isset($data['is_installment']) && $data['is_installment'] === 'on' && $data['installment_number'] > 0) {
                 $this->createInstallments($order, $data);
