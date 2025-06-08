@@ -112,6 +112,17 @@
             </li>
         @endcanany
 
+        @canany(['read_investor_wallets', 'create_investor_wallets', 'update_investor_wallets',
+            'delete_investor_wallets'])
+            <!-- المستثمر -->
+            <li class="{{ routeActive('investor_wallets.index') }}">
+                <a class="slide-item {{ routeActive('investor_wallets.index') }}" style="margin-right:8px;"
+                    href="{{ route('investor_wallets.index') }}">
+                    <i class="fas fa-receipt side-menu__icon"></i> خزانه المستثمر
+                </a>
+            </li>
+        @endcanany
+
 
 
         <li class="{{ routeActive('vendor.plans.index') }}">

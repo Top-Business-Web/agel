@@ -7,6 +7,7 @@ use App\Http\Controllers\Vendor\CategoryController;
 use App\Http\Controllers\Vendor\ClientController;
 use App\Http\Controllers\Vendor\HomeController;
 use App\Http\Controllers\Vendor\InvestorController;
+use App\Http\Controllers\Vendor\InvestorWalletController;
 use App\Http\Controllers\Vendor\OrderController;
 use App\Http\Controllers\Vendor\PlanController;
 use App\Http\Controllers\Vendor\RoleController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\Vendor\VendorWalletController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+
 
 
 /*
@@ -140,6 +142,7 @@ Route::group(
 
                 //vendor wallet
                 Route::resourceWithDeleteSelected('vendor_wallets', VendorWalletController::class);
+                Route::resourceWithDeleteSelected('investor_wallets', InvestorWalletController::class);
 
 
             });
