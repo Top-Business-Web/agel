@@ -3,10 +3,12 @@
 
 namespace App\Services;
 
+use App\Models\Investor;
+use App\Models\InvestorWallet;
 use App\Traits\DreamsSmsTrait;
 use App\Traits\PhotoTrait;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -67,8 +69,6 @@ abstract class BaseService
                 <label class="tgl-btn" for="statusUser-' . $obj->id . '"></label>
             </div>
         </div>';
-
-
     }
 
     /**
@@ -121,7 +121,6 @@ abstract class BaseService
     public function getActive($column)
     {
         return $this->model->where($column, 1)->get();
-
     }
 
     public function handleFile($file, $folder = null, $type = 'image')
@@ -142,7 +141,6 @@ abstract class BaseService
     public function getAuthDateTable($column, $guard): mixed
     {
         return $this->model->where($column, auth($guard)->user()->id)->get();
-
     }
 
     public function getVendorDateTable(): mixed
@@ -285,8 +283,7 @@ abstract class BaseService
             return "<h5 class='text-warning'>متعثر</h5>";
         } elseif (array_intersect([0, 1], $orderStatuses) && now()->lessThan(min($orderDates))) {
             return "<h5 class='text-break'>لديه طلب قائم</h5>";
-        } elseif
-        (array_intersect([3], $orderStatuses) && now()->greaterThan(min($orderDates))) {
+        } elseif (array_intersect([3], $orderStatuses) && now()->greaterThan(min($orderDates))) {
             return "<h5 class='text-primary'>غير منتظم في السداد</h5>";
         } elseif (in_array(3, $orderStatuses) && !array_intersect([1, 2, 0], $orderStatuses)) {
             return "<h5 class='text-success'>منتظم في السداد</h5>";
@@ -430,7 +427,6 @@ abstract class BaseService
                 $this->model->whereIn('id', $ids)->delete();
                 return $this->responseMsg();
             }
-
         } catch (\Exception $e) {
             return $this->responseMsgError();
         }
@@ -452,7 +448,6 @@ abstract class BaseService
                 }
                 return $this->responseMsg();
             }
-
         } catch (\Exception $e) {
             return $this->responseMsgError();
         }
@@ -461,7 +456,36 @@ abstract class BaseService
     public function generateUsername($name)
     {
         return str_replace(' ', '', strtolower($name)) . rand(1000, 9999);
-
     }
 
+    public function addOrSubBalanceToInvestor($investor_id, $amount, $type, $note)
+    {
+        $investor = Investor::find($investor_id);
+
+        $obj = new InvestorWallet();
+        $obj->investor_id = $investor_id;
+        $obj->type = $type;
+        $obj->date = now();
+        $obj->vendor_id = auth('vendor')->user()->id;
+        $obj->amount = $amount;
+        $obj->note = $note  . $type == 0 ? 'الي' : 'من ' . $investor->name . 'بقيمه ' . $amount . ' ريال';
+        $obj->save();
+
+        if ($type == 1) {
+            $investor->balance = $investor->balance + $amount;
+            $investor->save();
+        } else {
+            $investor->balance = $investor->balance - $amount;
+            $investor->save();
+        }
+    }
+
+    public function checkIfInvestorHasBalance($investor_id, $amount)
+    {
+        $investor = Investor::find($investor_id);
+        if ($investor->balance < $amount) {
+            return false;
+        }
+        return true;
+    }
 }

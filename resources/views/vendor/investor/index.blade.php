@@ -42,6 +42,7 @@
                                     <th class="min-w-25px">رقم الهاتف</th>
                                     <th class="min-w-25px">الفرع</th>
                                     <th class="min-w-25px">رقم الهوية</th>
+                                    <th class="min-w-25px"> المحفظه</th>
 
                                     <th class="min-w-50px rounded-end">العمليات</th>
                                 </tr>
@@ -98,7 +99,8 @@
         <!-- add stock Modal -->
 
         <!-- showInvestorSummary Modal -->
-        <div class="modal fade" id="showInvestorSummary" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal fade" id="showInvestorSummary" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -197,6 +199,9 @@
             {
                 data: 'national_id',
                 name: 'national_id'
+            }, {
+                data: 'balance',
+                name: 'balance'
             },
             {
                 data: 'action',

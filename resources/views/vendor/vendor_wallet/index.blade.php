@@ -23,6 +23,9 @@
                     </div>
                 </div>
                 <div class="card-body">
+                       <h2 class=" text-center text-warning">
+                        لديك {{ VendorParentAuthData('balance') }} ريال في المحفظه
+                    </h2>
                     <div class="table-responsive">
                         <!--begin::Table-->
                         <table class="table table-bordered text-nowrap w-100" id="dataTable">

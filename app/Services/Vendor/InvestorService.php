@@ -123,6 +123,8 @@ class InvestorService extends BaseService
                 })->editColumn('phone', function ($obj) {
                     $phone = str_replace('+', '', $obj->phone);
                     return $phone;
+                })->editColumn('balance', function ($obj) {
+                    return number_format($obj->balance).' ريال';
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -218,7 +220,22 @@ class InvestorService extends BaseService
     {
         try {
 
-            dd($data);
+            // dd($data);
+
+            if ($data['operation'] == 1 && !$this->checkIfInvestorHasBalance($data['investor_id'], $data['total_price_add'])) {
+                return response()->json(['status' => 405, 'mymessage' => "لا يوجد رصيد كافي في الحساب."]);
+            }
+
+            if ($data['operation']) {
+                $this->addOrSubBalanceToInvestor($data['investor_id'], $data['total_price_add'], 0, "اضافة مخزن");
+            }else{
+                $this->addOrSubBalanceToInvestor($data['investor_id'], $data['total_price_sub'], 1, "انقاص مخزن");
+            }
+
+
+
+
+
             $data['vendor_id'] = auth('vendor')->user()->parent_id ?? auth('vendor')->user()->id;
             $data = $this->prepareStockData($data);
             $stockData = $data;

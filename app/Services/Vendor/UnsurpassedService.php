@@ -191,7 +191,7 @@ class UnsurpassedService extends BaseService
 
 
                         <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-                            data-bs-target="#pay_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
+                            data-bs-target="#pay_modal" data-id="' . $obj->id . '" data-title="سداد مبلغ ' . $obj->debt . ' إلى ' . $obj->name . '">
                             <i class="fas fa-money-bill-wave side-menu__icon"></i>
                         </button>
                     ';

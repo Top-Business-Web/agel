@@ -28,7 +28,29 @@ class StoreStockRequest extends FormRequest
 
     }
 
-    
+    public function messages()
+    {
+        return [
+            'operation.required' => 'يجب تحديد نوع العملية',
+            'operation.in' => 'يجب تحديد نوع العملية',
+            'investor_id.required' => 'يجب تحديد المستثمر',
+            'investor_id.exists' => 'المستثمر غير موجود',
+            'category_id.required' => 'يجب تحديد القسم',
+            'category_id.exists' => 'القسم غير موجود',
+            'branch_id.required' => 'يجب تحديد الفرع',
+            'branch_id.exists' => 'الفرع غير موجود',
+            'quantity.required' => 'يجب تحديد الكمية',
+            'quantity.numeric' => 'يجب تحديد الكمية',
+            'total_price_add.required_if' => 'يجب تحديد السعر',
+            'vendor_commission.required_if' => 'يجب تحديد العمولة',
+            'investor_commission.required_if' => 'يجب تحديد العمولة',
+            'sell_diff.required_if' => 'يجب تحديد الفرق',
+            'total_price_sub.required_if' => 'يجب تحديد السعر',
+            
+        ];
+    }
+
+
 
 
 }
