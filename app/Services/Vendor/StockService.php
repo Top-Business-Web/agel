@@ -3,6 +3,8 @@
 namespace App\Services\Vendor;
 
 use App\Models\Investor;
+use App\Models\Order;
+use App\Models\Stock;
 use App\Models\VendorBranch;
 use App\Services\BaseService;
 use Yajra\DataTables\DataTables;
@@ -24,7 +26,9 @@ class StockService extends BaseService
         protected VendorBranch    $vendorBranch,
         protected Investor        $investor,
         protected OperationService $operationService,
-        protected VendorService $vendorService
+        protected VendorService $vendorService,
+        protected  Stock $stock,
+        protected Order $order
 
     ) {
         parent::__construct($objModel);
@@ -76,10 +80,100 @@ class StockService extends BaseService
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
                 'route' => $this->route,
+                'categories' => $this->categoryService->model->where('vendor_id', VendorParentAuthData('id'))->get(),
+
                 'investors' => $this->investor->whereIn('branch_id', $this->branchService->model->whereIn('vendor_id', $vendorIds)->pluck('id'))->get(),
             ]);
         }
     }
+
+
+
+    public function filterTable($request)
+    {
+
+
+        if ($request->ajax()) {
+
+
+
+            return DataTables::of([$request])
+
+                ->addColumn('category', function ($request) {
+
+                    return $request->category_id ? $this->categoryService->model->where('id', $request->category_id)->first()->name : "غير محدد";
+
+                })->addColumn('added_quantity', function ($request) {
+
+                    $stockIds =$this->stock->where('investor_id', $request->investor_id)->where('category_id', $request->category_id)->pluck('id');
+                   $added= $this->operationService->model->whereIn('stock_id', $stockIds)->where('type', 1)->pluck('stock_id');
+                    $addedQuantity = $this->stock->whereIn('id', $added)->sum('quantity');
+                    return $addedQuantity;
+                })->addColumn('subtracted_quantity', function ($request) {
+
+                    $stockIds =$this->stock->where('investor_id', $request->investor_id)->where('category_id', $request->category_id)->pluck('id');
+                   $subtracted= $this->operationService->model->whereIn('stock_id', $stockIds)->where('type', 0)->pluck('stock_id');
+                    $subtractedQuantity = $this->stock->whereIn('id', $subtracted)->sum('quantity');
+                    return $subtractedQuantity;
+                })->addColumn('ordered_quantity', function ($request) {
+
+                    $orderQuantity = $this->order->where('investor_id', $request->investor_id)->where('category_id', $request->category_id)->sum('quantity');
+                    return $orderQuantity;
+
+
+                })
+
+
+
+
+
+                ->addColumn('remaining_quantity', function ($request) {
+                    $stockIds = $this->stock->where('investor_id', $request->investor_id)
+                        ->where('category_id', $request->category_id)
+                        ->pluck('id');
+
+                    // الكمية المضافة
+                    $addedIds = $this->operationService->model->whereIn('stock_id', $stockIds)
+                        ->where('type', 1)->pluck('stock_id');
+                    $addedQuantity = $this->stock->whereIn('id', $addedIds)->sum('quantity');
+
+                    // الكمية المنقصة
+                    $subtractedIds = $this->operationService->model->whereIn('stock_id', $stockIds)
+                        ->where('type', 0)->pluck('stock_id');
+                    $subtractedQuantity = $this->stock->whereIn('id', $subtractedIds)->sum('quantity');
+
+                    // الكمية المطلوبة
+                    $orderedQuantity = $this->order->where('investor_id', $request->investor_id)
+                        ->where('category_id', $request->category_id)
+                        ->sum('quantity');
+
+                    // الحساب الصحيح
+
+//                    dd($addedQuantity , $subtractedQuantity , $orderedQuantity);
+                    $remaining = $addedQuantity - ($subtractedQuantity + $orderedQuantity);
+                    return $remaining;
+                })
+
+
+
+                ->addIndexColumn()
+                ->escapeColumns([])
+                ->make(true);
+        } else {
+
+            $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
+            $vendors = $this->vendorService->model->where('parent_id', $parentId)->get();
+            $vendors[] =  $this->vendorService->model->where('id', $parentId)->first();
+            $vendorIds = $vendors->pluck('id');
+            return view($this->folder . '/index', [
+                'createRoute' => route($this->route . '.create'),
+                'route' => $this->route,
+                'categories' => $this->categoryService->model->where('vendor_id', VendorParentAuthData('id'))->get(),
+                'investors' => $this->investor->whereIn('branch_id', $this->branchService->model->whereIn('vendor_id', $vendorIds)->pluck('id'))->get(),
+            ]);
+        }
+    }
+
 
     public function create()
     {

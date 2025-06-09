@@ -352,4 +352,25 @@ class InvestorService extends BaseService
             'orders' => $orders,
         ]);
     }
+
+
+    public function getCategoriesByInvestor($investorId)
+    {
+$categoryIds = $this->stockService->model->where('investor_id', $investorId)->pluck('category_id')->toArray();
+        $categories = $this->categoryService->model->whereIn('id', $categoryIds)->select('id', 'name')->get();
+
+        return response()->json($categories);
+    }
+
+
+    public function getAllCategories()
+    {
+        $categories = $this->categoryService->model
+            ->where('vendor_id', VendorParentAuthData('id'))
+            ->get(['id', 'name']);
+
+        return response()->json($categories);
+
+    }
+
 }

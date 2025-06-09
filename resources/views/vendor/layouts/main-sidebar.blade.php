@@ -118,7 +118,7 @@
             <li class="{{ routeActive('investor_wallets.index') }}">
                 <a class="slide-item {{ routeActive('investor_wallets.index') }}" style="margin-right:8px;"
                     href="{{ route('investor_wallets.index') }}">
-                    <i class="fas fa-receipt side-menu__icon"></i> خزانه المستثمر
+                    <i class="fas fa-receipt side-menu__icon"></i> خزانه المستثمرين
                 </a>
             </li>
         @endcanany

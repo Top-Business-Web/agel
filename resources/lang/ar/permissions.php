@@ -14,6 +14,9 @@ return [
     'INVESTOR' => 'المستثمرين',
     'UNSURPASSED'=>'المتعثرين',
 
+    'VENDOR_WALLET' => 'خزانه المكتب',
+    'INVESTOR_WALLET' => 'خزانه المستثمرين',
+
 
     'SETTING' => 'الإعدادات',
 
