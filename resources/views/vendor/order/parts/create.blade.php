@@ -335,12 +335,12 @@
 
                     }
 
-                    $('#expected_price').val(response.expected_price);
-                    $('#Total_expected_commission').val(response.Total_expected_commission);
-                    $('#sell_diff').val(response.sell_diff);
-                    $('#delivered_price_to_client').val(response.expected_price);
-                    $('#investor_commission').val(response.investor_commission);
-                    $('#vendor_commission').val(response.vendor_commission);
+                    $('#expected_price').val(parseFloat(response.expected_price).toFixed(2));
+                    $('#Total_expected_commission').val(parseFloat(response.Total_expected_commission).toFixed(2));
+                    $('#sell_diff').val(parseFloat(response.sell_diff).toFixed(2));
+                    $('#delivered_price_to_client').val(parseFloat(response.expected_price).toFixed(2));
+                    $('#investor_commission').val(parseFloat(response.investor_commission).toFixed(2));
+                    $('#vendor_commission').val(parseFloat(response.vendor_commission).toFixed(2));
                     calculateRequiredToPay();
 
                 },
