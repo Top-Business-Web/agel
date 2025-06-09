@@ -382,19 +382,19 @@ class UnsurpassedService extends BaseService
 
     public function storeExcel($data): \Illuminate\Http\JsonResponse
     {
-        //        try {
-        if (isset($data['excel_file'])) {
-            $data->validate(['excel_file' => 'required|mimes:xlsx,xls,csv']);
-            $file = $data->file('excel_file');
+        try {
+            if (isset($data['excel_file'])) {
+                $data->validate(['excel_file' => 'required|mimes:xlsx,xls,csv']);
+                $file = $data->file('excel_file');
 
-            Excel::import($this->unsurpassedImport, $file);
+                Excel::import($this->unsurpassedImport, $file);
 
-            return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح", 'reload' => true]);
+                return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح", 'reload' => true]);
+            }
+            return response()->json('error importing the excel file');
+        } catch (\Exception $e) {
+            return response()->json('error importing the excel file');
         }
-        return response()->json('error importing the excel file');
-        //        } catch (\Exception $e) {
-        //            return response()->json('error importing the excel file');
-        //        }
     }
 
     public function edit($obj)

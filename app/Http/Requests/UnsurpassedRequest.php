@@ -65,8 +65,8 @@ class UnsurpassedRequest extends FormRequest
     public function messages()
     {
         return [
-            'phone.regex' => 'يجب أن يبدأ رقم الهاتف بـ +966 ويحتوي على 9 أرقام فقط.',
-            'office_phone.regex' => ' يجب أن يبدأ رقم الهاتف بـ +966 ويحتوي على 9 أرقام فقط.',
+            'phone.regex' => 'يجب أن يحتوي رقم الهاتف على 9 أرقام فقط.',
+            'office_phone.regex' => ' يجب أن يحتوي رقم الهاتف على 9 أرقام فقط.',
             'investor_id.exists' => 'لم يتم العثور على المستثمر المطلوب.',
             'investor_id.required' => 'حقل المستثمر مطلوب.',
             'debt.required' => 'حقل المبلغ الطلوب سداده مطلوب.',

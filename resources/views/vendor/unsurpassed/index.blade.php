@@ -60,7 +60,7 @@
                             <h3 class="card-title"></h3>
                             <div>
                                 <button class="btn btn-secondary btn-icon text-white addBtn">أضافه</button>
-                                <button class="btn btn-secondary btn-icon text-white addExcelFile">اكسل ملف</button>
+                                <button class="btn btn-secondary btn-icon text-white addExcelFile"> ملف اكسل </button>
                                 <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
                                     <span><i class="fe fe-trash"></i></span> حذف المحدد
                                 </button>

@@ -60,7 +60,7 @@
                 <div class="form-group">
                     <label for="name" class="form-control-label">اسم المكتب
                     </label>
-                    <input type="text" class="form-control" name="office_name" id="office_name"
+                    <input type="text" class="form-control" name="office_name" id="office_name" readonly
                            value="{{$obj->office_name}}">
                 </div>
             </div>
@@ -71,7 +71,7 @@
                     <div class="input-group">
 
                         <input type="text" class="form-control" name="office_phone" id="office_phone"
-                               value="{{substr($obj->office_phone, 4)}}" style=" text-align: left;">
+                               value="{{substr($obj->office_phone, 4)}}"  readonly style=" text-align: left;">
                         <span class="input-group-text">966+</span>
                     </div>
                 </div>
