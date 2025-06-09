@@ -319,13 +319,16 @@ class InvestorService extends BaseService
 
         $addStock = $stock->whereNull('total_price_sub')->whereNotNull('total_price_add');
         $sellStock = $stock->whereNotNull('total_price_sub')->whereNull('total_price_add');
+        $orderStock = $this->order->where('investor_id', $investorId)
+            ->where('category_id', $categoryId)
+        ;
 
 
 
         // حساب القيم المجمعة
         return response()->json([
             'status' => 200,
-            'available' => (int)($addStock->sum('quantity') - $sellStock->sum('quantity')),
+            'available' => (int)($addStock->sum('quantity') - ($sellStock->sum('quantity') + $orderStock->sum('quantity'))),
             'total_price' => $addStock->sum('total_price_add') - $sellStock->sum('total_price_sub'),
             'total_price_commission' => $addStock->sum('total_price_add') -
                 ($addStock->sum('vendor_commission') + $addStock->sum('investor_commission') + $addStock->sum('sell_diff'))
