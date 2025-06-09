@@ -101,6 +101,11 @@ Route::group(
                 #============================ investors ====================================
 
                 Route::resourceWithDeleteSelected('investors', InvestorController::class);
+                Route::get('/get-categories/{investor_id}', [InvestorController::class, 'getCategoriesByInvestor'])->name('vendor.getCategoriesByInvestor');
+
+                Route::get('/vendor/get-all-categories', [InvestorController::class, 'getAllCategories'])
+                    ->name('vendor.getAllCategories');
+
                 Route::get('investors/add-stock/{id}', [InvestorController::class, 'addStockForm'])->name('vendor.investors.addStock');
                 Route::post('investors/store-stock', [InvestorController::class, 'storeStock'])->name('vendor.investors.storeStock');
                 Route::get('/getAvailableStock', [InvestorController::class, 'getAvailableStock'])->name('vendor.investors.getAvailableStock');
@@ -112,8 +117,16 @@ Route::group(
                 Route::get('/get-user-by-national-id', [ClientController::class, 'getUserByNationalId'])->name('vendor.clients.getUserByNationalId'); //using for order
 
                 #============================ Stocks ==================================
+                Route::get('/stocks/filteredTable', [StockController::class, 'filterTable'])->name('filteredTable');
+
                 Route::resourceWithDeleteSelected('stocks', StockController::class);
                 Route::POST('/stocks/get-branches', [StockController::class, 'getBranches'])->name('vendor.stocks.getBranches'); //using for stock
+
+
+
+
+
+                #============================ unsurpassed ==================================
 
                 Route::get('unsurpasseds/download-example', [UnsurpassedController::class, 'downloadExample'])->name('unsurpasseds.download.example');
 

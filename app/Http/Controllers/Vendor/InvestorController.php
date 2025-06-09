@@ -80,4 +80,18 @@ class InvestorController extends Controller
         return $this->objService->InvestorStocksSummary($id);
     }
 
+
+    public function getCategoriesByInvestor($investor_id)
+    {
+        return $this->objService->getCategoriesByInvestor($investor_id);
+
+    }
+
+    public function getAllCategories()
+    {
+
+        return $this->objService->getAllCategories();
+
+    }
+
 }

@@ -17,6 +17,12 @@ class StockController extends Controller
         return $this->objService->index($request);
     }
 
+    public function filterTable(Request $request)
+    {
+
+        return $this->objService->filterTable($request);
+    }
+
     public function create()
     {
         return $this->objService->create();
@@ -57,4 +63,17 @@ class StockController extends Controller
         return $this->objService->getBranches($request);
 
     }
+
+    public function show()
+    {
+
+
+
+    }
+
+
+
+
+
+
 }
