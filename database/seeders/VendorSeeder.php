@@ -108,11 +108,9 @@ class VendorSeeder extends Seeder
         ]);
 
 
-       $permissions=Permission::where('guard_name','vendor')->get();
-       $vendor->syncPermissions($permissions);
-       $ahmed->syncPermissions($permissions);
-       $mohamed->syncPermissions($permissions);
-
-
+        $permissions = Permission::where('guard_name', 'vendor')->get();
+        $vendor->syncPermissions($permissions);
+        $ahmed->syncPermissions($permissions);
+        $mohamed->syncPermissions($permissions);
     }
 }

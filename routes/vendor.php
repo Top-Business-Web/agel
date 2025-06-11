@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 
-
 /*
 |--------------------------------------------------------------------------
 | Vendor Routes
@@ -123,9 +122,6 @@ Route::group(
                 Route::POST('/stocks/get-branches', [StockController::class, 'getBranches'])->name('vendor.stocks.getBranches'); //using for stock
 
 
-
-
-
                 #============================ unsurpassed ==================================
 
                 Route::get('unsurpasseds/download-example', [UnsurpassedController::class, 'downloadExample'])->name('unsurpasseds.download.example');
@@ -135,7 +131,6 @@ Route::group(
                 Route::get('my-unsurpassed', [UnsurpassedController::class, 'myUnsurpassed'])->name('myUnsurpassed');
                 Route::post('unsurpasseds/store/Excel', [UnsurpassedController::class, 'storeExcel'])->name('unsurpasseds.store.excel');
                 Route::get('unsurpasseds/pay/{id}', [UnsurpassedController::class, 'pay'])->name('unsurpasseds.pay');
-
 
 
                 #============================ plans ==================================
@@ -155,6 +150,7 @@ Route::group(
 
                 //vendor wallet
                 Route::resourceWithDeleteSelected('vendor_wallets', VendorWalletController::class);
+                // investor wallet
                 Route::resourceWithDeleteSelected('investor_wallets', InvestorWalletController::class);
 
 
