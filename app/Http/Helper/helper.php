@@ -2,6 +2,7 @@
 
 use App\Models\Branch;
 use App\Models\Investor;
+use App\Models\Order;
 use App\Models\Plan;
 use App\Models\PlanSubscription;
 use App\Models\Vendor;
@@ -56,8 +57,8 @@ if (!function_exists('get_file')) {
                 $created = Investor::whereIn('Branch_id', Branch::whereIn('vendor_id', $vendorIds)->pluck('id'))->count();
                 return $created;
             } elseif ($key == 'Order') {
-                // $created=Order::whereIn('Branch_id',$vendorIds))->count();
-                // return $created;  commented untill created order database
+                 $created=Order::whereIn('vendor_id',$vendorIds)->count();
+                return $created;
 
             }
         }
