@@ -220,16 +220,15 @@ class InvestorService extends BaseService
     {
         try {
 
-            // dd($data);
 
             if ($data['operation'] == 1 && !$this->checkIfInvestorHasBalance($data['investor_id'], $data['total_price_add'])) {
                 return response()->json(['status' => 405, 'mymessage' => "لا يوجد رصيد كافي في الحساب."]);
             }
 
             if ($data['operation']) {
-                $this->addOrSubBalanceToInvestor($data['investor_id'], $data['total_price_add'], 0, "اضافة مخزن");
+                $this->addOrSubBalanceToInvestor($data['investor_id'], $data['total_price_add'], 1, "اضافة مخزن");
             }else{
-                $this->addOrSubBalanceToInvestor($data['investor_id'], $data['total_price_sub'], 1, "انقاص مخزن");
+                $this->addOrSubBalanceToInvestor($data['investor_id'], $data['total_price_sub'], 0, "انقاص مخزن");
             }
 
 

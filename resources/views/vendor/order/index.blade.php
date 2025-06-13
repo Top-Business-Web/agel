@@ -149,7 +149,9 @@
         let dataTable = $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: {
+  order: [
+                [1, "DESC"]
+            ],            ajax: {
                 url: '{{ route($route . '.index') }}',
                 data: function (d) {
                     d.investor_id = $('#investorFilter').val();

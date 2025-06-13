@@ -32,6 +32,8 @@ class VendorWalletService extends BaseService
                 ->editColumn('date', function ($obj) {
                     Carbon::setLocale('ar');
                     return $obj->created_at->translatedFormat('j F Y الساعة g:i A');
+                })->editColumn('note', function ($obj) {
+                    return $obj->note ? $obj->note : "غير معلن";
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -92,5 +94,4 @@ class VendorWalletService extends BaseService
             return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);
         }
     }
-
 }

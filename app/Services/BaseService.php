@@ -473,7 +473,7 @@ abstract class BaseService
         $obj->note = $note.' ' . ($type == 0 ? 'الي ' : 'من ') . $investor->name . ' بقيمه ' . $amount . ' ريال';
         $obj->save();
 
-        if ($type == 1) {
+        if ($type == 0) {
             $investor->balance = $investor->balance + $amount;
             $investor->save();
         } else {

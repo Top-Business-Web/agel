@@ -22,13 +22,12 @@ class InvestorWalletRequest extends FormRequest
                     if ($this->input('type') == 1) {
                         $investor =Investor::find($this->input('investor_id'));
                         if ($value > $investor->balance) {
-                            $fail(' لا يوجد رصيد كافي في حساب هذا المستثمر.');
+                            $fail(' لا يوجد رصيد كافي في حساب هذا المستثمر  الرصيد المتاح هو ' . $investor->balance . ' ريال');
                         }
                     }
                 },
             ],
             'type' => 'required|in:0,1',
-            'note'=>'required|string',
             'investor_id'=>'required|exists:investors,id',
         ];
     }
@@ -40,8 +39,6 @@ class InvestorWalletRequest extends FormRequest
             'amount.numeric' => 'هذا الحقل يجب ان يكون رقم',
             'type.required' => 'هذا الحقل مطلوب',
             'type.in' => 'هذا الحقل يجب ان يكون رقم',
-            'note.required' => 'هذا الحقل مطلوب',
-            'note.string' => 'هذا الحقل يجب ان يكون رقم',
             'investor_id.required' => 'هذا الحقل مطلوب',
             'investor_id.exists' => 'المستثمر غير موجود',
 

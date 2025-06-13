@@ -33,12 +33,17 @@
                 <div class="card-body">
 
                     <div class="table-responsive">
+                        <h2 class=" text-center text-warning">
+                            المبلغ الكلي {{ $investors->sum('balance') }}
+                        </h2>
                         <!--begin::Table-->
                         <table class="table table-bordered text-nowrap w-100" id="dataTable">
                             <thead>
                                 <tr class="fw-bolder text-muted bg-light">
 
+                                    <th class="min-w-25px">#</th>
                                     <th class="min-w-25px">المبلغ</th>
+
                                     <th class="min-w-25px">نوع العمليه</th>
                                     <th class="min-w-25px">التاريخ</th>
                                     <th class="min-w-25px">اسم المستثمر</th>
@@ -88,7 +93,7 @@
             serverSide: true,
             responsive: true,
             order: [
-                [1, "DESC"]
+                [0, "DESC"]
             ],
             ajax: {
                 url: '{{ route($route . '.index') }}',
@@ -97,6 +102,12 @@
                 }
             },
             columns: [{
+                    data: 'id',
+                    name: 'id',
+                    visible: false, 
+                    searchable: false
+                },
+                {
                     data: 'amount',
                     name: 'amount'
                 },
@@ -108,7 +119,7 @@
                     data: 'date',
                     name: 'date'
                 },
-                 {
+                {
                     data: 'investor_id',
                     name: 'investor_id'
                 },

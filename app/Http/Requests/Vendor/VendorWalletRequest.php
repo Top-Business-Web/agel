@@ -29,7 +29,19 @@ class VendorWalletRequest extends FormRequest
                 },
             ],
             'type' => 'required|in:0,1',
-            'note'=>'required|string',
+        ];
+    }
+
+     public function messages()
+    {
+        return [
+            'amount.required' => 'هذا الحقل مطلوب',
+            'amount.numeric' => 'هذا الحقل يجب ان يكون رقم',
+            'type.required' => 'هذا الحقل مطلوب',
+            'type.in' => 'هذا الحقل يجب ان يكون رقم',
+            'investor_id.required' => 'هذا الحقل مطلوب',
+            'investor_id.exists' => 'المستثمر غير موجود',
+
         ];
     }
 

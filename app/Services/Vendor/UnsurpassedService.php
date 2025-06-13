@@ -135,7 +135,7 @@ class UnsurpassedService extends BaseService
                         }
                     }
 
-                    return '<h5 class="text-muted">ليس لديه طلبات</h5>';
+                    return '<h5 class="text-muted">متعثر</h5>';
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -265,7 +265,7 @@ class UnsurpassedService extends BaseService
                         }
                     }
 
-                    return '<h5 class="text-muted">ليس لديه طلبات</h5>';
+                    return '<h5 class="text-muted">متعثر</h5>';
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])

@@ -36,7 +36,7 @@
                                 <table class="table table-bordered text-nowrap w-100" id="dataTableWithoutButtons">
                                     <thead>
                                         <tr class="fw-bolder text-muted bg-light">
-                                            <th><input type="checkbox" id="select-all"></th>
+                                            <th><input type="checkbox" id="select-all2"></th>
                                             <th>#</th>
                                             <th>اسم المستخدم</th>
                                             <th>رقم الهويه</th>
@@ -75,6 +75,10 @@
                                 <table class="table table-bordered text-nowrap w-100" id="dataTable">
                                     <thead>
                                         <tr class="fw-bolder text-muted bg-light">
+                                            
+ <th class="min-w-25px">
+                                    <input type="checkbox" id="select-all">
+                                </th>
                                             <th>#</th>
                                             <th>اسم المستخدم</th>
                                             <th>رقم الهويه</th>
@@ -346,13 +350,29 @@
             processing: true,
             serverSide: true,
             order: [
-                [0, "DESC"]
+                [1, "DESC"]
             ],
             ajax: {
                 url: '{{ route('myUnsurpassed') }}',
                 type: 'GET',
             },
-            columns: [{
+            columns: [
+                
+             {
+            data: 'checkbox',
+            name: 'checkbox',
+            orderable: false,
+            searchable: false,
+            render: function(data, type, row) {
+             if (row.action && row.action.includes('لايمكنك اتخاد اي احراء')) {
+    return '';
+}
+
+                return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
+            }
+        },
+        
+        {
                     data: 'id',
                     name: 'id',
                     orderable: true,

@@ -27,10 +27,10 @@ class InvestorWalletService extends BaseService
             $query = $this->model->where('vendor_id', VendorParentAuthData('id'));
 
             if ($request->filled('investor_id')) {
-                $query->where('investor_id', $request->investor_id); // تأكد من وجود الحقل في جدولك
+                $query->where('investor_id', $request->investor_id);
             }
 
-            $obj = $query->get();
+            $obj = $query->orderBy('id','asc')->get();
 
             return DataTables::of($obj)
                 ->editColumn('vendor_id', function ($obj) {
@@ -44,6 +44,8 @@ class InvestorWalletService extends BaseService
                 ->editColumn('date', function ($obj) {
                     Carbon::setLocale('ar');
                     return $obj->created_at->translatedFormat('j F Y الساعة g:i A');
+                })->editColumn('note', function ($obj) {
+                    return $obj->note? $obj->note : "غير معلن";
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])

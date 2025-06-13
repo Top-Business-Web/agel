@@ -32,7 +32,9 @@
                             <thead>
                             <tr class="fw-bolder text-muted bg-light">
 
+                                <th class="min-w-25px">#</th>
                                 <th class="min-w-25px">المبلغ</th>
+
                                 <th class="min-w-25px">نوع العمليه</th>
                                 <th class="min-w-25px">التاريخ</th>
                                 <th class="min-w-25px">من قام بالعمليه</th>
@@ -73,7 +75,12 @@
 @section('ajaxCalls')
     <script>
         var columns = [
-
+{
+                    data: 'id',
+                    name: 'id',
+                    visible: false,
+                    searchable: false
+                },
             {data: 'amount', name: 'amount'},
             {data: 'type', name: 'type'},
             {data: 'date', name: 'date'},
