@@ -252,8 +252,8 @@ class OrderService extends BaseService
 
             $vendorCommission = $data['vendor_commission'];
 
-            $this->addOrSubBalanceToInvestor($data['investor_id'],  $data['delivered_price_to_client'], 1, "اضافة طلب");
-            $this->addOrSubBalanceToInvestor($data['investor_id'],  $data['investor_commission'], 1, "اضافة عموله الطلب");
+            $this->addOrSubBalanceToInvestor($data['investor_id'],  $data['delivered_price_to_client'], 0, "اضافة طلب");
+            $this->addOrSubBalanceToInvestor($data['investor_id'],  $data['investor_commission'], 0, "اضافة عموله الطلب");
 
             unset($data['investor_commission'], $data['vendor_commission']);
 
