@@ -180,7 +180,9 @@
         },
             {
                 data: 'id',
-                name: 'id'
+                name: 'id',
+                visible: false,
+                searchable: false
             },
             {
                 data: 'name',

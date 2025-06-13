@@ -36,7 +36,6 @@
                                 <table class="table table-bordered text-nowrap w-100" id="dataTableWithoutButtons">
                                     <thead>
                                         <tr class="fw-bolder text-muted bg-light">
-                                            <th><input type="checkbox" id="select-all2"></th>
                                             <th>#</th>
                                             <th>اسم المستخدم</th>
                                             <th>رقم الهويه</th>
@@ -75,7 +74,7 @@
                                 <table class="table table-bordered text-nowrap w-100" id="dataTable">
                                     <thead>
                                         <tr class="fw-bolder text-muted bg-light">
-                                            
+
  <th class="min-w-25px">
                                     <input type="checkbox" id="select-all">
                                 </th>
@@ -265,18 +264,12 @@
                     d.national_id = /^\d{10}$/.test(value) ? value : 'invalid_nid';
                 }
             },
-            columns: [{
-                    data: 'checkbox',
-                    name: 'checkbox',
-                    orderable: false,
-                    searchable: false,
-                    render: function(data, type, row) {
-                        return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
-                    }
-                },
+            columns: [
                 {
                     data: 'id',
                     name: 'id',
+                    visible: false,
+                    searchable: false,
                     orderable: false
                 },
                 {
@@ -357,7 +350,7 @@
                 type: 'GET',
             },
             columns: [
-                
+
              {
             data: 'checkbox',
             name: 'checkbox',
@@ -371,11 +364,12 @@
                 return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
             }
         },
-        
+
         {
                     data: 'id',
                     name: 'id',
                     orderable: true,
+                    visible: false,
                     searchable: false
                 },
                 {

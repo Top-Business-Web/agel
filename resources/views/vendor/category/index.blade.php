@@ -16,7 +16,7 @@
                             <button class="btn btn-secondary btn-icon text-white addBtn">
                             <span>
                                 <i class="fe fe-plus"></i>
-                            </span> إضافة  
+                            </span> إضافة
                             </button>
                         @endcan
                         @can('delete_category')
@@ -176,7 +176,9 @@
         },
             {
                 data: 'id',
-                name: 'id'
+                name: 'id',
+                visible: false,
+                searchable: false
             },
             {
                 data: 'name',

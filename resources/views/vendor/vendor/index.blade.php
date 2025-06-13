@@ -172,7 +172,7 @@
                     return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
                 }
             },
-            {data: 'id', name: 'id'},
+            {data: 'id', name: 'id', visible: false, searchable: false},
             {data: 'name', name: 'name'},
             {data: 'email', name: 'email'},
             {data: 'phone', name: 'phone'},
@@ -197,7 +197,7 @@
         showEditModal('{{route($route.'.edit',':id')}}');
         editScript();
 
-                checkVendorKeyLimit('.addBtn', 'Vendor');
+        checkVendorKeyLimit('.addBtn', 'Vendor');
 
     </script>
 
@@ -237,54 +237,54 @@
 
 
     </script>
-{{--    <script>--}}
-{{--        $(document).on('submit', 'Form#addForm', function (e) {--}}
-{{--            e.preventDefault();--}}
-{{--            var formData = new FormData(this);--}}
-{{--            var url = $('#addForm').attr('action');--}}
-{{--            $.ajax({--}}
-{{--                url: url,--}}
-{{--                type: 'POST',--}}
-{{--                data: formData,--}}
-{{--                beforeSend: function () {--}}
-{{--                    $('#addButton').html('<span class="spinner-border spinner-border-sm mr-2" ' +--}}
-{{--                        ' ></span> <span style="margin-left: 4px;">أنتظر قليلًا...</span>').attr('disabled', true);--}}
-{{--                },--}}
-{{--                success: function (data) {--}}
-{{--                    if (data.status == 200) {--}}
-{{--                        $('#dataTable').DataTable().ajax.reload();--}}
-{{--                        toastr.success('تمت العملية بنجاح');--}}
-{{--                    } else if(data.status == 405){--}}
-{{--                        toastr.error(data.mymessage);--}}
-{{--                    }--}}
-{{--                    else--}}
-{{--                        toastr.error('حدث خطأ ما');--}}
-{{--                    $('#addButton').html(`اضافه`).attr('disabled', false);--}}
-{{--                    // $('#editOrCreate').modal('hide')--}}
-{{--                },--}}
-{{--                error: function (data) {--}}
-{{--                    if (data.status === 500) {--}}
-{{--                        toastr.error('');--}}
-{{--                    } else if (data.status === 422) {--}}
-{{--                        var errors = $.parseJSON(data.responseText);--}}
-{{--                        $.each(errors, function (key, value) {--}}
-{{--                            if ($.isPlainObject(value)) {--}}
-{{--                                $.each(value, function (key, value) {--}}
-{{--                                    toastr.error(value, 'خطأ');--}}
-{{--                                });--}}
-{{--                            }--}}
-{{--                        });--}}
-{{--                    } else--}}
-{{--                        toastr.error('حدث خطأ ما');--}}
-{{--                    $('#addButton').html(`اضافة`).attr('disabled', false);--}}
-{{--                },//end error method--}}
+    {{--    <script>--}}
+    {{--        $(document).on('submit', 'Form#addForm', function (e) {--}}
+    {{--            e.preventDefault();--}}
+    {{--            var formData = new FormData(this);--}}
+    {{--            var url = $('#addForm').attr('action');--}}
+    {{--            $.ajax({--}}
+    {{--                url: url,--}}
+    {{--                type: 'POST',--}}
+    {{--                data: formData,--}}
+    {{--                beforeSend: function () {--}}
+    {{--                    $('#addButton').html('<span class="spinner-border spinner-border-sm mr-2" ' +--}}
+    {{--                        ' ></span> <span style="margin-left: 4px;">أنتظر قليلًا...</span>').attr('disabled', true);--}}
+    {{--                },--}}
+    {{--                success: function (data) {--}}
+    {{--                    if (data.status == 200) {--}}
+    {{--                        $('#dataTable').DataTable().ajax.reload();--}}
+    {{--                        toastr.success('تمت العملية بنجاح');--}}
+    {{--                    } else if(data.status == 405){--}}
+    {{--                        toastr.error(data.mymessage);--}}
+    {{--                    }--}}
+    {{--                    else--}}
+    {{--                        toastr.error('حدث خطأ ما');--}}
+    {{--                    $('#addButton').html(`اضافه`).attr('disabled', false);--}}
+    {{--                    // $('#editOrCreate').modal('hide')--}}
+    {{--                },--}}
+    {{--                error: function (data) {--}}
+    {{--                    if (data.status === 500) {--}}
+    {{--                        toastr.error('');--}}
+    {{--                    } else if (data.status === 422) {--}}
+    {{--                        var errors = $.parseJSON(data.responseText);--}}
+    {{--                        $.each(errors, function (key, value) {--}}
+    {{--                            if ($.isPlainObject(value)) {--}}
+    {{--                                $.each(value, function (key, value) {--}}
+    {{--                                    toastr.error(value, 'خطأ');--}}
+    {{--                                });--}}
+    {{--                            }--}}
+    {{--                        });--}}
+    {{--                    } else--}}
+    {{--                        toastr.error('حدث خطأ ما');--}}
+    {{--                    $('#addButton').html(`اضافة`).attr('disabled', false);--}}
+    {{--                },//end error method--}}
 
-{{--                cache: false,--}}
-{{--                contentType: false,--}}
-{{--                processData: false--}}
-{{--            });--}}
-{{--        });--}}
-{{--    </script>--}}
+    {{--                cache: false,--}}
+    {{--                contentType: false,--}}
+    {{--                processData: false--}}
+    {{--            });--}}
+    {{--        });--}}
+    {{--    </script>--}}
 @endsection
 
 

@@ -257,7 +257,7 @@
                 }
             },
             order: [
-                [1, "DESC"]
+                [0, "DESC"]
             ],
 
             ajax: {
@@ -269,7 +269,9 @@
             columns: [
                 {
                     data: 'id',
-                    name: 'id'
+                    name: 'id',
+                    visible: false,
+                    searchable: false
                 },
                 {
                     data: 'investor_id',

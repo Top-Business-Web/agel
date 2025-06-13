@@ -7,11 +7,11 @@
 @endsection
 
 @section('content')
-<style>
-    .select2-container{
-        width: 100% !important;
-    }
-</style>
+    <style>
+        .select2-container {
+            width: 100% !important;
+        }
+    </style>
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">
@@ -72,13 +72,11 @@
                         <table class="table table-bordered text-nowrap w-100" id="dataTable">
                             <thead>
                             <tr class="fw-bolder text-muted bg-light">
-                                <th class="min-w-25px">
-                                    <input type="checkbox" id="select-all">
-                                </th>
+
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-50px rounded-end">اسم العميل</th>
                                 <th class="min-w-50px rounded-end">رقم هويه العميل</th>
-{{--                                <th class="min-w-50px rounded-end">حاله العميل </th>--}}
+                                {{--                                <th class="min-w-50px rounded-end">حاله العميل </th>--}}
                                 <th class="min-w-50px rounded-end">الكميه</th>
                                 <th class="min-w-50px rounded-end">تاريخ السداد</th>
                                 <th class="min-w-50px rounded-end"> اسم المستثمر</th>
@@ -149,9 +147,9 @@
         let dataTable = $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
-  order: [
+            order: [
                 [1, "DESC"]
-            ],            ajax: {
+            ], ajax: {
                 url: '{{ route($route . '.index') }}',
                 data: function (d) {
                     d.investor_id = $('#investorFilter').val();
@@ -160,16 +158,11 @@
                 }
             },
             columns: [
+
                 {
-                    data: 'checkbox',
-                    name: 'checkbox',
-                    orderable: false,
-                    searchable: false,
-                    render: function (data, type, row) {
-                        return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
-                    }
+                    data: 'id', name: 'id', visible: false,
+                    searchable: false
                 },
-                {data: 'id', name: 'id'},
                 {data: 'client_id', name: 'client_id'},
                 {data: 'client_national_id', name: 'client_national_id'},
                 // {data: 'client_status', name: 'client_status'},
