@@ -61,7 +61,7 @@
 
                     <div class="mt-3 text-end">
                         <button class="btn btn-secondary btn-icon text-white addBtn">
-                            <span><i class="fe fe-plus"></i></span> أضافه
+                            <span><i class="fe fe-plus"></i></span> إضافة
                         </button>
                     </div>
                 </div>
