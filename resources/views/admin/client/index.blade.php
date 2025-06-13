@@ -1,7 +1,7 @@
 @extends('admin/layouts/master')
 
 @section('title')
-    {{ config()->get('app.name') }} | المكاتب
+    {{ config()->get('app.name') }} | العملاء
 @endsection
 @section('page_name')
     <!-- {{ $bladeName }} -->
@@ -211,7 +211,12 @@
     <script>
         var columns = [
 
-            {data: 'id', name: 'id'},
+            {
+                data: 'id',
+                name: 'id',
+                visible: false,
+                searchable: false
+            },
             {data: 'name', name: 'name'},
             {data: 'national_id', name: 'national_id'},
             {data: 'phone', name: 'phone'},
@@ -302,7 +307,7 @@
 
             $('#branchFilter').val('all');
             const selectedOfficeId = $(this).val();
-            let branchOfficeId ='all'
+            let branchOfficeId = 'all'
             if (selectedOfficeId) {
                 $('#branch-div').css('display', 'block');
             }
@@ -310,7 +315,7 @@
             // Update branch options
             let hasMatch = false;
             $('#branchFilter option').each(function () {
-                 branchOfficeId = $(this).data('office-id');
+                branchOfficeId = $(this).data('office-id');
                 if ($(this).val() === "all") {
                     $(this).show(); // Ensure "all" is always visible
                     return;

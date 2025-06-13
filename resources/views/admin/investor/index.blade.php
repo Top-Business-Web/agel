@@ -1,7 +1,7 @@
 @extends('admin/layouts/master')
 
 @section('title')
-    {{ config()->get('app.name') }} | الاصناف
+    {{ config()->get('app.name') }} | المستثمرين
 @endsection
 @section('page_name')
 @endsection
@@ -105,7 +105,9 @@
     <script>
         var columns = [{
             data: 'id',
-            name: 'id'
+            name: 'id',
+            visible: false,
+            searchable: false
         },
             {
                 data: 'name',
@@ -272,7 +274,7 @@
 
             $('#branchFilter').val('all');
             const selectedOfficeId = $(this).val();
-            let branchOfficeId ='all'
+            let branchOfficeId = 'all'
             if (selectedOfficeId) {
                 $('#branch-div').css('display', 'block');
             }

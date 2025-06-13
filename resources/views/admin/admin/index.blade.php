@@ -164,7 +164,12 @@
                 }
             },
             {
-                data: 'id', name: 'id'
+                data: 'id',
+                name: 'id',
+                visible: false,
+                searchable: false
+
+
             },
             {data: 'name', name: 'name'},
             {data: 'email', name: 'email'},

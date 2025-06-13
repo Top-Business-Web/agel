@@ -174,7 +174,9 @@
             },
             {
                 data: 'id',
-                name: 'id'
+                name: 'id',
+                visible: false,
+                searchable: false
             },
             {
                 data: 'client_id',

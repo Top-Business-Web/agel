@@ -1,12 +1,12 @@
 @extends('admin/layouts/master')
 
 @section('title')
-{{ config()->get('app.name') }} | المكاتب
+    {{ config()->get('app.name') }} | المكاتب
 @endsection
 @section('page_name')
     <!-- {{ $bladeName }} -->
 @endsection
- <!-- {{--@section('page_name') {{ $title }} -->
+<!-- {{--@section('page_name') {{ $title }} -->
   @endsection--}} -->
 
 @section('content')
@@ -171,7 +171,12 @@
                     return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
                 }
             },
-            {data: 'id', name: 'id'},
+            {
+                data: 'id',
+                name: 'id',
+                visible: false,
+                searchable: false
+            },
             {data: 'name', name: 'name'},
             {data: 'email', name: 'email'},
             {data: 'phone', name: 'phone'},

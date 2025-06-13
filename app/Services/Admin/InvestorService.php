@@ -9,12 +9,10 @@ use App\Models\Branch;
 use App\Models\Investor as ObjModel;
 
 use App\Services\BaseService;
-use Illuminate\Http\Request;
 use App\Models\Vendor;
 
 use Yajra\DataTables\DataTables;
 
-use function Symfony\Component\String\b;
 
 class InvestorService extends BaseService
 {

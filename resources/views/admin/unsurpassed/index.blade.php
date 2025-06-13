@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
-    {{ config()->get('app.name') }}
+    {{ config()->get('app.name') }}| المتعثرين
 @endsection
 
 @section('content')
@@ -107,7 +107,12 @@
                     return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
                 }
             },
-            {data: 'id', name: 'id'},
+            {
+                data: 'id',
+                name: 'id',
+                visible: false,
+                searchable: false
+            },
             {data: 'name', name: 'name'},
             {data: 'national_id', name: 'national_id'},
             {data: 'phone', name: 'phone'},
