@@ -158,6 +158,8 @@ class OrderService extends BaseService
                 $this->applyGracePeriod($order, $request);
             } else {
                 $this->updatePaymentStatus($order, $request);
+                $this->addOrSubBalanceToInvestor($order['investor_id'],  $request->paid, 0, "اضافة مبلغ لطلب");
+
             }
 
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
@@ -185,6 +187,7 @@ class OrderService extends BaseService
     private function updatePaymentStatus($order, $request): void
     {
         $order->order_status->increment('paid', $request->paid);
+
 
         $newStatus = $order->order_status->paid == $order->required_to_pay ? 3 : 1;
         $order->order_status->update(['status' => $newStatus]);
@@ -252,7 +255,6 @@ class OrderService extends BaseService
 
             $vendorCommission = $data['vendor_commission'];
 
-            $this->addOrSubBalanceToInvestor($data['investor_id'],  $data['delivered_price_to_client'], 0, "اضافة طلب");
             $this->addOrSubBalanceToInvestor($data['investor_id'],  $data['investor_commission'], 0, "اضافة عموله الطلب");
 
             unset($data['investor_commission'], $data['vendor_commission']);
