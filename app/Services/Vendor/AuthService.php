@@ -169,7 +169,7 @@ class AuthService extends BaseService
         $vendor = Vendor::create([
             'name' => $request->name,
             'email' => $request->email,
-            'phone' => '+966' . $request->phone,
+            'phone' => $request->phone,
             'password' => Hash::make($request->password),
             'city_id' => $request->city_id,
             'commercial_number' => $request->commercial_number,
