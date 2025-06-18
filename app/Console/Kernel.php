@@ -10,6 +10,7 @@ class Kernel extends ConsoleKernel
 
     protected $commands = [
         \App\Console\Commands\RefreshStorageLink::class,
+        \App\Console\Commands\UpdateVendorPlan::class,
     ];
     /**
      * Define the application's command schedule.
@@ -20,6 +21,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
          $schedule->command('ChangeStatusToCompleted')->everyMinute();
+        $schedule->command('update:vendor-plan')->daily();
     }
 
     /**

@@ -63,7 +63,7 @@ class PlanService extends BaseService
                 })->editColumn('status', function ($obj) {
                     return $obj->id == 1 ? 'غير متاح' : $this->statusDatatable($obj);
                 })->editColumn('description', function ($obj) {
-                    return strlen($obj->description) > 50 ? substr($obj->description, 0, 50) . '...' : $obj->description;
+                    return mb_strlen($obj->description, 'UTF-8') > 50 ? mb_substr($obj->description, 0, 50, 'UTF-8') . '...' : $obj->description;
                 })->editColumn('discount', function ($obj) {
                     return $obj->discount . '%';
                 })->editColumn('period', function ($obj) {

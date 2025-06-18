@@ -21,7 +21,7 @@ class SettingService extends BaseService
         $settings=$this->model->all();
 
             return view($this->folder . '/index', [
-                'updateRoute' => route("{$this->route}.update", $request),
+                'updateRoute' => route("{$this->route}.update", ['scheme' => 'https']),
                 'bladeName' => ($this->route),
                 'route' => $this->route,
                 'settings'=>$settings
