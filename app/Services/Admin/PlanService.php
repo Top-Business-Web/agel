@@ -95,7 +95,7 @@ class PlanService extends BaseService
     public function store($validatedData)
     {
         try {
-            if (isset($validatedData['image']) && $validatedData['image'] instanceof \Illuminate\Http\UploadedFile) {
+            if (isset($validatedData['image'])) {
                 $image = $validatedData['image']->handleFile($validatedData['image'], 'Plan');
             }
 
