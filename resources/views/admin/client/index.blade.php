@@ -59,11 +59,23 @@
                                         <option selected value="all">كل الفروع</option>
                                         @foreach ($branches as $branch)
                                             <option value="{{ $branch->id }}"
-                                                    data-office-id="{{ $branch->vendor->parent_id != null ? $branch->vendor->parent->id : $branch->vendor->id }}">
+                                                    data-office-id="
+        @if($branch->vendor)
+            {{ $branch->vendor->parent_id != null ? ($branch->vendor->parent->id ?? $branch->vendor->id) : $branch->vendor->id }}
+        @else
+            0
+        @endif
+    ">
                                                 {{ $branch->name }}
-                                                ({{ $branch->vendor->parent_id != null ? $branch->vendor->parent->name : $branch->vendor->name }}
-                                                )
+                                                (
+                                                @if($branch->vendor)
+                                                    {{ $branch->vendor->parent_id != null ? ($branch->vendor->parent->name ?? $branch->vendor->name) : $branch->vendor->name }}
+                                                @else
+                                                    بدون تاجر
+                                                @endif
+                                            )
                                             </option>
+
                                         @endforeach
                                     </select>
                                 </div>

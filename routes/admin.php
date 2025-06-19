@@ -43,7 +43,7 @@ Route::group(
     function () {
 
         Route::get('/', function (){
-            return view('admin.auth.select');
+            return redirect('/partner');
         })->name('select');
 
         Route::get('/admin', [AuthController::class, 'index']);
