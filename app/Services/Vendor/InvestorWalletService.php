@@ -19,7 +19,7 @@ class InvestorWalletService extends BaseService
     public function __construct(ObjModel $objModel, protected Vendor $vendor, protected Branch $branch, protected Investor $investor)
     {
         parent::__construct($objModel);
-    }
+    }z
 
     public function index($request)
     {

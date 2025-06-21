@@ -57,7 +57,7 @@ if (!function_exists('get_file')) {
                 $created = Investor::whereIn('Branch_id', Branch::whereIn('vendor_id', $vendorIds)->pluck('id'))->count();
                 return $created;
             } elseif ($key == 'Order') {
-                 $created=Order::whereIn('vendor_id',$vendorIds)->count();
+                $created = Order::whereIn('vendor_id', $vendorIds)->count();
                 return $created;
 
             }
@@ -111,8 +111,6 @@ if (!function_exists('checkVendorPlanLimit')) {
         return false;
     }
 }
-
-
 
 
 if (!function_exists('getAuthSetting')) {
@@ -1094,13 +1092,29 @@ if (!function_exists('helperJson')) {
     }
 }
 
-if(!function_exists('VendorParentAuthData')){
+if (!function_exists('VendorParentAuthData')) {
     function VendorParentAuthData($key)
     {
-       $parent_id = auth('vendor')->user()->parent_id == null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
-       $parent = Vendor::where('id', $parent_id)->first();
-       return $parent->$key;
+        $parent_id = auth('vendor')->user()->parent_id == null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
+        $parent = Vendor::where('id', $parent_id)->first();
+        return $parent->$key;
 
     }
 
 }
+
+if (!function_exists('ModelData')) {
+    function ModelData($model, $id, $key)
+    {
+        $modelClass = "App\\Models\\" . $model;
+
+        if (!class_exists($modelClass)) {
+            return null;
+        }
+
+        $obj = $modelClass::find($id);
+
+        return $obj?->$key ?? null;
+    }
+}
+

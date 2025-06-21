@@ -2,7 +2,7 @@
 
 namespace App\Services\Vendor;
 
-use App\Enums\OrderStatus;
+use App\Models\OrderStatus;
 use App\Models\Client;
 use App\Models\Investor;
 use App\Models\Order as ObjModel;
@@ -32,8 +32,10 @@ class OrderService extends BaseService
         private Client             $client,
         protected OrderInstallment $orderInstallment,
         protected Stock            $stock,
-        protected Vendor           $vendor
-    ) {
+        protected Vendor           $vendor,
+        protected OrderStatus      $orderStatus
+    )
+    {
         parent::__construct($objModel);
     }
 
@@ -59,7 +61,7 @@ class OrderService extends BaseService
                 ->addColumn('action', function ($obj) {
 
                     $buttons = '';
-                    if ($obj->order_status->status !== 3) {
+                    if ($obj->order_status->status != 3) {
                         $buttons .= '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-success-light editBtn">
                         <i class="fa fa-money-bill-wave side-menu__icon"></i>
@@ -94,7 +96,7 @@ class OrderService extends BaseService
                 })->editColumn('investor_id', function ($obj) {
                     return $obj->investor_id ? $obj->investor->name : "";
                 })->addColumn('status', function ($obj) {
-                    return  $obj->date <= now() && $obj->order_status->status !== OrderStatus::COMPLETELY_PAID->value ? "متعثر" : OrderStatus::from($obj->order_status->status)->lang();
+                    return $obj->date <= now() && $obj->order_status->status !== \App\Enums\OrderStatus::COMPLETELY_PAID->value ? "متعثر" : \App\Enums\OrderStatus::from($obj->order_status->status)->lang();
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -158,7 +160,7 @@ class OrderService extends BaseService
                 $this->applyGracePeriod($order, $request);
             } else {
                 $this->updatePaymentStatus($order, $request);
-                $this->addOrSubBalanceToInvestor($order['investor_id'],  $request->paid, 0, "اضافة مبلغ لطلب");
+                $this->addOrSubBalanceToInvestor($order['investor_id'], $request->paid, 0, "اضافة مبلغ لطلب رقم $order->order_number");
 
             }
 
@@ -255,11 +257,9 @@ class OrderService extends BaseService
 
             $vendorCommission = $data['vendor_commission'];
 
-            $this->addOrSubBalanceToInvestor($data['investor_id'],  $data['investor_commission'], 0, "اضافة عموله الطلب");
+            $this->addOrSubBalanceToInvestor($data['investor_id'], $data['investor_commission'], 0, "اضافة عموله الطلب");
 
             unset($data['investor_commission'], $data['vendor_commission']);
-
-
 
 
             // check if client exists
@@ -276,7 +276,7 @@ class OrderService extends BaseService
 
             $this->storeOrderStatus($order);
 
-            $this->addOrSubBalanceToVendor($vendorCommission, 0, "اضافة عموله المكتب ",  $order->order_number);
+            $this->addOrSubBalanceToVendor($vendorCommission, 0, "اضافة عموله المكتب ", $order->order_number);
 
 
             if (isset($data['is_installment']) && $data['is_installment'] === 'on' && $data['installment_number'] > 0) {
@@ -405,6 +405,14 @@ class OrderService extends BaseService
     public function reverseStockDetails($id)
     {
         $order = $this->getById($id);
+        $orderStatus = $this->orderStatus->where('order_id',$order->id)->first();
+        if ($orderStatus->paid > 0){
+
+
+            $this->addOrSubBalanceToInvestor($order->investor_id,$orderStatus->paid,1,"بسبب الغاء طلب $order->order_number. تم انقاص ");
+        }
+
+
 
         $stockDetailIds = $order->details()->where('order_id', $id)->pluck('stock_detail_id')->toArray();
         $this->updateStockDetail($stockDetailIds);

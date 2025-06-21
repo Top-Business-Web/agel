@@ -182,7 +182,6 @@
             ]
         });
 
-        // إعادة تحميل الجدول عند تغيير الفلاتر
         $('#investorFilter, #monthFilter, #yearFilter').on('change', function () {
             dataTable.ajax.reload();
         });

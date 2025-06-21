@@ -104,7 +104,7 @@
             columns: [{
                     data: 'id',
                     name: 'id',
-                    visible: false, 
+                    visible: false,
                     searchable: false
                 },
                 {
