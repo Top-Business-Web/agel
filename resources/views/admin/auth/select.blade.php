@@ -239,8 +239,8 @@
         <a href="#plans">الاشتراكات</a>
         <a href="#about">من نحن</a>
         <a href="#contact">اتصل بنا</a>
-        <a href="https://agel.scriptech.ebharbook.com/ar/partner">تسجيل الدخول</a>
-        <a href="https://agel.scriptech.ebharbook.com/ar/register">تسجيل حساب جديد</a>
+        <a href="{{url('/partner')}}">تسجيل الدخول</a>
+        <a href="{{url('/register')}}">تسجيل حساب جديد</a>
     </nav>
 </header>
 

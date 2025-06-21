@@ -63,7 +63,7 @@ class VendorService extends BaseService
                           ';
                     }
                     return $buttons;
-                }
+                })
                 ->editcolumn('status', function ($obj) {
 
                     return $this->statusDatatable($obj);

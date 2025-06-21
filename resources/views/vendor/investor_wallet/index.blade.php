@@ -39,24 +39,23 @@
                         <!--begin::Table-->
                         <table class="table table-bordered text-nowrap w-100" id="dataTable">
                             <thead>
-                                <tr class="fw-bolder text-muted bg-light">
+                            <tr class="fw-bolder text-muted bg-light">
 
-                                    <th class="min-w-25px">#</th>
-                                    <th class="min-w-25px">المبلغ</th>
+                                <th class="min-w-25px">#</th>
+                                <th class="min-w-25px">المبلغ</th>
 
-                                    <th class="min-w-25px">نوع العمليه</th>
-                                    <th class="min-w-25px">التاريخ</th>
-                                    <th class="min-w-25px">اسم المستثمر</th>
-                                    <th class="min-w-25px">من قام بالعمليه</th>
-                                    <th class="min-w-25px">الملاحظات</th>
-                                </tr>
+                                <th class="min-w-25px">نوع العمليه</th>
+                                <th class="min-w-25px">التاريخ</th>
+                                <th class="min-w-25px">اسم المستثمر</th>
+                                <th class="min-w-25px">من قام بالعمليه</th>
+                                <th class="min-w-25px">الملاحظات</th>
+                            </tr>
                             </thead>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-
 
 
         <!-- Create Or Edit Modal -->
@@ -78,7 +77,6 @@
         <!-- Create Or Edit Modal -->
 
 
-
     </div>
     @include('vendor/layouts/myAjaxHelper')
 @endsection
@@ -97,16 +95,16 @@
             ],
             ajax: {
                 url: '{{ route($route . '.index') }}',
-                data: function(d) {
+                data: function (d) {
                     d.investor_id = $('#investorFilter').val();
                 }
             },
             columns: [{
-                    data: 'id',
-                    name: 'id',
-                    visible: false,
-                    searchable: false
-                },
+                data: 'id',
+                name: 'id',
+                visible: false,
+                searchable: false
+            },
                 {
                     data: 'amount',
                     name: 'amount'
@@ -135,7 +133,7 @@
         });
 
         // إعادة تحميل الجدول عند تغيير الفلتر
-        $('#investorFilter').on('change', function() {
+        $('#investorFilter').on('change', function () {
             dataTable.ajax.reload();
         });
 

@@ -30,12 +30,12 @@ class InvestorWalletService extends BaseService
                 $query->where('investor_id', $request->investor_id);
             }
 
-            $obj = $query->orderBy('id','asc')->get();
+            $obj = $query->orderBy('id', 'asc')->get();
 
             return DataTables::of($obj)
                 ->editColumn('vendor_id', function ($obj) {
                     return $obj->vendor?->name;
-                }) ->editColumn('investor_id', function ($obj) {
+                })->editColumn('investor_id', function ($obj) {
                     return $obj->investor?->name;
                 })
                 ->editColumn('type', function ($obj) {
@@ -45,7 +45,7 @@ class InvestorWalletService extends BaseService
                     Carbon::setLocale('ar');
                     return $obj->created_at->translatedFormat('j F Y الساعة g:i A');
                 })->editColumn('note', function ($obj) {
-                    return $obj->note? $obj->note : "غير معلن";
+                    return $obj->note ? $obj->note : "غير معلن";
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -53,7 +53,7 @@ class InvestorWalletService extends BaseService
         } else {
             $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
             $vendors = $this->vendor->where('parent_id', $parentId)->get();
-            $vendors[] =  $this->vendor->where('id', $parentId)->first();
+            $vendors[] = $this->vendor->where('id', $parentId)->first();
             $vendorIds = $vendors->pluck('id');
             $obj = $this->investor->whereIn('branch_id', $this->branch->whereIn('vendor_id', $vendorIds)->pluck('id'))->get();
             return view($this->folder . '/index', [
@@ -69,7 +69,7 @@ class InvestorWalletService extends BaseService
     {
         $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
         $vendors = $this->vendor->where('parent_id', $parentId)->get();
-        $vendors[] =  $this->vendor->where('id', $parentId)->first();
+        $vendors[] = $this->vendor->where('id', $parentId)->first();
         $vendorIds = $vendors->pluck('id');
         $obj = $this->investor->whereIn('branch_id', $this->branch->whereIn('vendor_id', $vendorIds)->pluck('id'))->get();
         return view("{$this->folder}/parts/create", [

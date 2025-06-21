@@ -29,6 +29,7 @@ class PlanService extends BaseService
             'route' => $this->route,
             'plans' => $this->plan->all(),
             'planDetails' => $this->planDetail,
+            'vendor_plans' => $this->model->where('vendor_id', auth('vendor')->user()->parent_id == null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id)->get(),
             'planSubscription' => $this->model->where('status', 1)->where('vendor_id', auth('vendor')->user()->parent_id == null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id)->where('plan_id', '!=', 1)->first(),
             'phones' => $this->setting->where('key', 'like', 'phone%')->get(),
             'bank_account' => $this->setting->where('key', 'iban')->first()? $this->setting->where('key', 'iban')->first(): null,
@@ -44,15 +45,11 @@ class PlanService extends BaseService
         if ($vendor->plan_id != null) {
             $oldPlan = $this->model->where('vendor_id', $data['vendor_id'])->where('plan_id', '!=', 1)->where('status', 1)->first();
             $oldSubcriptionApplication = $this->model->where('vendor_id', $data['vendor_id'])->where('plan_id', $data['plan_id'])->where('status', 0)->first();
-            if ($oldPlan) {
-//                $oldPlan->update(['status' => 0]);
-                return $this->responseMsg(['status' => 500, 'message' => "لا يمكن الإشتراك في خطة جديدة قبل إنهاء الخطة السابقة"]);
-            }
+
             if ($oldSubcriptionApplication) {
-                return $this->responseMsg(['status' => 500, 'message' => "لقذ قمت بالفعل بتقديم طلب اشتراك في هذه الخطه يرجى الانتظار حتى يتم قبول الطلب من قبل الإدارة"]);
+                return response()->json(['status' => 500, 'message' => "لقذ قمت بالفعل بتقديم طلب اشتراك في هذه الخطه يرجى الانتظار حتى يتم قبول الطلب من قبل الإدارة"]);
             }
         }
-//        dd($data->all());
         $data['status'] = 0;
 
         $data['from'] = date('Y-m-d');

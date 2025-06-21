@@ -42,8 +42,8 @@ Route::group(
     ],
     function () {
 
-        Route::get('/', function (){
-            return redirect('/partner');
+        Route::get('/', function () {
+            return view('admin.auth.select');
         })->name('select');
 
         Route::get('/admin', [AuthController::class, 'index']);
@@ -145,13 +145,6 @@ Route::group(
         );
     }
 );
-
-
-
-
-
-
-
 
 
 Route::resourceWithDeleteSelected('investor_wallets', \App\Http\Controllers\Admin\InvestorWalletController::class);

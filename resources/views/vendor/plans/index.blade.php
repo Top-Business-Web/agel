@@ -57,8 +57,23 @@
                                     <div class="pricing-price">
 
                                         <p>
-                                            <span class="currency">{{$plan->price}} ريال سعودي</span>
-                                            <span class="time"> شهرياً</span>
+                                            @if($plan->price!=0)
+
+                                                <span class="currency"
+                                                      style="text-decoration: line-through; color: red;">
+                                            {{ number_format($plan->price, 2) }} ريال سعودي
+                                        </span><br>
+                                            @endif
+
+                                            <span class="currency" style="font-weight: bold; color: green;">
+                                                {{ number_format($plan->price * (100 - $plan->discount) / 100, 2) }} ريال سعودي
+                                            </span>
+                                            @if($plan->price!=0)
+
+                                                <span style="font-weight: bold; color: green;" class="time"> لمده {{$plan->period}} يوما</span>
+                                            @endif
+
+
                                         </p>
                                     </div>
                                     <div class="pricing-list">
@@ -106,6 +121,7 @@
                                         </ul>
                                     </div>
                                 </div>
+{{--                                @dd($planSubscription)--}}
                                 @if($planSubscription== null)
                                     @if($plan->id==1)
                                         <button type="button"
@@ -115,15 +131,18 @@
                                             الخطه الخاصة بك
                                         </button>
                                     @else
-                                        <button type="button"
-                                                class="mt-4 btn btn-primary subscribe-btn"
-                                                data-plan-id="{{ $plan->id }}"
-                                        >
-                                            ترقيه
-                                        </button>
+
+
+
+                                            <button type="button"
+                                                    class="mt-4 btn btn-primary subscribe-btn"
+                                                    data-plan-id="{{ $plan->id }}"
+                                            >
+                                                ترقيه
+                                            </button>
+
                                     @endif
-                                @else
-                                    @if($planSubscription->plan_id == $plan->id)
+                                @elseif($planSubscription->plan_id == $plan->id && $planSubscription->status == 1)
                                         <div class="d-flex flex-column align-items-center mt-4">
                                             <!-- Enhanced Button with Hover Effect -->
                                             <button type="button"
@@ -143,7 +162,6 @@
                                             </button>
 
                                             @if(now()->diffInDays($planSubscription->to)+1 > 0)
-                                                <!-- Active Plan Badge with Hover -->
                                                 <span class="badge mt-2 bg-white text-danger border border-danger"
                                                       style="
                     font-size: 0.85rem;
@@ -157,26 +175,26 @@
                 "
                                                       onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='0 4px 12px rgba(220, 53, 69, 0.2)'"
                                                       onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 2px 8px rgba(220, 53, 69, 0.15)'">
-                    <i class="fas fa-clock me-1"></i>
-                    {{now()->diffInDays($planSubscription->to)+1 }} يوم متبقي
-                </span>
+                                    <i class="fas fa-clock me-1"></i>
+                                    {{now()->diffInDays($planSubscription->to)+1 }} يوم متبقي
+                                </span>
                                             @else
-                                                <!-- Expired Plan Badge with Pulse Alert -->
-                                                <span class="badge mt-2 bg-danger text-white" style="
-                    font-size: 0.85rem;
-                    padding: 8px 16px;
-                    border-radius: 50px;
-                    font-weight: 700;
-                    letter-spacing: 0.5px;
-                    animation: pulseAlert 1.5s infinite;
-                ">
-                    <i class="fas fa-exclamation-circle me-1"></i>
-                    الخطة منتهية
-                </span>
+
+                                                        <span class="badge mt-2 bg-danger text-white" style="
+                            font-size: 0.85rem;
+                            padding: 8px 16px;
+                            border-radius: 50px;
+                            font-weight: 700;
+                            letter-spacing: 0.5px;
+                            animation: pulseAlert 1.5s infinite;
+                        ">
+                                            <i class="fas fa-exclamation-circle me-1"></i>
+                                            الخطة منتهية
+                                        </span>
+
                                             @endif
                                         </div>
 
-                                        <!-- CSS Animation Definition -->
                                         <style>
                                             @keyframes pulseAlert {
                                                 0% {
@@ -198,8 +216,21 @@
                                                 box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
                                             }
                                         </style>
+
+                                @else
+                                    @if($plan->id!=1)
+
+
+                                    <button type="button"
+                                            class="mt-4 btn btn-primary subscribe-btn"
+                                            data-plan-id="{{ $plan->id }}"
+                                    >
+                                        ترقيه
+                                    </button>
                                     @endif
+
                                 @endif
+
 
                             </div>
                         </div>
@@ -225,10 +256,12 @@
                         <div class="row">
 
                             <div class="col-12">
-                                <div class="form-group p-3 mb-4 rounded" style="background: #f8f9fa; border: 1px solid #e0e0e0; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                                <div class="form-group p-3 mb-4 rounded"
+                                     style="background: #f8f9fa; border: 1px solid #e0e0e0; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
                                     <label class="d-block mb-3">
                                         <!-- Header -->
-                                        <div class="d-flex align-items-center mb-2" style="color: #2c3e50; font-weight: bold;">
+                                        <div class="d-flex align-items-center mb-2"
+                                             style="color: #2c3e50; font-weight: bold;">
                                             <i class="fas fa-money-bill-wave me-2 m-2" style="color: #3498db;"></i>
                                             <span>طرق الدفع المتاحة :</span>
                                         </div>
@@ -238,7 +271,8 @@
                                             <i class="fas fa-phone-alt me-2" style="color: #7f8c8d; width: 20px;"></i>
                                             <span class="me-2" style="font-weight: 600; color: #34495e;">الدفع عبر الرقم:</span>
                                             @foreach($phones as $phone)
-                                                <span class="px-2 me-1 rounded" style="background: #e8f4fc; color: #2980b9;">{{ $phone?->value }}</span>
+                                                <span class="px-2 me-1 rounded"
+                                                      style="background: #e8f4fc; color: #2980b9;">{{ $phone?->value }}</span>
                                                 @if(!$loop->last)
                                                     <span class="me-1" style="color: #95a5a6;">،</span>
                                                 @endif
@@ -248,8 +282,10 @@
                                         <!-- Bank Account -->
                                         <div class="d-flex flex-wrap align-items-center">
                                             <i class="fas fa-university me-2" style="color: #7f8c8d; width: 20px;"></i>
-                                            <span class="me-2" style="font-weight: 600; color: #34495e;">الحساب البنكي:</span>
-                                            <span class="px-2 rounded" style="background: #e8f4fc; color: #2980b9;">{{ $bank_account?->value }}</span>
+                                            <span class="me-2"
+                                                  style="font-weight: 600; color: #34495e;">الحساب البنكي:</span>
+                                            <span class="px-2 rounded"
+                                                  style="background: #e8f4fc; color: #2980b9;">{{ $bank_account?->value }}</span>
                                         </div>
                                     </label>
                                 </div>
