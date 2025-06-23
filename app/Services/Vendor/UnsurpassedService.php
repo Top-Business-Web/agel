@@ -141,27 +141,38 @@ class UnsurpassedService extends BaseService
                 ->escapeColumns([])
                 ->make(true);
         } else {
+            $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
+            $vendors = $this->vendor->where('parent_id', $parentId)->get();
+            $vendors[] =  $this->vendor->where('id', $parentId)->first();
+            $vendorIds = $vendors->pluck('id');
+            $obj = $this->investor->whereIn('Branch_id', $this->branch->whereIn('vendor_id', $vendorIds)->pluck('id'))->get();
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
                 'addExcelRoute' => route($this->route . '.add.excel'),
                 'bladeName' => "",
                 'route' => $this->route,
                 'obj' => $this->model->get(),
+                'investors' => $obj,
             ]);
         }
     }
     public function myUnsurpassed($request)
     {
         if ($request->ajax()) {
+            $investorId = $request->get('investor_id');
             $vendorId = auth('vendor')->user()->parent_id !== null ? auth('vendor')->user()->parent_id : auth('vendor')->user()->id;
             $unsurpassed = ObjModel::query()->where('office_phone', $this->vendor->where('id', $vendorId)->first()->phone)->select('*', DB::raw("'unsurpassed' as model_type"));
 
+            if ($investorId) {
+                $unsurpassed = $unsurpassed->where('investor_id', $investorId);
+            }
             $clients = $this->client->whereHas('orders', function ($query) use ($vendorId) {
                 $query->where('vendor_id', $vendorId)
                     ->whereHas('order_status', function ($q) {
                         $q->whereNotIn('status', [3]);
                     });
             })->select('*', DB::raw("'client' as model_type"));
+
 
             $obj = $unsurpassed->unionAll($clients)->get();
 
@@ -271,12 +282,18 @@ class UnsurpassedService extends BaseService
                 ->escapeColumns([])
                 ->make(true);
         } else {
+            $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
+            $vendors = $this->vendor->where('parent_id', $parentId)->get();
+            $vendors[] =  $this->vendor->where('id', $parentId)->first();
+            $vendorIds = $vendors->pluck('id');
+            $obj = $this->investor->whereIn('Branch_id', $this->branch->whereIn('vendor_id', $vendorIds)->pluck('id'))->get();
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
                 'addExcelRoute' => route($this->route . '.add.excel'),
                 'bladeName' => "",
                 'route' => $this->route,
                 'obj' => $this->model->get(),
+                'investors' => $obj,
             ]);
         }
     }
@@ -374,6 +391,16 @@ class UnsurpassedService extends BaseService
 
         try {
             $this->createData($data);
+            // create  this unsurpassed in client table
+            $client = $this->client->create([
+                'name' => $data['name'],
+                'phone' => $data['phone'],
+                'national_id' => $data['national_id'],
+                'status' => 1,
+                'branch_id' => $this->branch->where('vendor_id', VendorParentAuthData('id'))->where('is_main',1)->first()->id,
+
+            ]);
+
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
         } catch (\Exception $e) {
             return response()->json(['status' => 500, 'message' => 'حدث خطأ ما.', 'خطأ' => $e->getMessage()]);

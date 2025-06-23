@@ -4,6 +4,26 @@
 @endsection
 
 @section('content')
+    <style>
+        #investor_id.select2-selection {
+            height: 45px !important;
+            font-size: 16px !important;
+        }
+
+        .select2-container--default .select2-selection--single {
+            height: 45px !important;
+            font-size: 16px !important;
+        }
+
+        .select2-selection__rendered {
+            line-height: 45px !important;
+        }
+
+        .select2-selection__arrow {
+            height: 45px !important;
+        }
+    </style>
+
     <div class="row">
         <div class="col-md-12">
             <!-- Nav tabs -->
@@ -54,9 +74,23 @@
 
                 <!-- التبويب الثاني -->
                 <div class="tab-pane fade" id="tab-two" role="tabpanel" aria-labelledby="tab-two-tab">
+
                     <div class="card">
                         <div class="card-header">
+                            <div class="col-6" >
+                                <div class="form-group">
+                                    <label for="email" class="form-control-label">المستثمر
+                                    </label>
+                                    <select name="investor_id" id="investor_id" class="form-control select2 custom-select-lg">
+                                        <option value="">الكل</option>
+                                        @foreach ($investors as $investor)
+                                            <option value="{{ $investor->id }}">{{ $investor->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                             <h3 class="card-title"></h3>
+
                             <div>
                                 <button class="btn btn-secondary btn-icon text-white addBtn">أضافه</button>
                                 <button class="btn btn-secondary btn-icon text-white addExcelFile"> ملف اكسل </button>
@@ -348,6 +382,9 @@
             ajax: {
                 url: '{{ route('myUnsurpassed') }}',
                 type: 'GET',
+                data: function(d) {
+                    d.investor_id = $('#investor_id').val();
+                }
             },
             columns: [
 
@@ -436,6 +473,10 @@
         $('#loadData').click(function() {
             dataTable.ajax.reload();
         });
+        $('#investor_id').on('change', function () {
+            dataTable.ajax.reload();
+        });
+
 
         $(document).on('click', '.addExcelFile', function() {
             let routeOfShow = '{{ route('unsurpasseds.add.excel') }}';
@@ -500,6 +541,11 @@
         });
     });
 
+    $(document).ready(function () {
+        $('#investor_id').select2({
+            width: '40%'
+        });
+    });
 
     </script>
 @endsection

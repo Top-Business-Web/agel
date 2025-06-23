@@ -14,7 +14,7 @@
     async function showData(routeOfShow,columns) {
             $('#dataTable').DataTable({
                 processing: true,
-                serverSide: true,
+                serverSide: false,
                 ajax: routeOfShow,
                 columns: columns,
                 order: [

@@ -9,7 +9,20 @@
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
+                    <div class="form-group">
+                        <label> حاله العميل</label>
+                        <select id="filter-status" class="form-control">
+                            <option value="">الكل</option>
+                            <option value="متعثر">متعثر</option>
+                            <option value="لديه طلب قائم">لديه طلب قائم</option>
+                            <option value="غير منتظم في السداد">غير منتظم في السداد</option>
+                            <option value="منتظم في السداد">منتظم في السداد</option>
+                            <option value="ليس لديه طلبات">ليس لديه طلبات</option>
+                        </select>
+                    </div>
                     <h3 class="card-title"></h3>
+
+
                     <div class="">
                         @can('create_client')
                             <button class="btn btn-secondary btn-icon text-white addBtn">
@@ -158,6 +171,7 @@
             data: 'checkbox',
             name: 'checkbox',
             orderable: false,
+            serverSide: false,
             searchable: false,
             render: function (data, type, row) {
                 return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
@@ -184,9 +198,15 @@
             {
                 data: 'status',
                 name: 'status'
-            },   {
+            },  {
                 data: 'order_status',
-                name: 'order_status'
+                name: 'order_status',
+                render: function (data, type, row) {
+                    // if (type === 'filter' || type === 'sort') {
+                        return $('<div>').html(data).text().trim();
+                    // }
+                    return data;
+                }
             },
             {
                 data: 'branch_id',
@@ -214,6 +234,26 @@
         // Add Using Ajax
         showEditModal('{{ route($route . '.edit', ':id') }}');
         editScript();
+
+        $(document).on('change', '#filter-status', function () {
+            let selectedText = $(this).val();
+            console.log(selectedText)
+
+            $('#dataTable').DataTable().rows().every(function () {
+                let rowNode = this.node();
+                let cellText = $(rowNode).find('td:eq(5)').text().trim();
+
+                if (selectedText === "" || cellText.includes(selectedText)) {
+                    $(rowNode).show();
+                } else {
+                    $(rowNode).hide();
+                }
+            });
+        });
+
+
+
+
     </script>
 
     <script>
