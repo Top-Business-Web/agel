@@ -85,7 +85,7 @@
 
 <script>
     $('.dropify').dropify();
-    $('select').select2({
+    $('select#investor_id').select2({
         dropdownParent: $('#editOrCreate .modal-content')
 
     });

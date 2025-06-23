@@ -4,25 +4,7 @@
 @endsection
 
 @section('content')
-    <style>
-        #investor_id.select2-selection {
-            height: 45px !important;
-            font-size: 16px !important;
-        }
 
-        .select2-container--default .select2-selection--single {
-            height: 45px !important;
-            font-size: 16px !important;
-        }
-
-        .select2-selection__rendered {
-            line-height: 45px !important;
-        }
-
-        .select2-selection__arrow {
-            height: 45px !important;
-        }
-    </style>
 
     <div class="row">
         <div class="col-md-12">
@@ -541,11 +523,7 @@
         });
     });
 
-    $(document).ready(function () {
-        $('#investor_id').select2({
-            width: '40%'
-        });
-    });
+
 
     </script>
 @endsection
