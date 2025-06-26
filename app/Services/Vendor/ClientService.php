@@ -38,6 +38,7 @@ class ClientService extends BaseService
 
                     return $this->statusDatatable($obj);
                 })
+
                 ->addColumn('action', function ($obj) {
                     $buttons = '';
                     if (Auth::guard('vendor')->user()->can("update_client")) {
@@ -67,10 +68,23 @@ class ClientService extends BaseService
                 ->escapeColumns([])
                 ->make(true);
         } else {
+
+            $auth = auth('vendor')->user();
+            $branches = [];
+            if ($auth->parent_id == null) {
+                $branches = $this->branchService->model->whereIn('vendor_id', [$auth->parent_id, $auth->id])
+                    ->get();
+            } else {
+                $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
+                $branches = $this->branchService->model->whereIn('id', $branchIds)
+                    ->get();
+            }
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
                 'bladeName' => "العملاء",
                 'route' => $this->route,
+                'branches' => $branches,
+
             ]);
         }
     }
@@ -81,12 +95,10 @@ class ClientService extends BaseService
         $branches = [];
         if ($auth->parent_id == null) {
             $branches = $this->branchService->model->whereIn('vendor_id', [$auth->parent_id, $auth->id])
-
                 ->get();
         } else {
             $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
             $branches = $this->branchService->model->whereIn('id', $branchIds)
-
                 ->get();
         }
         return view("{$this->folder}/parts/create", [
@@ -114,12 +126,10 @@ class ClientService extends BaseService
         $branches = [];
         if ($auth->parent_id == null) {
             $branches = $this->branchService->model->whereIn('vendor_id', [$auth->parent_id, $auth->id])
-
                 ->get();
         } else {
             $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
             $branches = $this->branchService->model->whereIn('id', $branchIds)
-
                 ->get();
         }
         return view("{$this->folder}/parts/edit", [

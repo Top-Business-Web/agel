@@ -70,8 +70,10 @@ abstract class BaseService
                        type="checkbox" ' . ($obj->status == 1 ? 'checked' : '') . '/>
                 <label class="tgl-btn" for="statusUser-' . $obj->id . '"></label>
             </div>
+            <span class="status d-none">' . $obj->status . '</span>
         </div>';
     }
+
 
     /**
      * Get all instances of the model that match the given conditions.

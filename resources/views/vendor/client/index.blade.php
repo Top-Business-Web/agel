@@ -9,16 +9,37 @@
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="form-group">
-                        <label> حاله العميل</label>
-                        <select id="filter-status" class="form-control">
-                            <option value="">الكل</option>
-                            <option value="متعثر">متعثر</option>
-                            <option value="لديه طلب قائم">لديه طلب قائم</option>
-                            <option value="غير منتظم في السداد">غير منتظم في السداد</option>
-                            <option value="منتظم في السداد">منتظم في السداد</option>
-                            <option value="ليس لديه طلبات">ليس لديه طلبات</option>
-                        </select>
+                    <div class="form-group row">
+                        <div class="col-3">
+                            <label> حاله العميل</label>
+                            <select id="filter-status" class="form-control">
+                                <option value="">الكل</option>
+                                <option value="متعثر">متعثر</option>
+                                <option value="لديه طلب قائم">لديه طلب قائم</option>
+                                <option value="غير منتظم في السداد">غير منتظم في السداد</option>
+                                <option value="منتظم في السداد">منتظم في السداد</option>
+                                <option value="ليس لديه طلبات">ليس لديه طلبات</option>
+                            </select>
+                        </div>
+                        <div class="col-3">
+                            <label for="statusSelection"> الحاله</label>
+                            <select id="statusSelection" class="form-control">
+                                <option value="show all" selected>الكل</option>
+                                <option value="1">نشط</option>
+                                <option value="0">غير نشط</option>
+                            </select>
+                        </div>
+
+                        <div class="col-3">
+                            <label for="branchSelection">الفرع</label>
+                            <select id="branchSelection" class="form-control">
+                                <option value="" selected>الكل</option>
+                                @foreach($branches as $branch)
+                                    <option value="{{ $branch->name }}">{{ $branch->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
                     </div>
                     <h3 class="card-title"></h3>
 
@@ -212,6 +233,7 @@
                 data: 'branch_id',
                 name: 'branch_id'
             },
+
             {
                 data: 'action',
                 name: 'action',
@@ -235,27 +257,22 @@
         showEditModal('{{ route($route . '.edit', ':id') }}');
         editScript();
 
-        $(document).on('change', '#filter-status', function () {
-            let selectedText = $(this).val();
-            console.log(selectedText)
 
-            $('#dataTable').DataTable().rows().every(function () {
-                let rowNode = this.node();
-                let cellText = $(rowNode).find('td:eq(5)').text().trim();
-
-                if (selectedText === "" || cellText.includes(selectedText)) {
-                    $(rowNode).show();
-                } else {
-                    $(rowNode).hide();
-                }
-            });
-        });
 
 
 
 
     </script>
+    <script>
+        $(document).ready(function () {
 
+            $('#statusSelection').val('show all');
+            $('#filter-status').val('');
+            $('#statusSelection, #filter-status,#branchSelection').trigger('change');
+
+        });
+
+    </script>
     <script>
         // for status
         $(document).on('click', '.statusBtn', function () {
@@ -291,4 +308,48 @@
             });
         });
     </script>
+
+    <script>
+        $(document).ready(function () {
+            let table = $('#dataTable').DataTable();
+
+            $(document).on("change", "#statusSelection, #filter-status, #branchSelection", function () {
+                filterRows();
+            });
+
+            table.on("draw", function () {
+                filterRows();
+            });
+
+            function filterRows() {
+                let selectedStatus = $('#statusSelection').val();
+                let selectedOrderStatus = $('#filter-status').val();
+                let selectedBranch = $('#branchSelection').val();
+
+                table.rows().every(function () {
+                    let row = this.node();
+
+                    let statusText = $(row).find('.status').text().trim();
+                    let orderStatusText = $(row).find('td:eq(5)').text().trim();
+                    let branchText = $(row).find('td:eq(6)').text().trim();
+
+                    let matchStatus = (selectedStatus === 'show all') || (statusText === selectedStatus);
+                    let matchOrder = (selectedOrderStatus === '') || (orderStatusText.includes(selectedOrderStatus));
+                    let matchBranch = (selectedBranch === '') || (branchText === selectedBranch);
+
+                    $(row).toggle(matchStatus && matchOrder && matchBranch);
+                });
+            }
+
+        });
+
+
+
+
+    </script>
+
+
+
+
+
 @endsection
