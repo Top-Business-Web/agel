@@ -37,7 +37,6 @@ class PlanRequest extends FormRequest
                 'nullable',
                 'required_without:plans.*.is_unlimited',
                 'integer',
-                'max:255',
                 function ($attribute, $value, $fail) {
                     $planIndex = explode('.', $attribute)[1] ?? null;
                     $isUnlimitedField = "plans.$planIndex.is_unlimited";
@@ -61,8 +60,8 @@ class PlanRequest extends FormRequest
             'description' => 'nullable|string|max:1000',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'plans' => 'nullable|array',
-            'plans.*.key' => 'required|string|max:255',
-            'plans.*.value' => 'required|string|max:255',
+            'plans.*.key' => 'required|string',
+            'plans.*.value' => 'required|string',
             'plans.*.is_unlimited' => 'nullable|boolean',
         ];
     }
