@@ -136,6 +136,12 @@ class UnsurpassedService extends BaseService
                     }
 
                     return '<h5 class="text-muted">متعثر</h5>';
+                })->addColumn('investor_name', function ($obj) {
+                    if ($obj->model_type === 'unsurpassed') {
+                        $investor = $this->investor->find($obj->investor_id);
+                        return $investor ? $investor->name : 'لا يوجد';
+                    }
+                    return '';
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -277,6 +283,12 @@ class UnsurpassedService extends BaseService
                     }
 
                     return '<h5 class="text-muted">متعثر</h5>';
+                })->addColumn('investor_name', function ($obj) {
+                    if ($obj->model_type === 'unsurpassed') {
+                        $investor = $this->investor->find($obj->investor_id);
+                        return $investor ? $investor->name : 'لا يوجد';
+                    }
+                    return '';
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -494,4 +506,29 @@ class UnsurpassedService extends BaseService
 
         return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
     }
+
+    // InvestorController.php
+    public function checkByNationalId( $request)
+    {
+        $request->validate([
+            'national_id' => 'required|string|min:10|max:10',
+        ]);
+
+        $unsurpassed = $this->model->where('national_id', $request->national_id)->first();
+
+        if ($unsurpassed) {
+            return response()->json([
+                'status' => 200,
+
+                'unsurpassed' => [
+                    'id' => $unsurpassed->id,
+                    'name' => $unsurpassed->name,
+                    'phone' => $unsurpassed->phone,
+                ],
+            ]);
+        }
+
+        return response()->json(['status' => 404, 'message' => 'لم يتم العثور على المتعثر']);
+    }
+
 }

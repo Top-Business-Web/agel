@@ -41,7 +41,7 @@ class UnsurpassedRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'phone' => 'required|string|regex:/^\+966[0-9]{9}$/',
-            'national_id' => 'required|numeric|digits:10|unique:unsurpasseds,national_id',
+            'national_id' => 'required|numeric|digits:10',
             'office_name' => 'nullable|string|max:255',
             'office_phone' => 'nullable|string|regex:/^\+966[0-9]{9}$/',
             'investor_id' => 'required|exists:investors,id',
@@ -53,7 +53,7 @@ class UnsurpassedRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'phone' => 'required|unique:unsurpasseds,phone,'.$this->id,
+            'phone' => 'required|string|regex:/^\+966[0-9]{9}$/',
             'national_id' => 'required|numeric|digits:10',
             'office_name' => 'nullable|string|max:255',
             'office_phone' => 'nullable',
