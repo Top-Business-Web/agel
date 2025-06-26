@@ -14,7 +14,7 @@ use App\Services\BaseService;
 class HomeService extends BaseService
 {
 
-    public function __construct(ObjModel $objModel)
+    public function __construct(ObjModel $objModel,protected PlanSubscription $planSubscription)
     {
         parent::__construct($objModel);
     }
@@ -22,8 +22,13 @@ class HomeService extends BaseService
     public function index()
     {
 
-
-        return view(view: 'vendor/index');
+      $vendorPlanSubscription = $this->planSubscription
+            ->where('vendor_id', VendorParentAuthData('id'))
+            ->where('status', 1)
+            ->first();
+        return view( 'vendor/index',[
+            'vendorPlanSubscription'=> $vendorPlanSubscription,
+        ]);
     }
 
 }
