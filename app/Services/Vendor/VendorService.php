@@ -3,7 +3,6 @@
 namespace App\Services\Vendor;
 
 
-namespace App\Services\Vendor;
 
 use App\Models\Region;
 use App\Models\Vendor as ObjModel;
@@ -60,15 +59,29 @@ class VendorService extends BaseService
                 })->editColumn('phone', function ($obj) {
                     $phone = str_replace('+', '', $obj->phone);
                     return $phone;
+                })->editColumn('branches', function ($obj) {
+                    $branchIds = $obj->branches->pluck('branch_id')->toArray();
+                    $branches = $this->branchService->model->whereIn('id', $branchIds)->pluck('name')->toArray();
+                    return implode(', ', $branches);
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
                 ->make(true);
         } else {
+            $auth = auth('vendor')->user();
+            $branches = [];
+            if ($auth->parent_id == null) {
+                $branches = $this->branchService->model->whereIn('vendor_id', [$auth->parent_id, $auth->id])->get();
+            } else {
+                $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
+                $branches = $this->branchService->model->whereIn('id', $branchIds)->get();
+            }
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
                 'bladeName' => 'الموظفين',
                 'route' => $this->route,
+                'branches' => $branches,
+
             ]);
         }
     }

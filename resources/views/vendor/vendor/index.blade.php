@@ -3,13 +3,41 @@
 @section('title')
     {{ config()->get('app.name') }}
 @endsection
+<style>
+    .custom-select-lg.select2-hidden-accessible + .select2-container .select2-selection--single {
+        font-size: 15px;
+        padding-left: 70px;
+    }
 
+    .custom-select-lg.select2-hidden-accessible + .select2-container .select2-selection__rendered {
+        padding-left: 70px;
+    }
+
+
+
+
+</style>
 @section('content')
 
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
+
+                    <div class="form-group row">
+
+
+                        <div class="col-12">
+                            <label for="branchSelection">الفرع</label>
+                            <select id="branchSelection"  class="form-control select2 ">
+                                <option value="" selected>الكل</option>
+                                @foreach($branches as $branch)
+                                    <option value="{{ $branch->name }}">{{ $branch->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
                     <h3 class="card-title"></h3>
                     <div class="">
                         @can('create_vendor')
@@ -47,6 +75,7 @@
                                 <th class="min-w-50px rounded-end">البريد الإلكتروني</th>
                                 <th class="min-w-50px rounded-end">رقم الهاتف</th>
                                 <th class="min-w-50px rounded-end">الرقم القومي</th>
+                                <th class="min-w-50px rounded-end"> الفروع</th>
                                 <th class="min-w-50px rounded-end">الحالة</th>
                                 <th class="min-w-50px rounded-end">الصورة</th>
                                 <th class="min-w-50px rounded-end">الإجراءات</th>
@@ -177,6 +206,7 @@
             {data: 'email', name: 'email'},
             {data: 'phone', name: 'phone'},
             {data: 'national_id', name: 'national_id'},
+            {data: 'branches', name: 'branches'},
             {data: 'status', name: 'status'},
             {data: 'image', name: 'image'},
             {data: 'action', name: 'action', orderable: false, searchable: false},
@@ -200,7 +230,16 @@
         checkVendorKeyLimit('.addBtn', 'Vendor');
 
     </script>
+    <script>
+        $(document).ready(function () {
 
+
+            $('#branchSelection').val('');
+            $('#branchSelection').trigger('change');
+
+        });
+
+    </script>
     <script>
         // for status
         $(document).on('click', '.statusBtn', function () {
@@ -237,54 +276,38 @@
 
 
     </script>
-    {{--    <script>--}}
-    {{--        $(document).on('submit', 'Form#addForm', function (e) {--}}
-    {{--            e.preventDefault();--}}
-    {{--            var formData = new FormData(this);--}}
-    {{--            var url = $('#addForm').attr('action');--}}
-    {{--            $.ajax({--}}
-    {{--                url: url,--}}
-    {{--                type: 'POST',--}}
-    {{--                data: formData,--}}
-    {{--                beforeSend: function () {--}}
-    {{--                    $('#addButton').html('<span class="spinner-border spinner-border-sm mr-2" ' +--}}
-    {{--                        ' ></span> <span style="margin-left: 4px;">أنتظر قليلًا...</span>').attr('disabled', true);--}}
-    {{--                },--}}
-    {{--                success: function (data) {--}}
-    {{--                    if (data.status == 200) {--}}
-    {{--                        $('#dataTable').DataTable().ajax.reload();--}}
-    {{--                        toastr.success('تمت العملية بنجاح');--}}
-    {{--                    } else if(data.status == 405){--}}
-    {{--                        toastr.error(data.mymessage);--}}
-    {{--                    }--}}
-    {{--                    else--}}
-    {{--                        toastr.error('حدث خطأ ما');--}}
-    {{--                    $('#addButton').html(`اضافه`).attr('disabled', false);--}}
-    {{--                    // $('#editOrCreate').modal('hide')--}}
-    {{--                },--}}
-    {{--                error: function (data) {--}}
-    {{--                    if (data.status === 500) {--}}
-    {{--                        toastr.error('');--}}
-    {{--                    } else if (data.status === 422) {--}}
-    {{--                        var errors = $.parseJSON(data.responseText);--}}
-    {{--                        $.each(errors, function (key, value) {--}}
-    {{--                            if ($.isPlainObject(value)) {--}}
-    {{--                                $.each(value, function (key, value) {--}}
-    {{--                                    toastr.error(value, 'خطأ');--}}
-    {{--                                });--}}
-    {{--                            }--}}
-    {{--                        });--}}
-    {{--                    } else--}}
-    {{--                        toastr.error('حدث خطأ ما');--}}
-    {{--                    $('#addButton').html(`اضافة`).attr('disabled', false);--}}
-    {{--                },//end error method--}}
+    <script>
+        $(document).ready(function () {
+            let table = $('#dataTable').DataTable();
 
-    {{--                cache: false,--}}
-    {{--                contentType: false,--}}
-    {{--                processData: false--}}
-    {{--            });--}}
-    {{--        });--}}
-    {{--    </script>--}}
+            $(document).on("change","#branchSelection", function () {
+                filterRows();
+            });
+
+            table.on("draw", function () {
+                filterRows();
+            });
+
+            function filterRows() {
+                let selectedBranch = $('#branchSelection').val();
+
+                table.rows().every(function () {
+                    let row = this.node();
+
+                    let branchText = $(row).find('td:eq(5)').text().trim().split(',').map(s => s.trim());
+                    console.log(branchText, selectedBranch);
+                    let matchBranch = (selectedBranch === '') || branchText.includes(selectedBranch);
+                    $(row).toggle(matchBranch);
+                });
+            }
+
+        });
+
+
+
+
+    </script>
+
 @endsection
 
 
