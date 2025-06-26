@@ -3,13 +3,41 @@
 @section('title')
     {{ config()->get('app.name') }}
 @endsection
+<style>
+    .custom-select-lg.select2-hidden-accessible + .select2-container .select2-selection--single {
+        font-size: 15px;
+        padding-left: 70px;
+    }
 
+    .custom-select-lg.select2-hidden-accessible + .select2-container .select2-selection__rendered {
+        padding-left: 70px;
+    }
+
+
+
+
+</style>
 @section('content')
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"></h3>
+
+                <div class="form-group row">
+
+
+                    <div class="col-12">
+                        <label for="branchSelection">الفرع</label>
+                        <select id="branchSelection"  class="form-control select2 ">
+                            <option value="" selected>الكل</option>
+                            @foreach($branches as $branch)
+                                <option value="{{ $branch->name }}">{{ $branch->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <h3 class="card-title"></h3>
                     <div class="">
                         @can('create_investor')
                             <button class="btn btn-secondary btn-icon text-white addBtn">
@@ -249,4 +277,47 @@
             }, 250)
         });
     </script>
+    <script>
+        $(document).ready(function () {
+
+            $('#branchSelection').val('');
+            $('#branchSelection').trigger('change');
+
+        });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            let table = $('#dataTable').DataTable();
+
+            $(document).on("change","#branchSelection", function () {
+                filterRows();
+            });
+
+            table.on("draw", function () {
+                filterRows();
+            });
+
+            function filterRows() {
+                let selectedBranch = $('#branchSelection').val();
+
+                table.rows().every(function () {
+                    let row = this.node();
+
+                    let branchText = $(row).find('td:eq(4)').text().trim();
+                    console.log(branchText, selectedBranch);
+
+                    let matchBranch = (selectedBranch === '') || (branchText === selectedBranch);
+
+                    $(row).toggle(matchBranch);
+                });
+            }
+
+        });
+
+
+
+
+    </script>
+
 @endsection

@@ -41,35 +41,7 @@ class InvestorService extends BaseService
                 ->editColumn('branch_id', function ($obj) {
                     return $obj->branch->name;
                 })
-                //                ->addColumn('action', function ($obj) {
-                //                    $buttons = '';
-                //                    if (Auth::guard('vendor')->user()->can("update_investor")) {
-                //
-                //                        $buttons .= '
-                //                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
-                //                            <i class="fa fa-edit"></i>
-                //                        </button>
-                //                    ';
-                //                    }
-                //                    if (Auth::guard('vendor')->user()->can("delete_investor")) {
-                //
-                //                        $buttons .= '
-                //
-                //                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-                //                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
-                //                            <i class="fas fa-trash"></i>
-                //                        </button>
-                //
-                //                    ';
-                //                    }
-                //                    if (Auth::guard('vendor')->user()->can("create_stock")) {
-                //                        $buttons .= '
-                //
-                //                             <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light addStock">
-                //                            <i class="fa fa-plus"></i>
-                //                        </button>
-                //                    ';
-                //                    }
+
                 ->addColumn('action', function ($obj) {
 
                     $buttons = '';
@@ -130,11 +102,21 @@ class InvestorService extends BaseService
                 ->escapeColumns([])
                 ->make(true);
         } else {
+            $auth = auth('vendor')->user();
+            $branches = [];
+            if ($auth->parent_id == null) {
+                $branches = $this->branchService->model->apply()->whereIn('vendor_id', [$auth->parent_id, $auth->id])->get();
+            } else {
+                $branchIds = $this->vendorBranch->where('vendor_id', $auth->id)->pluck('branch_id');
+                $branches = $this->branchService->model->apply()->whereIn('id', $branchIds)->get();
+            }
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
                 'bladeName' => "المستثمرين",
 
                 'route' => $this->route,
+                'branches' => $branches,
+
             ]);
         }
     }
