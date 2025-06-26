@@ -67,11 +67,17 @@ class PlanService extends BaseService
                 })->editColumn('discount', function ($obj) {
                     return $obj->discount . '%';
                 })->editColumn('period', function ($obj) {
-                    if ($obj->period <= 10) {
-                        return $obj->period . ' ايام';
-                    } else {
-                        return $obj->period . ' يوم';
+                    if ($obj->id!=1){
+
+                        if ($obj->period <= 10) {
+                            return $obj->period . ' ايام';
+                        } else {
+                            return $obj->period . ' يوم';
+                        }
+                    }else{
+                        return 'غير محدود';
                     }
+
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])

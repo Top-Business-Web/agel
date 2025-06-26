@@ -64,13 +64,21 @@
                                             {{ number_format($plan->price, 2) }} ريال سعودي
                                         </span><br>
                                             @endif
+                                            @if($plan->price !=0)
 
-                                            <span class="currency" style="font-weight: bold; color: green;">
+                                                <span class="currency" style="font-weight: bold; color: green;">
                                                 {{ number_format($plan->price * (100 - $plan->discount) / 100, 2) }} ريال سعودي
                                             </span>
-                                            @if($plan->price!=0)
+                                            @else
+
+                                                <span class="currency" style="font-weight: bold; color: green;">
+                                                    مجانا
+                                            </span>
+                                            @endif
+                                            @if($plan->id!=1)
 
                                                 <span style="font-weight: bold; color: green;" class="time"> لمده {{$plan->period}} يوما</span>
+
                                             @endif
 
 
@@ -121,7 +129,7 @@
                                         </ul>
                                     </div>
                                 </div>
-{{--                                @dd($planSubscription)--}}
+                                {{--                                @dd($planSubscription)--}}
                                 @if($planSubscription== null)
                                     @if($plan->id==1)
                                         <button type="button"
@@ -132,24 +140,22 @@
                                         </button>
                                     @else
 
-
-
-                                            <button type="button"
-                                                    class="mt-4 btn btn-primary subscribe-btn"
-                                                    data-plan-id="{{ $plan->id }}"
-                                            >
-                                                ترقيه
-                                            </button>
+                                        <button type="button"
+                                                class="mt-4 btn btn-primary subscribe-btn"
+                                                data-plan-id="{{ $plan->id }}"
+                                        >
+                                            ترقيه
+                                        </button>
 
                                     @endif
                                 @elseif($planSubscription->plan_id == $plan->id && $planSubscription->status == 1)
-                                        <div class="d-flex flex-column align-items-center mt-4">
-                                            <!-- Enhanced Button with Hover Effect -->
-                                            <button type="button"
-                                                    class="btn btn-primary subscribe-btn position-relative"
-                                                    data-plan-id="{{ $plan->id }}"
-                                                    disabled
-                                                    style="
+                                    <div class="d-flex flex-column align-items-center mt-4">
+                                        <!-- Enhanced Button with Hover Effect -->
+                                        <button type="button"
+                                                class="btn btn-primary subscribe-btn position-relative"
+                                                data-plan-id="{{ $plan->id }}"
+                                                disabled
+                                                style="
                         padding: 10px 24px;
                         font-weight: 600;
                         border-radius: 8px;
@@ -157,13 +163,13 @@
                         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
                         transition: all 0.3s ease;
                     ">
-                                                <i class="fas fa-crown me-2"></i>
-                                                الخطة الحالية
-                                            </button>
+                                            <i class="fas fa-crown me-2"></i>
+                                            الخطة الحالية
+                                        </button>
 
-                                            @if(now()->diffInDays($planSubscription->to)+1 > 0)
-                                                <span class="badge mt-2 bg-white text-danger border border-danger"
-                                                      style="
+                                        @if(now()->diffInDays($planSubscription->to)+1 > 0)
+                                            <span class="badge mt-2 bg-white text-danger border border-danger"
+                                                  style="
                     font-size: 0.85rem;
                     padding: 8px 16px;
                     border-radius: 50px;
@@ -173,14 +179,14 @@
                     transition: all 0.3s ease;
                     cursor: default;
                 "
-                                                      onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='0 4px 12px rgba(220, 53, 69, 0.2)'"
-                                                      onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 2px 8px rgba(220, 53, 69, 0.15)'">
+                                                  onmouseover="this.style.transform='scale(1.03)'; this.style.boxShadow='0 4px 12px rgba(220, 53, 69, 0.2)'"
+                                                  onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 2px 8px rgba(220, 53, 69, 0.15)'">
                                     <i class="fas fa-clock me-1"></i>
                                     {{now()->diffInDays($planSubscription->to)+1 }} يوم متبقي
                                 </span>
-                                            @else
+                                        @else
 
-                                                        <span class="badge mt-2 bg-danger text-white" style="
+                                            <span class="badge mt-2 bg-danger text-white" style="
                             font-size: 0.85rem;
                             padding: 8px 16px;
                             border-radius: 50px;
@@ -192,41 +198,40 @@
                                             الخطة منتهية
                                         </span>
 
-                                            @endif
-                                        </div>
+                                        @endif
+                                    </div>
 
-                                        <style>
-                                            @keyframes pulseAlert {
-                                                0% {
-                                                    transform: scale(1);
-                                                    opacity: 1;
-                                                }
-                                                50% {
-                                                    transform: scale(1.05);
-                                                    opacity: 0.9;
-                                                }
-                                                100% {
-                                                    transform: scale(1);
-                                                    opacity: 1;
-                                                }
+                                    <style>
+                                        @keyframes pulseAlert {
+                                            0% {
+                                                transform: scale(1);
+                                                opacity: 1;
                                             }
+                                            50% {
+                                                transform: scale(1.05);
+                                                opacity: 0.9;
+                                            }
+                                            100% {
+                                                transform: scale(1);
+                                                opacity: 1;
+                                            }
+                                        }
 
-                                            .subscribe-btn:hover {
-                                                transform: translateY(-2px);
-                                                box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-                                            }
-                                        </style>
+                                        .subscribe-btn:hover {
+                                            transform: translateY(-2px);
+                                            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+                                        }
+                                    </style>
 
                                 @else
                                     @if($plan->id!=1)
 
-
-                                    <button type="button"
-                                            class="mt-4 btn btn-primary subscribe-btn"
-                                            data-plan-id="{{ $plan->id }}"
-                                    >
-                                        ترقيه
-                                    </button>
+                                        <button type="button"
+                                                class="mt-4 btn btn-primary subscribe-btn"
+                                                data-plan-id="{{ $plan->id }}"
+                                        >
+                                            ترقيه
+                                        </button>
                                     @endif
 
                                 @endif

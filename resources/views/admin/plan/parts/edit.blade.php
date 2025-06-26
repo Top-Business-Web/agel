@@ -66,21 +66,21 @@
             @foreach($obj->details as $index => $plan)
                 <div class="row plan-row border p-3 mb-2">
                     <div class="col-4">
-                        <div class="form-group">
+                        <div class="form-group" style="pointer-events: none; opacity: 0.6;">
                             <label class="form-control-label">اختر نوع</label>
-                            <select class="form-control plan-select" name="plans[{{ $index }}][key]" required>
+                            <select class="form-control plan-select" name="plans[{{ $index }}][key]" required >
                                 <option selected disabled value="">اختر نوع</option>
                                 <option value="Vendor" {{ $plan->key == 'Vendor' ? 'selected' : '' }}>الموظفين</option>
                                 <option value="Branch" {{ $plan->key == 'Branch' ? 'selected' : '' }}>الفروع</option>
                                 <option value="Investor" {{ $plan->key == 'Investor' ? 'selected' : '' }}>المستثمرين</option>
-                                <option value="Order" {{ $plan->key == 'Order' ? 'selected' : '' }}>العمليات</option>
+                                <option value="Order" {{ $plan->key == 'Order' ? 'selected' : '' }}>الطلبات</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="col-4">
                         <div class="form-group">
-                            <label class="form-control-label">Value</label>
+                            <label class="form-control-label">العدد</label>
                             <input type="number" class="form-control plan-value" name="plans[{{ $index }}][value]"
                                    value="{{ $plan->value }}" required>
                         </div>

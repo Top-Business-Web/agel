@@ -20,7 +20,7 @@ class FreePlanSeeder extends Seeder
             'price' => 0,
             'description' => 'خطة مجانية للتجربة',
             'status' => 1,
-            'period' => 30,
+            'period' => 365,
             'image' => 'assets/seeder/free_plan.webp',
             'discount' => 100,
 

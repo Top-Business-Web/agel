@@ -45,11 +45,17 @@ class PlanSubscriptionService extends BaseService
                         if ($obj->status == 2) {
                             return '<button class="' . $buttonClass . ' btn-danger" disabled>مرفوض</button>';
                         }
-                        $remainingDays = Carbon::now()->diffInDays($obj->to);
+                        $remainingDays = Carbon::now()->diffInDays($obj->to)+1;
 
-                        if ($remainingDays <= 0) {
-                            return '<button class="' . $buttonClass . ' btn-danger px-4 py-2" disabled>
+                        if ($remainingDays <= 0 && $obj->status == 3) {
+                            return '<button class="' . $buttonClass . ' btn-warning px-4 py-2" disabled>
                                 <span class="fw-bold">منتهي</span>
+                            </button>';
+                        }
+
+                        if ($obj->status == 3) {
+                            return '<button class="' . $buttonClass . ' btn-danger px-4 py-2" disabled>
+                                <span class="fw-bold">ملغي</span>
                             </button>';
                         }
                         return '<button class="btn btn-lg btn-pill text-center w-70 btn-success px-3 py-2 d-flex align-items-center justify-content-between gap-2" disabled style="
@@ -181,11 +187,12 @@ class PlanSubscriptionService extends BaseService
                 ]);
 
                 // get all parents of the vendor expect this plan and update this to to today
-            $otherSubscriptions = $this->model->where('vendor_id', $planSubscription->vendor_id)->where('id', '!=', $planSubscription->id)->get();
+            $otherSubscriptions = $this->model->where('vendor_id', $planSubscription->vendor_id)
+            ->whereNotIn('status', [2, 3]) // Exclude rejected and canceled subscriptions
+                ->where('id', '!=', $planSubscription->id)->get();
             foreach ($otherSubscriptions as $subscription) {
 
                 $subscription->update([
-                    'to' => now(),
                     'status'=>3
                 ]);
 

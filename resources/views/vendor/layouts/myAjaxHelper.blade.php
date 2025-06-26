@@ -10,6 +10,7 @@
 
 </div>
         `;
+
     // Show Data Using YAJRA
     async function showData(routeOfShow,columns) {
             $('#dataTable').DataTable({

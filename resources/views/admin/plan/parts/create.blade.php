@@ -104,7 +104,7 @@
 
                 <div class="col-4">
                     <div class="form-group">
-                        <label class="form-control-label">Value</label>
+                        <label class="form-control-label">العدد</label>
                         <input type="number" class="form-control plan-value" name="plans[${planCount}][value]" required>
                     </div>
                 </div>

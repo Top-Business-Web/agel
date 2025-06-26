@@ -2,15 +2,11 @@
 //
 namespace App\Services\Vendor;
 
-use App\Http\Middleware\Custom\vendor;
 use App\Models\Plan;
 use App\Models\PlanSubscription as ObjModel;
 use App\Models\PlanDetail;
 use App\Models\Setting;
 use App\Services\BaseService;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
-use Yajra\DataTables\DataTables;
 
 class PlanService extends BaseService
 {
@@ -24,10 +20,17 @@ class PlanService extends BaseService
 
     public function index()
     {
+        $subscriptionWith0Price = $this->plan->where('price', 0)
+            ->where('id', '!=', 1)
+            ->get();
+        $ifAuthHasSubcriptionWith0pricePlan =$this->model->where('vendor_id', VendorParentAuthData('id'))
+            ->whereIn('plan_id', $subscriptionWith0Price->pluck('id'))
+            ->where('status', 3)
+            ->pluck('plan_id');
         return view($this->folder . '/index', [
             'createRoute' => route($this->route . '.create'),
             'route' => $this->route,
-            'plans' => $this->plan->all(),
+            'plans' => $this->plan->whereNotIn('id',$ifAuthHasSubcriptionWith0pricePlan)->get(),
             'planDetails' => $this->planDetail,
             'vendor_plans' => $this->model->where('vendor_id', auth('vendor')->user()->parent_id == null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id)->get(),
             'planSubscription' => $this->model->where('status', 1)->where('vendor_id', auth('vendor')->user()->parent_id == null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id)->where('plan_id', '!=', 1)->first(),
