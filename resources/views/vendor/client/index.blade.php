@@ -268,6 +268,7 @@
 
             $('#statusSelection').val('show all');
             $('#filter-status').val('');
+            $('#branchSelection').val('');
             $('#statusSelection, #filter-status,#branchSelection').trigger('change');
 
         });
