@@ -82,4 +82,9 @@ class UnsurpassedController extends Controller
 
         return $this->objService->pay($id);
     }
+    public function checkByNationalId(Request $request)
+    {
+        return $this->objService->checkByNationalId($request);
+    }
+
 }

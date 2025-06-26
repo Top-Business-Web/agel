@@ -131,7 +131,7 @@ Route::group(
                 Route::get('my-unsurpassed', [UnsurpassedController::class, 'myUnsurpassed'])->name('myUnsurpassed');
                 Route::post('unsurpasseds/store/Excel', [UnsurpassedController::class, 'storeExcel'])->name('unsurpasseds.store.excel');
                 Route::get('unsurpasseds/pay/{id}', [UnsurpassedController::class, 'pay'])->name('unsurpasseds.pay');
-
+                Route::post('/check-unsurpassed-by-id', [UnsurpassedController::class, 'checkByNationalId'])->name('check.unsurpassed.by.national_id');
 
                 #============================ plans ==================================
 

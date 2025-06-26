@@ -16,14 +16,14 @@
                     <label for="name" class="form-control-label">رقم الهويه
                     </label>
                     <input type="number" class="form-control" name="national_id" id="national_id" minlength="10"
-                        maxlength="10">
+                           maxlength="10">
                 </div>
             </div>
             <div class="col-6">
                 <div class="form-group">
                     <label for="email" class="form-control-label">المستثمر
                     </label>
-                    <select name="investor_id" id="investor_id" class="form-control select2">
+                    <select name="investor_id" id="investor_id22" class="form-control select2">
                         <option value="" selected disabled>اختر المستثمر</option>
                         @foreach ($investors as $investor)
                             <option value="{{ $investor->id }}">{{ $investor->name }}</option>
@@ -46,7 +46,7 @@
                     </label>
                     <div class="input-group">
                         <input type="number" class="form-control" name="phone" id="phone"
-                            style=" text-align: left;">
+                               style=" text-align: left;">
                         <span class="input-group-text">966+</span>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
                     <label for="name" class="form-control-label">اسم المكتب
                     </label>
                     <input type="text" class="form-control" name="office_name" id="office_name" readonly
-                        value="{{ VendorParentAuthData('name') }}">
+                           value="{{ VendorParentAuthData('name') }}">
                 </div>
             </div>
 
@@ -65,7 +65,7 @@
                     <label for="office_phone" class="form-control-label">رقم المكتب</label>
                     <div class="input-group">
                         <input type="number" class="form-control" name="office_phone" id="office_phone" readonly
-                            value="{{ substr(VendorParentAuthData('phone'), 4) }}" style=" text-align: left;">
+                               value="{{ substr(VendorParentAuthData('phone'), 4) }}" style=" text-align: left;">
                         <span class="input-group-text">966+</span>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
 
 <script>
     $('.dropify').dropify();
-    $('select#investor_id').select2({
+    $('select#investor_id22').select2({
         dropdownParent: $('#editOrCreate .modal-content')
 
     });
@@ -93,7 +93,7 @@
 
 <script>
     function handlePhoneInput(inputId) {
-        document.getElementById(inputId).addEventListener('input', function(e) {
+        document.getElementById(inputId).addEventListener('input', function (e) {
             let value = e.target.value;
 
             // Remove leading zero
@@ -112,4 +112,42 @@
 
     handlePhoneInput('office_phone');
     handlePhoneInput('phone');
+
+
 </script>
+
+<script>
+    $('#national_id').on('input', function () {
+        const nationalId = $(this).val();
+
+        if (nationalId.length === 10) {
+            $.ajax({
+                type: 'POST',
+                url: '{{ route("check.unsurpassed.by.national_id") }}',
+                data: {
+                    national_id: nationalId,
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function (response) {
+                    if (response.status==200) {
+                        $('#name').val(response.unsurpassed.name).prop('readonly', true);
+                        $('#phone').val(response.unsurpassed.phone.substring(4)).prop('readonly', true);
+                        toastr.success("تم العثور على المتعثر");
+                    } else {
+                        $('#name').val('').prop('readonly', false);
+                        $('#phone').val('').prop('readonly', false);
+                        toastr.error('المتعثر ليس موجود من فضلك أكمل بياناته');
+                    }
+                },
+                error: function () {
+                    toastr.error("حدث خطأ أثناء البحث");
+                }
+            });
+        } else {
+            $('#name').val('').prop('readonly', false);
+            $('input[name="phone"]').val('').prop('readonly', false);
+        }
+    });
+
+</script>
+
