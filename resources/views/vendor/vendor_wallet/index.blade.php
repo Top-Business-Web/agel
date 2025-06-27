@@ -153,7 +153,17 @@
         showAddModal('{{ route($route . '.create') }}');
         addScript();
     </script>
+    <script>
+        $(document).ready(function () {
 
+            $('#type').val('');
+            $('#monthFilter').val('');
+            $('#yearFilter').val('');
+            $('#monthFilter, #yearFilter,#type').trigger('change');
+
+        });
+
+    </script>
 @endsection
 
 
