@@ -163,13 +163,16 @@ class ClientService extends BaseService
     public function getUserByNationalId($data)
     {
         try {
-            $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
-            $vendors = Vendor::where('parent_id', $parentId)->get();
-            $vendors[] = Vendor::where('id', $parentId)->first();
-            $vendorIds = $vendors->pluck('id');
+//            $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
+//            $vendors = Vendor::where('parent_id', $parentId)->get();
+//            $vendors[] = Vendor::where('id', $parentId)->first();
+//            $vendorIds = $vendors->pluck('id');
+//
+//            $obj = $this->model->where('national_id', $data['national_id'])
+//                ->whereIn('Branch_id', Branch::whereIn('vendor_id', $vendorIds)->pluck('id'))->first();
 
-            $obj = $this->model->where('national_id', $data['national_id'])
-                ->whereIn('Branch_id', Branch::whereIn('vendor_id', $vendorIds)->pluck('id'))->first();
+
+            $obj = $this->model->where('national_id', $data['national_id'])->first();
 
 
             if ($obj) {

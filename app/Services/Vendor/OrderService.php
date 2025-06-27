@@ -34,8 +34,7 @@ class OrderService extends BaseService
         protected Stock            $stock,
         protected Vendor           $vendor,
         protected OrderStatus      $orderStatus
-    )
-    {
+    ) {
         parent::__construct($objModel);
     }
 
@@ -93,6 +92,8 @@ class OrderService extends BaseService
                     return $obj->client_id ? $obj->client->name : "";
                 })->editColumn('date', function ($obj) {
                     return $obj->date ? Carbon::parse($obj->date)->subDays(3)->format('y-m-d') : "";
+                })->editColumn('created_at', function ($obj) {
+                    return $obj->created_at ? Carbon::parse($obj->created_at)->format('y-m-d') : "";
                 })->editColumn('investor_id', function ($obj) {
                     return $obj->investor_id ? $obj->investor->name : "";
                 })->addColumn('status', function ($obj) {
@@ -161,7 +162,6 @@ class OrderService extends BaseService
             } else {
                 $this->updatePaymentStatus($order, $request);
                 $this->addOrSubBalanceToInvestor($order['investor_id'], $request->paid, 0, "اضافة مبلغ لطلب رقم $order->order_number");
-
             }
 
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
@@ -313,14 +313,24 @@ class OrderService extends BaseService
 
     public function checkClient($data)
     {
-        $client = $this->client->firstOrCreate(
-            ['national_id' => $data['national_id']],
-            [
+        $auth = auth('vendor')->user();
+
+        $vendorIds = $auth->parent_id === null ? [$auth->id] : [$auth->parent_id, $auth->id];
+        $branches = $this->branchService->model->apply()->whereIn('vendor_id', $vendorIds)->get();
+        $branchIds = $branches->pluck('id')->toArray();
+
+        $client = $this->client->where('national_id', $data['national_id'])
+            ->whereIn('branch_id', $branchIds)
+            ->first();
+
+        if (!$client) {
+            $client = $this->client->create([
+                'national_id' => $data['national_id'],
                 'name' => $data['name'],
                 'phone' => '+966' . $data['phone'],
                 'branch_id' => $data['branch_id'],
-            ]
-        );
+            ]);
+        }
 
         return $client->id;
     }
@@ -405,13 +415,12 @@ class OrderService extends BaseService
     public function reverseStockDetails($id)
     {
         $order = $this->getById($id);
-        $orderStatus = $this->orderStatus->where('order_id',$order->id)->first();
-        if ($orderStatus->paid > 0){
+        $orderStatus = $this->orderStatus->where('order_id', $order->id)->first();
+        if ($orderStatus->paid > 0) {
 
 
-            $this->addOrSubBalanceToInvestor($order->investor_id,$orderStatus->paid,1,"بسبب الغاء طلب $order->order_number. تم انقاص ");
+            $this->addOrSubBalanceToInvestor($order->investor_id, $orderStatus->paid, 1, "بسبب الغاء طلب $order->order_number. تم انقاص ");
         }
-
 
 
         $stockDetailIds = $order->details()->where('order_id', $id)->pluck('stock_detail_id')->toArray();
