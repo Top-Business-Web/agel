@@ -47,6 +47,11 @@ class OrderService extends BaseService
 
             if ($request->filled('investor_id')) {
                 $obj = $obj->where('investor_id', $request->investor_id);
+            }  
+            if ($request->filled('status')) {
+                $obj = $obj->whereHas('order_status', function ($query) use ($request) {
+                    $query->where('status', $request->status);
+                });
             }
 
             if ($request->filled('month')) {
