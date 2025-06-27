@@ -37,8 +37,8 @@
             <div class="col-6">
                 <div class="form-group">
                     <label for="branch_id" class="form-control-label">الفرع</label>
-                    <select name="branch_id" class="form-control">
-                        <option value="null" selected disabled>اختر الفرع</option>
+                    <select name="branch_id" id="branch_id" class="form-control">
+                        <option value="" selected disabled>اختر الفرع</option>
                         @foreach($branches as $branch)
                             <option value="{{ $branch->id }}">{{ $branch->name }}</option>
                         @endforeach
@@ -58,7 +58,7 @@
 
 <script>
     $('.dropify').dropify();
-    $('select').select2({
+    $('select#branch_id').select2({
         dropdownParent: $('#editOrCreate .modal-content')
 
     });

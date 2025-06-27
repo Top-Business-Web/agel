@@ -76,6 +76,7 @@
                                 <th class="min-w-25px">#</th>
                                 <th class="min-w-50px rounded-end">اسم العميل</th>
                                 <th class="min-w-50px rounded-end">رقم هويه العميل</th>
+                                <th class="min-w-50px rounded-end">تاريخ الطلب</th>
                                 {{--                                <th class="min-w-50px rounded-end">حاله العميل </th>--}}
                                 <th class="min-w-50px rounded-end">الكميه</th>
                                 <th class="min-w-50px rounded-end">تاريخ السداد</th>
@@ -84,6 +85,7 @@
                                 <th class="min-w-50px rounded-end"> حاله الطلب</th>
                                 <th class="min-w-50px rounded-end"> المبلغ الكلي</th>
                                 <th class="min-w-50px rounded-end"> المبلغ المدفوع</th>
+                                <th class="min-w-50px rounded-end">المتبقي</th>
                                 <th class="min-w-50px rounded-end">ألإجراءات</th>
                             </tr>
                             </thead>
@@ -165,6 +167,7 @@
                 },
                 {data: 'client_id', name: 'client_id'},
                 {data: 'client_national_id', name: 'client_national_id'},
+                {data: 'created_at', name: 'created_at'},
                 // {data: 'client_status', name: 'client_status'},
                 {data: 'quantity', name: 'quantity'},
                 {data: 'date', name: 'date'},
@@ -173,6 +176,16 @@
                 {data: 'status', name: 'status'},
                 {data: 'required_to_pay', name: 'required_to_pay'},
                 {data: 'paid', name: 'paid'},
+                {
+                    data: null,
+                    name: 'diff',
+                    render: function (data, type, row) {
+                        let required = parseFloat(row.required_to_pay) || 0;
+                        let paid = parseFloat(row.paid) || 0;
+                        return (required - paid).toLocaleString();
+                    },
+                    title: 'المتبقي'
+                },
                 {
                     data: 'action',
                     name: 'action',

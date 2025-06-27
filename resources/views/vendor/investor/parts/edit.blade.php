@@ -60,7 +60,7 @@
 </div>
 <script>
     $('.dropify').dropify();
-    $('select').select2({
+    $('select#branch_id').select2({
         dropdownParent: $('#editOrCreate .modal-content')
 
     });</script>

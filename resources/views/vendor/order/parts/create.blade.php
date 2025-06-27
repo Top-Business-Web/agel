@@ -192,7 +192,7 @@
 
 <script>
     $('.dropify').dropify();
-    $('select').select2({
+    $('select#branch_id,#investor_id,#category_id').select2({
         dropdownParent: $('#editOrCreate .modal-content')
 
     });
