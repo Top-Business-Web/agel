@@ -18,7 +18,7 @@
                 <div class="card-header">
                     <div class="row align-items-end">
 
-                        <div class="col-md-4 mb-3 d-flex flex-column">
+                        <div class="col-3 mb-3 d-flex flex-column">
                             <label for="investorFilter">اختر المستثمر</label>
                             <select id="investorFilter" class="form-control w-100">
                                 <option value="">الكل</option>
@@ -28,7 +28,7 @@
                             </select>
                         </div>
 
-                        <div class="col-md-4 mb-3">
+                        <div class="col-2 mb-3">
                             <label for="monthFilter">اختر الشهر</label>
                             <select id="monthFilter" class="form-control">
                                 <option value="">الكل</option>
@@ -47,13 +47,25 @@
                             </select>
                         </div>
 
-                        <div class="col-md-4 mb-3">
+
+                        <div class="col-2 mb-3">
                             <label for="yearFilter">اختر السنة</label>
                             <select id="yearFilter" class="form-control">
                                 <option value="">الكل</option>
                                 @for ($year = 2025; $year <= now()->year; $year++)
                                     <option value="{{ $year }}">{{ $year }}</option>
                                 @endfor
+                            </select>
+                        </div>
+                        <div class="col-3 mb-3">
+                            <label for="status">اختر الحاله</label>
+                            <select id="status" class="form-control">
+                                <option value="">الكل</option>
+                                <option value="0">غير مسدد</option>
+                                <option value="1">مسدد جزئيا</option>
+                                <option value="2">ممهل لمده محدود</option>
+                                <option value="3">مسدد بالكامل</option>
+
                             </select>
                         </div>
 
@@ -71,23 +83,23 @@
                         <!--begin::Table-->
                         <table class="table table-bordered text-nowrap w-100" id="dataTable">
                             <thead>
-                            <tr class="fw-bolder text-muted bg-light">
+                                <tr class="fw-bolder text-muted bg-light">
 
-                                <th class="min-w-25px">#</th>
-                                <th class="min-w-50px rounded-end">اسم العميل</th>
-                                <th class="min-w-50px rounded-end">رقم هويه العميل</th>
-                                <th class="min-w-50px rounded-end">تاريخ الطلب</th>
-                                {{--                                <th class="min-w-50px rounded-end">حاله العميل </th>--}}
-                                <th class="min-w-50px rounded-end">الكميه</th>
-                                <th class="min-w-50px rounded-end">تاريخ السداد</th>
-                                <th class="min-w-50px rounded-end"> اسم المستثمر</th>
-                                <th class="min-w-50px rounded-end"> رقم الطلب</th>
-                                <th class="min-w-50px rounded-end"> حاله الطلب</th>
-                                <th class="min-w-50px rounded-end"> المبلغ الكلي</th>
-                                <th class="min-w-50px rounded-end"> المبلغ المدفوع</th>
-                                <th class="min-w-50px rounded-end">المتبقي</th>
-                                <th class="min-w-50px rounded-end">ألإجراءات</th>
-                            </tr>
+                                    <th class="min-w-25px">#</th>
+                                    <th class="min-w-50px rounded-end">اسم العميل</th>
+                                    <th class="min-w-50px rounded-end">رقم هويه العميل</th>
+                                    <th class="min-w-50px rounded-end">تاريخ الطلب</th>
+                                    {{--                                <th class="min-w-50px rounded-end">حاله العميل </th> --}}
+                                    <th class="min-w-50px rounded-end">الكميه</th>
+                                    <th class="min-w-50px rounded-end">تاريخ السداد</th>
+                                    <th class="min-w-50px rounded-end"> اسم المستثمر</th>
+                                    <th class="min-w-50px rounded-end"> رقم الطلب</th>
+                                    <th class="min-w-50px rounded-end"> حاله الطلب</th>
+                                    <th class="min-w-50px rounded-end"> المبلغ الكلي</th>
+                                    <th class="min-w-50px rounded-end"> المبلغ المدفوع</th>
+                                    <th class="min-w-50px rounded-end">المتبقي</th>
+                                    <th class="min-w-50px rounded-end">ألإجراءات</th>
+                                </tr>
                             </thead>
                         </table>
                     </div>
@@ -97,7 +109,7 @@
 
         <!--Delete MODAL -->
         <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
+            aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -151,35 +163,69 @@
             serverSide: true,
             order: [
                 [1, "DESC"]
-            ], ajax: {
+            ],
+            ajax: {
                 url: '{{ route($route . '.index') }}',
-                data: function (d) {
+                data: function(d) {
                     d.investor_id = $('#investorFilter').val();
                     d.month = $('#monthFilter').val();
                     d.year = $('#yearFilter').val();
+                    d.status = $('#status').val();
                 }
             },
             columns: [
 
                 {
-                    data: 'id', name: 'id', visible: false,
+                    data: 'id',
+                    name: 'id',
+                    visible: false,
                     searchable: false
                 },
-                {data: 'client_id', name: 'client_id'},
-                {data: 'client_national_id', name: 'client_national_id'},
-                {data: 'created_at', name: 'created_at'},
+                {
+                    data: 'client_id',
+                    name: 'client_id'
+                },
+                {
+                    data: 'client_national_id',
+                    name: 'client_national_id'
+                },
+                {
+                    data: 'created_at',
+                    name: 'created_at'
+                },
                 // {data: 'client_status', name: 'client_status'},
-                {data: 'quantity', name: 'quantity'},
-                {data: 'date', name: 'date'},
-                {data: 'investor_id', name: 'investor_id'},
-                {data: 'order_number', name: 'order_number'},
-                {data: 'status', name: 'status'},
-                {data: 'required_to_pay', name: 'required_to_pay'},
-                {data: 'paid', name: 'paid'},
+                {
+                    data: 'quantity',
+                    name: 'quantity'
+                },
+                {
+                    data: 'date',
+                    name: 'date'
+                },
+                {
+                    data: 'investor_id',
+                    name: 'investor_id'
+                },
+                {
+                    data: 'order_number',
+                    name: 'order_number'
+                },
+                {
+                    data: 'status',
+                    name: 'status'
+                },
+                {
+                    data: 'required_to_pay',
+                    name: 'required_to_pay'
+                },
+                {
+                    data: 'paid',
+                    name: 'paid'
+                },
                 {
                     data: null,
                     name: 'diff',
-                    render: function (data, type, row) {
+                    render: function(data, type, row) {
                         let required = parseFloat(row.required_to_pay) || 0;
                         let paid = parseFloat(row.paid) || 0;
                         return (required - paid).toLocaleString();
@@ -195,22 +241,33 @@
             ]
         });
 
-        $('#investorFilter, #monthFilter, #yearFilter').on('change', function () {
+        $('#investorFilter, #monthFilter, #yearFilter, #status').on('change', function() {
             dataTable.ajax.reload();
         });
-
-
-        // Delete Using Ajax
-        deleteScript('{{ route($route . '.destroy', ':id') }}');
-
-        showEditModal('{{ route('vendor.orders.editOrderStatus', ':id') }}');
-        editScript();
-
-        // Add Using Ajax
-        showAddModal('{{ route($route . '.create') }}');
-        addScript();
-
-        checkVendorKeyLimit('.addBtn', 'Order');
     </script>
 
+
+    // Delete Using Ajax
+    deleteScript('{{ route($route . '.destroy', ':id') }}');
+
+    showEditModal('{{ route('vendor.orders.editOrderStatus', ':id') }}');
+    editScript();
+
+    // Add Using Ajax
+    showAddModal('{{ route($route . '.create') }}');
+    addScript();
+
+    checkVendorKeyLimit('.addBtn', 'Order');
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            $('#investorFilter').val('');
+            $('#monthFilter').val('');
+            $('#yearFilter').val('');
+            $('#status').val('');
+            $('#investorFilter,#monthFilter,#yearFilter,#status').trigger('change');
+
+        });
+    </script>
 @endsection

@@ -515,6 +515,9 @@ class UnsurpassedService extends BaseService
         ]);
 
         $unsurpassed = $this->model->where('national_id', $request->national_id)->first();
+        if(!$unsurpassed) {
+            $unsurpassed = $this->client->where('national_id', $request->national_id)->first();
+        }
 
         if ($unsurpassed) {
             return response()->json([
