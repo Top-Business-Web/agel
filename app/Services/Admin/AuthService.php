@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Services\Admin;
 
 use App\Mail\Otp;
@@ -24,6 +23,7 @@ class AuthService extends BaseService
         if (Auth::guard('admin')->check() && Auth::guard('admin')->user()->status == 1) {
             return redirect()->route('adminHome');
         } else {
+
             return view('admin.auth.login');
 
         }

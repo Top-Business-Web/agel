@@ -46,7 +46,7 @@ Route::group(
             return view('admin.auth.select');
         })->name('select');
 
-        Route::get('/admin', [AuthController::class, 'index']);
+        Route::get('adminHome', [AuthController::class, 'index']);
 
 
         Route::group(['prefix' => 'admin'], function () {
