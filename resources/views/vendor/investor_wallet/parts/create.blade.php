@@ -10,11 +10,11 @@
 
             <div class="col-6">
                 <div class="form-group">
-                    <label for="type" class="form-control-label">نوع العمليه
+                    <label for="type" class="form-control-label">نوع العملية
                     </label>
-                    <select class="form-control select2" name="type" id="type">
-                        <option value="" selected disabled>اختر نوع العمليه</option>
-                        <option value="0">ايداع</option>
+                    <select class="form-control select2" name="type" id="typeOfOperation">
+                        <option value="" selected disabled>اختر نوع العملية</option>
+                        <option value="0">إيداع</option>
                         <option value="1">سحب</option>
                     </select>
                 </div>
@@ -61,10 +61,9 @@
     </form>
 </div>
 <script>
-    $('select').select2({
+    $('select#typeOfOperation').select2({
         dropdownParent: $('#editOrCreate .modal-content')
 
     });
 </script>
 
-<script>
