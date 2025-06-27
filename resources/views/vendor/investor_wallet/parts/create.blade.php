@@ -61,7 +61,7 @@
     </form>
 </div>
 <script>
-    $('select#typeOfOperation').select2({
+    $('select#typeOfOperation,#investor_id').select2({
         dropdownParent: $('#editOrCreate .modal-content')
 
     });
