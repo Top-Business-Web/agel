@@ -68,7 +68,6 @@
 
                             </select>
                         </div>
-
                     </div>
 
                     <div class="mt-3 text-end">
@@ -244,7 +243,6 @@
         $('#investorFilter, #monthFilter, #yearFilter, #status').on('change', function() {
             dataTable.ajax.reload();
         });
-    </script>
 
 
     // Delete Using Ajax
@@ -258,6 +256,8 @@
     addScript();
 
     checkVendorKeyLimit('.addBtn', 'Order');
+        </script>
+
     </script>
     <script>
         $(document).ready(function() {
