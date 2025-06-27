@@ -51,7 +51,7 @@
                             <label for="yearFilter">اختر السنة</label>
                             <select id="yearFilter" class="form-control">
                                 <option value="">الكل</option>
-                                @for ($year = 2020; $year <= now()->year; $year++)
+                                @for ($year = 2025; $year <= now()->year; $year++)
                                     <option value="{{ $year }}">{{ $year }}</option>
                                 @endfor
                             </select>

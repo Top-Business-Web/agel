@@ -22,6 +22,22 @@ class VendorWalletService extends BaseService
     {
         if ($request->ajax()) {
             $obj = $this->model->where('vendor_id', VendorParentAuthData('id'))->get();
+            if ($request->filled('type')) {
+                $obj = $obj->where('type', $request->type);
+            }
+
+            if ($request->filled('month')) {
+                $obj = $obj->filter(function ($item) use ($request) {
+                    return Carbon::parse($item->date)->month == $request->month;
+                });
+            }
+
+            if ($request->filled('year')) {
+                $obj = $obj->filter(function ($item) use ($request) {
+                    return Carbon::parse($item->date)->year == $request->year;
+                });
+            }
+            $totalAmount = $obj->sum('amount');
             return DataTables::of($obj)
                 ->editColumn('auth_id', function ($obj) {
                     return $obj->whoDoOperation?->name;
@@ -37,11 +53,12 @@ class VendorWalletService extends BaseService
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
+                ->with('total_amount', $totalAmount)
                 ->make(true);
         } else {
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
-                'bladeName' => "",
+                'bladeName' => "خزانه المكتب",
                 'route' => $this->route,
             ]);
         }

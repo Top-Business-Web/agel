@@ -24,13 +24,31 @@ class InvestorWalletService extends BaseService
     public function index($request)
     {
         if ($request->ajax()) {
-            $query = $this->model->where('vendor_id', VendorParentAuthData('id'));
+            $obj = $this->model->where('vendor_id', VendorParentAuthData('id'));
 
             if ($request->filled('investor_id')) {
-                $query->where('investor_id', $request->investor_id);
+                $obj->where('investor_id', $request->investor_id);
             }
 
-            $obj = $query->orderBy('id', 'asc')->get();
+            if ($request->filled('type')) {
+                $obj = $obj->where('type', $request->type);
+            }
+            $obj = $obj->orderBy('id', 'asc')->get();
+
+            if ($request->filled('month')) {
+                $obj = $obj->filter(function ($item) use ($request) {
+                    return Carbon::parse($item->created_at)->month == $request->month;
+                });
+            }
+
+            if ($request->filled('year')) {
+                $obj = $obj->filter(function ($item) use ($request) {
+                    return Carbon::parse($item->created_at)->year == $request->year;
+                });
+            }
+
+            $totalAmount = $obj->sum('amount');
+
 
             return DataTables::of($obj)
                 ->editColumn('vendor_id', function ($obj) {
@@ -49,6 +67,7 @@ class InvestorWalletService extends BaseService
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
+                ->with('total_amount', $totalAmount)
                 ->make(true);
         } else {
             $parentId = auth('vendor')->user()->parent_id === null ? auth('vendor')->user()->id : auth('vendor')->user()->parent_id;
@@ -58,7 +77,7 @@ class InvestorWalletService extends BaseService
             $obj = $this->investor->whereIn('branch_id', $this->branch->whereIn('vendor_id', $vendorIds)->pluck('id'))->get();
             return view($this->folder . '/index', [
                 'createRoute' => route($this->route . '.create'),
-                'bladeName' => "",
+                'bladeName' => " خزانه المستثمرين",
                 'route' => $this->route,
                 'investors' => $obj
             ]);
