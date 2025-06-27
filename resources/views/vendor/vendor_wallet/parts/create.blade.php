@@ -1,6 +1,6 @@
 <div class="modal-body">
     <h4 class="text-center text-warning">
-                لديك {{ VendorParentAuthData('balance') }} ريال  في المحفظه
+        لديك {{ VendorParentAuthData('balance') }} ريال في المحفظه
 
     </h4>
     <form id="addForm" class="addForm" method="POST" enctype="multipart/form-data" action="{{ $storeRoute }}">
@@ -9,15 +9,13 @@
         <div class="row">
 
 
-
-
             <div class="col-6">
                 <div class="form-group">
-                    <label for="type" class="form-control-label">نوع العمليه
+                    <label for="type" class="form-control-label">نوع العملية
                     </label>
-                    <select class="form-control select2" name="type" id="type">
-                        <option value="" selected disabled>اختر نوع العمليه</option>
-                        <option value="0">ايداع</option>
+                    <select class="form-control select2" name="type" id="typeOfOperation">
+                        <option value="" selected disabled>اختر نوع العملية</option>
+                        <option value="0">إيداع</option>
                         <option value="1">سحب</option>
                     </select>
                 </div>
@@ -29,7 +27,7 @@
                     <label for="amount" class="form-control-label">المبلغ
                     </label>
                     <input type="number" step="0.01" min="0.01" class="form-control" name="amount"
-                        id="amount">
+                           id="amount">
                 </div>
             </div>
 
@@ -52,10 +50,9 @@
     </form>
 </div>
 <script>
-    $('select').select2({
+    $('select#typeOfOperation').select2({
         dropdownParent: $('#editOrCreate .modal-content')
 
     });
 </script>
 
-<script>
