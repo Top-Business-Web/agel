@@ -14,10 +14,12 @@ class CategoryFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->word(),
+            'status' => $this->faker->boolean(), // Random true/false
+            'vendor_id' => $this->faker->numberBetween(1,5),   // Generates a new vendor record
         ];
     }
 }

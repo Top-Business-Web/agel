@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Factories\CategoryFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -31,6 +32,8 @@ class DatabaseSeeder extends Seeder
 //         $this->call(InvestorSeeder::class);
 //         $this->call(ClientSeeder::class);
 //         $this->call(UnsurpassedSeeder::class);
+//         $this->call(CategorySeeder::class);
+//         $this->call(OrderSeeder::class);
 
     }
 }
