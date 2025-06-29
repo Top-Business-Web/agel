@@ -47,8 +47,9 @@ class InvestorWalletService extends BaseService
                 });
             }
 
-            $totalAmount = $obj->sum('amount');
 
+            $totalAmount = $obj->where('type', 0)->sum('amount') -
+                $obj->where('type', 1)->sum('amount');
 
             return DataTables::of($obj)
                 ->editColumn('vendor_id', function ($obj) {

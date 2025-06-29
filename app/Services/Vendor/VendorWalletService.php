@@ -37,7 +37,8 @@ class VendorWalletService extends BaseService
                     return Carbon::parse($item->date)->year == $request->year;
                 });
             }
-            $totalAmount = $obj->sum('amount');
+            $totalAmount = $obj->where('type', 0)->sum('amount')-
+                $obj->where('type', 1)->sum('amount');
             return DataTables::of($obj)
                 ->editColumn('auth_id', function ($obj) {
                     return $obj->whoDoOperation?->name;
