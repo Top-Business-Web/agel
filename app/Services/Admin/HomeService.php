@@ -75,18 +75,20 @@ class HomeService extends BaseService
         $rejectedSubscriptions = $this->planSubscription->where('status', 2);
         $selectedYear = $request->year ?? 'all';
         $selectedMonth = $request->month ?? 'all';
-        $totalOrdersAmounts = $this->order->sum('required_to_pay');
-        $totalOfficesAmounts = $this->vendor->sum('balance');
+
+        $totalOrdersAmounts = $this->order->query();
+        $totalOfficesAmounts = $this->vendor->query();
         $totalPayedUnsurpassedMoneyAmounts = $this->order->whereHas('order_status', function ($q) {
             $q->where(function ($query) {
                 $query->where('is_graced', 1)
                     ->whereRaw('NOW() > grace_date');
             })->orWhere(function ($query) {
                 $query->where('is_graced', 0)
-                    ->whereNotNull('date');
+                    ->whereNotNull('date')
+                    ->whereRaw('NOW() > date');
             });
         });
-        $totalUnSurpassedMoneyAmounts = $this->unsurpassed->first();//إجمالي المبالغ المتعثره
+        $totalUnSurpassedMoneyAmounts = $this->order->query();
 
         if ($request->year && $request->year != 'all') {
             $year = $request->year;
@@ -100,10 +102,10 @@ class HomeService extends BaseService
             $activeSubscriptions = $activeSubscriptions->whereYear('created_at', $year);
             $requestedSubscriptions = $requestedSubscriptions->whereYear('created_at', $year);
             $rejectedSubscriptions = $rejectedSubscriptions->whereYear('created_at', $year);
-            $totalOrdersAmounts = $this->order->whereYear('created_at', $year)->first();
-            $totalOfficesAmounts = $this->vendor->whereYear('created_at', $year)->sum('balance');
-            $totalPayedUnsurpassedMoneyAmounts = $totalPayedUnsurpassedMoneyAmounts->whereYear('created_at', $year);
-            $totalUnSurpassedMoneyAmounts = $this->unsurpassed->whereYear('created_at', $year)->first();
+
+            $totalOrdersAmounts = $totalOrdersAmounts->whereYear('created_at', $selectedYear);
+            $totalOfficesAmounts = $totalOfficesAmounts->whereYear('created_at', $selectedYear);
+            $totalPayedUnsurpassedMoneyAmounts = $totalPayedUnsurpassedMoneyAmounts->whereYear('created_at', $selectedYear);
         }
 
         if ($request->month && $request->month != 'all') {
@@ -118,11 +120,16 @@ class HomeService extends BaseService
             $activeSubscriptions = $activeSubscriptions->whereMonth('created_at', $month);
             $requestedSubscriptions = $requestedSubscriptions->whereMonth('created_at', $month);
             $rejectedSubscriptions = $rejectedSubscriptions->whereMonth('created_at', $month);
-            $totalOrdersAmounts = $this->order->whereYear('created_at', $year)->first();
-            $totalOfficesAmounts = $this->vendor->whereYear('created_at', $year)->sum('balance');
-            $totalPayedUnsurpassedMoneyAmounts = $totalPayedUnsurpassedMoneyAmounts->whereYear('created_at', $year);
-            $totalUnSurpassedMoneyAmounts = $this->unsurpassed->whereYear('created_at', $year)->first();
+
+            $totalOrdersAmounts = $totalOrdersAmounts->whereMonth('created_at', $selectedMonth);
+            $totalOfficesAmounts = $totalOfficesAmounts->whereMonth('created_at', $selectedMonth);
+            $totalPayedUnsurpassedMoneyAmounts = $totalPayedUnsurpassedMoneyAmounts->whereMonth('created_at', $selectedMonth)->with('order_status');
         }
+
+        $totalOrdersAmounts = $totalOrdersAmounts->sum('required_to_pay') ?? 0;
+        $totalOfficesAmounts = $totalOfficesAmounts->sum('balance') ?? 0;
+        $totalPayedUnsurpassedMoneyAmounts = $totalPayedUnsurpassedMoneyAmounts->select('order_statuses.*')->join('order_statuses', 'orders.id', '=', 'order_statuses.order_id')->sum('order_statuses.paid') ?? 0;
+        $totalUnSurpassedMoneyAmounts = $totalUnSurpassedMoneyAmounts->sum('required_to_pay') - $totalPayedUnsurpassedMoneyAmounts;
 
         $years = range(2025, date('Y'));
         $months = ['1' => 'يناير', '2' => 'فبراير', '3' => 'مارس', '4' => 'أبريل', '5' => 'مايو', '6' => 'يونيو', '7' => 'يوليو', '8' => 'أغسطس', '9' => 'سبتمبر', '10' => 'أكتوبر', '11' => 'نوفمبر', '12' => 'ديسمبر'];

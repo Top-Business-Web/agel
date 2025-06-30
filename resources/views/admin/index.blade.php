@@ -106,7 +106,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">{{ $totalOrdersAmounts }}</h2>
+                        <h2 class="mb-0 number-font">{{ @$totalOrdersAmounts }}</h2>
                         <p class="text-white mb-0">إجمالي قيمة الطلبات</p>
                     </div>
                     <div class="mr-auto">
@@ -122,7 +122,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">{{ $totalOfficesAmounts }}</h2>
+                        <h2 class="mb-0 number-font">{{ @$totalOfficesAmounts }}</h2>
                         <p class="text-white mb-0">إجمالي رصيد المكاتب</p>
                     </div>
                     <div class="mr-auto">
@@ -138,7 +138,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">{{ $totalUnSurpassedMoneyAmounts }}</h2>
+                        <h2 class="mb-0 number-font">{{ @$totalUnSurpassedMoneyAmounts }}</h2>
                         <p class="text-white mb-0">إجمالي المبالغ المتعثرة</p>
                     </div>
                     <div class="mr-auto">
@@ -154,7 +154,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">{{ $totalPayedUnsurpassedMoneyAmounts }}</h2>
+                        <h2 class="mb-0 number-font">{{ @$totalPayedUnsurpassedMoneyAmounts }}</h2>
                         <p class="text-white mb-0">إجمالي المبالغ المدفوعة المتعثرة</p>
                     </div>
                     <div class="mr-auto">
@@ -171,7 +171,7 @@
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ $offices }}</h2>
+                            <h2 class="mb-0 number-font">{{ @$offices }}</h2>
                             <p class="text-white mb-0">عدد المكاتب</p>
                         </div>
                         <div class="mr-auto">
@@ -188,7 +188,7 @@
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ $vendors }}</h2>
+                            <h2 class="mb-0 number-font">{{ @$vendors }}</h2>
                             <p class="text-white mb-0">عدد البائعين</p>
                         </div>
                         <div class="mr-auto">
@@ -205,7 +205,7 @@
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ $branches }}</h2>
+                            <h2 class="mb-0 number-font">{{ @$branches }}</h2>
                             <p class="text-white mb-0">عدد الفروع</p>
                         </div>
                         <div class="mr-auto">
@@ -222,7 +222,7 @@
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ $regions }}</h2>
+                            <h2 class="mb-0 number-font">{{ @$regions }}</h2>
                             <p class="text-white mb-0">عدد المناطق</p>
                         </div>
                         <div class="mr-auto">
@@ -239,7 +239,7 @@
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ $stock }}</h2>
+                            <h2 class="mb-0 number-font">{{ @$stock }}</h2>
                             <p class="text-white mb-0">المخزون</p>
                         </div>
                         <div class="mr-auto">
@@ -256,7 +256,7 @@
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ $plans }}</h2>
+                            <h2 class="mb-0 number-font">{{ @$plans }}</h2>
                             <p class="text-white mb-0">عدد الخطط</p>
                         </div>
                         <div class="mr-auto">
@@ -273,7 +273,7 @@
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ $activeSubscriptions }}</h2>
+                            <h2 class="mb-0 number-font">{{ @$activeSubscriptions }}</h2>
                             <p class="text-white mb-0">الاشتراكات النشطة</p>
                         </div>
                         <div class="mr-auto">
@@ -290,7 +290,7 @@
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ $requestedSubscriptions }}</h2>
+                            <h2 class="mb-0 number-font">{{ @$requestedSubscriptions }}</h2>
                             <p class="text-white mb-0">الاشتراكات المطلوبة</p>
                         </div>
                         <div class="mr-auto">
@@ -307,7 +307,7 @@
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ $rejectedSubscriptions }}</h2>
+                            <h2 class="mb-0 number-font">{{ @$rejectedSubscriptions }}</h2>
                             <p class="text-white mb-0">الاشتراكات المرفوضة</p>
                         </div>
                         <div class="mr-auto">
