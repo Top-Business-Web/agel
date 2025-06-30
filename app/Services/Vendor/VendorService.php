@@ -31,19 +31,27 @@ class VendorService extends BaseService
             $obj = $this->getVendorDateTable();
             return DataTables::of($obj)
                 ->addColumn('action', function ($obj) {
+                    $buttons = '';
                     if ($obj->id == auth('vendor')->user()->id) {
                         $buttons = 'لأيمكن اتخاذ لي أجراء';
                     } else {
+
+
+                                                                    if (auth('vendor')->user()->can('update_vendor')) {
 
                         $buttons = '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
                             <i class="fa fa-edit"></i>
                         </button>';
+                    }
+                                                                 if (auth('vendor')->user()->can('delete_vendor')) {
+
                         $buttons .= '
                         <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                             data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
                             <i class="fas fa-trash"></i>
                         </button>';
+                                                                 }
 
 
                     }

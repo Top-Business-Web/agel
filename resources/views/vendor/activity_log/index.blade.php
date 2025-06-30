@@ -1,7 +1,7 @@
 @extends('vendor/layouts/master')
 
 @section('title')
-{{ config()->get('app.name') }}
+    {{ config()->get('app.name') }}
 @endsection
 @section('page_name')
 @endsection
@@ -12,10 +12,11 @@
                 <div class="card-header">
                     <h3 class="card-title"></h3>
                     <div class="">
-
-                        <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
-                            <span><i class="fe fe-trash"></i></span> حذف المحدد
-                        </button>
+                        @can('delete_activity_log')
+                            <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
+                                <span><i class="fe fe-trash"></i></span> حذف المحدد
+                            </button>
+                        @endcan
 
 
                     </div>
@@ -56,8 +57,7 @@
                     </div>
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
-                        <p>هل أنت متأكد من أنك تريد حذف هذا العنصر <span id="title"
-                                class="text-danger"></span>?</p>
+                        <p>هل أنت متأكد من أنك تريد حذف هذا العنصر <span id="title" class="text-danger"></span>?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
@@ -86,8 +86,7 @@
                         <p>هل أنت متأكد من أنك تريد حذف هذا العنصر</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">إلغاء</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
                         <button type="button" class="btn btn-danger" id="confirm-delete-btn">حذف</button>
                     </div>
                 </div>
@@ -145,7 +144,6 @@
 
         // Delete Using Ajax
         deleteScript('{{ route($route . '.destroy', ':id') }}');
-        deleteSelected('{{route($route.'.deleteSelected')}}');
-
+        deleteSelected('{{ route($route . '.deleteSelected') }}');
     </script>
 @endsection

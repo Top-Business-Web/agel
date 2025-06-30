@@ -70,12 +70,15 @@
                         </div>
                     </div>
 
-                    <div class="mt-3 text-end">
-                        <button class="btn btn-secondary btn-icon text-white addBtn">
-                            <span><i class="fe fe-plus"></i></span> إضافة
-                        </button>
-                    </div>
+                    @can('create_order')
+                        <div class="mt-3 text-end">
+                            <button class="btn btn-secondary btn-icon text-white addBtn">
+                                <span><i class="fe fe-plus"></i></span> إضافة
+                            </button>
+                        </div>
+                    @endcan
                 </div>
+
 
                 <div class="card-body">
                     <div class="table-responsive">
@@ -245,18 +248,18 @@
         });
 
 
-    // Delete Using Ajax
-    deleteScript('{{ route($route . '.destroy', ':id') }}');
+        // Delete Using Ajax
+        deleteScript('{{ route($route . '.destroy', ':id') }}');
 
-    showEditModal('{{ route('vendor.orders.editOrderStatus', ':id') }}');
-    editScript();
+        showEditModal('{{ route('vendor.orders.editOrderStatus', ':id') }}');
+        editScript();
 
-    // Add Using Ajax
-    showAddModal('{{ route($route . '.create') }}');
-    addScript();
+        // Add Using Ajax
+        showAddModal('{{ route($route . '.create') }}');
+        addScript();
 
-    checkVendorKeyLimit('.addBtn', 'Order');
-        </script>
+        checkVendorKeyLimit('.addBtn', 'Order');
+    </script>
 
     </script>
     <script>

@@ -63,9 +63,11 @@
                         </div>
 
                         <div class="col-md-3 mb-2 d-flex align-items-end">
+                            @can('create_investor_wallets')
                             <button class="btn btn-primary btn-block addBtn">
                                 <i class="fe fe-plus"></i> أضافه
                             </button>
+                            @endcan
                         </div>
                     </div>
                 </div>

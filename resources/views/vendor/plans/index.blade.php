@@ -139,6 +139,7 @@
                                             الخطه الخاصة بك
                                         </button>
                                     @else
+                                    @can('create_plan')
 
                                         <button type="button"
                                                 class="mt-4 btn btn-primary subscribe-btn"
@@ -146,6 +147,7 @@
                                         >
                                             ترقيه
                                         </button>
+                                    @endcan
 
                                     @endif
                                 @elseif($planSubscription->plan_id == $plan->id && $planSubscription->status == 1)

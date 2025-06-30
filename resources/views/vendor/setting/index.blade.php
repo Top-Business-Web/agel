@@ -4,7 +4,7 @@
     {{ config()->get('app.name') ?? '' }} | الإعدادات
 @endsection
 @section('page_name')
-    settings
+    الإعدادات
 @endsection
 @section('content')
     <div class="card">
@@ -41,17 +41,17 @@
                         </div>
 
 
-                        <div class="col-5">
+                        <div class="col-6">
                             <div class="form-group">
                                 <label for="name" class="form-control-label">أسم المكتب</label>
                                 <input type="text" class="form-control" name="name" id="name" value="{{isset($vendorSetting->name) ? $vendorSetting->name : ''}}">
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-3" style="display:none;">
                             <div class="form-group">
                                 <label for="phone" class="form-control-label">رقم الجوال</label>
                                 <div class="input-group">
-                                    <input type="number" class="form-control" id="phone" {{isset($vendorSetting->phone) ? 'value='.substr($vendorSetting->phone, 4).'' : ''}}  name="phone" maxlength="11">
+                                    <input type="hidden" class="form-control" id="phone" {{isset($vendorSetting->phone) ? 'value='.substr($vendorSetting->phone, 4).'' : ''}}  name="phone" maxlength="11">
                                     <span class="input-group-text">966+</span>
 
                                 </div>
@@ -60,7 +60,7 @@
 
 
 
-                         <div class="col-4">
+                         <div class="col-6">
                             <div class="form-group">
                                 <label for="commercial_number" class="form-control-label">رقم السجل التجاري</label>
                                 <input type="number" class="form-control" name="commercial_number" id="commercial_number" {{isset($vendorSetting->commercial_number) ? 'value='.$vendorSetting->commercial_number.'' : ''}} >
@@ -121,10 +121,13 @@
                                 </select>
                             </div>
                         </div>
+                        @can('create_setting')
+
                         <div class="modal-footer">
 
                             <button type="submit" class="btn btn-primary" id="addButton">حفظ
-</button>
+</button>                        @endcan
+
                         </div>
                     </div>
                 </form>

@@ -56,11 +56,13 @@
 
                     <h3 class="card-title"></h3>
                     <div class="">
+                        @can('create_vendor_wallets')
                         <button class="btn btn-secondary btn-icon text-white addBtn">
 									<span>
 										<i class="fe fe-plus"></i>
 									</span> أضافه
                         </button>
+                        @endcan
 
                     </div>
                 </div>

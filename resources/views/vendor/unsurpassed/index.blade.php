@@ -3,32 +3,27 @@
     {{ config()->get('app.name') }}
 @endsection
 <style>
-    .custom-select-lg.select2-hidden-accessible + .select2-container .select2-selection--single {
+    .custom-select-lg.select2-hidden-accessible+.select2-container .select2-selection--single {
         font-size: 15px;
         padding-left: 70px;
     }
 
-    .custom-select-lg.select2-hidden-accessible + .select2-container .select2-selection__rendered {
+    .custom-select-lg.select2-hidden-accessible+.select2-container .select2-selection__rendered {
         padding-left: 70px;
     }
-
-
-
-
 </style>
 @section('content')
-
     <div class="row">
         <div class="col-md-12">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs mb-3" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="tab-one-tab" data-bs-toggle="tab" href="#tab-one" role="tab"
-                       aria-controls="tab-one" aria-selected="true">المتعثرين</a>
+                        aria-controls="tab-one" aria-selected="true">المتعثرين</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="tab-two-tab" data-bs-toggle="tab" href="#tab-two" role="tab"
-                       aria-controls="tab-two" aria-selected="false">متعثرين المكتب </a>
+                        aria-controls="tab-two" aria-selected="false">متعثرين المكتب </a>
                 </li>
             </ul>
 
@@ -43,23 +38,23 @@
 
                                 <div class="mr-auto col-4 ml-3">
                                     <label>ابحث <span id="digitsCount"
-                                                      style="color: blue; margin: 15px; font-weight: bold;">0</span></label>
+                                            style="color: blue; margin: 15px; font-weight: bold;">0</span></label>
                                     <input type="text" id="searchByNationalId" class="form-control"
-                                           placeholder="ابحث برقم الهوية">
+                                        placeholder="ابحث برقم الهوية">
                                 </div>
                                 <table class="table table-bordered text-nowrap w-100" id="dataTableWithoutButtons">
                                     <thead>
-                                    <tr class="fw-bolder text-muted bg-light">
-                                        <th>#</th>
-                                        <th>اسم المستخدم</th>
-                                        <th>رقم الهويه</th>
-                                        <th> اسم المستثمر</th>
-                                        <th>رقم الهاتف</th>
-                                        <th>المكتب التابع له</th>
-                                        <th>رقم هاتف المكتب</th>
-                                        <th>حاله العميل</th>
-                                        <th>ألإجراءات</th>
-                                    </tr>
+                                        <tr class="fw-bolder text-muted bg-light">
+                                            <th>#</th>
+                                            <th>اسم المستخدم</th>
+                                            <th>رقم الهويه</th>
+                                            <th> اسم المستثمر</th>
+                                            <th>رقم الهاتف</th>
+                                            <th>المكتب التابع له</th>
+                                            <th>رقم هاتف المكتب</th>
+                                            <th>حاله العميل</th>
+                                            <th>ألإجراءات</th>
+                                        </tr>
                                     </thead>
                                 </table>
                             </div>
@@ -76,7 +71,9 @@
                                 <div class="col-6">
                                     <label for="email" class="form-control-label">المستثمر
                                     </label>
-                                    <select name="investor_id" id="investor_id" class="form-control select2 custom-select-lg">                                        <option value="">الكل</option>
+                                    <select name="investor_id" id="investor_id"
+                                        class="form-control select2 custom-select-lg">
+                                        <option value="">الكل</option>
                                         @foreach ($investors as $investor)
                                             <option value="{{ $investor->id }}">{{ $investor->name }}</option>
                                         @endforeach
@@ -85,192 +82,200 @@
                                 </div>
                             </div>
 
-                        <h3 class="card-title"></h3>
+                            <h3 class="card-title"></h3>
 
-                        <div>
-                            <button class="btn btn-secondary btn-icon text-white addBtn">أضافه</button>
-                            <button class="btn btn-secondary btn-icon text-white addExcelFile"> ملف اكسل</button>
-                            <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
-                                <span><i class="fe fe-trash"></i></span> حذف المحدد
-                            </button>
-                            <a href="{{ route('unsurpasseds.download.example') }}"
-                               class="btn btn-primary btn-icon text-white">
-                                <span><i class="fe fe-download"></i></span> تحميل مثال
-                            </a>
+                            <div>
+                                @can('create_unsurpassed')
+                                    <button class="btn btn-secondary btn-icon text-white addBtn">أضافه</button>
+
+                                    <button class="btn btn-secondary btn-icon text-white addExcelFile"> ملف اكسل</button>
+                                @endcan
+
+
+                                @can('delete_unsurpassed')
+                                    <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
+                                        <span><i class="fe fe-trash"></i></span> حذف المحدد
+                                    </button>
+                                @endcan
+
+                                <a href="{{ route('unsurpasseds.download.example') }}"
+                                    class="btn btn-primary btn-icon text-white">
+                                    <span><i class="fe fe-download"></i></span> تحميل مثال
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered text-nowrap w-100" id="dataTable">
-                                <thead>
-                                <tr class="fw-bolder text-muted bg-light">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-nowrap w-100" id="dataTable">
+                                    <thead>
+                                        <tr class="fw-bolder text-muted bg-light">
 
-                                    <th class="min-w-25px">
-                                        <input type="checkbox" id="select-all">
-                                    </th>
-                                    <th>#</th>
-                                    <th>اسم المستخدم</th>
-                                    <th>رقم الهويه</th>
-                                    <th> اسم المستثمر</th>
-                                    <th>رقم الهاتف</th>
-                                    <th>المكتب التابع له</th>
-                                    <th>رقم هاتف المكتب</th>
-                                    <th> المبلغ المطلوب سداده</th>
-                                    <th>حاله العميل</th>
-                                    <th>ألإجراءات</th>
-                                </tr>
-                                </thead>
-                            </table>
+                                            <th class="min-w-25px">
+                                                <input type="checkbox" id="select-all">
+                                            </th>
+                                            <th>#</th>
+                                            <th>اسم المستخدم</th>
+                                            <th>رقم الهويه</th>
+                                            <th> اسم المستثمر</th>
+                                            <th>رقم الهاتف</th>
+                                            <th>المكتب التابع له</th>
+                                            <th>رقم هاتف المكتب</th>
+                                            <th> المبلغ المطلوب سداده</th>
+                                            <th>حاله العميل</th>
+                                            <th>ألإجراءات</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Pay MODAL -->
-    <div class="modal fade" id="pay_modal" tabindex="-1" role="dialog" aria-labelledby="payModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog " role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="payModalLabel">دفع</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input id="pay_id" name="id" type="hidden">
-                    <p>هل انت متأكد من دفع <span id="title" class="text-success fw-bold"></span>؟</p>
-                </div>
+        <!-- Pay MODAL -->
+        <div class="modal fade" id="pay_modal" tabindex="-1" role="dialog" aria-labelledby="payModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog " role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="payModalLabel">دفع</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input id="pay_id" name="id" type="hidden">
+                        <p>هل انت متأكد من دفع <span id="title" class="text-success fw-bold"></span>؟</p>
+                    </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_pay_modal">
-                        إغلاق
-                    </button>
-                    <button type="button" class="btn btn-success" id="pay_btn">
-                        <span class="btn-text">ادفع الآن</span>
-                        <span class="spinner-border spinner-border-sm d-none" role="status"
-                              aria-hidden="true"></span>
-                    </button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_pay_modal">
+                            إغلاق
+                        </button>
+                        <button type="button" class="btn btn-success" id="pay_btn">
+                            <span class="btn-text">ادفع الآن</span>
+                            <span class="spinner-border spinner-border-sm d-none" role="status"
+                                aria-hidden="true"></span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- MODAL CLOSED -->
+        <!-- MODAL CLOSED -->
 
-    <!--Delete MODAL -->
-    <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog " role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">حذف</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input id="delete_id" name="id" type="hidden">
-                    <p>هل انت متاكد من حذف هذا العنصر <span id="title" class="text-danger"></span>?</p>
-                </div>
+        <!--Delete MODAL -->
+        <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog " role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">حذف</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input id="delete_id" name="id" type="hidden">
+                        <p>هل انت متاكد من حذف هذا العنصر <span id="title" class="text-danger"></span>?</p>
+                    </div>
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-bs-dismiss="modal"
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-bs-dismiss="modal"
                             id="dismiss_delete_modal">
-                        أغلاق
-                    </button>
-                    <button type="button" class="btn btn-danger" id="delete_btn">حذف !</button>
+                            أغلاق
+                        </button>
+                        <button type="button" class="btn btn-danger" id="delete_btn">حذف !</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- MODAL CLOSED -->
+        <!-- MODAL CLOSED -->
 
-    <!-- add stock Modal -->
-    <div class="modal fade" id="addStock" data-backdrop="static" tabindex="-1" role="dialog"
-         aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">التفاصيل</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="modal-body1">
+        <!-- add stock Modal -->
+        <div class="modal fade" id="addStock" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">التفاصيل</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modal-body1">
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- add stock Modal -->
+        <!-- add stock Modal -->
 
-    <!-- Create Or Edit Modal -->
-    <div class="modal fade" id="editOrCreate" data-backdrop="static" tabindex="-1" role="dialog"
-         aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="example-Modal3">التفاصيل</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="modal-body">
+        <!-- Create Or Edit Modal -->
+        <div class="modal fade" id="editOrCreate" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="example-Modal3">التفاصيل</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modal-body">
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Create Or Edit Modal -->
-    <!-- addExcelFile Modal -->
-    <div class="modal fade" id="addExcelFile" data-backdrop="static" tabindex="-1" role="dialog"
-         aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="example-Modal5">التفاصيل</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="modal-excel-body">
+        <!-- Create Or Edit Modal -->
+        <!-- addExcelFile Modal -->
+        <div class="modal fade" id="addExcelFile" data-backdrop="static" tabindex="-1" role="dialog"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="example-Modal5">التفاصيل</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="modal-excel-body">
 
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- addExcelFile Modal -->
-    <!-- delete selected  Modal -->
-    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog"
-         aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteConfirmModalLabel">تأكيد الحذف</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>هل أنت متأكد من أنك تريد حذق العناصر المحدده</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء
-                    </button>
-                    <button type="button" class="btn btn-danger" id="confirm-delete-btn">حذف
-                    </button>
+        <!-- addExcelFile Modal -->
+        <!-- delete selected  Modal -->
+        <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog"
+            aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteConfirmModalLabel">تأكيد الحذف</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>هل أنت متأكد من أنك تريد حذق العناصر المحدده</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء
+                        </button>
+                        <button type="button" class="btn btn-danger" id="confirm-delete-btn">حذف
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- delete selected  Modal -->
+        <!-- delete selected  Modal -->
 
 
-    <!-- Modals -->
-    @include('vendor.layouts.myAjaxHelper')
+        <!-- Modals -->
+        @include('vendor.layouts.myAjaxHelper')
     </div>
 
     <style>
@@ -291,13 +296,12 @@
             ajax: {
                 url: '{{ route($route . '.index') }}',
                 type: 'GET',
-                data: function (d) {
+                data: function(d) {
                     let value = $('#searchByNationalId').val();
                     d.national_id = /^\d{10}$/.test(value) ? value : 'invalid_nid';
                 }
             },
-            columns: [
-                {
+            columns: [{
                     data: 'id',
                     name: 'id',
                     visible: false,
@@ -313,7 +317,7 @@
                     data: 'national_id',
                     name: 'national_id',
                     orderable: false
-                },{
+                }, {
                     data: 'investor_name',
                     name: 'investor_name',
                     orderable: true
@@ -362,13 +366,13 @@
             searching: false
         });
 
-        $('#searchByNationalId').on('input', function () {
+        $('#searchByNationalId').on('input', function() {
             let val = $(this).val();
             $('#digitsCount').text(val.length);
             dataTableWithoutButtons.ajax.reload();
         });
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             $('#searchByNationalId').val('');
             $('#digitsCount').text('0');
         });
@@ -384,7 +388,7 @@
             ajax: {
                 url: '{{ route('myUnsurpassed') }}',
                 type: 'GET',
-                data: function (d) {
+                data: function(d) {
                     d.investor_id = $('#investor_id').val();
                 }
             },
@@ -395,7 +399,7 @@
                     name: 'checkbox',
                     orderable: false,
                     searchable: false,
-                    render: function (data, type, row) {
+                    render: function(data, type, row) {
                         if (row.action && row.action.includes('لايمكنك اتخاد اي احراء')) {
                             return '';
                         }
@@ -477,26 +481,26 @@
         showEditModal('{{ route($route . '.edit', ':id') }}');
         editScript();
 
-        $('#loadData').click(function () {
+        $('#loadData').click(function() {
             dataTable.ajax.reload();
         });
-        $('#investor_id').on('change', function () {
+        $('#investor_id').on('change', function() {
             dataTable.ajax.reload();
         });
 
 
-        $(document).on('click', '.addExcelFile', function () {
+        $(document).on('click', '.addExcelFile', function() {
             let routeOfShow = '{{ route('unsurpasseds.add.excel') }}';
             $('#modal-excel-body').html(loader);
             $('#addExcelFile').modal('show');
-            setTimeout(function () {
+            setTimeout(function() {
                 $('#modal-excel-body').load(routeOfShow);
             }, 250);
         });
     </script>
 
     <script>
-        $(document).on('click', '[data-bs-target="#pay_modal"]', function () {
+        $(document).on('click', '[data-bs-target="#pay_modal"]', function() {
             var id = $(this).data('id');
             var title = $(this).data('title');
 
@@ -508,7 +512,7 @@
             $('#pay_btn').data('id', id);
         });
 
-        $(document).on('click', '#pay_btn', function () {
+        $(document).on('click', '#pay_btn', function() {
             var id = $(this).data('id');
             console.log("Paying ID:", id);
 
@@ -527,7 +531,7 @@
                     '_token': "{{ csrf_token() }}",
                     'id': id
                 },
-                success: function (data) {
+                success: function(data) {
                     $("#dismiss_pay_modal")[0].click();
                     if (data.status === 200) {
                         $('#dataTable').DataTable().ajax.reload();
@@ -536,18 +540,16 @@
                         toastr.error(data.message);
                     }
                 },
-                error: function (xhr) {
+                error: function(xhr) {
                     toastr.error("حدث خطأ أثناء الدفع.");
                     console.error(xhr.responseText);
                 },
-                complete: function () {
+                complete: function() {
                     $btn.attr('disabled', false);
                     $btn.find('.btn-text').text('ادفع الآن');
                     $btn.find('.spinner-border').addClass('d-none');
                 }
             });
         });
-
-
     </script>
 @endsection

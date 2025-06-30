@@ -20,15 +20,18 @@
                 <span class="side-menu__label">الرئيسية</span>
             </a>
         </li>
-        <li class="{{ routeActive('unsurpasseds.index') }}">
-            <a class="slide-item {{ routeActive('unsurpasseds.index') }}" style="margin-right:8px;"
-                href="{{ route('unsurpasseds.index') }}">
-                <i class="fas fa-hand-holding-usd side-menu__icon"></i> <!-- المتعثرين -->
-                <span class="side-menu__label">المتعثرين</span>
+        @canany(['read_unsurpassed', 'create_unsurpassed', 'update_unsurpassed', 'delete_unsurpassed'])
+            <li class="{{ routeActive('unsurpasseds.index') }}">
+                <a class="slide-item {{ routeActive('unsurpasseds.index') }}" style="margin-right:8px;"
+                    href="{{ route('unsurpasseds.index') }}">
+                    <i class="fas fa-hand-holding-usd side-menu__icon"></i> <!-- المتعثرين -->
+                    <span class="side-menu__label">المتعثرين</span>
 
-            </a>
+                </a>
 
-        </li>
+            </li>
+        @endcanany
+
 
         @canany(['create_order', 'update_order', 'delete_order', 'read_order'])
             <li class="{{ routeActive('order.index') }}">
@@ -135,14 +138,16 @@
 
 
 
-        <li class="{{ routeActive('vendor.plans.index') }}">
-            <a class="slide-item {{ routeActive('vendor.plans.index') }}" style="margin-right:8px;"
-                href="{{ route('vendor.plans.index') }}">
-                <i class="fa fa-credit-card side-menu__icon"></i> <!-- الاشتراكات Icon -->
-                <span class="side-menu__label">الاشتراكات</span>
+        @canany(['read_plans', 'create_plans', 'update_plans', 'delete_plans'])
+            <li class="{{ routeActive('vendor.plans.index') }}">
+                <a class="slide-item {{ routeActive('vendor.plans.index') }}" style="margin-right:8px;"
+                    href="{{ route('vendor.plans.index') }}">
+                    <i class="fa fa-credit-card side-menu__icon"></i> <!-- الاشتراكات Icon -->
+                    <span class="side-menu__label">الاشتراكات</span>
 
-            </a>
-        </li>
+                </a>
+            </li>
+        @endcanany
         @canany(['read_activity_log', 'delete_activity_log'])
             <li class="{{ routeActive('activity_logs.index') }}">
                 <a class="slide-item {{ routeActive('vendor.activity_logs.index') }}"
@@ -159,7 +164,7 @@
         @canany(['read_setting', 'create_setting', 'update_setting', 'delete_setting'])
             <li>
                 <a class="slide-item  {{ Route::currentRouteName() == 'vendorSetting' ? 'active' : '' }}"
-                    href="{{ route('vendorSetting') }}" style="margin-right:8px;" >
+                    href="{{ route('vendorSetting') }}" style="margin-right:8px;">
                     <i class="fa fa-cog side-menu__icon"></i> <!-- إعدادات النظام Icon -->
                     <span class="side-menu__label">أعدادات النظام</span>
                 </a>
@@ -174,7 +179,7 @@
                     href="{{ route('UpdatePassword') }}" style="margin-right:8px;">
                     <i class="fas fa-key side-menu__icon"></i>
 
-                     <!-- إعدادات  كلمه السر Icon --> <span class="side-menu__label">تغير كلمه السر</span>
+                    <!-- إعدادات  كلمه السر Icon --> <span class="side-menu__label">تغير كلمه السر</span>
                 </a>
             </li>
 

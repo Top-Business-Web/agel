@@ -4,7 +4,7 @@
     {{ config()->get('app.name') ?? '' }} | الإعدادات
 @endsection
 @section('page_name')
-    settings
+الإعدادات
 @endsection
 @section('content')
     <div class="card">
@@ -133,10 +133,13 @@
                                 </select>
                             </div>
                         </div>
+                                                @can('create_setting')
+
                         <div class="modal-footer">
 
                             <button type="submit" class="btn btn-primary" id="addButton">حفظ
                             </button>
+                        @endcan
                         </div>
                     </div>
                 </form>

@@ -72,15 +72,25 @@ class UnsurpassedService extends BaseService
 
                     if ($obj->model_type === 'unsurpassed' && $obj->office_phone === VendorParentAuthData('phone')) {
 
-                        $buttons = '
-                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    ';
+                        $buttons = '';
+
+                        if (auth()->user()->can('update_unsurpassed')) {
+                            $buttons .= '
+        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
+            <i class="fa fa-edit"></i>
+        </button>
+    ';
+                        }
+
+                        if (auth()->user()->can('delete_unsurpassed')) {
+                            $buttons .= '
+        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
+            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
+            <i class="fas fa-trash"></i>
+        </button>
+    ';
+                        }
+
                     } else {
                         return '<h5 class="text-muted">لايمكنك اتخاد اي احراء</h5>';
                     }
@@ -197,21 +207,33 @@ class UnsurpassedService extends BaseService
 
                     if ($obj->model_type === 'unsurpassed' && $obj->office_phone === VendorParentAuthData('phone')) {
 
-                        $buttons = '
-                        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
-                            <i class="fa fa-edit"></i>
-                        </button>
-                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-                            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                        $buttons = '';
 
+                        if (auth()->user()->can('update_unsurpassed')) {
+                            $buttons .= '
+        <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-info-light editBtn">
+            <i class="fa fa-edit"></i>
+        </button>
+    ';
+                        }
 
-                        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
-                            data-bs-target="#pay_modal" data-id="' . $obj->id . '" data-title="سداد مبلغ ' . $obj->debt . ' إلى ' . $obj->name . '">
-                            <i class="fas fa-money-bill-wave side-menu__icon"></i>
-                        </button>
-                    ';
+                        if (auth()->user()->can('delete_unsurpassed')) {
+                            $buttons .= '
+        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
+            data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
+            <i class="fas fa-trash"></i>
+        </button>
+    ';
+                        }
+
+                        if (auth()->user()->can('update_unsurpassed')) {
+                            $buttons .= '
+        <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
+            data-bs-target="#pay_modal" data-id="' . $obj->id . '" data-title="سداد مبلغ ' . $obj->debt . ' إلى ' . $obj->name . '">
+            <i class="fas fa-money-bill-wave side-menu__icon"></i>
+        </button>
+    ';
+                        }
                     } else {
                         return '<h5 class="text-muted">لايمكنك اتخاد اي احراء</h5>';
                     }
@@ -356,7 +378,7 @@ class UnsurpassedService extends BaseService
                     'national_id' => $data['national_id'],
                     'name' => $data['name'],
                     'phone' => '+966' . $data['phone'],
-                    'branch_id' => $data['branch_id'],
+                    'branch_id' => $this->branch->where('vendor_id', VendorParentAuthData('id'))->first()->id,
                 ]);
             }
 
@@ -456,14 +478,14 @@ class UnsurpassedService extends BaseService
     }
 
     // InvestorController.php
-    public function checkByNationalId( $request)
+    public function checkByNationalId($request)
     {
         $request->validate([
             'national_id' => 'required|string|min:10|max:10',
         ]);
 
         $unsurpassed = $this->model->where('national_id', $request->national_id)->first();
-        if(!$unsurpassed) {
+        if (!$unsurpassed) {
             $unsurpassed = $this->client->where('national_id', $request->national_id)->first();
         }
 
@@ -481,5 +503,4 @@ class UnsurpassedService extends BaseService
 
         return response()->json(['status' => 404, 'message' => 'لم يتم العثور على المتعثر']);
     }
-
 }
