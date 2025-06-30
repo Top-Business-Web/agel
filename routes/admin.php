@@ -48,7 +48,6 @@ Route::group(
 
         Route::get('adminHome', [AuthController::class, 'index']);
 
-
         Route::group(['prefix' => 'admin'], function () {
             Route::get('/login', [AuthController::class, 'index'])->name('admin.login');
 
@@ -65,7 +64,8 @@ Route::group(
 
 
             Route::group(['middleware' => 'auth:admin'], function () {
-                Route::get('/', [\App\Services\Admin\HomeService::class, 'index'])->name('adminHome');
+                Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('adminHome');
+                Route::post('/filter', [\App\Http\Controllers\Admin\HomeController::class, 'homeFilter'])->name('admin.statistics.filter');
 
 
                 Route::resourceWithDeleteSelected('roles', RoleController::class, [

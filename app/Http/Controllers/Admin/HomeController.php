@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\VendorRequest as ObjRequest;
 use App\Models\Vendor as ObjModel;
-use App\Services\Admin\VendorService as ObjService;
+use App\Services\Admin\HomeService as ObjService;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -14,9 +14,13 @@ class HomeController extends Controller
     {
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        return $this->objService->index($request);
+        return $this->objService->index();
+    }
+    public function homeFilter (Request $request){
+        return $this->objService->homeFilter($request);
+
     }
 
 }
