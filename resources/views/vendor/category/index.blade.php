@@ -12,7 +12,7 @@
                 <div class="card-header">
                     <h3 class="card-title"></h3>
                     <div class="">
-                        @can('create_branch')
+                        @can('create_category')
                             <button class="btn btn-secondary btn-icon text-white addBtn">
                             <span>
                                 <i class="fe fe-plus"></i>
@@ -24,7 +24,7 @@
                                 <span><i class="fe fe-trash"></i></span> حذف المحدد
                             </button>
                         @endcan
-                        @can('delete_category')
+                        @can('update_category')
 
                             <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
                                 <span><i class="fe fe-trending-up"></i></span> تحديث المحدد

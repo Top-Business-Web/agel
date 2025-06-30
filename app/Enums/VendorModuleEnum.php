@@ -16,6 +16,7 @@ enum VendorModuleEnum: string
     case PLANS = 'plans';
     case VENDOR_WALLET = 'vendor_wallets';
     case INVESTOR_WALLET = 'investor_wallets';
+    case UNSURPASSED = 'unsurpassed';
     public function lang(): string
     {
         return $this->value;

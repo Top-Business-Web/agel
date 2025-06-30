@@ -45,47 +45,63 @@ class InvestorService extends BaseService
                 ->addColumn('action', function ($obj) {
 
                     $buttons = '';
-                    $buttons .= '
+                    if (auth('vendor')->user()->can('update_investor')) {
+
+                        $buttons .= '
                             <li><button type="button" data-id="' . $obj->id . '" class="dropdown-item btn editBtn">
                                 <i class="fa fa-edit text-primary"></i>
                                  تعديل
                             </button></li>';
+                    }
 
 
-                    $buttons .= '
+                    if (auth('vendor')->user()->can('create_stock')) {
+
+
+                        $buttons .= '
                             <li> <button type="button" data-id="' . $obj->id . '" class="dropdown-item btn addStock">
                              <i class="fa fa-plus"></i>
                                 المخزون
                          </button></li>';
-
-
-
-                    $buttons .= '
-                            <li> <button type="button" data-id="' . $obj->id . '" class="dropdown-item btn showInvestorSummary">
-                        <i class="fas fa-user text-success"></i>
-                             تفاصيل المخزون
-                         </button></li>';
+                    }
 
 
 
 
 
 
+                    if (auth('vendor')->user()->can('read_stock')) {
+
+
+                        $buttons .= '
+                                                    <li> <button type="button" data-id="' . $obj->id . '" class="dropdown-item btn showInvestorSummary">
+                                                <i class="fas fa-user text-success"></i>
+                                                    تفاصيل المخزون
+                                                </button></li>';
+                    }
 
 
 
-                    $buttons .= '<li><button class="dropdown-item btn" data-bs-toggle="modal"
+
+
+
+                    if (auth('vendor')->user()->can('update_investor')) {
+
+
+
+                        $buttons .= '<li><button class="dropdown-item btn" data-bs-toggle="modal"
                         data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
                         <i class="fas fa-trash text-danger"></i>
                        حذف
                         </button></li>';
+                    }
 
                     $dropdowns = '<div class="dropdown" style="display: inline-block;">
                                         <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                             <span>' . 'الاجراءات' . '</span>
                                             <i class="fas fa-ellipsis-v"></i>
                                         </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">'
+                                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">'
                         . $buttons .
                         '</ul>
 
@@ -96,7 +112,7 @@ class InvestorService extends BaseService
                     $phone = str_replace('+', '', $obj->phone);
                     return $phone;
                 })->editColumn('balance', function ($obj) {
-                    return number_format($obj->balance).' ريال';
+                    return number_format($obj->balance) . ' ريال';
                 })
                 ->addIndexColumn()
                 ->escapeColumns([])
@@ -209,7 +225,7 @@ class InvestorService extends BaseService
 
             if ($data['operation']) {
                 $this->addOrSubBalanceToInvestor($data['investor_id'], $data['total_price_add'], 1, "اضافة مخزن");
-            }else{
+            } else {
                 $this->addOrSubBalanceToInvestor($data['investor_id'], $data['total_price_sub'], 0, "انقاص مخزن");
             }
 
@@ -301,8 +317,7 @@ class InvestorService extends BaseService
         $addStock = $stock->whereNull('total_price_sub')->whereNotNull('total_price_add');
         $sellStock = $stock->whereNotNull('total_price_sub')->whereNull('total_price_add');
         $orderStock = $this->order->where('investor_id', $investorId)
-            ->where('category_id', $categoryId)
-        ;
+            ->where('category_id', $categoryId);
 
 
 
@@ -340,7 +355,7 @@ class InvestorService extends BaseService
 
     public function getCategoriesByInvestor($investorId)
     {
-$categoryIds = $this->stockService->model->where('investor_id', $investorId)->pluck('category_id')->toArray();
+        $categoryIds = $this->stockService->model->where('investor_id', $investorId)->pluck('category_id')->toArray();
         $categories = $this->categoryService->model->whereIn('id', $categoryIds)->select('id', 'name')->get();
 
         return response()->json($categories);
@@ -354,7 +369,5 @@ $categoryIds = $this->stockService->model->where('investor_id', $investorId)->pl
             ->get(['id', 'name']);
 
         return response()->json($categories);
-
     }
-
 }

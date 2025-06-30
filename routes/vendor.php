@@ -66,9 +66,13 @@ Route::group(
                 #============================ Home ====================================
                 Route::get('homeVendor', [HomeController::class, 'index'])->name('vendorHome');
                 #============================ branches ==================================
-                Route::resourceWithDeleteSelected('branches', BranchController::class);
+                Route::resourceWithDeleteSelected('branches', BranchController::class, [
+                    'middleware' => ['checkpermission:read_branch']
+                ]);
                 #============================ categories ==================================
-                Route::resourceWithDeleteSelected('categories', CategoryController::class);
+                Route::resourceWithDeleteSelected('categories', CategoryController::class, [
+                    'middleware' => ['checkpermission:read_category']
+                ]);
                 #============================ vendors ====================================
 
                 Route::get('vendors/index', [VendorController::class, 'index'])->name('vendor.vendors.index');
@@ -94,69 +98,93 @@ Route::group(
 
                 //============================ VendorSetting ====================================
 
-                Route::get('vendor/setting', [SettingController::class, 'index'])->name('vendorSetting');
-                Route::get('vendor/UpdatePassword', [SettingController::class, 'UpdatePassword'])->name('UpdatePassword');
-                Route::post('vendor/setting/update', [SettingController::class, 'update'])->name('vendorSetting.store');
+                Route::group(['middleware' => 'checkpermission:read_setting'], function () {
+
+                    Route::get('vendor/setting', [SettingController::class, 'index'])->name('vendorSetting');
+                    Route::get('vendor/UpdatePassword', [SettingController::class, 'UpdatePassword'])->name('UpdatePassword');
+                    Route::post('vendor/setting/update', [SettingController::class, 'update'])->name('vendorSetting.store');
+                });
                 #============================ investors ====================================
 
-                Route::resourceWithDeleteSelected('investors', InvestorController::class);
-                Route::get('/get-categories/{investor_id}', [InvestorController::class, 'getCategoriesByInvestor'])->name('vendor.getCategoriesByInvestor');
 
-                Route::get('/vendor/get-all-categories', [InvestorController::class, 'getAllCategories'])
-                    ->name('vendor.getAllCategories');
+                Route::group(['middleware' => 'checkpermission:read_investor'], function () {
 
-                Route::get('investors/add-stock/{id}', [InvestorController::class, 'addStockForm'])->name('vendor.investors.addStock');
-                Route::post('investors/store-stock', [InvestorController::class, 'storeStock'])->name('vendor.investors.storeStock');
-                Route::get('/getAvailableStock', [InvestorController::class, 'getAvailableStock'])->name('vendor.investors.getAvailableStock');
-                Route::get('/investors/stocks/summary/{id}', [InvestorController::class, 'InvestorStocksSummary'])->name('investors.stocks.summary');
+
+                    Route::resourceWithDeleteSelected('investors', InvestorController::class);
+                    Route::get('/get-categories/{investor_id}', [InvestorController::class, 'getCategoriesByInvestor'])->name('vendor.getCategoriesByInvestor');
+
+                    Route::get('/vendor/get-all-categories', [InvestorController::class, 'getAllCategories'])
+                        ->name('vendor.getAllCategories');
+
+                    Route::get('investors/add-stock/{id}', [InvestorController::class, 'addStockForm'])->name('vendor.investors.addStock');
+                    Route::post('investors/store-stock', [InvestorController::class, 'storeStock'])->name('vendor.investors.storeStock');
+                    Route::get('/getAvailableStock', [InvestorController::class, 'getAvailableStock'])->name('vendor.investors.getAvailableStock');
+                    Route::get('/investors/stocks/summary/{id}', [InvestorController::class, 'InvestorStocksSummary'])->name('investors.stocks.summary');
+                });
+
+
 
 
                 #============================ client ====================================
-                Route::resourceWithDeleteSelected('clients', ClientController::class);
-                Route::get('/get-user-by-national-id', [ClientController::class, 'getUserByNationalId'])->name('vendor.clients.getUserByNationalId'); //using for order
+                Route::group(['middleware' => 'checkpermission:read_client'], function () {
+
+                    Route::resourceWithDeleteSelected('clients', ClientController::class);
+                    Route::get('/get-user-by-national-id', [ClientController::class, 'getUserByNationalId'])->name('vendor.clients.getUserByNationalId'); //using for order
+                });
 
                 #============================ Stocks ==================================
-                Route::get('/stocks/filteredTable', [StockController::class, 'filterTable'])->name('filteredTable');
+                Route::group(['middleware' => 'checkpermission:read_stock'], function () {
+                    Route::get('/stocks/filteredTable', [StockController::class, 'filterTable'])->name('filteredTable');
 
-                Route::resourceWithDeleteSelected('stocks', StockController::class);
-                Route::POST('/stocks/get-branches', [StockController::class, 'getBranches'])->name('vendor.stocks.getBranches'); //using for stock
+                    Route::resourceWithDeleteSelected('stocks', StockController::class);
+                    Route::POST('/stocks/get-branches', [StockController::class, 'getBranches'])->name('vendor.stocks.getBranches'); //using for stock
 
+                });
 
                 #============================ unsurpassed ==================================
 
                 Route::get('unsurpasseds/download-example', [UnsurpassedController::class, 'downloadExample'])->name('unsurpasseds.download.example');
 
-                Route::resourceWithDeleteSelected('unsurpasseds', UnsurpassedController::class);
-                Route::get('unsurpasseds/add/Excel', [UnsurpassedController::class, 'addExcel'])->name('unsurpasseds.add.excel');
-                Route::get('my-unsurpassed', [UnsurpassedController::class, 'myUnsurpassed'])->name('myUnsurpassed');
-                Route::post('unsurpasseds/store/Excel', [UnsurpassedController::class, 'storeExcel'])->name('unsurpasseds.store.excel');
-                Route::get('unsurpasseds/pay/{id}', [UnsurpassedController::class, 'pay'])->name('unsurpasseds.pay');
-                Route::post('/check-unsurpassed-by-id', [UnsurpassedController::class, 'checkByNationalId'])->name('check.unsurpassed.by.national_id');
+
+                Route::group(['middleware' => 'checkpermission:read_unsurpassed'], function () {
+                    Route::resourceWithDeleteSelected('unsurpasseds', UnsurpassedController::class);
+                    Route::get('unsurpasseds/add/Excel', [UnsurpassedController::class, 'addExcel'])->name('unsurpasseds.add.excel');
+                    Route::get('my-unsurpassed', [UnsurpassedController::class, 'myUnsurpassed'])->name('myUnsurpassed');
+                    Route::post('unsurpasseds/store/Excel', [UnsurpassedController::class, 'storeExcel'])->name('unsurpasseds.store.excel');
+                    Route::get('unsurpasseds/pay/{id}', [UnsurpassedController::class, 'pay'])->name('unsurpasseds.pay');
+                    Route::post('/check-unsurpassed-by-id', [UnsurpassedController::class, 'checkByNationalId'])->name('check.unsurpassed.by.national_id');
+                });
 
                 #============================ plans ==================================
+                Route::group(['middleware' => 'checkpermission:read_plans'], function () {
 
-                Route::resourceWithDeleteSelected('plans', PlanController::class, [
-                    'as' => 'vendor',
-                ]);
+                    Route::resourceWithDeleteSelected('plans', PlanController::class, [
+                        'as' => 'vendor',
+                    ]);
+                });
 
                 #============================ orders ==================================
-                Route::resourceWithDeleteSelected('orders', OrderController::class);
-                Route::get('/get-prices', [OrderController::class, 'calculatePrices'])->name('vendor.orders.calculatePrices'); //using for order
-                Route::get('/edit-order-status/{id}', [OrderController::class, 'editOrderStatus'])->name('vendor.orders.editOrderStatus'); //using for order
-                Route::put('/update-order-status', [OrderController::class, 'updateOrderStatus'])->name('vendor.orders.updateOrderStatus'); //using for order
+                Route::group(['middleware' => 'checkpermission:read_order'], function () {
 
-                Route::POST('/orders/get-investors', [OrderController::class, 'getInvestors'])->name('vendor.orders.getInvestors'); //using for order
-                Route::POST('/orders/get-categories', [OrderController::class, 'getCategories'])->name('vendor.orders.getCategories'); //using for order
+                    Route::resourceWithDeleteSelected('orders', OrderController::class);
+                    Route::get('/get-prices', [OrderController::class, 'calculatePrices'])->name('vendor.orders.calculatePrices'); //using for order
+                    Route::get('/edit-order-status/{id}', [OrderController::class, 'editOrderStatus'])->name('vendor.orders.editOrderStatus'); //using for order
+                    Route::put('/update-order-status', [OrderController::class, 'updateOrderStatus'])->name('vendor.orders.updateOrderStatus'); //using for order
 
-                //vendor wallet
+                    Route::POST('/orders/get-investors', [OrderController::class, 'getInvestors'])->name('vendor.orders.getInvestors'); //using for order
+                    Route::POST('/orders/get-categories', [OrderController::class, 'getCategories'])->name('vendor.orders.getCategories'); //using for order
+                });
+
+                                #============================ vendor wallet ==================================
+
+                Route::group(['middleware' => 'checkpermission:read_vendor_wallets'], function () {
                 Route::resourceWithDeleteSelected('vendor_wallets', VendorWalletController::class);
-                // investor wallet
+                });
+                #============================ investor wallet ==================================
+                Route::group(['middleware' => 'checkpermission:read_investor_wallets'], function () {
                 Route::resourceWithDeleteSelected('investor_wallets', InvestorWalletController::class);
-
-
+                });
             });
-
-
         });
 
         #=======================================================================

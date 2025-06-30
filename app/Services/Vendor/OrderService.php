@@ -47,7 +47,7 @@ class OrderService extends BaseService
 
             if ($request->filled('investor_id')) {
                 $obj = $obj->where('investor_id', $request->investor_id);
-            }  
+            }
             if ($request->filled('status')) {
                 $obj = $obj->whereHas('order_status', function ($query) use ($request) {
                     $query->where('status', $request->status);
@@ -66,19 +66,24 @@ class OrderService extends BaseService
 
                     $buttons = '';
                     if ($obj->order_status->status != 3) {
-                        $buttons .= '
+                        if (auth('vendor')->user()->can('update_order')) {
+
+                            $buttons .= '
                         <button type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-success-light editBtn">
                         <i class="fa fa-money-bill-wave side-menu__icon"></i>
                         </button>
                     ';
+                        }
+                        if (auth('vendor')->user()->can('delete_order')) {
 
-                        $buttons .= '
+                            $buttons .= '
 
                     <button class="btn btn-pill btn-danger-light" data-bs-toggle="modal"
                         data-bs-target="#delete_modal" data-id="' . $obj->id . '" data-title="' . $obj->name . '">
                         <i class="fas fa-trash"></i>
                     </button>
                 ';
+                        }
                     } else {
                         return "<h5 class='text-success'>مكتمل</h5>";
                     }
