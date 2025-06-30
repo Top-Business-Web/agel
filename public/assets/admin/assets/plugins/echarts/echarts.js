@@ -71145,7 +71145,7 @@ function parseContents(str, blockMetaList) {
  * @constructor
  * @param {module:echarts/model/Model} model
  */
-function DataView(model) {
+function DaDataView(model) {
 
     this._dom = null;
 

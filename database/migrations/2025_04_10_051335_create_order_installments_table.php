@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string(column: 'installment');
             $table->date('installment_date');
-
             $table->timestamps();
         });
     }

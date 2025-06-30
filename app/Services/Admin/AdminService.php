@@ -31,7 +31,6 @@ class AdminService extends BaseService
                 ->addColumn('action', function ($admins) {
                     $buttons = '';
                     if (auth('admin')->user()->can('update_admin')) {
-
                         if ($admins->id != 1 || auth()->guard('admin')->user()->id == 1) {
                             $buttons .= '
                             <button type="button" data-id="' . $admins->id . '" class="btn btn-pill btn-info-light editBtn" onclick="setTimeout(checkSelectAllStatus, 200)">
@@ -60,7 +59,6 @@ class AdminService extends BaseService
                 ->make(true);
         } else {
             return view($this->folder . '/index', [
-
                 'route' => $this->route,
                 'title' => "المشرفين"
             ]);

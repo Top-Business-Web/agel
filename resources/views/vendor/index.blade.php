@@ -128,7 +128,52 @@
     {{--                </div>--}}
     {{--            </div>--}}
     {{--        </div>--}}
-
+    <div class="row">
+        <form action="{{ route('admin.statistics.filter') }}" method="POST" class="col-12 col-md-8 mb-3 mb-md-0">
+            @csrf
+            <div class="form-group mb-0">
+                <label for="officeFilter" class="font-weight-bold text-muted mb-1">المكتب
+                </label>
+                <div class="d-flex flex-wrap gap-2">
+                    <div class="input-group flex-grow-1 me-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-white">
+                                <i class="fas fa-building"></i>
+                            </span>
+                        </div>
+                        <select name="year" id="officeFilter" class="form-control select2"
+                                aria-describedby="officeHelp">
+                            <option @if(@$selectedYear=="") selected @endif disabled selected value="">إختر السنه</option>
+                            <option @if(@$selectedYear=="all") selected @endif value="all">الكل</option>
+                            @foreach ($years as $year)
+                                <option @if(@$selectedYear==$year) selected @endif value="{{ $year }}">{{ $year }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="input-group mr-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text bg-white">
+                                <i class="fas fa-building"></i>
+                            </span>
+                        </div>
+                        <select name="month" id="officeFilter" class="form-control select2"
+                                aria-describedby="officeHelp">
+                            <option @if(@$selectedMonth=="") selected @endif disabled selected value="">إختر الشهر</option>
+                            <option @if(@$selectedMonth=="all") selected @endif value="all">الكل</option>
+                            @foreach ($months as $value=> $month)
+                                <option @if(@$selectedMonth==$month) selected
+                                        @endif value="{{ $value }}">{{ $month }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <small id="officeHelp" class="form-text text-muted m-2">
+                    حدد السنه و الشهر لتصفية الإحصائيات
+                </small>
+                <button type="submit" class="btn btn-primary mt-3">تصفية</button>
+            </div>
+        </form>
+    </div>
     <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
         <div class="card bg-primary-gradient img-card box-success-shadow">
             <div class="card-body">
