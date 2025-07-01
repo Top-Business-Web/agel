@@ -52,7 +52,8 @@
     $('select').select2({
         dropdownParent: $('#editOrCreate .modal-content')
 
-    });</script>
+    });
+    </script>
 <script>
     function handlePhoneInput(inputId) {
         document.getElementById(inputId).addEventListener('input', function (e) {
