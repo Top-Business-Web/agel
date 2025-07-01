@@ -29,6 +29,7 @@ class InvestorWalletRequest extends FormRequest
             ],
             'type' => 'required|in:0,1',
             'investor_id'=>'required|exists:investors,id',
+            'note' => 'nullable|string|max:255',
         ];
     }
 
@@ -41,6 +42,8 @@ class InvestorWalletRequest extends FormRequest
             'type.in' => 'هذا الحقل يجب ان يكون رقم',
             'investor_id.required' => 'هذا الحقل مطلوب',
             'investor_id.exists' => 'المستثمر غير موجود',
+            'note.string' => 'هذا الحقل يجب ان يكون نص',
+            'note.max' => 'هذا الحقل يجب ان لا يتجاوز 255 حرف',
 
         ];
     }

@@ -14,9 +14,9 @@ class HomeController extends Controller
     {
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return $this->objService->index();
+        return $this->objService->index($request);
     }
     public function homeFilter (Request $request){
         return $this->objService->homeFilter($request);

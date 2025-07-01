@@ -139,7 +139,7 @@
                                             الخطه الخاصة بك
                                         </button>
                                     @else
-                                    @can('create_plan')
+                                    @can('create_plans')
 
                                         <button type="button"
                                                 class="mt-4 btn btn-primary subscribe-btn"

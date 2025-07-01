@@ -75,6 +75,7 @@ class VendorWalletService extends BaseService
     public function store($data): \Illuminate\Http\JsonResponse
     {
         try {
+
             $vendorId = VendorParentAuthData('id');
             $vendorBalance = VendorParentAuthData('balance');
             $amount = $data['amount'] ?? 0;
@@ -96,7 +97,8 @@ class VendorWalletService extends BaseService
             // Update vendor balance
             $vendor = $this->vendor->find($vendorId);
             if ($vendor) {
-                if ($type == 1) {
+                if ($type == 1) {//            $data['phone'] = '+966' . $data['phone'];
+
                     $vendor->balance -= $amount;
                 } else {
                     $vendor->balance += $amount;

@@ -1,170 +1,152 @@
 @extends('admin/layouts/master')
 @section('title')
-    {{ config()->get('app.name') }} | المشرفين
+    {{ config()->get('app.name') }} | الاحصائيات
 @endsection
 @section('page_name')
-    المشرفين
+    الاحصائيات
 @endsection
 @section('content')
-
-{{--    <div class="row align-items-center">--}}
-    <!-- Office Filter -->
-
-
-                {{--                        <!-- Optional Title Area -->--}}
-                {{--                        <div class="col-md-2 text-md-right">--}}
-                {{--                            <h3 class="card-title mb-0 text-primary">إعدادات التصفية</h3>--}}
-                {{--                            <small class="text-muted">استخدم الفلاتر للبحث الدقيق</small>--}}
-                {{--                        </div>--}}
-
-
-
-
     <div class="row">
 
 
-        <form action="{{ route('admin.statistics.filter') }}" method="POST" class="col-12 col-md-8 mb-3 mb-md-0">
+        <form action="{{ route('adminHome') }}" method="get" class="col-12 col-md-8 mb-3 mb-md-0">
             @csrf
             <div class="form-group mb-0">
-                <label for="officeFilter" class="font-weight-bold text-muted mb-1">المكتب
+                <label for="officeFilter" class="font-weight-bold text-muted mb-1">
+                    إحصائيات المكاتب
+                    <i class="fas fa-filter text-muted ml-1"></i>
                 </label>
-                <div class="d-flex flex-wrap gap-2">
-                    <div class="input-group flex-grow-1 me-2">
+
+                <div class="d-flex flex-row align-items-center gap-2">
+                    <!-- سنة -->
+                    <div class="input-group me-2" style="min-width: 200px;">
                         <div class="input-group-prepend">
                             <span class="input-group-text bg-white">
-                                <i class="fas fa-building"></i>
+                                <i class="fas fa-calendar-alt"></i>
                             </span>
                         </div>
-                        <select name="year" id="officeFilter" class="form-control select2"
-                                aria-describedby="officeHelp">
-                            <option @if(@$selectedYear=="") selected @endif disabled selected value="">إختر السنه</option>
-                            <option @if(@$selectedYear=="all") selected @endif value="all">الكل</option>
+                        <select name="year" class="form-control select2">
+                            </option>
+                            <option @if (@$selectedYear == 'all') selected @endif value="all">الكل</option>
                             @foreach ($years as $year)
-                                <option @if(@$selectedYear==$year) selected @endif value="{{ $year }}">{{ $year }}</option>
+
+                                <option @if ($selectedYear == $year) selected @endif value="{{ $year }}">
+                                    {{ $year }}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="input-group mr-2">
+
+                    <!-- شهر -->
+                    <div class="input-group me-2" style="min-width: 200px;">
                         <div class="input-group-prepend">
                             <span class="input-group-text bg-white">
-                                <i class="fas fa-building"></i>
+                                <i class="fas fa-calendar"></i>
                             </span>
                         </div>
-                        <select name="month" id="officeFilter" class="form-control select2"
-                                aria-describedby="officeHelp">
-                            <option @if(@$selectedMonth=="") selected @endif disabled selected value="">إختر الشهر</option>
-                            <option @if(@$selectedMonth=="all") selected @endif value="all">الكل</option>
-                            @foreach ($months as $value=> $month)
-                                <option @if(@$selectedMonth==$month) selected
-                                        @endif value="{{ $value }}">{{ $month }}</option>
+                        <select name="month" class="form-control select2">
+                            </option>
+                            <option @if (@$selectedMonth == 'all') selected @endif value="all">الكل</option>
+                            @foreach ($months as $value => $month)
+
+                                <option @if ($selectedMonth == $value) selected @endif value="{{ $value }}">
+                                    {{ $month }}
+                                </option>
                             @endforeach
+
                         </select>
                     </div>
+
+                    <!-- زر التصفية -->
+                    <button type="submit" class="btn btn-primary"><i class="fe fe-filter"></i></button>
                 </div>
-                <small id="officeHelp" class="form-text text-muted m-2">
-                    حدد السنه و الشهر لتصفية الإحصائيات
-                </small>
-                <button type="submit" class="btn btn-primary mt-3">تصفية</button>
+
+
+
             </div>
         </form>
+
     </div>
-<div class="row">
-
-        <!-- Branch Filter - Hidden Initially -->
-        <div class="col-md-5 mb-3 mb-md-0" id="branch-div" style="display: none">
-            <div class="form-group mb-0">
-                <label for="branchFilter" class="font-weight-bold text-muted mb-1">فرع المكتب</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text bg-white">
-                            <i class="fas fa-code-branch"></i>
-                        </span>
-                    </div>
-                    <select id="branchFilter" class="form-control select2"
-                            aria-describedby="branchHelp">
-                        <option selected value="all">كل الفروع</option>
-{{--                        @foreach ($branches as $branch)--}}
-{{--                            <option value="{{ $branch->id }}"--}}
-{{--                                    data-office-id="{{ $branch->vendor?->parent_id != null ? $branch->vendor?->parent->id : $branch->vendor?->id }}">--}}
-{{--                                {{ $branch->name }}--}}
-{{--                                ({{ $branch->vendor?->parent_id != null ? $branch->vendor->parent->name : $branch->vendor?->name }}--}}
-{{--                                )--}}
-{{--                            </option>--}}
-{{--                        @endforeach--}}
-                    </select>
-                </div>
-                <small id="branchHelp" class="form-text text-muted">
-                    اختر فرع معين من الفروع التابعة للمكتب المحدد
-                </small>
-            </div>
-        </div>
+    <br>
+    <div class="row">
 
 
-        <!-- Admins Card -->
-    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-        <div class="card bg-primary-gradient img-card box-success-shadow">
-            <div class="card-body">
-                <div class="d-flex">
-                    <div class="text-white">
-                        <h2 class="mb-0 number-font">{{ @$totalOrdersAmounts }}</h2>
-                        <p class="text-white mb-0">إجمالي قيمة الطلبات</p>
-                    </div>
-                    <div class="mr-auto">
-                        <i class="fe fe-dollar-sign text-white fs-30 ml-2 mt-2"></i>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ @$investors }}</h2>
+                            <p class="text-white mb-0">عدد المستثمرين</p>
+                        </div>
+                        <div class="mr-auto">
+                            <i class="fas fa-list-ol text-white fs-30 ml-2 mt-2"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-        <div class="card bg-primary-gradient img-card box-success-shadow">
-            <div class="card-body">
-                <div class="d-flex">
-                    <div class="text-white">
-                        <h2 class="mb-0 number-font">{{ @$totalOfficesAmounts }}</h2>
-                        <p class="text-white mb-0">إجمالي رصيد المكاتب</p>
-                    </div>
-                    <div class="mr-auto">
-                        <i class="fe fe-dollar-sign text-white fs-30 ml-2 mt-2"></i>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ @$unsurpassed }}</h2>
+                            <p class="text-white mb-0">عدد المتعثرين</p>
+                        </div>
+                        <div class="mr-auto">
+                            <i class="fas fa-list-ol text-white fs-30 ml-2 mt-2"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-        <div class="card bg-primary-gradient img-card box-success-shadow">
-            <div class="card-body">
-                <div class="d-flex">
-                    <div class="text-white">
-                        <h2 class="mb-0 number-font">{{ @$totalUnSurpassedMoneyAmounts }}</h2>
-                        <p class="text-white mb-0">إجمالي المبالغ المتعثرة</p>
-                    </div>
-                    <div class="mr-auto">
-                        <i class="fe fe-dollar-sign text-white fs-30 ml-2 mt-2"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-        <div class="card bg-primary-gradient img-card box-success-shadow">
-            <div class="card-body">
-                <div class="d-flex">
-                    <div class="text-white">
-                        <h2 class="mb-0 number-font">{{ @$totalPayedUnsurpassedMoneyAmounts }}</h2>
-                        <p class="text-white mb-0">إجمالي المبالغ المدفوعة المتعثرة</p>
-                    </div>
-                    <div class="mr-auto">
-                        <i class="fe fe-dollar-sign text-white fs-30 ml-2 mt-2"></i>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ @$clients }}</h2>
+                            <p class="text-white mb-0">عدد العملاء</p>
+                        </div>
+                        <div class="mr-auto">
+                            <i class="fas fa-list-ol text-white fs-30 ml-2 mt-2"></i>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ @$orders }}</h2>
+                            <p class="text-white mb-0">عدد العمليات</p>
+                        </div>
+                        <div class="mr-auto">
+                            <i class="fas fa-list-ol text-white fs-30 ml-2 mt-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ @$admins }}</h2>
+                            <p class="text-white mb-0">عدد المشرفين</p>
+                        </div>
+                        <div class="mr-auto">
+                            <i class="fas fa-list-ol text-white fs-30 ml-2 mt-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Offices Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
             <div class="card bg-primary-gradient img-card box-success-shadow">
@@ -176,23 +158,6 @@
                         </div>
                         <div class="mr-auto">
                             <i class="fe fe-home text-white fs-30 ml-2 mt-2"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Vendors Card -->
-        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card bg-primary-gradient img-card box-success-shadow">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ @$vendors }}</h2>
-                            <p class="text-white mb-0">عدد البائعين</p>
-                        </div>
-                        <div class="mr-auto">
-                            <i class="fe fe-users text-white fs-30 ml-2 mt-2"></i>
                         </div>
                     </div>
                 </div>
@@ -233,23 +198,6 @@
             </div>
         </div>
 
-        <!-- Stock Card -->
-        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card bg-primary-gradient img-card box-success-shadow">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ @$stock }}</h2>
-                            <p class="text-white mb-0">المخزون</p>
-                        </div>
-                        <div class="mr-auto">
-                            <i class="fe fe-package text-white fs-30 ml-2 mt-2"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Plans Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
             <div class="card bg-primary-gradient img-card box-success-shadow">
@@ -261,6 +209,23 @@
                         </div>
                         <div class="mr-auto">
                             <i class="fe fe-calendar text-white fs-30 ml-2 mt-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories Card -->
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ @$categories }}</h2>
+                            <p class="text-white mb-0">عدد الاصناف</p>
+                        </div>
+                        <div class="mr-auto">
+                            <i class="fe fe-navigation text-white fs-30 ml-2 mt-2"></i>
                         </div>
                     </div>
                 </div>
@@ -284,6 +249,23 @@
             </div>
         </div>
 
+        <!-- expired Subscriptions Card -->
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ @$expiredSubscriptions }}</h2>
+                            <p class="text-white mb-0">الاشتراكات المنتهية</p>
+                        </div>
+                        <div class="mr-auto">
+                            <i class="fe fe-x-circle text-white fs-30 ml-2 mt-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Requested Subscriptions Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
             <div class="card bg-primary-gradient img-card box-success-shadow">
@@ -291,7 +273,7 @@
                     <div class="d-flex">
                         <div class="text-white">
                             <h2 class="mb-0 number-font">{{ @$requestedSubscriptions }}</h2>
-                            <p class="text-white mb-0">الاشتراكات المطلوبة</p>
+                            <p class="text-white mb-0">طلبات الاشتراك</p>
                         </div>
                         <div class="mr-auto">
                             <i class="fe fe-clock text-white fs-30 ml-2 mt-2"></i>
@@ -317,6 +299,115 @@
                 </div>
             </div>
         </div>
+
+        <!-- Rejected Subscriptions Card -->
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ @$vendorsWithOutPlans }}</h2>
+                            <p class="text-white mb-0">المكاتب الغير مشتركه في خطط</p>
+                        </div>
+                        <div class="mr-auto">
+                            <i class="fe fe-x-circle text-white fs-30 ml-2 mt-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- total orders amount Card -->
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ @$totalOrdersAmounts }}</h2>
+                            <p class="text-white mb-0">إجمالي قيمة الطلبات</p>
+                        </div>
+                        <div class="mr-auto">
+                            <span class="text-white fs-20 ml-2 mt-2">﷼</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ @$totalOfficesAmounts }}</h2>
+                            <p class="text-white mb-0">إجمالي رصيد المكاتب</p>
+                        </div>
+                        <div class="mr-auto">
+                            <span class="text-white fs-20 ml-2 mt-2">﷼</span>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ @$totalUnSurpassedMoneyAmounts }}</h2>
+                            <p class="text-white mb-0">إجمالي المبالغ المتعثرة</p>
+                        </div>
+                        <div class="mr-auto">
+                            <span class="text-white fs-20 ml-2 mt-2">﷼</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vendors Card -->
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ @$vendors }}</h2>
+                            <p class="text-white mb-0">عدد الموظفين</p>
+                        </div>
+                        <div class="mr-auto">
+                            <i class="fe fe-users text-white fs-30 ml-2 mt-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stock Card -->
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ @$stock }}</h2>
+                            <p class="text-white mb-0">المخزون</p>
+                        </div>
+                        <div class="mr-auto">
+                            <i class="fe fe-package text-white fs-30 ml-2 mt-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
     </div>
 @endsection
 @section('js')

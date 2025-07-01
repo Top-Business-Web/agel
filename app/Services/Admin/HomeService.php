@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Services\Admin;
 
-//use App\Models\Module;
 
 namespace App\Services\Admin;
 
@@ -11,6 +9,9 @@ use App\Models\Admin as ObjModel;
 
 
 use App\Models\Branch;
+use App\Models\Category;
+use App\Models\Client;
+use App\Models\Investor;
 use App\Models\Order;
 use App\Models\Plan;
 use App\Models\PlanSubscription;
@@ -22,138 +23,184 @@ use App\Services\BaseService;
 
 class HomeService extends BaseService
 {
-//    protected string $folder = 'admin/home';
-//    protected string $route = 'admin.vendors';
 
-    public function __construct(ObjModel $objModel, protected Region $region , protected Branch $branch,protected Vendor $vendor,protected Stock $stock,protected Plan $plan,protected planSubscription $planSubscription , protected Order $order,protected Unsurpassed $unsurpassed)
-    {
+
+    public function __construct(
+        ObjModel $objModel,
+        protected Region $region,
+        protected Branch $branch,
+        protected Vendor $vendor,
+        protected Stock $stock,
+        protected Plan $plan,
+        protected planSubscription $planSubscription,
+        protected Order $order,
+        protected Unsurpassed $unsurpassed,
+        protected Investor $investor,
+        protected Client $client,
+        protected Category $category
+
+    ) {
         parent::__construct($objModel);
     }
 
 
-    public function index()
+    public function index($request = null)
     {
-        $admins=$this->model->get();
-        $offices = $this->vendor->where('parent_id', null)->get();
-        $vendors = $this->vendor->get();
-        $branches = $this->branch->get();
-        $regions = $this->region->get();
-        $stock = $this->stock->get();
-        $plans = $this->plan->get();
-        $activeSubscriptions = $this->planSubscription->where('status', 1)->get();
-        $requestedSubscriptions= $this->planSubscription->where('status', 0)->get();
-        $rejectedSubscriptions= $this->planSubscription->where('status', 2)->get();
-        $years = range(2025, date('Y'));
-        $months = ['1' => 'يناير', '2' => 'فبراير', '3' => 'مارس', '4' => 'أبريل', '5' => 'مايو', '6' => 'يونيو', '7' => 'يوليو', '8' => 'أغسطس', '9' => 'سبتمبر', '10' => 'أكتوبر', '11' => 'نوفمبر', '12' => 'ديسمبر'];
-        return view('admin/index', [
-            'admins' => $admins->count(),
-            'offices' => $offices->count(),
-            'vendors' => $vendors->count(),
-            'branches' => $branches->count(),
-            'regions' => $regions->count(),
-            'stock' => $stock->count(),
-            'plans' => $plans->count(),
-            'activeSubscriptions' => $activeSubscriptions->count(),
-            'requestedSubscriptions' => $requestedSubscriptions->count(),
-            'rejectedSubscriptions' => $rejectedSubscriptions->count(),
-            'years' => $years,
-            'months' => $months,
-        ]);
-    }
-
-    public function homeFilter($request)
-    {
-        $admins = $this->model;
-        $offices = $this->vendor->where('parent_id', null);
-        $vendors = $this->vendor;
-        $branches = $this->branch;
-        $regions = $this->region;
-        $stock = $this->stock;
-        $plans = $this->plan;
-        $activeSubscriptions = $this->planSubscription->where('status', 1);
-        $requestedSubscriptions = $this->planSubscription->where('status', 0);
-        $rejectedSubscriptions = $this->planSubscription->where('status', 2);
         $selectedYear = $request->year ?? 'all';
         $selectedMonth = $request->month ?? 'all';
 
-        $totalOrdersAmounts = $this->order->query();
-        $totalOfficesAmounts = $this->vendor->query();
-        $totalPayedUnsurpassedMoneyAmounts = $this->order->whereHas('order_status', function ($q) {
-            $q->where(function ($query) {
-                $query->where('is_graced', 1)
-                    ->whereRaw('NOW() > grace_date');
-            })->orWhere(function ($query) {
-                $query->where('is_graced', 0)
-                    ->whereNotNull('date')
-                    ->whereRaw('NOW() > date');
-            });
-        });
-        $totalUnSurpassedMoneyAmounts = $this->order->query();
+        $data = $this->loadData();
 
-        if ($request->year && $request->year != 'all') {
-            $year = $request->year;
-            $admins = $admins->whereYear('created_at', $year);
-            $offices = $offices->whereYear('created_at', $year);
-            $vendors = $vendors->whereYear('created_at', $year);
-            $branches = $branches->whereYear('created_at', $year);
-            $regions = $regions->whereYear('created_at', $year);
-            $stock = $stock->whereYear('created_at', $year);
-            $plans = $plans->whereYear('created_at', $year);
-            $activeSubscriptions = $activeSubscriptions->whereYear('created_at', $year);
-            $requestedSubscriptions = $requestedSubscriptions->whereYear('created_at', $year);
-            $rejectedSubscriptions = $rejectedSubscriptions->whereYear('created_at', $year);
+        $data = $this->applyYearFilter($data, $selectedYear);
+        $data = $this->applyMonthFilter($data, $selectedMonth);
 
-            $totalOrdersAmounts = $totalOrdersAmounts->whereYear('created_at', $selectedYear);
-            $totalOfficesAmounts = $totalOfficesAmounts->whereYear('created_at', $selectedYear);
-            $totalPayedUnsurpassedMoneyAmounts = $totalPayedUnsurpassedMoneyAmounts->whereYear('created_at', $selectedYear);
-        }
+        $totals = $this->calculateTotals($data);
 
-        if ($request->month && $request->month != 'all') {
-            $month = $request->month;
-            $admins = $admins->whereMonth('created_at', $month);
-            $offices = $offices->whereMonth('created_at', $month);
-            $vendors = $vendors->whereMonth('created_at', $month);
-            $branches = $branches->whereMonth('created_at', $month);
-            $regions = $regions->whereMonth('created_at', $month);
-            $stock = $stock->whereMonth('created_at', $month);
-            $plans = $plans->whereMonth('created_at', $month);
-            $activeSubscriptions = $activeSubscriptions->whereMonth('created_at', $month);
-            $requestedSubscriptions = $requestedSubscriptions->whereMonth('created_at', $month);
-            $rejectedSubscriptions = $rejectedSubscriptions->whereMonth('created_at', $month);
-
-            $totalOrdersAmounts = $totalOrdersAmounts->whereMonth('created_at', $selectedMonth);
-            $totalOfficesAmounts = $totalOfficesAmounts->whereMonth('created_at', $selectedMonth);
-            $totalPayedUnsurpassedMoneyAmounts = $totalPayedUnsurpassedMoneyAmounts->whereMonth('created_at', $selectedMonth)->with('order_status');
-        }
-
-        $totalOrdersAmounts = $totalOrdersAmounts->sum('required_to_pay') ?? 0;
-        $totalOfficesAmounts = $totalOfficesAmounts->sum('balance') ?? 0;
-        $totalPayedUnsurpassedMoneyAmounts = $totalPayedUnsurpassedMoneyAmounts->select('order_statuses.*')->join('order_statuses', 'orders.id', '=', 'order_statuses.order_id')->sum('order_statuses.paid') ?? 0;
-        $totalUnSurpassedMoneyAmounts = $totalUnSurpassedMoneyAmounts->sum('required_to_pay') - $totalPayedUnsurpassedMoneyAmounts;
-
-        $years = range(2025, date('Y'));
-        $months = ['1' => 'يناير', '2' => 'فبراير', '3' => 'مارس', '4' => 'أبريل', '5' => 'مايو', '6' => 'يونيو', '7' => 'يوليو', '8' => 'أغسطس', '9' => 'سبتمبر', '10' => 'أكتوبر', '11' => 'نوفمبر', '12' => 'ديسمبر'];
-        return view('admin/index', [
-            'admins' => $admins->get()->count(),
-            'offices' => $offices->get()->count(),
-            'vendors' => $vendors->get()->count(),
-            'branches' => $branches->get()->count(),
-            'regions' => $regions->get()->count(),
-            'stock' => $stock->get()->count(),
-            'plans' => $plans->get()->count(),
-            'activeSubscriptions' => $activeSubscriptions->get()->count(),
-            'requestedSubscriptions' => $requestedSubscriptions->get()->count(),
-            'rejectedSubscriptions' => $rejectedSubscriptions->get()->count(),
-            'years' => $years,
-            'months' => $months,
-            'selectedYear' => $selectedYear,
-            'selectedMonth' => $selectedMonth,
-            'totalOrdersAmounts'=> $totalOrdersAmounts,
-            'totalOfficesAmounts'=> $totalOfficesAmounts,
-            'totalUnSurpassedMoneyAmounts'=>$totalUnSurpassedMoneyAmounts,
-            'totalPayedUnsurpassedMoneyAmounts'=>$totalPayedUnsurpassedMoneyAmounts
-
-        ]);
+        return view('admin/index', array_merge(
+            $this->prepareCounts($data),
+            $totals,
+            $this->getStaticData($selectedYear, $selectedMonth)
+        ));
+    }
+    protected function loadData()
+    {
+        return [
+            'admins' => $this->model,
+            'investors' => $this->investor,
+            'unsurpasseds' => $this->unsurpassed,
+            'clients' => $this->client,
+            'orders' => $this->order,
+            'offices' => $this->vendor->whereNull('parent_id'),
+            'vendors' => $this->vendor->whereNotNull('parent_id'),
+            'branches' => $this->branch,
+            'regions' => $this->region,
+            'stock' => $this->stock->whereNotNull('total_price_add'),
+            'plans' => $this->plan,
+            'vendorsWithOutPlans' => $this->vendor->whereNotNull('parent_id')->where('plan_id', 1),
+            'activeSubscriptions' => $this->planSubscription->where('status', 1),
+            'requestedSubscriptions' => $this->planSubscription->where('status', 0),
+            'rejectedSubscriptions' => $this->planSubscription->where('status', 2),
+            'expiredSubscriptions' => $this->planSubscription->where('status', 3),
+            'totalOrdersAmounts' => $this->order->query(),
+            'totalOfficesAmounts' => $this->vendor->query(),
+            'totalUnSurpassedMoneyAmounts' => $this->unsurpassed->query(),
+        ];
     }
 
+    protected function applyYearFilter(array $data, $year)
+    {
+        if ($year === 'all') return $data;
+
+        $keys = [
+            'admins',
+            'offices',
+            'vendors',
+            'branches',
+            'regions',
+            'stock',
+            'plans',
+            'investors',
+            'unsurpasseds',
+            'clients',
+            'orders',
+            'activeSubscriptions',
+            'requestedSubscriptions',
+            'rejectedSubscriptions',
+            'totalOrdersAmounts',
+            'totalOfficesAmounts'
+        ];
+
+        foreach ($keys as $key) {
+            if (isset($data[$key])) {
+                $data[$key] = $data[$key]->whereYear('created_at', $year);
+            }
+        }
+
+        return $data;
+    }
+
+    protected function applyMonthFilter(array $data, $month)
+    {
+        if ($month === 'all') return $data;
+
+        $keys = [
+            'admins',
+            'offices',
+            'vendors',
+            'branches',
+            'regions',
+            'stock',
+            'plans',
+            'investors',
+            'unsurpasseds',
+            'clients',
+            'orders',
+            'activeSubscriptions',
+            'requestedSubscriptions',
+            'rejectedSubscriptions',
+            'totalOrdersAmounts',
+            'totalOfficesAmounts',
+            'totalUnSurpassedMoneyAmounts'
+        ];
+
+        foreach ($keys as $key) {
+            if (isset($data[$key])) {
+                $data[$key] = $data[$key]->whereMonth('created_at', $month);
+            }
+        }
+
+        return $data;
+    }
+    protected function calculateTotals(array $data)
+    {
+        return [
+            'totalOrdersAmounts' => $data['totalOrdersAmounts']->sum('required_to_pay') ?? 0,
+            'totalOfficesAmounts' => $data['totalOfficesAmounts']->sum('balance') ?? 0,
+            'totalUnSurpassedMoneyAmounts' => $data['totalUnSurpassedMoneyAmounts']->sum('debt') ?? 0,
+        ];
+    }
+    protected function prepareCounts(array $data)
+    {
+        return [
+            'investors' => $data['investors']->count(),
+            'unsurpassed' => $data['unsurpasseds']->count(),
+            'clients' => $data['clients']->count(),
+            'orders' => $data['orders']->count(),
+            'admins' => $data['admins']->get()->count(),
+            'offices' => $data['offices']->get()->count(),
+            'vendors' => $data['vendors']->get()->count(),
+            'branches' => $data['branches']->get()->count(),
+            'regions' => $data['regions']->get()->count(),
+            'categories' => $this->category->count(),
+            'stock' => $data['stock']->get()->sum('quantity'),
+            'plans' => $data['plans']->get()->count(),
+            'vendorsWithOutPlans' => $data['vendorsWithOutPlans']->count(),
+            'activeSubscriptions' => $data['activeSubscriptions']->get()->count(),
+            'requestedSubscriptions' => $data['requestedSubscriptions']->get()->count(),
+            'rejectedSubscriptions' => $data['rejectedSubscriptions']->get()->count(),
+            'expiredSubscriptions' => $data['expiredSubscriptions']->get()->count(),
+        ];
+    }
+    protected function getStaticData($selectedYear, $selectedMonth)
+    {
+        return [
+            'years' => range(2025, date('Y')),
+            'months' => [
+                '1' => 'يناير',
+                '2' => 'فبراير',
+                '3' => 'مارس',
+                '4' => 'أبريل',
+                '5' => 'مايو',
+                '6' => 'يونيو',
+                '7' => 'يوليو',
+                '8' => 'أغسطس',
+                '9' => 'سبتمبر',
+                '10' => 'أكتوبر',
+                '11' => 'نوفمبر',
+                '12' => 'ديسمبر'
+            ],
+            'selectedYear' => $selectedYear,
+            'selectedMonth' => $selectedMonth,
+        ];
+    }
 }
