@@ -62,7 +62,7 @@ Route::group(
 
             Route::group(['middleware' => 'auth:vendor'], function () {
                 Route::get('my_profile', [VendorController::class, 'myProfile'])->name('vendor.myProfile');
-                Route::post('/filter', [\App\Http\Controllers\Vendor\HomeController::class, 'homeFilter'])->name('vendor.statistics.filter');
+//                Route::post('/filter', [\App\Http\Controllers\Vendor\HomeController::class, 'homeFilter'])->name('vendor.statistics.filter');
 
                 #============================ Home ====================================
                 Route::get('homeVendor', [HomeController::class, 'index'])->name('vendorHome');
