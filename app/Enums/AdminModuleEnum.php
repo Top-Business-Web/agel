@@ -16,7 +16,7 @@ enum AdminModuleEnum: string
     case ORDER = 'order';
     case CLIENT = 'client';
     case VENDOR = 'vendor';
-    case SETTING= 'setting';
+    case SETTING = 'setting';
     case ACTIVITY_LOG = 'activity_log';
     case UNSURPASSED = 'unsurpassed';
     public function lang(): string
@@ -39,8 +39,8 @@ enum AdminModuleEnum: string
     public function permissions(): array
     {
         return [
-            'create_' . $this->value,
             'read_' . $this->value,
+            'create_' . $this->value,
             'update_' . $this->value,
             'delete_' . $this->value
         ];
@@ -49,11 +49,10 @@ enum AdminModuleEnum: string
     public function langPermissions()
     {
         return [
-            'create_' . $this->value => "أنشاء " . $this->value,
             'read_' . $this->value => "اظهار " . $this->value,
+            'create_' . $this->value => "أنشاء " . $this->value,
             'update_' . $this->value => " تحديث" . $this->value,
             'delete_' . $this->value => " حذف" . $this->value
         ];
-
     }
 }

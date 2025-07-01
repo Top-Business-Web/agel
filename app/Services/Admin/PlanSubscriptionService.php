@@ -30,22 +30,28 @@ class PlanSubscriptionService extends BaseService
                 ->addColumn('action', function ($obj) {
                     $buttons = '';
 
+
+
+
                     if ($obj->plan_id != 1 && $obj->status == 0) {
-                        $buttons .= '
+                        if (auth('admin')->user()->can('update_plan_subscription')) {
+
+                            $buttons .= '
                         <button id="activateBtn" type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-success-light activateBtn" data-bs-toggle="modal" data-bs-target="#acceptActivateModal" data-id="' . $obj->id . '" data-title="' . $obj->name . '" data-vendor-name="' . $obj->getVendorNameAttribute() . '">
                             <i class="fa fa-check"></i> تفعيل
                         </button>';
-                        $buttons .= '
+                            $buttons .= '
                         <button id="rejectBtn" type="button" data-id="' . $obj->id . '" class="btn btn-pill btn-danger-light deactivateBtn" data-bs-toggle="modal" data-bs-target="#rejectActivateModal" data-id="' . $obj->id . '" data-title="' . $obj->name . '" data-vendor-name="' . $obj->getVendorNameAttribute() . '">
                             <i class="fa fa-times"></i> رفض
                         </button>';
+                        }
                     } else {
                         $buttonClass = 'btn btn-lg btn-pill text-center w-70';
 
                         if ($obj->status == 2) {
                             return '<button class="' . $buttonClass . ' btn-danger" disabled>مرفوض</button>';
                         }
-                        $remainingDays = Carbon::now()->diffInDays($obj->to)+1;
+                        $remainingDays = Carbon::now()->diffInDays($obj->to) + 1;
 
                         if ($remainingDays <= 0 && $obj->status == 3) {
                             return '<button class="' . $buttonClass . ' btn-warning px-4 py-2" disabled>
@@ -75,8 +81,6 @@ class PlanSubscriptionService extends BaseService
         ' . $remainingDays . ' يوم متبقي
     </span>
 </button>';
-
-
                     }
 
                     return $buttons;
@@ -108,7 +112,6 @@ class PlanSubscriptionService extends BaseService
             'plans' => $this->planService->model->where('id', '!=', 1)->get(),
             'vendors' => $this->vendorService->model->where('parent_id', null)->get(),
         ]);
-
     }
 
     public function store($data): \Illuminate\Http\JsonResponse
@@ -157,7 +160,6 @@ class PlanSubscriptionService extends BaseService
         try {
             $oldObj->update($data);
             return response()->json(['status' => 200, 'message' => "تمت العملية بنجاح"]);
-
         } catch (\Exception $e) {
             return response()->json(['status' => 500, 'message' => "حدث خطأ ما", "خطأ" => $e->getMessage()]);
         }
@@ -169,7 +171,6 @@ class PlanSubscriptionService extends BaseService
 
             $this->model->where('id', $id)->update(['status' => 2]);
             return response()->json(['status' => 200, 'message' => "تم رفض الإشتراك"]);
-
         } catch (\Exception $e) {
             return $this->responseMsgError();
         }
@@ -180,32 +181,28 @@ class PlanSubscriptionService extends BaseService
 
         try {
             $planSubscription = $this->model->where('id', $id)->first();
-                $planSubscription->update([
-                    'status' => 1,
-                    'from' => now(),
-                    'to' => now()->addDays($planSubscription->plan->period),
-                ]);
+            $planSubscription->update([
+                'status' => 1,
+                'from' => now(),
+                'to' => now()->addDays($planSubscription->plan->period),
+            ]);
 
-                // get all parents of the vendor expect this plan and update this to to today
+            // get all parents of the vendor expect this plan and update this to to today
             $otherSubscriptions = $this->model->where('vendor_id', $planSubscription->vendor_id)
-            ->whereNotIn('status', [2, 3]) // Exclude rejected and canceled subscriptions
+                ->whereNotIn('status', [2, 3]) // Exclude rejected and canceled subscriptions
                 ->where('id', '!=', $planSubscription->id)->get();
             foreach ($otherSubscriptions as $subscription) {
 
                 $subscription->update([
-                    'status'=>3
+                    'status' => 3
                 ]);
-
             }
 
 
-                $this->vendorService->model->where('id', $planSubscription->vendor_id)->update(['plan_id' => $planSubscription->plan_id]);
-                return response()->json(['status' => 200, 'message' => " تم تفعيل الإشتراك بنجاح"]);
-
+            $this->vendorService->model->where('id', $planSubscription->vendor_id)->update(['plan_id' => $planSubscription->plan_id]);
+            return response()->json(['status' => 200, 'message' => " تم تفعيل الإشتراك بنجاح"]);
         } catch (\Exception $e) {
             return $this->responseMsgError();
         }
     }
-
-
 }

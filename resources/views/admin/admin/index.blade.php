@@ -4,25 +4,29 @@
     {{ config()->get('app.name') }} | {{ $title }}
 @endsection
 @section('page_name')
-    <!-- {{ $title }} -->
 @endsection
 @section('content')
-
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title"></h3>
                     <div class="">
-                        <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
-                            <span><i class="fe fe-trash"></i></span> حذف المحدد
-                        </button>
 
-                        <button class="btn btn-secondary btn-icon text-white addBtn">
-									<span>
-										<i class="fe fe-plus"></i>
-									</span> إضافة
-                        </button>
+                        @can('delete_admin')
+                            <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
+                                <span><i class="fe fe-trash"></i></span> حذف المحدد
+                            </button>
+                        @endcan
+
+                        @can('create_admin')
+                            <button class="btn btn-secondary btn-icon text-white addBtn">
+                                <span>
+                                    <i class="fe fe-plus"></i>
+                                </span> إضافة
+                            </button>
+                        @endcan
+
                     </div>
                 </div>
                 <div class="card-body">
@@ -30,17 +34,17 @@
                         <!--begin::Table-->
                         <table class="table table-bordered text-nowrap w-100" id="dataTable">
                             <thead>
-                            <tr class="fw-bolder text-muted bg-light">
+                                <tr class="fw-bolder text-muted bg-light">
                                     <th class="min-w-25px">
                                         <input type="checkbox" id="select-all">
                                     </th>
 
-                                <th class="min-w-25px">#</th>
-                                <th class="min-w-50px">الإسم</th>
-                                <th class="min-w-125px">البريد الإلكتروني</th>
-                                <th class="min-w-50px">رقم الجوال</th>
-                                <th class="min-w-50px rounded-end">العمليات</th>
-                            </tr>
+                                    <th class="min-w-25px">#</th>
+                                    <th class="min-w-50px">الإسم</th>
+                                    <th class="min-w-125px">البريد الإلكتروني</th>
+                                    <th class="min-w-50px">رقم الجوال</th>
+                                    <th class="min-w-50px rounded-end">العمليات</th>
+                                </tr>
                             </thead>
                         </table>
                     </div>
@@ -50,7 +54,7 @@
 
         <!--Delete MODAL -->
         <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
+            aria-hidden="true">
             <div class="modal-dialog " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -93,8 +97,8 @@
         <!-- Create Or Edit Modal -->
     </div>
     <!-- delete selected  Modal -->
-    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog"
-         aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -107,11 +111,9 @@
                     <p>هل أنت متأكد من أنك تريد حذف الغناصر المحدده</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">إلغاء
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء
                     </button>
-                    <button type="button" class="btn btn-danger"
-                            id="confirm-delete-btn">حذف
+                    <button type="button" class="btn btn-danger" id="confirm-delete-btn">حذف
                     </button>
                 </div>
             </div>
@@ -123,7 +125,7 @@
 
     <!-- update cols selected  Modal -->
     <div class="modal fade" id="updateConfirmModal" tabindex="-1" role="dialog"
-         aria-labelledby="updateConfirmModalLabel" aria-hidden="true">
+        aria-labelledby="updateConfirmModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -136,8 +138,7 @@
                     <p>هل أنت متأكد من أنك تريد تعديل حالة العناصر المحدده</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">إلغاء
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء
                     </button>
                     <button type="button" class="btn btn-send" id="confirm-update-btn">تعديل</button>
                 </div>
@@ -150,8 +151,7 @@
 @endsection
 @section('ajaxCalls')
     <script>
-        var columns = [
-            {
+        var columns = [{
                 data: 'checkbox',
                 name: 'checkbox',
                 orderable: false,
@@ -171,26 +171,38 @@
 
 
             },
-            {data: 'name', name: 'name'},
-            {data: 'email', name: 'email'},
-            {data: 'phone', name: 'phone'},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
+            {
+                data: 'name',
+                name: 'name'
+            },
+            {
+                data: 'email',
+                name: 'email'
+            },
+            {
+                data: 'phone',
+                name: 'phone'
+            },
+            {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            },
 
         ]
-        showData('{{route($route.'.index')}}', columns);
+        showData('{{ route($route . '.index') }}', columns);
         // Delete Using Ajax
-        deleteScript('{{route($route.'.destroy',':id')}}');
-        deleteSelected('{{route($route.'.deleteSelected')}}');
+        deleteScript('{{ route($route . '.destroy', ':id') }}');
+        deleteSelected('{{ route($route . '.deleteSelected') }}');
 
-        updateColumnSelected('{{route($route.'.updateColumnSelected')}}');
+        updateColumnSelected('{{ route($route . '.updateColumnSelected') }}');
 
         // Add Using Ajax
-        showAddModal('{{route($route.'.create')}}');
+        showAddModal('{{ route($route . '.create') }}');
         addScript();
         // Add Using Ajax
-        showEditModal('{{route($route.'.edit',':id')}}');
+        showEditModal('{{ route($route . '.edit', ':id') }}');
         editScript();
     </script>
 @endsection
-
-

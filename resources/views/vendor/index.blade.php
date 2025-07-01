@@ -128,7 +128,7 @@
     {{--                </div>--}}
     {{--            </div>--}}
     {{--        </div>--}}
-    <div class="row">
+    {{-- <div class="row">
         <form action="{{ route('admin.statistics.filter') }}" method="POST" class="col-12 col-md-8 mb-3 mb-md-0">
             @csrf
             <div class="form-group mb-0">
@@ -189,7 +189,7 @@
             </div>
         </div>
     </div>
-    <!-- Third Row -->
+    <!-- Third Row --> --}}
     <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
         <div class="card bg-primary-gradient img-card box-success-shadow">
             <div class="card-body">
