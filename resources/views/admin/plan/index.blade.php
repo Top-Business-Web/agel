@@ -1,7 +1,7 @@
 @extends('admin/layouts/master')
 
 @section('title')
-{{ config()->get('app.name') }} | الخطة
+    {{ config()->get('app.name') }} | الخطة
 @endsection
 @section('page_name')
     <!-- {{ $bladeName }} -->
@@ -13,18 +13,25 @@
                 <div class="card-header">
                     <h3 class="card-title"></h3>
                     <div class="">
-                        <button class="btn btn-secondary btn-icon text-white addBtn">
-                            <span>
-                                <i class="fe fe-plus"></i>
-                            </span> أضافه
-                        </button>
-                        <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
-                            <span><i class="fe fe-trash"></i></span> حذف المحدد
-                        </button>
+                        @can('create_plan')
+                            <button class="btn btn-secondary btn-icon text-white addBtn">
+                                <span>
+                                    <i class="fe fe-plus"></i>
+                                </span> أضافه
+                            </button>
+                        @endcan
 
-                        <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
-                            <span><i class="fe fe-trending-up"></i></span> تحديث الحالة
-                        </button>
+                        @can('delete_plan')
+                            <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
+                                <span><i class="fe fe-trash"></i></span> حذف المحدد
+                            </button>
+                        @endcan
+                        @can('update_plan')
+                            <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
+                                <span><i class="fe fe-trending-up"></i></span> تحديث الحالة
+                            </button>
+                        @endcan
+
                     </div>
                 </div>
                 <div class="card-body">
@@ -66,8 +73,7 @@
                     </div>
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
-                        <p>هل أنت متأكد من أنك تريد حذف هذا العنصر <span id="title"
-                                class="text-danger"></span>?</p>
+                        <p>هل أنت متأكد من أنك تريد حذف هذا العنصر <span id="title" class="text-danger"></span>?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
@@ -114,10 +120,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">إلغاء</button>
-                        <button type="button" class="btn btn-danger"
-                            id="confirm-delete-btn">حذف</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                        <button type="button" class="btn btn-danger" id="confirm-delete-btn">حذف</button>
                     </div>
                 </div>
             </div>
@@ -141,10 +145,8 @@
                         <p>هل أنت متأكد من أنك تريد تعديل حالة العنصر المحدد</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">إلغاء</button>
-                        <button type="button" class="btn btn-send"
-                            id="confirm-update-btn">تعديل</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                        <button type="button" class="btn btn-send" id="confirm-update-btn">تعديل</button>
                     </div>
                 </div>
             </div>
@@ -156,24 +158,24 @@
 @endsection
 @section('ajaxCalls')
     <script>
-        var columns = [   {
-            data: 'checkbox',
-            name: 'checkbox',
-            orderable: false,
-            searchable: false,
-            render: function(data, type, row) {
-                if (row.id == 1) {
-                    return '';
+        var columns = [{
+                data: 'checkbox',
+                name: 'checkbox',
+                orderable: false,
+                searchable: false,
+                render: function(data, type, row) {
+                    if (row.id == 1) {
+                        return '';
+                    }
+                    return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
                 }
-                return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
-            }
-        },
+            },
             {
                 data: 'id',
                 name: 'id',
                 visible: false,
                 searchable: false
-            },{
+            }, {
                 data: 'name',
                 name: 'name'
             },

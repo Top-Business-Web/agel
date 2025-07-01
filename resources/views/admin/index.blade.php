@@ -5,6 +5,7 @@
 @section('page_name')
     الاحصائيات
 @endsection
+
 @section('content')
     <div class="row">
 
@@ -20,11 +21,7 @@
                 <div class="d-flex flex-row align-items-center gap-2">
                     <!-- سنة -->
                     <div class="input-group me-2" style="min-width: 200px;">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text bg-white">
-                                <i class="fas fa-calendar-alt"></i>
-                            </span>
-                        </div>
+
                         <select name="year" class="form-control select2">
                             </option>
                             <option @if (@$selectedYear == 'all') selected @endif value="all">الكل</option>
@@ -38,11 +35,7 @@
 
                     <!-- شهر -->
                     <div class="input-group me-2" style="min-width: 200px;">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text bg-white">
-                                <i class="fas fa-calendar"></i>
-                            </span>
-                        </div>
+                   
                         <select name="month" class="form-control select2">
                             </option>
                             <option @if (@$selectedMonth == 'all') selected @endif value="all">الكل</option>
@@ -411,4 +404,7 @@
     </div>
 @endsection
 @section('js')
+<script>
+     $('select').select2();
+    </script>
 @endsection

@@ -6,11 +6,10 @@
 @section('page_name')
     <!-- {{ $bladeName }} -->
 @endsection
-<!-- {{--@section('page_name') {{ $title }} -->
-  @endsection--}} -->
+<!-- {{-- @section('page_name') {{ $title }} -->
+  @endsection --}} -->
 
 @section('content')
-
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="card">
@@ -18,18 +17,27 @@
                     <h3></h3>
                     <h3 class="card-title"></h3>
                     <div class="">
-                        <button class="btn btn-secondary btn-icon text-white addBtn">
-									<span>
-										<i class="fe fe-plus"></i>
-									</span> أضافه
-                        </button>
-                        <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
+                        @can(abilities: 'create_vendor')
+                            <button class="btn btn-secondary btn-icon text-white addBtn">
+                                <span>
+                                    <i class="fe fe-plus"></i>
+                                </span> أضافه
+                            </button>
+                        @endcan
+                        @can(abilities: 'delete_vendor')
+                            <button class="btn btn-danger btn-icon text-white" id="bulk-delete">
                             <span><i class="fe fe-trash"></i></span> حذف المحدد
                         </button>
 
-                        <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
+                        @endcan
+                        @can(abilities: 'update_vendor')
+                            <button class="btn btn-secondary btn-icon text-white" id="bulk-update">
                             <span><i class="fe fe-trending-up"></i></span> تغير الحالة
                         </button>
+                        @endcan
+
+
+
                     </div>
                 </div>
                 <div class="card-body">
@@ -37,19 +45,19 @@
                         <!--begin::Table-->
                         <table class="table table-bordered text-nowrap w-100" id="dataTable">
                             <thead>
-                            <tr class="fw-bolder text-muted bg-light">
-                                <th class="min-w-25px">
-                                    <input type="checkbox" id="select-all">
-                                </th>
-                                <th class="min-w-25px">#</th>
-                                <th class="min-w-50px rounded-end">الإسم</th>
-                                <th class="min-w-50px rounded-end">البريد الإلكتروني</th>
-                                <th class="min-w-50px rounded-end">رقم الجوال</th>
-                                <th class="min-w-50px rounded-end">رقم الهوية</th>
-                                <th class="min-w-50px rounded-end">الحالة</th>
-                                <th class="min-w-50px rounded-end">الصورة</th>
-                                <th class="min-w-50px rounded-end">العمليات</th>
-                            </tr>
+                                <tr class="fw-bolder text-muted bg-light">
+                                    <th class="min-w-25px">
+                                        <input type="checkbox" id="select-all">
+                                    </th>
+                                    <th class="min-w-25px">#</th>
+                                    <th class="min-w-50px rounded-end">الإسم</th>
+                                    <th class="min-w-50px rounded-end">البريد الإلكتروني</th>
+                                    <th class="min-w-50px rounded-end">رقم الجوال</th>
+                                    <th class="min-w-50px rounded-end">رقم الهوية</th>
+                                    <th class="min-w-50px rounded-end">الحالة</th>
+                                    <th class="min-w-50px rounded-end">الصورة</th>
+                                    <th class="min-w-50px rounded-end">العمليات</th>
+                                </tr>
                             </thead>
                         </table>
                     </div>
@@ -59,7 +67,7 @@
 
         <!--Delete MODAL -->
         <div class="modal fade" id="delete_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-             aria-hidden="true">
+            aria-hidden="true">
             <div class="modal-dialog " role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -70,8 +78,7 @@
                     </div>
                     <div class="modal-body">
                         <input id="delete_id" name="id" type="hidden">
-                        <p>هل أنت متأكد من أنك تريد حذف هذا العنصر <span id="title"
-                                                                         class="text-danger"></span>?</p>
+                        <p>هل أنت متأكد من أنك تريد حذف هذا العنصر <span id="title" class="text-danger"></span>?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-bs-dismiss="modal" id="dismiss_delete_modal">
@@ -104,7 +111,7 @@
 
         <!-- delete selected  Modal -->
         <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog"
-             aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+            aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -117,11 +124,9 @@
                         <p>هل أنت متأكد من أنك تريد حذف العناصر المحدده</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">إلغاء
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء
                         </button>
-                        <button type="button" class="btn btn-danger"
-                                id="confirm-delete-btn">حذف
+                        <button type="button" class="btn btn-danger" id="confirm-delete-btn">حذف
                         </button>
                     </div>
                 </div>
@@ -133,7 +138,7 @@
 
         <!-- update cols selected  Modal -->
         <div class="modal fade" id="updateConfirmModal" tabindex="-1" role="dialog"
-             aria-labelledby="updateConfirmModalLabel" aria-hidden="true">
+            aria-labelledby="updateConfirmModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -146,8 +151,7 @@
                         <p>هل أنت متأكد من أنك تريد تعديل حالة العناصر المحدده</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                                data-bs-dismiss="modal">إلغاء
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء
                         </button>
                         <button type="button" class="btn btn-send" id="confirm-update-btn">تعديل</button>
                     </div>
@@ -161,13 +165,12 @@
 @endsection
 @section('ajaxCalls')
     <script>
-        var columns = [
-            {
+        var columns = [{
                 data: 'checkbox',
                 name: 'checkbox',
                 orderable: false,
                 searchable: false,
-                render: function (data, type, row) {
+                render: function(data, type, row) {
                     return `<input type="checkbox" class="delete-checkbox" value="${row.id}">`;
                 }
             },
@@ -177,37 +180,58 @@
                 visible: false,
                 searchable: false
             },
-            {data: 'name', name: 'name'},
-            {data: 'email', name: 'email'},
-            {data: 'phone', name: 'phone'},
-            {data: 'national_id', name: 'national_id'},
-            {data: 'status', name: 'status'},
-            {data: 'image', name: 'image'},
+            {
+                data: 'name',
+                name: 'name'
+            },
+            {
+                data: 'email',
+                name: 'email'
+            },
+            {
+                data: 'phone',
+                name: 'phone'
+            },
+            {
+                data: 'national_id',
+                name: 'national_id'
+            },
+            {
+                data: 'status',
+                name: 'status'
+            },
+            {
+                data: 'image',
+                name: 'image'
+            },
 
             {
-                data: 'action', name: 'action', orderable: false, searchable: false
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
             },
         ]
-        showData('{{route($route.'.index')}}', columns);
+        showData('{{ route($route . '.index') }}', columns);
 
         // Delete Using Ajax
-        deleteScript('{{route($route.'.destroy',':id')}}');
-        deleteSelected('{{route($route.'.deleteSelected')}}');
+        deleteScript('{{ route($route . '.destroy', ':id') }}');
+        deleteSelected('{{ route($route . '.deleteSelected') }}');
 
-        updateColumnSelected('{{route($route.'.updateColumnSelected')}}');
+        updateColumnSelected('{{ route($route . '.updateColumnSelected') }}');
 
 
         // Add Using Ajax
-        showAddModal('{{route($route.'.create')}}');
+        showAddModal('{{ route($route . '.create') }}');
         addScript();
         // Add Using Ajax
-        showEditModal('{{route($route.'.edit',':id')}}');
+        showEditModal('{{ route($route . '.edit', ':id') }}');
         editScript();
     </script>
 
     <script>
         // for status
-        $(document).on('click', '.statusBtn', function () {
+        $(document).on('click', '.statusBtn', function() {
             let id = $(this).data('id');
 
             var val = $(this).is(':checked') ? 1 : 0;
@@ -222,7 +246,7 @@
                     "_token": "{{ csrf_token() }}",
                     'ids': ids,
                 },
-                success: function (data) {
+                success: function(data) {
                     if (data.status === 200) {
                         if (val !== 0) {
                             toastr.success('', "نشط");
@@ -233,15 +257,10 @@
                         toastr.error('Error', "حدث خطأ ما");
                     }
                 },
-                error: function () {
+                error: function() {
                     toastr.error('Error', "حدث خطأ ما");
                 }
             });
         });
-
-
     </script>
-
 @endsection
-
-

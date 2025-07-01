@@ -52,8 +52,7 @@
             </li>
         @endcanany
 
-        @canany(['create_plan', 'read_plan', 'update_plan', 'delete_plan', 'create_plan_subscription',
-            'read_plan_subscription', 'update_plan_subscription', 'delete_plan_subscription'])
+        @canany([ 'create_plan_subscription','read_plan_subscription', 'update_plan_subscription', 'delete_plan_subscription'])
             <li class="{{ routeActive('planSubscription.index') }}">
                 <a class="slide-item {{ routeActive('planSubscription.index') }}" style="margin-right:8px;"
                    href="{{ route('planSubscription.index') }}">
@@ -132,13 +131,17 @@
             </li>
         @endcanany
 
-        <li>
+        @canany(['read_setting', 'update_setting'])
+            <li>
             <a class="slide-item {{ Route::currentRouteName() == 'admin.setting' ? 'active' : '' }}"
                href="{{ route('admin.setting') }}" style="margin-right:8px;">
                 <i class="fa fa-cog side-menu__icon"></i> <!-- الإعدادات Icon --> <span class="side-menu__label">
                     الاعدادات</span>
             </a>
         </li>
+        @endcanany
+
+
 
 
         <li>
