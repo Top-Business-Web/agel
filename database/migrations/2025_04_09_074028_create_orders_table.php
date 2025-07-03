@@ -29,7 +29,11 @@ return new class extends Migration
             $table->double('sell_diff');
             $table->double('delivered_price_to_client');
             $table->date('date');
-       
+
+
+            $table->string('investor_commission')->default(0);
+            $table->string('vendor_commission')->default(0);
+
             $table->timestamps();
         });
     }

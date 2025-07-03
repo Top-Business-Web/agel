@@ -65,7 +65,6 @@ Route::group(
 
             Route::group(['middleware' => 'auth:admin'], function () {
                 Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('adminHome');
-//                Route::post('/filter', [\App\Http\Controllers\Admin\HomeController::class, 'homeFilter'])->name('admin.statistics.filter');
 
 
                 Route::resourceWithDeleteSelected('roles', RoleController::class, [

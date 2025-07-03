@@ -371,7 +371,7 @@
     });
 </script>
 <script>
-    $('select').select2({
+    $('select#operation,#category_id,#branch_id').select2({
         dropdownParent: $('#addStock .modal-content')
 
     });

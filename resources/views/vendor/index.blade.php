@@ -29,7 +29,7 @@
 
 
     <div class="row">
-        <form action="{{ route('vendorHome') }}" method="get" class="col-12 col-md-8 mb-3 mb-md-0">
+      <form action="{{ route('vendorHome') }}" method="get" class="col-12 col-md-8 mb-3 mb-md-0">
             @csrf
             <div class="form-group mb-0">
                 <label for="officeFilter" class="font-weight-bold text-muted mb-1">
@@ -40,11 +40,7 @@
                 <div class="d-flex flex-row align-items-center gap-2">
                     <!-- سنة -->
                     <div class="input-group me-2" style="min-width: 200px;">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text bg-white">
-                                <i class="fas fa-calendar-alt"></i>
-                            </span>
-                        </div>
+
                         <select name="year" class="form-control select2">
                             </option>
                             <option @if (@$selectedYear == 'all') selected @endif value="all">الكل</option>
@@ -58,11 +54,7 @@
 
                     <!-- شهر -->
                     <div class="input-group me-2" style="min-width: 200px;">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text bg-white">
-                                <i class="fas fa-calendar"></i>
-                            </span>
-                        </div>
+
                         <select name="month" class="form-control select2">
                             </option>
                             <option @if (@$selectedMonth == 'all') selected @endif value="all">الكل</option>
@@ -79,52 +71,22 @@
                     <!-- زر التصفية -->
                     <button type="submit" class="btn btn-primary"><i class="fe fe-filter"></i></button>
                 </div>
+
+
+
             </div>
         </form>
     </div>
     <br>
     <div class="row">
-        <!-- Investors Card -->
-        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card bg-primary-gradient img-card box-success-shadow">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ $investorsCount ?? 0 }}</h2>
-                            <p class="text-white mb-0">عدد المستثمرين</p>
-                        </div>
-                        <div class="mr-auto">
-                            <i class="fas fa-list-ol text-white fs-30 ml-2 mt-2"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Unsurpassed Clients Card -->
+         <!-- Clients Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
             <div class="card bg-primary-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ $unsurpassedCount ?? 0 }}</h2>
-                            <p class="text-white mb-0">عدد العملاء المتعثرين</p>
-                        </div>
-                        <div class="mr-auto">
-                            <i class="fas fa-list-ol text-white fs-30 ml-2 mt-2"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Clients Card -->
-        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card bg-primary-gradient img-card box-success-shadow">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ $clientsCount ?? 0 }}</h2>
+                            <h2 class="mb-0 number-font">{{ $clients ?? 0 }}</h2>
                             <p class="text-white mb-0">عدد العملاء</p>
                         </div>
                         <div class="mr-auto">
@@ -135,30 +97,14 @@
             </div>
         </div>
 
-        <!-- Orders Card -->
-        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
-            <div class="card bg-primary-gradient img-card box-success-shadow">
-                <div class="card-body">
-                    <div class="d-flex">
-                        <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ $ordersCount ?? 0 }}</h2>
-                            <p class="text-white mb-0">إجمالي الطلبات</p>
-                        </div>
-                        <div class="mr-auto">
-                            <i class="fas fa-list-ol text-white fs-30 ml-2 mt-2"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Branches Card -->
+        <!-- branches Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
             <div class="card bg-primary-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ $branchesCount ?? 0 }}</h2>
+                            <h2 class="mb-0 number-font">{{ $branches ?? 0 }}</h2>
                             <p class="text-white mb-0">عدد الفروع</p>
                         </div>
                         <div class="mr-auto">
@@ -169,13 +115,31 @@
             </div>
         </div>
 
-        <!-- Sub-vendors Card -->
+
+        <!-- Investors Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
             <div class="card bg-primary-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ $vendorsCount ?? 0 }}</h2>
+                            <h2 class="mb-0 number-font">{{ $investors ?? 0 }}</h2>
+                            <p class="text-white mb-0">عدد المستثمرين</p>
+                        </div>
+                        <div class="mr-auto">
+                            <i class="fas fa-list-ol text-white fs-30 ml-2 mt-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- subVendors Clients Card -->
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ $subVendors ?? 0 }}</h2>
                             <p class="text-white mb-0">عدد الموظفين</p>
                         </div>
                         <div class="mr-auto">
@@ -186,14 +150,17 @@
             </div>
         </div>
 
-        <!-- Total Orders Amount Card -->
+
+
+
+        <!-- unsurpassed Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
             <div class="card bg-primary-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ number_format($totalOrdersAmounts ?? 0) }}</h2>
-                            <p class="text-white mb-0">إجمالي قيمة الطلبات</p>
+                            <h2 class="mb-0 number-font">{{ $unsurpassed ?? 0 }}</h2>
+                            <p class="text-white mb-0">عدد المتعثرين</p>
                         </div>
                         <div class="mr-auto">
                             <i class="fas fa-list-ol text-white fs-30 ml-2 mt-2"></i>
@@ -203,14 +170,15 @@
             </div>
         </div>
 
-        <!-- Total Investors Amount Card -->
+
+        <!-- orders Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
             <div class="card bg-primary-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ number_format($totalInvestorsAmount ?? 0) }}</h2>
-                            <p class="text-white mb-0">إجمالي محافظ المستثمرين</p>
+                            <h2 class="mb-0 number-font">{{ $orders ?? 0 }}</h2>
+                            <p class="text-white mb-0">عدد الطلبات</p>
                         </div>
                         <div class="mr-auto">
                             <i class="fas fa-list-ol text-white fs-30 ml-2 mt-2"></i>
@@ -219,6 +187,24 @@
                 </div>
             </div>
         </div>
+
+        <!-- vendor_commission Card -->
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ $vendor_commission ?? 0 }}</h2>
+                            <p class="text-white mb-0">اجمالي عمولات المكتب</p>
+                        </div>
+                        <div class="mr-auto">
+                            <i class="fas fa-list-ol text-white fs-30 ml-2 mt-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Total Paid Amount Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
@@ -226,8 +212,8 @@
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ number_format($totalClientsPaidAmount ?? 0) }}</h2>
-                            <p class="text-white mb-0">إجمالي المدفوع من العملاء</p>
+                            <h2 class="mb-0 number-font">{{ number_format($investor_commission ?? 0) }}</h2>
+                            <p class="text-white mb-0">إجمالي عمولات المستثمرين</p>
                         </div>
                         <div class="mr-auto">
                             <i class="fas fa-list-ol text-white fs-30 ml-2 mt-2"></i>
@@ -237,14 +223,14 @@
             </div>
         </div>
 
-        <!-- Total Unpaid Amount Card -->
+        <!-- categories Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
             <div class="card bg-primary-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ number_format($totalClientsUnpaidAmount ?? 0) }}</h2>
-                            <p class="text-white mb-0">إجمالي الباقي من العملاء</p>
+                            <h2 class="mb-0 number-font">{{ $categories?? 0 }}</h2>
+                            <p class="text-white mb-0">عدد الاصناف</p>
                         </div>
                         <div class="mr-auto">
                             <i class="fas fa-list-ol text-white fs-30 ml-2 mt-2"></i>
@@ -254,14 +240,14 @@
             </div>
         </div>
 
-        <!-- Unsurpassed Amount Card -->
+        <!-- total_required_to_pay Card -->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
             <div class="card bg-primary-gradient img-card box-success-shadow">
                 <div class="card-body">
                     <div class="d-flex">
                         <div class="text-white">
-                            <h2 class="mb-0 number-font">{{ number_format($totalUnSurpassedMoneyAmounts ?? 0) }}</h2>
-                            <p class="text-white mb-0">إجمالي المبالغ المتعثره</p>
+                            <h2 class="mb-0 number-font">{{ number_format($total_required_to_pay ?? 0) }}</h2>
+                            <p class="text-white mb-0">إجمالي المطلوب</p>
                         </div>
                         <div class="mr-auto">
                             <i class="fas fa-list-ol text-white fs-30 ml-2 mt-2"></i>
@@ -270,8 +256,59 @@
                 </div>
             </div>
         </div>
+
+        <!-- total_paid Card -->
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ number_format($total_paid ?? 0) }}</h2>
+                            <p class="text-white mb-0">إجمالي السداد</p>
+                        </div>
+                        <div class="mr-auto">
+                            <i class="fas fa-list-ol text-white fs-30 ml-2 mt-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- total_unsurpassed_to_pay Card -->
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ number_format($total_unsurpassed_to_pay ?? 0) }}</h2>
+                            <p class="text-white mb-0">إجمالي التعثر</p>
+                        </div>
+                        <div class="mr-auto">
+                            <i class="fas fa-list-ol text-white fs-30 ml-2 mt-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- total_unpaid Card -->
+        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-4">
+            <div class="card bg-primary-gradient img-card box-success-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">{{ number_format($total_unpaid ?? 0) }}</h2>
+                            <p class="text-white mb-0">المتبقي</p>
+                        </div>
+                        <div class="mr-auto">
+                            <i class="fas fa-list-ol text-white fs-30 ml-2 mt-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
     </div>
-    {{-- </div> --}}
 @endsection
 @section('js')
 @endsection

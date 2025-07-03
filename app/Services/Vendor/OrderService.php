@@ -269,7 +269,7 @@ class OrderService extends BaseService
 
             $this->addOrSubBalanceToInvestor($data['investor_id'], $data['investor_commission'], 0, "اضافة عموله الطلب");
 
-            unset($data['investor_commission'], $data['vendor_commission']);
+            // unset($data['investor_commission'], $data['vendor_commission']);
 
 
             // check if client exists
