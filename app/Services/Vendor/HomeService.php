@@ -52,9 +52,9 @@ class HomeService extends BaseService
         $categories = $this->getCategories($parentId, $selectedYear, $selectedMonth);
         $unsurpassed = $this->getUnsurpassed(VendorParentAuthData('phone'), $selectedYear, $selectedMonth);
 
-        $investor_commission = $orders->sum('investor_commission');
-        $vendor_commission = $orders->sum('vendor_commission');
-        $total_commission = $investor_commission + $vendor_commission;
+        // $investor_commission = $orders->sum('investor_commission');
+        // $vendor_commission = $orders->sum('vendor_commission');
+        // $total_commission = $investor_commission + $vendor_commission;
 
         $total_required_to_pay = $orders->sum('required_to_pay');
         $total_paid = $this->orderStatus->whereIn('order_id', $orders->pluck('id'))->sum('paid');
@@ -71,9 +71,11 @@ class HomeService extends BaseService
             'subVendors' => $subVendors->count(),
             'unsurpassed' => $unsurpassed->count(),
             'orders' => $orders->count(),
-            'investor_commission' => $investor_commission,
-            'vendor_commission' => $vendor_commission,
-            'total_commission' => $total_commission,
+            // 'investor_commission' => $investor_commission,// not needed
+            // 'vendor_commission' => $vendor_commission,// not needed
+            // 'total_commission' => $total_commission,
+            'total_vendor_balance'=>VendorParentAuthData('balance'),
+            'total_investor_balance'=>$investors->sum('balance'),
             'categories' => $categories->count(),
             'total_required_to_pay' => $total_required_to_pay,
             'total_paid' => $total_paid,
@@ -92,7 +94,7 @@ class HomeService extends BaseService
         if ($month != 'all') $query->whereMonth('created_at', $month);
 
         $vendors = $query->get();
-        $vendors->push($this->vendor->find($parentId)); 
+        $vendors->push($this->vendor->find($parentId));
         return $vendors;
     }
 
