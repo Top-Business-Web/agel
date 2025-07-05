@@ -4,24 +4,26 @@ namespace App\Http\Middleware\Custom;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Middleware\Authenticate as Middleware;
 
-class Admin
+class Admin extends Middleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, ...$guards)
     {
-        if (Auth::guard('admin')->check()){
-            if ($request=='login'){
-                return redirect()->route('adminHome');
-            }
-            return $next($request);
+        $this->authenticate($request, ['admin']);
+
+        $routeName = $request->route()?->getName();
+
+        if (in_array($routeName, ['admin.login', 'admin.register'])) {
+            return redirect()->route('adminHome');
         }
-        return redirect()->route('admin.login');
+
+        return $next($request);
+    }
+
+    protected function redirectTo($request)
+    {
+        return route('admin.login');
     }
 }
+

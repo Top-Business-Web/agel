@@ -4,12 +4,11 @@ namespace App\Services\Vendor;
 
 use App\Mail\Otp;
 use App\Models\Branch;
-use App\Models\Region;
+use App\Models\City;
 use App\Models\Vendor;
 use App\Models\VendorBranch;
 use App\Services\Admin\CityService;
 use App\Services\BaseService;
-use App\Services\Vendor\AuthService as ObjService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -17,7 +16,7 @@ use Spatie\Permission\Models\Permission;
 
 class AuthService extends BaseService
 {
-    public function __construct(Vendor $model, protected CityService $cityService)
+    public function __construct(Vendor $model, protected CityService $cityService,protected City $city)
     {
         parent::__construct($model);
     }
@@ -31,7 +30,7 @@ class AuthService extends BaseService
 
             return view('vendor.auth.login');
         } else {
-            $cites = $this->cityService->getAll();
+            $cites = $this->city->get();
             return view('vendor.auth.register', compact('cites'));
         }
     }

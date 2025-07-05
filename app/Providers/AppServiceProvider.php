@@ -37,6 +37,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+
+
+
+        
         \App\Models\Admin::observe(ActivityObserver::class);
         \App\Models\Vendor::observe(ActivityObserver::class);
         \App\Models\Stock::observe(ActivityObserver::class);

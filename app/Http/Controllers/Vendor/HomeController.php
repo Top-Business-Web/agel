@@ -12,6 +12,7 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
+
         return $this->objService->index($request);
     }
 

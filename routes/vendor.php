@@ -38,7 +38,7 @@ Route::group(
         'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath'],
     ],
     function () {
-        Route::get('/partner', [AuthController::class, 'index'])->name('vendor.login');
+        Route::get('/partner', [AuthController::class, 'index'])->name('vendor.login.get');
         Route::get('/register', [AuthController::class, 'registerForm'])->name('vendor.register');
 
         Route::group(['prefix' => 'vendor'], function () {
@@ -52,19 +52,18 @@ Route::group(
             Route::POST('/reset-password/{email}', [AuthController::class, 'ResetPassword'])->name('vendor.resetPassword');
 
 
-            Route::get('my_profile', [VendorController::class, 'myProfile'])->name('myProfile');
-            Route::get('my_profile/edit', [VendorController::class, 'editProfile'])->name('myProfile.edit');
-            Route::get('my_profile/edit_profile_image', [VendorController::class, 'editProfileImage'])->name('myProfile.edit.image');
-            Route::post('my_profile/update_profile_image', [VendorController::class, 'updateProfileImage'])->name('myProfile.update.image');
-            Route::post('my_profile/update', [VendorController::class, 'updateProfile'])->name('myProfile.update');
-            Route::get('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
 
-            Route::group(['middleware' => 'auth:vendor'], function () {
+            Route::group(['middleware' => 'vendor'], function () {
                 Route::get('my_profile', [VendorController::class, 'myProfile'])->name('vendor.myProfile');
+                Route::get('my_profile/edit', [VendorController::class, 'editProfile'])->name('myProfile.edit');
+                Route::get('my_profile/edit_profile_image', [VendorController::class, 'editProfileImage'])->name('myProfile.edit.image');
+                Route::post('my_profile/update_profile_image', [VendorController::class, 'updateProfileImage'])->name('myProfile.update.image');
+                Route::post('my_profile/update', [VendorController::class, 'updateProfile'])->name('myProfile.update');
 
                 #============================ Home ====================================
-                Route::get('homeVendor', [HomeController::class, 'index'])->name('vendorHome');
+                // Route::get( 'homeVendor', [HomeController::class, 'index'])->name('vendorHome');
+                Route::get( 'homeVendor', [HomeController::class, 'index'])->name('vendorHome');
                 #============================ branches ==================================
                 Route::resourceWithDeleteSelected('branches', BranchController::class, [
                     'middleware' => ['checkpermission:read_branch']
@@ -175,14 +174,14 @@ Route::group(
                     Route::POST('/orders/get-categories', [OrderController::class, 'getCategories'])->name('vendor.orders.getCategories'); //using for order
                 });
 
-                                #============================ vendor wallet ==================================
+                #============================ vendor wallet ==================================
 
                 Route::group(['middleware' => 'checkpermission:read_vendor_wallets'], function () {
-                Route::resourceWithDeleteSelected('vendor_wallets', VendorWalletController::class);
+                    Route::resourceWithDeleteSelected('vendor_wallets', VendorWalletController::class);
                 });
                 #============================ investor wallet ==================================
                 Route::group(['middleware' => 'checkpermission:read_investor_wallets'], function () {
-                Route::resourceWithDeleteSelected('investor_wallets', InvestorWalletController::class);
+                    Route::resourceWithDeleteSelected('investor_wallets', InvestorWalletController::class);
                 });
             });
         });

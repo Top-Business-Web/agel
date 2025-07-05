@@ -46,7 +46,8 @@ Route::group(
             return view('admin.auth.select');
         })->name('select');
 
-        Route::get('adminHome', [AuthController::class, 'index']);
+        Route::get('admin', [AuthController::class, 'index']);
+
 
         Route::group(['prefix' => 'admin'], function () {
             Route::get('/login', [AuthController::class, 'index'])->name('admin.login');
@@ -63,7 +64,7 @@ Route::group(
             Route::POST('/reset-password/{email}', [AuthController::class, 'ResetPassword'])->name('admin.resetPassword');
 
 
-            Route::group(['middleware' => 'auth:admin'], function () {
+            Route::group(['middleware' => 'admin'], function () {
                 Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('adminHome');
 
 
